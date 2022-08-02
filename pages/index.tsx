@@ -40,7 +40,7 @@ const Home: NextPage = () => {
           Please have a happy stay!
         </h1>
       </section>
-      <div className="bg-[#202020] -mt-2 py-16 ">
+      <div className="bg-dark-gray -mt-2 py-16 ">
         <form
           action="#"
           className="flex justify-between items-end gap-8 w-container mx-auto text-white text-xl"
@@ -103,14 +103,14 @@ const Home: NextPage = () => {
       </div>
       <section
         id="newsletter"
-        className="text-center bg-[#202020] text-white mt-40 py-12"
+        className="text-center bg-dark-gray text-white mt-40 py-12"
       >
         <h2 className="text-[2.5rem] font-medium">Stay up to date</h2>
         <h3 className="text-4xl mt-8">Subscribe to our newsletter</h3>
-        <form action="#" className="flex justify-between w-container mx-auto mt-32">
-          <input placeholder="Name" className="w-96 h-16 placeholder:pl-5" />
-          <input placeholder="Email Address" className="w-96 h-16 placeholder:pl-5" />
-          <button className="w-96 h-16 bg-yellow-500 font-medium text-lg">Subscribe</button>
+        <form action="#" className="flex justify-between w-container mx-auto mt-32 text-black">
+          <input placeholder="Name" className="w-96 h-16 pl-5" />
+          <input placeholder="Email Address" className="w-96 h-16 pl-5" />
+          <button className="w-96 h-16 bg-yellow-500 font-medium text-lg text-white">Subscribe</button>
         </form>
       </section>
     </div>

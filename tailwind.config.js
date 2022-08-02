@@ -7,11 +7,14 @@ module.exports = {
   theme: {
     extend: {
       width: {
-        'container': '1436px'
+        container: '1436px',
       },
       maxWidth: {
-        'container': '1436px'
-      }
+        container: '1436px',
+      },
+      colors: {
+        'dark-gray': '#202020',
+      },
     },
   },
   plugins: [],
