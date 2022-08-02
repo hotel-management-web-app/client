@@ -4,6 +4,27 @@ import Image from 'next/image';
 import HeroBg from '../public/hero-bg.png';
 
 const Home: NextPage = () => {
+  const rooms = [
+    {
+      id: '1',
+      name: 'Ordinary Room',
+      imgUrl: '/../public/home-room-1.png',
+      href: '#',
+    },
+    {
+      id: '2',
+      name: 'Deluxe Room',
+      imgUrl: '/../public/home-room-2.png',
+      href: '#',
+    },
+    {
+      id: '3',
+      name: 'Outsite Room',
+      imgUrl: '/../public/home-room-3.png',
+      href: '#',
+    },
+  ];
+
   return (
     <div>
       <Head>
@@ -13,48 +34,85 @@ const Home: NextPage = () => {
       </Head>
       <section id="hero" className="relative">
         <Image src={HeroBg} alt="hero background" />
-        <p className="absolute text-center top-1/3 left-1/2 transform -translate-x-1/2 text-white font-medium text-6xl leading-[80px]">
+        <h1 className="absolute text-center top-1/3 left-1/2 transform -translate-x-1/2 text-white font-medium text-6xl leading-[80px]">
           Welcome to our Hotel
           <br />
           Please have a happy stay!
-        </p>
+        </h1>
       </section>
-      <form
-        action="#"
-        className="flex justify-center items-end gap-8 bg-[#202020] text-white py-16 text-xl -mt-2"
+      <div className="bg-[#202020] -mt-2 py-16 ">
+        <form
+          action="#"
+          className="flex justify-between items-end gap-8 w-container mx-auto text-white text-xl"
+        >
+          <div>
+            <label htmlFor="adults">Adults</label>
+            <input
+              id="adults"
+              className="block border border-black text-black py-2 mt-4 w-64"
+            />
+          </div>
+          <div>
+            <label htmlFor="children">Children</label>
+            <input
+              id="children"
+              className="block border border-black text-black py-2 mt-4 w-64"
+            />
+          </div>
+          <div>
+            <label htmlFor="check-in">Check-in</label>
+            <input
+              id="check-in"
+              className="block border border-black text-black py-2 mt-4 w-64"
+            />
+          </div>
+          <div>
+            <label htmlFor="check-out">Check-out</label>
+            <input
+              id="check-out"
+              className="block border border-black text-black py-2 mt-4 w-64"
+            />
+          </div>
+          <button className="bg-yellow-500 h-[46px] px-5">
+            Check availibitlity
+          </button>
+        </form>
+      </div>
+      <div className="containner max-w-container mx-auto">
+        <section id="rooms" className="text-center">
+          <h2 className="text-[2.5rem] font-light mt-20">See Our Rooms</h2>
+          <div className="flex justify-between mt-20 mb-16">
+            {rooms.map(room => (
+              <a key={room.id} href={room.href} className="relative">
+                <Image
+                  src={room.imgUrl}
+                  alt={room.name}
+                  width="355"
+                  height="473"
+                />
+                <p className="absolute text-white w-full text-3xl top-48 left-1/2 transform -translate-x-1/2">
+                  {room.name}
+                </p>
+              </a>
+            ))}
+          </div>
+          <a href="#" className="underline text-3xl font-light">
+            See all roms
+          </a>
+        </section>
+      </div>
+      <section
+        id="newsletter"
+        className="text-center bg-[#202020] text-white mt-40 py-12"
       >
-        <div>
-          <label htmlFor="adults">Adults</label>
-          <input
-            id="adults"
-            className="block border border-black text-black py-2 mt-4 w-64"
-          />
-        </div>
-        <div>
-          <label htmlFor="children">Children</label>
-          <input
-            id="children"
-            className="block border border-black text-black py-2 mt-4 w-64"
-          />
-        </div>
-        <div>
-          <label htmlFor="check-in">Check-in</label>
-          <input
-            id="check-in"
-            className="block border border-black text-black py-2 mt-4 w-64"
-          />
-        </div>
-        <div>
-          <label htmlFor="check-out">Check-out</label>
-          <input
-            id="check-out"
-            className="block border border-black text-black py-2 mt-4 w-64"
-          />
-        </div>
-        <button className="bg-yellow-500 h-[46px] px-5">
-          Check availibitlity
-        </button>
-      </form>
+        <h2 className="text-[2.5rem] font-medium">Stay up to date</h2>
+        <h3 className="text-4xl mt-8">Subscribe to our newsletter</h3>
+        <form action="#" className="flex justify-between w-container mx-auto mt-32">
+          <input placeholder="Name" className="w-96 h-16 placeholder:pl-5" />
+          <input placeholder="Email Address" className="w-96 h-16 placeholder:pl-5" />
+          <button className="w-96 h-16 bg-yellow-500 font-medium text-lg">Subscribe</button>
+        </form>
+      </section>
     </div>
   );
 };
