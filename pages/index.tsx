@@ -33,17 +33,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section id="hero" className="relative">
-        <Image src={HeroBg} alt="hero background" />
-        <h1 className="absolute text-center top-1/3 left-1/2 transform -translate-x-1/2 text-white font-medium text-6xl leading-[80px]">
+        <Image src={HeroBg} alt="hero background" layout='responsive' />
+        <h1 className="absolute text-center top-1/3 left-1/2 transform -translate-x-1/2 text-white font-medium text-3xl w-full md:text-6xl md:leading-[80px]">
           Welcome to our Hotel
           <br />
           Please have a happy stay!
         </h1>
       </section>
-      <div className="bg-dark-gray -mt-2 py-16 ">
+      <div className="bg-dark-gray -mt-2 py-16 px-8">
         <form
           action="#"
-          className="flex justify-between items-end gap-8 w-container mx-auto text-white text-xl"
+          className="flex justify-center 2xl:justify-between flex-wrap items-end gap-8 max-w-container mx-auto text-white text-xl"
         >
           <div>
             <label htmlFor="adults">Adults</label>
@@ -78,10 +78,10 @@ const Home: NextPage = () => {
           </button>
         </form>
       </div>
-      <div className="containner max-w-container mx-auto">
+      <div className="container max-w-container mx-auto px-8 2xl:px-0">
         <section id="rooms" className="text-center">
           <h2 className="text-[2.5rem] font-light mt-20">See Our Rooms</h2>
-          <div className="flex justify-between mt-20 mb-16">
+          <div className="flex justify-center gap-y-10 md:justify-between flex-wrap mt-20 mb-16">
             {rooms.map(room => (
               <a key={room.id} href={room.href} className="relative">
                 <Image
@@ -103,11 +103,11 @@ const Home: NextPage = () => {
       </div>
       <section
         id="newsletter"
-        className="text-center bg-dark-gray text-white mt-40 py-12"
+        className="text-center bg-dark-gray text-white mt-40 py-12 px-8 2xl:px-0"
       >
-        <h2 className="text-[2.5rem] font-medium">Stay up to date</h2>
-        <h3 className="text-4xl mt-8">Subscribe to our newsletter</h3>
-        <form action="#" className="flex justify-between w-container mx-auto mt-32 text-black">
+        <h2 className="text-4xl font-medium">Stay up to date</h2>
+        <h3 className="text-3xl mt-8">Subscribe to our newsletter</h3>
+        <form action="#" className="flex justify-center gap-y-10 md:justify-between flex-wrap md:max-w-container mx-auto mt-32 text-black">
           <input placeholder="Name" className="w-96 h-16 pl-5" />
           <input placeholder="Email Address" className="w-96 h-16 pl-5" />
           <button className="w-96 h-16 bg-yellow-500 font-medium text-lg text-white">Subscribe</button>
