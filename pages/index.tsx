@@ -5,6 +5,12 @@ import Image from 'next/image';
 import HeroBg from '../public/hero-bg.png';
 import { Listbox, Transition } from '@headlessui/react';
 import { HiSelector } from '@react-icons/all-files/hi/HiSelector';
+import {
+  DateRangePicker,
+  FocusedInputShape,
+} from 'react-dates';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
 
 const numberOfAdults = [
   { id: 1, number: 1 },
@@ -19,15 +25,16 @@ const numberOfAdults = [
 ];
 
 const numberOfChildren = [
-  { id: 1, number: 1 },
-  { id: 2, number: 2 },
-  { id: 3, number: 3 },
-  { id: 4, number: 4 },
-  { id: 5, number: 5 },
-  { id: 6, number: 6 },
-  { id: 7, number: 7 },
-  { id: 8, number: 8 },
-  { id: 9, number: 9 },
+  { id: 1, number: 0 },
+  { id: 2, number: 1 },
+  { id: 3, number: 2 },
+  { id: 4, number: 3 },
+  { id: 5, number: 4 },
+  { id: 6, number: 5 },
+  { id: 7, number: 6 },
+  { id: 8, number: 7 },
+  { id: 9, number: 8 },
+  { id: 10, number: 9 },
 ];
 
 const rooms = [
@@ -58,6 +65,11 @@ function classNames(...classes: string[]) {
 const Home: NextPage = () => {
   const [adultsNumber, setAdultsNumber] = useState(numberOfAdults[0]);
   const [childrenNumber, setChildrenNumber] = useState(numberOfChildren[0]);
+  const [startDate, setStartDate] = useState<moment.Moment | null>(null);
+  const [endDate, setEndDate] = useState<moment.Moment | null>(null);
+  const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(
+    null
+  );
 
   return (
     <div>
@@ -142,7 +154,7 @@ const Home: NextPage = () => {
             </Listbox>
           </div>
           <div>
-          <Listbox value={childrenNumber} onChange={setChildrenNumber}>
+            <Listbox value={childrenNumber} onChange={setChildrenNumber}>
               {({ open }) => (
                 <>
                   <Listbox.Label>Children</Listbox.Label>
@@ -203,18 +215,22 @@ const Home: NextPage = () => {
               )}
             </Listbox>
           </div>
-          <div>
-            <label htmlFor="check-in">Check-in</label>
-            <input
-              id="check-in"
-              className="block border border-black text-black py-2 mt-4 w-64"
-            />
-          </div>
-          <div>
-            <label htmlFor="check-out">Check-out</label>
-            <input
-              id="check-out"
-              className="block border border-black text-black py-2 mt-4 w-64"
+          <div className="relative mt-10">
+            <label className="absolute -top-[44px]">Check-in</label>
+            <label className="absolute -top-[44px] left-40">Check-out</label>
+            <DateRangePicker
+              startDate={startDate}
+              startDateId="your_unique_start_date_id" 
+              endDate={endDate}
+              endDateId="your_unique_end_date_id"
+              onDatesChange={({ startDate, endDate }) => {
+                setStartDate(startDate);
+                setEndDate(endDate);
+              }}
+              focusedInput={focusedInput}
+              onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+              displayFormat="DD/MM/YYYY"
+              enableOutsideDays={false}
             />
           </div>
           <button className="bg-yellow-500 h-[46px] px-5">
