@@ -269,7 +269,7 @@ const Home: NextPage = () => {
         <h3 className="text-3xl mt-8">Subscribe to our newsletter</h3>
         <form
           action="#"
-          className="flex justify-around gap-y-10 2xl:justify-between flex-wrap max-w-container mx-auto mt-32 text-black"
+          className="flex justify-around gap-y-10 gap-x-8 2xl:justify-between flex-wrap max-w-container mx-auto mt-24 text-black"
         >
           <input placeholder="Name" className="w-96 h-16 pl-5" />
           <input placeholder="Email Address" className="w-96 h-16 pl-5" />
