@@ -1,29 +1,63 @@
+import React, { useState, Fragment } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import HeroBg from '../public/hero-bg.png';
+import { Listbox, Transition } from '@headlessui/react';
+import { HiSelector } from '@react-icons/all-files/hi/HiSelector';
+
+const numberOfAdults = [
+  { id: 1, number: 1 },
+  { id: 2, number: 2 },
+  { id: 3, number: 3 },
+  { id: 4, number: 4 },
+  { id: 5, number: 5 },
+  { id: 6, number: 6 },
+  { id: 7, number: 7 },
+  { id: 8, number: 8 },
+  { id: 9, number: 9 },
+];
+
+const numberOfChildren = [
+  { id: 1, number: 1 },
+  { id: 2, number: 2 },
+  { id: 3, number: 3 },
+  { id: 4, number: 4 },
+  { id: 5, number: 5 },
+  { id: 6, number: 6 },
+  { id: 7, number: 7 },
+  { id: 8, number: 8 },
+  { id: 9, number: 9 },
+];
+
+const rooms = [
+  {
+    id: '1',
+    name: 'Ordinary Room',
+    imgUrl: '/../public/home-room-1.png',
+    href: '#',
+  },
+  {
+    id: '2',
+    name: 'Deluxe Room',
+    imgUrl: '/../public/home-room-2.png',
+    href: '#',
+  },
+  {
+    id: '3',
+    name: 'Outside Room',
+    imgUrl: '/../public/home-room-3.png',
+    href: '#',
+  },
+];
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
 
 const Home: NextPage = () => {
-  const rooms = [
-    {
-      id: '1',
-      name: 'Ordinary Room',
-      imgUrl: '/../public/home-room-1.png',
-      href: '#',
-    },
-    {
-      id: '2',
-      name: 'Deluxe Room',
-      imgUrl: '/../public/home-room-2.png',
-      href: '#',
-    },
-    {
-      id: '3',
-      name: 'Outsite Room',
-      imgUrl: '/../public/home-room-3.png',
-      href: '#',
-    },
-  ];
+  const [adultsNumber, setAdultsNumber] = useState(numberOfAdults[0]);
+  const [childrenNumber, setChildrenNumber] = useState(numberOfChildren[0]);
 
   return (
     <div>
@@ -33,7 +67,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section id="hero" className="relative">
-        <Image src={HeroBg} alt="hero background" layout='responsive' />
+        <Image src={HeroBg} alt="hero background" layout="responsive" />
         <h1 className="absolute text-center top-1/3 left-1/2 transform -translate-x-1/2 text-white font-medium text-3xl w-full md:text-6xl md:leading-[80px]">
           Welcome to our Hotel
           <br />
@@ -46,18 +80,128 @@ const Home: NextPage = () => {
           className="flex justify-center 2xl:justify-between flex-wrap items-end gap-8 max-w-container mx-auto text-white text-xl"
         >
           <div>
-            <label htmlFor="adults">Adults</label>
-            <input
-              id="adults"
-              className="block border border-black text-black py-2 mt-4 w-64"
-            />
+            <Listbox value={adultsNumber} onChange={setAdultsNumber}>
+              {({ open }) => (
+                <>
+                  <Listbox.Label>Adults</Listbox.Label>
+                  <div className="mt-1 relative">
+                    <Listbox.Button className="block border border-black text-black py-2 mt-4 w-64 bg-white">
+                      <span className="flex items-center">
+                        <span className="mx-auto block truncate">
+                          {adultsNumber.number}
+                        </span>
+                      </span>
+                      <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <HiSelector className="text-xl text-gray-600" />
+                      </span>
+                    </Listbox.Button>
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                        {numberOfAdults.map(number => (
+                          <Listbox.Option
+                            key={number.id}
+                            className={({ active }) =>
+                              classNames(
+                                active
+                                  ? 'text-white bg-gray-500'
+                                  : 'text-gray-900',
+                                'cursor-default select-none relative py-2 pl-3 pr-9 text-center'
+                              )
+                            }
+                            value={number}
+                          >
+                            {({ selected }) => (
+                              <>
+                                <div className="flex items-center">
+                                  <span
+                                    className={classNames(
+                                      selected
+                                        ? 'font-semibold'
+                                        : 'font-normal',
+                                      'mx-auto block truncate text-lg'
+                                    )}
+                                  >
+                                    {number.number}
+                                  </span>
+                                </div>
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </>
+              )}
+            </Listbox>
           </div>
           <div>
-            <label htmlFor="children">Children</label>
-            <input
-              id="children"
-              className="block border border-black text-black py-2 mt-4 w-64"
-            />
+          <Listbox value={childrenNumber} onChange={setChildrenNumber}>
+              {({ open }) => (
+                <>
+                  <Listbox.Label>Children</Listbox.Label>
+                  <div className="mt-1 relative">
+                    <Listbox.Button className="block border border-black text-black py-2 mt-4 w-64 bg-white">
+                      <span className="flex items-center">
+                        <span className="mx-auto block truncate">
+                          {childrenNumber.number}
+                        </span>
+                      </span>
+                      <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <HiSelector className="text-xl text-gray-600" />
+                      </span>
+                    </Listbox.Button>
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                        {numberOfChildren.map(number => (
+                          <Listbox.Option
+                            key={number.id}
+                            className={({ active }) =>
+                              classNames(
+                                active
+                                  ? 'text-white bg-gray-500'
+                                  : 'text-gray-900',
+                                'cursor-default select-none relative py-2 pl-3 pr-9 text-center'
+                              )
+                            }
+                            value={number}
+                          >
+                            {({ selected }) => (
+                              <>
+                                <div className="flex items-center">
+                                  <span
+                                    className={classNames(
+                                      selected
+                                        ? 'font-semibold'
+                                        : 'font-normal',
+                                      'mx-auto block truncate text-lg'
+                                    )}
+                                  >
+                                    {number.number}
+                                  </span>
+                                </div>
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </>
+              )}
+            </Listbox>
           </div>
           <div>
             <label htmlFor="check-in">Check-in</label>
@@ -81,7 +225,7 @@ const Home: NextPage = () => {
       <div className="container max-w-container mx-auto px-8 2xl:px-0">
         <section id="rooms" className="text-center">
           <h2 className="text-[2.5rem] font-light mt-20">See Our Rooms</h2>
-          <div className="flex justify-center gap-y-10 md:justify-between flex-wrap mt-20 mb-16">
+          <div className="flex justify-around gap-y-10 2xl:justify-between flex-wrap mt-20 mb-16">
             {rooms.map(room => (
               <a key={room.id} href={room.href} className="relative">
                 <Image
@@ -103,14 +247,19 @@ const Home: NextPage = () => {
       </div>
       <section
         id="newsletter"
-        className="text-center bg-dark-gray text-white mt-40 py-12 px-8 2xl:px-0"
+        className="text-center bg-dark-gray text-white mt-40 pt-12 pb-20 px-8 2xl:px-0"
       >
         <h2 className="text-4xl font-medium">Stay up to date</h2>
         <h3 className="text-3xl mt-8">Subscribe to our newsletter</h3>
-        <form action="#" className="flex justify-center gap-y-10 md:justify-between flex-wrap md:max-w-container mx-auto mt-32 text-black">
+        <form
+          action="#"
+          className="flex justify-around gap-y-10 2xl:justify-between flex-wrap max-w-container mx-auto mt-32 text-black"
+        >
           <input placeholder="Name" className="w-96 h-16 pl-5" />
           <input placeholder="Email Address" className="w-96 h-16 pl-5" />
-          <button className="w-96 h-16 bg-yellow-500 font-medium text-lg text-white">Subscribe</button>
+          <button className="w-96 h-16 bg-yellow-500 font-medium text-lg text-white">
+            Subscribe
+          </button>
         </form>
       </section>
     </div>
