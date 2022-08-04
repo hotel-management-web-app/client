@@ -18,7 +18,7 @@ const rooms = [
     id: 2,
     name: 'Double room',
     description:
-      'Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.',
+      'Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool. Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.',
     imgUrl: '/../public/room.png',
     roomUrl: '/room/2',
   },
@@ -54,7 +54,7 @@ const Rooms = () => {
               <Image src={RoomImg} alt="room" />
               <div className="px-8 pt-5 pb-8">
                 <h2 className="text-3xl font-medium">{room.name}</h2>
-                <p className="my-4 font-light">{room.description}</p>
+                <p className="my-4 font-light h-[120px] overflow-clip">{room.description}</p>
                 <Link href={room.roomUrl}>
                   <a className="underline">More Details</a>
                 </Link>

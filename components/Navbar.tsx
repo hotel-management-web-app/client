@@ -1,14 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Disclosure } from '@headlessui/react';
 import { GiHamburgerMenu } from '@react-icons/all-files/gi/GiHamburgerMenu';
 import { GrClose } from '@react-icons/all-files/gr/GrClose';
 
 const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'Rooms', href: '/rooms', current: false },
-  { name: 'About', href: '/about', current: false },
-  { name: 'Contact', href: '/contact', current: false },
+  { name: 'Home', href: '/' },
+  { name: 'Rooms', href: '/rooms' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 function classNames(...classes: string[]) {
@@ -16,6 +17,8 @@ function classNames(...classes: string[]) {
 }
 
 const Navbar = () => {
+  const router = useRouter();
+
   return (
     <Disclosure as="nav" className="bg-black py-2">
       {({ open }) => (
@@ -43,12 +46,14 @@ const Navbar = () => {
                       <Link key={item.name} href={item.href}>
                         <a
                           className={classNames(
-                            item.current
+                            router.pathname == item.href
                               ? 'bg-gray-700 text-white'
                               : 'text-white hover:bg-gray-700 hover:text-white',
                             'px-3 py-2 rounded-md text-lg font-medium'
                           )}
-                          aria-current={item.current ? 'page' : undefined}
+                          aria-current={
+                            router.pathname == item.href ? 'page' : undefined
+                          }
                         >
                           {item.name}
                         </a>
@@ -75,12 +80,14 @@ const Navbar = () => {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current
+                    router.pathname == item.href
                       ? 'bg-gray-900 text-white'
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block px-3 py-2 rounded-md text-base font-medium'
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={
+                    router.pathname == item.href ? 'page' : undefined
+                  }
                 >
                   {item.name}
                 </Disclosure.Button>
