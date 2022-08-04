@@ -2,13 +2,11 @@ import React, { useState, Fragment } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import HeroBg from '../public/hero-bg.png';
 import { Listbox, Transition } from '@headlessui/react';
 import { HiSelector } from '@react-icons/all-files/hi/HiSelector';
-import {
-  DateRangePicker,
-  FocusedInputShape,
-} from 'react-dates';
+import { DateRangePicker, FocusedInputShape } from 'react-dates';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
@@ -220,7 +218,7 @@ const Home: NextPage = () => {
             <label className="absolute -top-[44px] left-40">Check-out</label>
             <DateRangePicker
               startDate={startDate}
-              startDateId="your_unique_start_date_id" 
+              startDateId="your_unique_start_date_id"
               endDate={endDate}
               endDateId="your_unique_end_date_id"
               onDatesChange={({ startDate, endDate }) => {
@@ -256,9 +254,9 @@ const Home: NextPage = () => {
               </a>
             ))}
           </div>
-          <a href="#" className="underline text-3xl font-light">
-            See all roms
-          </a>
+          <Link href="/rooms">
+            <a className="underline text-3xl font-light">See all roms</a>
+          </Link>
         </section>
       </div>
       <section

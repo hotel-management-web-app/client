@@ -1,13 +1,14 @@
 import React from 'react';
+import Link from 'next/link';
 import { Disclosure } from '@headlessui/react';
 import { GiHamburgerMenu } from '@react-icons/all-files/gi/GiHamburgerMenu';
 import { GrClose } from '@react-icons/all-files/gr/GrClose';
 
 const navigation = [
-  { name: 'Home', href: '#', current: true },
-  { name: 'Rooms', href: '#', current: false },
-  { name: 'About', href: '#', current: false },
-  { name: 'Contact', href: '#', current: false },
+  { name: 'Home', href: '/', current: true },
+  { name: 'Rooms', href: '/rooms', current: false },
+  { name: 'About', href: '/about', current: false },
+  { name: 'Contact', href: '/contact', current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -39,25 +40,30 @@ const Navbar = () => {
                 <div className="hidden sm:block sm:mx-auto">
                   <div className="flex space-x-4">
                     {navigation.map(item => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-700 text-white'
-                            : 'text-white hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-lg font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
+                      <Link key={item.name} href={item.href}>
+                        <a
+                          className={classNames(
+                            item.current
+                              ? 'bg-gray-700 text-white'
+                              : 'text-white hover:bg-gray-700 hover:text-white',
+                            'px-3 py-2 rounded-md text-lg font-medium'
+                          )}
+                          aria-current={item.current ? 'page' : undefined}
+                        >
+                          {item.name}
+                        </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <a href="#" className="text-white border border-white text-lg font-medium px-5 py-1">Book Now</a>
+                <a
+                  href="#"
+                  className="text-white border border-white text-lg font-medium px-5 py-1"
+                >
+                  Book Now
+                </a>
               </div>
             </div>
           </div>
