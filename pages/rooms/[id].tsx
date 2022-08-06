@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import RoomBg from '../../public/room-details.png';
+import ImageViewer from 'react-simple-image-viewer';
 import { nanoid } from 'nanoid';
 
 const amenities = [
@@ -28,6 +30,18 @@ const images = [
 ];
 
 const Room = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+
+  const openImageViewer = useCallback((index: number) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
   return (
     <div>
       <Image src={RoomBg} alt="Standard double room" layout="responsive" />
@@ -63,16 +77,40 @@ const Room = () => {
             </ul>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-20 mt-40">
-          {images.map(image => (
+        <div className="flex justify-center mt-24">
+          <Link href="/rooms">
+            <a className="bg-dark-gray text-white text-2xl py-6 px-16">
+              Make a reservation
+            </a>
+          </Link>
+        </div>
+        <div className="grid grid-cols-3 gap-20 mt-32">
+          {images.map((image, index) => (
             <Image
               key={nanoid()}
               src={image}
               alt="room"
               width="450px"
               height="420px"
+              onClick={() => openImageViewer(index)}
             />
           ))}
+          {isViewerOpen && (
+            <ImageViewer
+              src={[
+                'http://localhost:3000/rooms.png',
+                'http://localhost:3000/home-room-1.png',
+                'http://localhost:3000/home-room-2.png',
+                'http://localhost:3000/home-room-3.png',
+                'http://localhost:3000/room-details.png',
+                'http://localhost:3000/room.png',
+              ]}
+              currentIndex={currentImage}
+              disableScroll={false}
+              closeOnClickOutside={true}
+              onClose={closeImageViewer}
+            />
+          )}
         </div>
       </div>
     </div>
