@@ -12,7 +12,7 @@ const rooms = [
     description:
       'Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.',
     imgUrl: '/../public/room.png',
-    roomUrl: '/room/1',
+    roomUrl: '/rooms/1',
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const rooms = [
     description:
       'Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool. Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.',
     imgUrl: '/../public/room.png',
-    roomUrl: '/room/2',
+    roomUrl: '/rooms/2',
   },
   {
     id: 3,
@@ -28,7 +28,7 @@ const rooms = [
     description:
       'Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.',
     imgUrl: '/../public/room.png',
-    roomUrl: '/room/3',
+    roomUrl: '/rooms/3',
   },
 ];
 
