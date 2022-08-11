@@ -45,12 +45,12 @@ const Room = () => {
   return (
     <div>
       <Image src={RoomBg} alt="Standard double room" layout="responsive" />
-      <div className="container mx-auto max-w-container mb-40">
-        <h1 className="text-center text-5xl font-light mt-20">
+      <div className="container mx-auto max-w-container mb-40 px-5 2xl:px-0">
+        <h1 className="text-center text-4xl sm:text-5xl font-light mt-20">
           Standard double room
         </h1>
-        <div className="flex justify-between gap-10 items-start mt-20">
-          <div className="bg-dark-gray w-72 text-white px-12 py-9">
+        <div className="flex flex-col 2xl:flex-row flex-wrap items-center 2xl:justify-between gap-10 2xl:items-start mt-20">
+          <div className="bg-dark-gray w-full max-w-[750px] text-center 2xl:w-72 text-white px-12 py-9">
             <h2 className="text-2xl font-medium">Amenities</h2>
             <ul className="list-disc ml-5 mt-2 leading-[40px]">
               {amenities.map(amenity => (
@@ -69,7 +69,7 @@ const Room = () => {
             thoughtful details in each room foster a personalized experience
             making you feel at home.
           </p>
-          <div className="bg-dark-gray w-72 text-white px-12 py-9">
+          <div className="bg-dark-gray text-center w-full max-w-[750px] 2xl:w-72 text-white px-12 py-9">
             <ul className="list-disc ml-5 mt-2 leading-[40px]">
               {details.map(detail => (
                 <li key={nanoid()}>{detail}</li>
@@ -84,7 +84,7 @@ const Room = () => {
             </a>
           </Link>
         </div>
-        <div className="grid grid-cols-3 gap-20 mt-32">
+        <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-20 mt-32">
           {images.map((image, index) => (
             <Image
               key={nanoid()}
@@ -93,6 +93,7 @@ const Room = () => {
               width="450px"
               height="420px"
               onClick={() => openImageViewer(index)}
+              className="cursor-pointer"
             />
           ))}
           {isViewerOpen && (
