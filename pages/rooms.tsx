@@ -44,7 +44,7 @@ const Rooms = () => {
           Rooms & suites
         </h1>
       </div>
-      <div className="container mx-auto max-w-container">
+      <section id="rooms" className="container mx-auto max-w-container">
         <div className="flex justify-center 2xl:justify-between gap-12 flex-wrap mt-28 mb-52">
           {rooms.map(room => (
             <div
@@ -67,7 +67,7 @@ const Rooms = () => {
             </div>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 };
