@@ -1,5 +1,5 @@
 import React from 'react';
-import Head from 'next/head'
+import Head from 'next/head';
 import Image from 'next/image';
 import AboutBg from '../public/about-bg.png';
 
@@ -54,7 +54,10 @@ const about = () => {
           {details.map((detail, index) => (
             <>
               {index % 2 === 0 ? (
-                <div key={index} className="flex justify-center xl:justify-between gap-x-20 gap-y-10 flex-wrap-reverse">
+                <div
+                  key={index}
+                  className="flex justify-center xl:justify-between gap-x-20 gap-y-10 flex-wrap-reverse"
+                >
                   <div className="w-[500px]">
                     <h2 className="text-4xl font-medium">{detail.title}</h2>
                     <p className="font-light text-lg leading-8 mt-5">
@@ -69,7 +72,10 @@ const about = () => {
                   />
                 </div>
               ) : (
-                <div key={index} className="flex justify-center xl:justify-between gap-x-20 gap-y-10 flex-wrap">
+                <div
+                  key={index}
+                  className="flex justify-center xl:justify-between gap-x-20 gap-y-10 flex-wrap"
+                >
                   <Image
                     src={detail.imgUrl}
                     alt="about"
