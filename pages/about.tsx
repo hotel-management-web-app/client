@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head'
 import Image from 'next/image';
 import AboutBg from '../public/about-bg.png';
 
@@ -26,6 +27,9 @@ const details = [
 const about = () => {
   return (
     <div>
+      <Head>
+        <title>About us</title>
+      </Head>
       <section id="hero" className="relative">
         <Image src={AboutBg} alt="about background" layout="responsive" />
         <h1 className="absolute text-center top-1/4 left-1/2 transform -translate-x-1/2 text-white font-medium text-3xl w-full md:text-6xl md:leading-[80px]">

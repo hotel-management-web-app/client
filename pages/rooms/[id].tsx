@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import RoomBg from '../../public/room-details.png';
@@ -44,6 +45,9 @@ const Room = () => {
   };
   return (
     <div>
+      <Head>
+        <title>Room</title>
+      </Head>
       <Image src={RoomBg} alt="Standard double room" layout="responsive" />
       <div className="container mx-auto max-w-container mb-40 px-5 2xl:px-0">
         <h1 className="text-center text-4xl sm:text-5xl font-light mt-20">
