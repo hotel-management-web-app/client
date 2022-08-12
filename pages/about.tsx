@@ -28,12 +28,12 @@ const about = () => {
   return (
     <div>
       <Head>
-        <title>About us</title>
+        <title>About Us</title>
       </Head>
       <section id="hero" className="relative">
         <Image src={AboutBg} alt="about background" layout="responsive" />
         <h1 className="absolute text-center top-1/4 left-1/2 transform -translate-x-1/2 text-white font-medium text-3xl w-full md:text-6xl md:leading-[80px]">
-          About us
+          About Us
         </h1>
       </section>
       <div className="container max-w-container mx-auto mb-72">
@@ -54,7 +54,7 @@ const about = () => {
           {details.map((detail, index) => (
             <>
               {index % 2 === 0 ? (
-                <div key={index} className="flex justify-between gap-x-20 gap-y-10 flex-wrap-reverse">
+                <div key={index} className="flex justify-center xl:justify-between gap-x-20 gap-y-10 flex-wrap-reverse">
                   <div className="w-[500px]">
                     <h2 className="text-4xl font-medium">{detail.title}</h2>
                     <p className="font-light text-lg leading-8 mt-5">
@@ -69,7 +69,7 @@ const about = () => {
                   />
                 </div>
               ) : (
-                <div key={index} className="flex justify-between gap-x-20 gap-y-10 flex-wrap">
+                <div key={index} className="flex justify-center xl:justify-between gap-x-20 gap-y-10 flex-wrap">
                   <Image
                     src={detail.imgUrl}
                     alt="about"
