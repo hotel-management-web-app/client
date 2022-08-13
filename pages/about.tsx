@@ -52,45 +52,25 @@ const about = () => {
         </p>
         <div className="mt-40 flex flex-col gap-40 px-8 2xl:px-0 text-center xl:text-left">
           {details.map((detail, index) => (
-            <>
-              {index % 2 === 0 ? (
-                <div
-                  key={index}
-                  className="flex justify-center xl:justify-between gap-x-20 gap-y-10 flex-wrap-reverse"
-                >
-                  <div className="w-[500px]">
-                    <h2 className="text-4xl font-medium">{detail.title}</h2>
-                    <p className="font-light text-lg leading-8 mt-5">
-                      {detail.description}
-                    </p>
-                  </div>
-                  <Image
-                    src={detail.imgUrl}
-                    alt="about"
-                    width="525px"
-                    height="445px"
-                  />
-                </div>
-              ) : (
-                <div
-                  key={index}
-                  className="flex justify-center xl:justify-between gap-x-20 gap-y-10 flex-wrap"
-                >
-                  <Image
-                    src={detail.imgUrl}
-                    alt="about"
-                    width="525px"
-                    height="445px"
-                  />
-                  <div className="w-[500px]">
-                    <h2 className="text-4xl font-medium">{detail.title}</h2>
-                    <p className="font-light text-lg leading-8 mt-5">
-                      {detail.description}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </>
+            <div
+              key={index}
+              className={`flex ${
+                index % 2 === 1 && 'flex-row-reverse'
+              } justify-center xl:justify-between gap-x-20 gap-y-10 flex-wrap-reverse`}
+            >
+              <div className="w-[500px]">
+                <h2 className="text-4xl font-medium">{detail.title}</h2>
+                <p className="font-light text-lg leading-8 mt-5">
+                  {detail.description}
+                </p>
+              </div>
+              <Image
+                src={detail.imgUrl}
+                alt="about"
+                width="525px"
+                height="445px"
+              />
+            </div>
           ))}
         </div>
       </div>
