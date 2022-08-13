@@ -6,12 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint --fix",
+    "pretty": "prettier --write ."
   },
   "dependencies": {
     "@headlessui/react": "^1.6.6",
     "@react-icons/all-files": "^4.1.0",
-    "nanoid": "^4.0.0",
     "next": "12.2.3",
     "react": "18.2.0",
     "react-dates": "^21.8.0",
@@ -31,6 +31,7 @@
     "eslint-config-next": "12.2.3",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "postcss": "^8.4.14",

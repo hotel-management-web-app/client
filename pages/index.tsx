@@ -3,10 +3,10 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import HeroBg from '../public/hero-bg.png';
 import { Listbox, Transition } from '@headlessui/react';
 import { HiSelector } from '@react-icons/all-files/hi/HiSelector';
 import { DateRangePicker, FocusedInputShape } from 'react-dates';
+import HeroBg from '../public/hero-bg.png';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
@@ -113,7 +113,7 @@ const Home: NextPage = () => {
                       leaveTo="opacity-0"
                     >
                       <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                        {numberOfAdults.map(number => (
+                        {numberOfAdults.map((number) => (
                           <Listbox.Option
                             key={number.id}
                             className={({ active }) =>
@@ -175,7 +175,7 @@ const Home: NextPage = () => {
                       leaveTo="opacity-0"
                     >
                       <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                        {numberOfChildren.map(number => (
+                        {numberOfChildren.map((number) => (
                           <Listbox.Option
                             key={number.id}
                             className={({ active }) =>
@@ -226,7 +226,7 @@ const Home: NextPage = () => {
                 setEndDate(endDate);
               }}
               focusedInput={focusedInput}
-              onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+              onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
               displayFormat="DD/MM/YYYY"
               enableOutsideDays={false}
             />
@@ -240,7 +240,7 @@ const Home: NextPage = () => {
         <section id="rooms" className="text-center">
           <h2 className="text-[2.5rem] font-light mt-20">See Our Rooms</h2>
           <div className="flex justify-around gap-y-10 2xl:justify-between flex-wrap mt-20 mb-16">
-            {rooms.map(room => (
+            {rooms.map((room) => (
               <a key={room.id} href={room.href} className="relative">
                 <Image
                   src={room.imgUrl}

@@ -46,7 +46,7 @@ const Rooms = () => {
       </div>
       <section id="rooms" className="container mx-auto max-w-container">
         <div className="flex justify-center 2xl:justify-between gap-12 flex-wrap mt-28 mb-52">
-          {rooms.map(room => (
+          {rooms.map((room) => (
             <div
               key={room.id}
               className="w-[430px] shadow-[0px_10px_30px_-10px_rgba(0,0,0,0.8)]"
@@ -54,7 +54,9 @@ const Rooms = () => {
               <Image src={RoomImg} alt="room" />
               <div className="px-8 pt-5 pb-8">
                 <h2 className="text-3xl font-medium">{room.name}</h2>
-                <p className="my-4 font-light h-[120px] overflow-clip">{room.description}</p>
+                <p className="my-4 font-light h-[120px] overflow-clip">
+                  {room.description}
+                </p>
                 <Link href={room.roomUrl}>
                   <a className="underline">More Details</a>
                 </Link>

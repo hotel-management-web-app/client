@@ -57,7 +57,7 @@ const Room = () => {
           <div className="bg-dark-gray w-full max-w-[750px] text-center 2xl:w-72 text-white px-12 py-9">
             <h2 className="text-2xl font-medium">Amenities</h2>
             <ul className="list-disc ml-5 mt-2 leading-[40px]">
-              {amenities.map(amenity => (
+              {amenities.map((amenity) => (
                 <li key={nanoid()}>{amenity}</li>
               ))}
             </ul>
@@ -75,7 +75,7 @@ const Room = () => {
           </p>
           <div className="bg-dark-gray text-center w-full max-w-[750px] 2xl:w-72 text-white px-12 py-9">
             <ul className="list-disc ml-5 mt-2 leading-[40px]">
-              {details.map(detail => (
+              {details.map((detail) => (
                 <li key={nanoid()}>{detail}</li>
               ))}
             </ul>

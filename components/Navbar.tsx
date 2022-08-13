@@ -42,7 +42,7 @@ const Navbar = () => {
                 </div>
                 <div className="hidden sm:block sm:mx-auto">
                   <div className="flex space-x-4">
-                    {navigation.map(item => (
+                    {navigation.map((item) => (
                       <Link key={item.name} href={item.href}>
                         <a
                           className={classNames(
@@ -74,7 +74,7 @@ const Navbar = () => {
           </div>
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map(item => (
+              {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
                   as="a"
