@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "moment": true
   },
   "extends": ["plugin:react/recommended", "airbnb", "airbnb/hooks"],
   "parser": "@typescript-eslint/parser",
@@ -20,9 +21,14 @@
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
     "react/jsx-uses-react": "off",
+    "react/button-has-type": "off",
+    "comma-dangle": "off",
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-curly-newline": "off",
     "react-hooks/rules-of-hooks": "error",
     "react/jsx-props-no-spreading": "off",
     "react/react-in-jsx-scope": "off",
+    "jsx-a11y/anchor-is-valid": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
