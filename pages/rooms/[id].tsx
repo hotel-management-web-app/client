@@ -2,32 +2,76 @@ import React, { useState, useCallback } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import RoomBg from '../../public/room-details.png';
 import ImageViewer from 'react-simple-image-viewer';
-import { nanoid } from 'nanoid';
+import RoomBg from '../../public/room-details.png';
 
 const amenities = [
-  'Separate Shower',
-  'Air Conditioning',
-  'Desk or Workplace',
-  'Free Wi-Fi',
-  'Bathtub',
+  {
+    id: 1,
+    name: 'Separate Shower',
+  },
+  {
+    id: 2,
+    name: 'Air Conditioning',
+  },
+  {
+    id: 3,
+    name: 'Desk or Workplace',
+  },
+  {
+    id: 4,
+    name: 'Free Wi-Fi',
+  },
+  {
+    id: 5,
+    name: 'Bathtub',
+  },
 ];
 
 const details = [
-  '34 - 40sqm (inc. terrace)',
-  'Double bed',
-  'Terrace',
-  'Stunning ocean view',
+  {
+    id: 1,
+    name: '34 - 40sqm (inc. terrace)',
+  },
+  {
+    id: 1,
+    name: 'Double bed',
+  },
+  {
+    id: 1,
+    name: 'Terrace',
+  },
+  {
+    id: 1,
+    name: 'Stunning ocean view',
+  },
 ];
 
 const images = [
-  '/../public/rooms.png',
-  '/../public/home-room-1.png',
-  '/../public/home-room-2.png',
-  '/../public/home-room-3.png',
-  '/../public/room-details.png',
-  '/../public/room.png',
+  {
+    id: 1,
+    url: '/../public/rooms.png',
+  },
+  {
+    id: 1,
+    url: '/../public/home-room-1.png',
+  },
+  {
+    id: 1,
+    url: '/../public/home-room-2.png',
+  },
+  {
+    id: 1,
+    url: '/../public/home-room-3.png',
+  },
+  {
+    id: 1,
+    url: '/../public/room-details.png',
+  },
+  {
+    id: 1,
+    url: '/../public/room.png',
+  },
 ];
 
 const Room = () => {
@@ -58,7 +102,7 @@ const Room = () => {
             <h2 className="text-2xl font-medium">Amenities</h2>
             <ul className="list-disc ml-5 mt-2 leading-[40px]">
               {amenities.map((amenity) => (
-                <li key={nanoid()}>{amenity}</li>
+                <li key={amenity.id}>{amenity.name}</li>
               ))}
             </ul>
           </div>
@@ -76,7 +120,7 @@ const Room = () => {
           <div className="bg-dark-gray text-center w-full max-w-[750px] 2xl:w-72 text-white px-12 py-9">
             <ul className="list-disc ml-5 mt-2 leading-[40px]">
               {details.map((detail) => (
-                <li key={nanoid()}>{detail}</li>
+                <li key={detail.id}>{detail.name}</li>
               ))}
             </ul>
           </div>
@@ -91,8 +135,8 @@ const Room = () => {
         <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-20 mt-32">
           {images.map((image, index) => (
             <Image
-              key={nanoid()}
-              src={image}
+              key={image.id}
+              src={image.url}
               alt="room"
               width="450px"
               height="420px"
@@ -112,7 +156,7 @@ const Room = () => {
               ]}
               currentIndex={currentImage}
               disableScroll={false}
-              closeOnClickOutside={true}
+              closeOnClickOutside
               onClose={closeImageViewer}
             />
           )}

@@ -26,7 +26,7 @@ const Navbar = () => {
           <div className="max-w-[1500px] mx-auto px-2 sm:px-6 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                {/* Mobile menu button*/}
+                {/* Mobile menu button */}
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -46,13 +46,13 @@ const Navbar = () => {
                       <Link key={item.name} href={item.href}>
                         <a
                           className={classNames(
-                            router.pathname == item.href
+                            router.pathname === item.href
                               ? 'bg-gray-700 text-white'
                               : 'text-white hover:bg-gray-700 hover:text-white',
                             'px-3 py-2 rounded-md text-lg font-medium'
                           )}
                           aria-current={
-                            router.pathname == item.href ? 'page' : undefined
+                            router.pathname === item.href ? 'page' : undefined
                           }
                         >
                           {item.name}
@@ -80,13 +80,13 @@ const Navbar = () => {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    router.pathname == item.href
+                    router.pathname === item.href
                       ? 'bg-gray-900 text-white'
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block px-3 py-2 rounded-md text-base font-medium'
                   )}
                   aria-current={
-                    router.pathname == item.href ? 'page' : undefined
+                    router.pathname === item.href ? 'page' : undefined
                   }
                 >
                   {item.name}

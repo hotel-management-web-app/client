@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, Fragment } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -6,6 +7,7 @@ import Link from 'next/link';
 import { Listbox, Transition } from '@headlessui/react';
 import { HiSelector } from '@react-icons/all-files/hi/HiSelector';
 import { DateRangePicker, FocusedInputShape } from 'react-dates';
+import moment from 'moment';
 import HeroBg from '../public/hero-bg.png';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
@@ -37,19 +39,19 @@ const numberOfChildren = [
 
 const rooms = [
   {
-    id: '1',
+    id: 1,
     name: 'Ordinary Room',
     imgUrl: '/../public/home-room-1.png',
     href: '#',
   },
   {
-    id: '2',
+    id: 2,
     name: 'Deluxe Room',
     imgUrl: '/../public/home-room-2.png',
     href: '#',
   },
   {
-    id: '3',
+    id: 3,
     name: 'Outside Room',
     imgUrl: '/../public/home-room-3.png',
     href: '#',
@@ -63,11 +65,12 @@ function classNames(...classes: string[]) {
 const Home: NextPage = () => {
   const [adultsNumber, setAdultsNumber] = useState(numberOfAdults[0]);
   const [childrenNumber, setChildrenNumber] = useState(numberOfChildren[0]);
-  const [startDate, setStartDate] = useState<moment.Moment | null>(null);
-  const [endDate, setEndDate] = useState<moment.Moment | null>(null);
-  const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(
+  const [startDateValue, setStartDateValue] = useState<moment.Moment | null>(
     null
   );
+  const [endDateValue, setEndDateValue] = useState<moment.Moment | null>(null);
+  const [focusedInputValue, setFocusedInputValue] =
+    useState<FocusedInputShape | null>(null);
 
   return (
     <div>
@@ -127,20 +130,16 @@ const Home: NextPage = () => {
                             value={number}
                           >
                             {({ selected }) => (
-                              <>
-                                <div className="flex items-center">
-                                  <span
-                                    className={classNames(
-                                      selected
-                                        ? 'font-semibold'
-                                        : 'font-normal',
-                                      'mx-auto block truncate text-lg'
-                                    )}
-                                  >
-                                    {number.number}
-                                  </span>
-                                </div>
-                              </>
+                              <div className="flex items-center">
+                                <span
+                                  className={classNames(
+                                    selected ? 'font-semibold' : 'font-normal',
+                                    'mx-auto block truncate text-lg'
+                                  )}
+                                >
+                                  {number.number}
+                                </span>
+                              </div>
                             )}
                           </Listbox.Option>
                         ))}
@@ -189,20 +188,16 @@ const Home: NextPage = () => {
                             value={number}
                           >
                             {({ selected }) => (
-                              <>
-                                <div className="flex items-center">
-                                  <span
-                                    className={classNames(
-                                      selected
-                                        ? 'font-semibold'
-                                        : 'font-normal',
-                                      'mx-auto block truncate text-lg'
-                                    )}
-                                  >
-                                    {number.number}
-                                  </span>
-                                </div>
-                              </>
+                              <div className="flex items-center">
+                                <span
+                                  className={classNames(
+                                    selected ? 'font-semibold' : 'font-normal',
+                                    'mx-auto block truncate text-lg'
+                                  )}
+                                >
+                                  {number.number}
+                                </span>
+                              </div>
                             )}
                           </Listbox.Option>
                         ))}
@@ -214,19 +209,25 @@ const Home: NextPage = () => {
             </Listbox>
           </div>
           <div className="relative mt-10">
-            <label className="absolute -top-[44px]">Check-in</label>
-            <label className="absolute -top-[44px] left-40">Check-out</label>
+            <label htmlFor="start-date" className="absolute -top-[44px]">
+              Check-in
+            </label>
+            <label htmlFor="end-date" className="absolute -top-[44px] left-40">
+              Check-out
+            </label>
             <DateRangePicker
-              startDate={startDate}
-              startDateId="your_unique_start_date_id"
-              endDate={endDate}
-              endDateId="your_unique_end_date_id"
+              startDate={startDateValue}
+              startDateId="start-date"
+              endDate={endDateValue}
+              endDateId="end-date"
               onDatesChange={({ startDate, endDate }) => {
-                setStartDate(startDate);
-                setEndDate(endDate);
+                setStartDateValue(startDate);
+                setEndDateValue(endDate);
               }}
-              focusedInput={focusedInput}
-              onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
+              focusedInput={focusedInputValue}
+              onFocusChange={(focusedInput) =>
+                setFocusedInputValue(focusedInput)
+              }
               displayFormat="DD/MM/YYYY"
               enableOutsideDays={false}
             />
