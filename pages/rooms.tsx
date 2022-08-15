@@ -1,9 +1,9 @@
 import React from 'react';
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import RoomsImg from '../public/rooms.png';
-import RoomImg from '../public/room.png';
+import Seo from '../components/Seo';
+import RoomsImg from '../public/images/rooms.png';
+import RoomImg from '../public/images/room.png';
 
 const rooms = [
   {
@@ -34,9 +34,7 @@ const rooms = [
 
 const Rooms = () => (
   <div>
-    <Head>
-      <title>Rooms</title>
-    </Head>
+    <Seo title="Rooms" />
     <div className="relative">
       <Image src={RoomsImg} alt="rooms" layout="responsive" />
       <h1 className="absolute text-center top-1/3 left-1/2 transform -translate-x-1/2 text-white font-medium text-3xl w-full md:text-5xl">

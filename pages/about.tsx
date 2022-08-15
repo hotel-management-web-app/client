@@ -1,7 +1,7 @@
 import React from 'react';
-import Head from 'next/head';
 import Image from 'next/image';
-import AboutBg from '../public/about-bg.png';
+import AboutBg from '../public/images/about-bg.png';
+import Seo from '../components/Seo';
 
 const details = [
   {
@@ -9,29 +9,27 @@ const details = [
     title: 'Mission',
     description:
       'We are on a mission to continuously elevate the traditional hospitality sector and set the trend in tailored, luxury living. It’s the service of a 5-star superior hotel, served to you in utter privacy.',
-    imgUrl: '/../public/about1.png',
+    imgUrl: '/../public/images/about1.png',
   },
   {
     id: 2,
     title: 'Vision',
     description:
       'Our vision is to create properties rich in character in the world’s most exclusive and desirable destinations. Plus, our commitment to sustainability starts at the beginning. We use local resources to thoughtfully create each of our properties, such as woods in high supply from nearby forests, produce from locally owned businesses and solar panels for renewable energy.',
-    imgUrl: '/../public/about2.png',
+    imgUrl: '/../public/images/about2.png',
   },
   {
     id: 3,
     title: 'Values',
     description:
       'Authenticity, sustainability, and a personalised service lie at the core of our identity. Each of our staff is handpicked because of their unwavering standards, whether it’s a trailblazing chef from a renowned restaurant or a wellness coach that’s perfectly suited to you.',
-    imgUrl: '/../public/about3.png',
+    imgUrl: '/../public/images/about3.png',
   },
 ];
 
 const about = () => (
   <div>
-    <Head>
-      <title>About Us</title>
-    </Head>
+    <Seo title="About Us" />
     <section id="hero" className="relative">
       <Image src={AboutBg} alt="about background" layout="responsive" />
       <h1 className="absolute text-center top-1/4 left-1/2 transform -translate-x-1/2 text-white font-medium text-3xl w-full md:text-6xl md:leading-[80px]">
