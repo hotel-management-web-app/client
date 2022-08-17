@@ -20,20 +20,22 @@ const DatePicker = () => {
       <label htmlFor="end-date" className="absolute -top-[44px] left-40">
         Check-out
       </label>
-      <DateRangePicker
-        startDate={startDateValue}
-        startDateId="start-date"
-        endDate={endDateValue}
-        endDateId="end-date"
-        onDatesChange={({ startDate, endDate }) => {
-          setStartDateValue(startDate);
-          setEndDateValue(endDate);
-        }}
-        focusedInput={focusedInputValue}
-        onFocusChange={(focusedInput) => setFocusedInputValue(focusedInput)}
-        displayFormat="DD/MM/YYYY"
-        enableOutsideDays={false}
-      />
+      <div className="border border-black">
+        <DateRangePicker
+          startDate={startDateValue}
+          startDateId="start-date"
+          endDate={endDateValue}
+          endDateId="end-date"
+          onDatesChange={({ startDate, endDate }) => {
+            setStartDateValue(startDate);
+            setEndDateValue(endDate);
+          }}
+          focusedInput={focusedInputValue}
+          onFocusChange={(focusedInput) => setFocusedInputValue(focusedInput)}
+          displayFormat="DD/MM/YYYY"
+          enableOutsideDays={false}
+        />
+      </div>
     </div>
   );
 };

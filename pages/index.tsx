@@ -40,7 +40,9 @@ const Home: NextPage = () => (
         Please have a happy stay!
       </h1>
     </section>
-    <Booking />
+    <div className="bg-dark-gray text-white -mt-2 py-16 px-8">
+      <Booking />
+    </div>
     <div className="container max-w-container mx-auto px-8 2xl:px-0">
       <section id="rooms" className="text-center">
         <h2 className="text-[2.5rem] font-light mt-20">See Our Rooms</h2>
