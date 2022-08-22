@@ -3,14 +3,14 @@ import Seo from '../components/Seo';
 import BookingFormInput from '../components/BookingFormInput';
 
 const BookingForm = () => (
-  <div className="container max-w-container mx-auto">
+  <div className="container max-w-container mx-auto px-6 2xl:px-0">
     <Seo title="Booking Form" />
-    <div className="flex justify-between flex-wrap my-12 items-start">
+    <div className="flex justify-between flex-wrap my-12 items-start gap-10">
       <form className="border border-black px-12 py-8 w-[756px]">
         <h1 className="text-3xl text-center font-medium border-b-2 pb-7">
           Guest Information
         </h1>
-        <div className="grid grid-cols-2 gap-x-24 gap-y-10 mt-6">
+        <div className="grid md:grid-cols-2 gap-x-24 gap-y-10 mt-6">
           <BookingFormInput title="First name" />
           <BookingFormInput title="Last name" />
           <BookingFormInput title="Email address" />
@@ -19,7 +19,7 @@ const BookingForm = () => (
         <h2 className="text-xl font-medium border-b-2 pb-3 mt-10">
           Additional information
         </h2>
-        <div className="grid grid-cols-2 gap-x-24 gap-y-10 mt-6">
+        <div className="grid md:grid-cols-2 gap-x-24 gap-y-10 mt-6">
           <BookingFormInput title="Country" />
           <BookingFormInput title="Adress" />
           <BookingFormInput title="City" />
@@ -29,7 +29,7 @@ const BookingForm = () => (
           Payment information
         </h2>
         <BookingFormInput title="Card Number" />
-        <div className="grid grid-cols-2 gap-x-24 gap-y-10 mt-10">
+        <div className="grid md:grid-cols-2 gap-x-24 gap-y-10 mt-10">
           <BookingFormInput title="Expiration" />
           <BookingFormInput title="CVV" />
         </div>
@@ -39,7 +39,7 @@ const BookingForm = () => (
           </button>
         </div>
       </form>
-      <div className="w-[586px] border border-black px-12 pt-6 pb-12">
+      <div className="w-[500px] border border-black px-12 pt-6 pb-12">
         <h1 className="text-3xl text-center font-medium border-b-2 pb-7">
           Your stay
         </h1>
