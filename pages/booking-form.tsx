@@ -11,27 +11,27 @@ const BookingForm = () => (
           Guest Information
         </h1>
         <div className="grid md:grid-cols-2 gap-x-24 gap-y-10 mt-6">
-          <BookingFormInput title="First name" />
-          <BookingFormInput title="Last name" />
-          <BookingFormInput title="Email address" />
-          <BookingFormInput title="Phone number" />
+          <BookingFormInput id="first-name" title="First name" />
+          <BookingFormInput id="last-name" title="Last name" />
+          <BookingFormInput id="email" title="Email address" />
+          <BookingFormInput id="phone-number" title="Phone number" />
         </div>
         <h2 className="text-xl font-medium border-b-2 pb-3 mt-10">
           Additional information
         </h2>
         <div className="grid md:grid-cols-2 gap-x-24 gap-y-10 mt-6">
-          <BookingFormInput title="Country" />
-          <BookingFormInput title="Adress" />
-          <BookingFormInput title="City" />
-          <BookingFormInput title="Postal Code" />
+          <BookingFormInput id="country" title="Country" />
+          <BookingFormInput id="address" title="Address" />
+          <BookingFormInput id="city" title="City" />
+          <BookingFormInput id="postal-code" title="Postal Code" />
         </div>
         <h2 className="text-xl font-medium border-b-2 pb-3 mt-10 mb-6">
           Payment information
         </h2>
-        <BookingFormInput title="Card Number" />
+        <BookingFormInput id="card-number" title="Card Number" />
         <div className="grid md:grid-cols-2 gap-x-24 gap-y-10 mt-10">
-          <BookingFormInput title="Expiration" />
-          <BookingFormInput title="CVV" />
+          <BookingFormInput id="expiration" title="Expiration" />
+          <BookingFormInput id="cvv" title="CVV" />
         </div>
         <div className="flex justify-center">
           <button className="bg-dark-gray text-white py-2 px-5 text-2xl mt-12 w-full md:w-auto">
