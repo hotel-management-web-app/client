@@ -34,7 +34,7 @@ const BookingForm = () => (
           <BookingFormInput title="CVV" />
         </div>
         <div className="flex justify-center">
-          <button className="bg-dark-gray text-white py-2 px-5 text-2xl mt-12">
+          <button className="bg-dark-gray text-white py-2 px-5 text-2xl mt-12 w-full md:w-auto">
             Make Reservation
           </button>
         </div>
