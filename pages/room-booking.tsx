@@ -108,7 +108,7 @@ const RoomBooking = () => (
               included. Free cancellation up to 3 days before the day of
               arrival, subject to full penalty.
             </p>
-            <Link href="#">
+            <Link href="/booking-form">
               <a className="bg-dark-gray text-white text-2xl py-3 px-6">
                 Book Now
               </a>
