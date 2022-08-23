@@ -6,7 +6,7 @@ const BookingForm = () => (
   <div className="container max-w-container mx-auto px-6 2xl:px-0">
     <Seo title="Booking Form" />
     <div className="flex justify-between flex-wrap my-12 items-start gap-10">
-      <form className="border border-black px-12 py-8 w-[756px]">
+      <form className="border border-black px-12 pt-8 pb-12 w-[756px] bg-[#F9F8F6]">
         <h1 className="text-3xl text-center font-medium border-b-2 pb-7">
           Guest Information
         </h1>
@@ -33,13 +33,49 @@ const BookingForm = () => (
           <BookingFormInput id="expiration" title="Expiration" />
           <BookingFormInput id="cvv" title="CVV" />
         </div>
+        <div className="mt-10 flex flex-col gap-5">
+          <div className="flex items-center">
+            <input
+              id="privacy-terms"
+              type="checkbox"
+              value=""
+              className="w-6 h-6 bg-white"
+            />
+            <label
+              htmlFor="privacy-terms"
+              className="ml-4 text-lg text-gray-900 dark:text-gray-300"
+            >
+              I agree with the
+              <a href="#" className=" ml-1 font-light underline">
+                Privacy Terms
+              </a>
+            </label>
+          </div>
+          <div className="flex items-center">
+            <input
+              id="booking-conditions"
+              type="checkbox"
+              value=""
+              className="w-6 h-6 bg-white"
+            />
+            <label
+              htmlFor="booking-conditions"
+              className="ml-4 text-lg text-gray-900 dark:text-gray-300"
+            >
+              I agree with the
+              <a href="#" className=" ml-1 font-light underline">
+                Booking Conditions and Policies
+              </a>
+            </label>
+          </div>
+        </div>
         <div className="flex justify-center">
           <button className="bg-dark-gray text-white py-2 px-5 text-2xl mt-12 w-full md:w-auto">
             Make Reservation
           </button>
         </div>
       </form>
-      <div className="w-[500px] border border-black px-12 pt-6 pb-12">
+      <div className="w-[500px] border border-black px-12 pt-6 pb-12 bg-[#F9F8F6]">
         <h1 className="text-3xl text-center font-medium border-b-2 pb-7">
           Your stay
         </h1>
