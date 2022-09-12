@@ -1,16 +1,19 @@
 import React from 'react';
-import { AiFillDashboard } from '@react-icons/all-files/ai/AiFillDashboard';
-import { FaCalendarAlt } from '@react-icons/all-files/fa/FaCalendarAlt';
-import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
-import { FaBroom } from '@react-icons/all-files/fa/FaBroom';
-import { BsFillGearFill } from '@react-icons/all-files/bs/BsFillGearFill';
+import { AiFillDashboard } from 'react-icons/ai';
+import { FaCalendarAlt, FaUsers, FaBroom } from 'react-icons/fa';
+import { BsFillGearFill } from 'react-icons/bs';
 import Link from 'next/link';
 import Image from 'next/image';
 import Deadpool from '../public/images/deadpool.png';
 
 const iconSize = 25;
 
-const links = [
+const links: {
+  id: number;
+  name: string;
+  route: string;
+  icon: React.ReactNode;
+}[] = [
   {
     id: 1,
     name: 'Dashboard',

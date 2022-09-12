@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
-import { HiSelector } from '@react-icons/all-files/hi/HiSelector';
+import { HiSelector } from 'react-icons/hi';
 import DatePicker from './DatePicker';
 
 const numberOfAdults = [

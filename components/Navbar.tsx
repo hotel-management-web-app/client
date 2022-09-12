@@ -2,8 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Disclosure } from '@headlessui/react';
-import { GiHamburgerMenu } from '@react-icons/all-files/gi/GiHamburgerMenu';
-import { GrClose } from '@react-icons/all-files/gr/GrClose';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { GrClose } from 'react-icons/gr';
 
 const navigation = [
   { name: 'Home', href: '/' },
