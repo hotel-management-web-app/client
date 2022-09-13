@@ -113,9 +113,9 @@ const AdminNavbar = () => (
       </div>
     </div>
     <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
-      <div className="flex flex-col flex-grow bg-[#171820] overflow-y-auto text-white px-5">
+      <div className="flex flex-col flex-grow bg-[#171820] overflow-y-auto text-white">
         <div className="mt-12 flex-1 flex flex-col">
-          <div className="flex gap-5 font-medium">
+          <div className="flex gap-5 font-medium px-5">
             <Image src={Deadpool} width="60" height="60" />
             <div>
               <p>Deadpool</p>
@@ -140,7 +140,7 @@ const AdminNavbar = () => (
 
               return (
                 <Link key={link.id} href={`/admin/${link.route}`}>
-                  <a className="hover:bg-gray-700 group flex items-center px-2 py-2 font-medium rounded-md">
+                  <a className="hover:bg-gray-700 group flex items-center px-5 py-2 font-medium rounded-md">
                     {link.icon}
                     {link.name}
                   </a>

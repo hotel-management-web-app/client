@@ -26,7 +26,7 @@ const NavbarSubitem: React.FC<NavbarSubitemProps> = ({
   return (
     <div>
       <button
-        className="hover:bg-gray-700 group flex items-center justify-between w-full px-2 py-2 font-medium rounded-md"
+        className="hover:bg-gray-700 group flex items-center justify-between w-full px-5 py-2 font-medium rounded-md"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex text-left">
@@ -46,7 +46,7 @@ const NavbarSubitem: React.FC<NavbarSubitemProps> = ({
             {sublinks.map((sublink) => (
               <Link key={sublink.id} href={`/admin/${route}/${sublink.route}`}>
                 <a className="hover:bg-gray-700 group flex items-center px-2 py-2 font-medium rounded-md">
-                  <BsRecordCircle size="20" className="mr-4" />
+                  <BsRecordCircle size="20" className="mx-4" />
                   {sublink.name}
                 </a>
               </Link>
