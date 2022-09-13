@@ -5,6 +5,7 @@ import { BsFillGearFill } from 'react-icons/bs';
 import Link from 'next/link';
 import Image from 'next/image';
 import Deadpool from '../public/images/deadpool.png';
+import NavbarSubitem from './NavbarSubitem';
 
 const iconSize = 25;
 
@@ -13,6 +14,7 @@ const links: {
   name: string;
   route: string;
   icon: React.ReactNode;
+  sublinks?: { id: number; name: string; route: string }[];
 }[] = [
   {
     id: 1,
@@ -21,22 +23,39 @@ const links: {
     icon: <AiFillDashboard size={iconSize} className="mr-4" />,
   },
   {
-    id: 1,
+    id: 2,
     name: 'Bookings',
     route: 'bookings',
     icon: <FaCalendarAlt size={iconSize} className="mr-4" />,
   },
   {
-    id: 1,
+    id: 3,
     name: 'Guests',
     route: 'guests',
     icon: <FaUsers size={iconSize} className="mr-4" />,
   },
   {
-    id: 1,
+    id: 4,
     name: 'Hotel Configuration',
     route: 'hotel-configuration',
     icon: <BsFillGearFill size={iconSize} className="mr-4" />,
+    sublinks: [
+      {
+        id: 1,
+        name: 'Room Types',
+        route: 'room-types',
+      },
+      {
+        id: 1,
+        name: 'Rooms',
+        route: 'rooms',
+      },
+      {
+        id: 1,
+        name: 'Hall Types',
+        route: 'room-types',
+      },
+    ],
   },
   {
     id: 1,
@@ -107,14 +126,27 @@ const AdminNavbar = () => (
             </div>
           </div>
           <nav className="flex-1 pb-4 mt-5 space-y-3">
-            {links.map((link) => (
-              <Link key={link.id} href={`/admin/${link.route}`}>
-                <a className="hover:bg-gray-700 group flex items-center px-2 py-2 font-medium rounded-md">
-                  {link.icon}
-                  {link.name}
-                </a>
-              </Link>
-            ))}
+            {links.map((link) => {
+              if (link.sublinks) {
+                return (
+                  <NavbarSubitem
+                    icon={link.icon}
+                    name={link.name}
+                    route={link.route}
+                    sublinks={link.sublinks}
+                  />
+                );
+              }
+
+              return (
+                <Link key={link.id} href={`/admin/${link.route}`}>
+                  <a className="hover:bg-gray-700 group flex items-center px-2 py-2 font-medium rounded-md">
+                    {link.icon}
+                    {link.name}
+                  </a>
+                </Link>
+              );
+            })}
           </nav>
         </div>
       </div>
