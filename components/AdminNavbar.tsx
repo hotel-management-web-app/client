@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { CSSTransition } from 'react-transition-group';
 import Deadpool from '../public/images/deadpool.png';
-import NavbarSubitem from './NavbarSubitem';
+import NavbarSubitems from './NavbarSubitems';
 
 const iconSize = 25;
 
@@ -134,7 +134,7 @@ const AdminNavbar = () => {
                     {links.map((link) => {
                       if (link.sublinks) {
                         return (
-                          <NavbarSubitem
+                          <NavbarSubitems
                             icon={link.icon}
                             name={link.name}
                             route={link.route}
@@ -175,7 +175,7 @@ const AdminNavbar = () => {
               {links.map((link) => {
                 if (link.sublinks) {
                   return (
-                    <NavbarSubitem
+                    <NavbarSubitems
                       icon={link.icon}
                       name={link.name}
                       route={link.route}

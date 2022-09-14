@@ -5,7 +5,7 @@ import 'react-slidedown/lib/slidedown.css';
 import { BsRecordCircle } from 'react-icons/bs';
 import { HiChevronLeft } from 'react-icons/hi';
 
-interface NavbarSubitemProps {
+interface NavbarSubitemsProps {
   icon: React.ReactNode;
   name: string;
   route: string;
@@ -16,7 +16,7 @@ interface NavbarSubitemProps {
   }[];
 }
 
-const NavbarSubitem: React.FC<NavbarSubitemProps> = ({
+const NavbarSubitems: React.FC<NavbarSubitemsProps> = ({
   icon,
   name,
   route,
@@ -58,4 +58,4 @@ const NavbarSubitem: React.FC<NavbarSubitemProps> = ({
   );
 };
 
-export default NavbarSubitem;
+export default NavbarSubitems;
