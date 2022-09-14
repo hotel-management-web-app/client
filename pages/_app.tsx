@@ -11,9 +11,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   if (router.pathname.includes('admin')) {
     return (
       <AdminLayout>
-        <div className="md:pl-64 flex flex-col flex-1">
-          <Component {...pageProps} />
-        </div>
+        <Component {...pageProps} />
       </AdminLayout>
     );
   }

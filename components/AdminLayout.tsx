@@ -6,9 +6,9 @@ interface AdminLayoutProps {
 }
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => (
-  <div>
+  <div className="bg-[#F3F5F7] h-screen">
     <AdminNavbar />
-    {children}
+    <div className="md:pl-64 flex flex-col flex-1">{children}</div>
   </div>
 );
 
