@@ -135,6 +135,7 @@ const AdminNavbar = () => {
                       if (link.sublinks) {
                         return (
                           <NavbarSubitems
+                            key={link.id}
                             icon={link.icon}
                             name={link.name}
                             route={link.route}
