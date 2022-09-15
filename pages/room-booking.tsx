@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MdArrowDropDown } from '@react-icons/all-files/md/MdArrowDropDown';
-import { RiCupFill } from '@react-icons/all-files/ri/RiCupFill';
-import { AiFillCreditCard } from '@react-icons/all-files/ai/AiFillCreditCard';
+import { MdArrowDropDown } from 'react-icons/md';
+import { RiCupFill } from 'react-icons/ri';
+import { AiFillCreditCard } from 'react-icons/ai';
 import Seo from '../components/Seo';
 import Booking from '../components/Booking';
 import RoomImg from '../public/images/room-details.png';

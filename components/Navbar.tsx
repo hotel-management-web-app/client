@@ -2,8 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Disclosure } from '@headlessui/react';
-import { GiHamburgerMenu } from '@react-icons/all-files/gi/GiHamburgerMenu';
-import { GrClose } from '@react-icons/all-files/gr/GrClose';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { IoMdClose } from 'react-icons/io';
+import SlideDown from 'react-slidedown';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -18,7 +19,6 @@ function classNames(...classes: string[]) {
 
 const Navbar = () => {
   const router = useRouter();
-
   return (
     <Disclosure as="nav" className="bg-black py-2">
       {({ open }) => (
@@ -30,7 +30,7 @@ const Navbar = () => {
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <GrClose className="text-white" />
+                    <IoMdClose className="text-white" />
                   ) : (
                     <GiHamburgerMenu className="text-white" />
                   )}
@@ -64,7 +64,7 @@ const Navbar = () => {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <a
-                  href="#"
+                  href="/room-booking"
                   className="text-white border border-white text-lg font-medium px-5 py-1"
                 >
                   Book Now
@@ -72,28 +72,32 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <Disclosure.Panel className="sm:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    router.pathname === item.href
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block px-3 py-2 rounded-md text-base font-medium'
-                  )}
-                  aria-current={
-                    router.pathname === item.href ? 'page' : undefined
-                  }
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
-            </div>
-          </Disclosure.Panel>
+          <div className="sm:hidden">
+            <SlideDown>
+              {open && (
+                <div className="px-2 pt-2 pb-3 space-y-1">
+                  {navigation.map((item) => (
+                    <Link href={item.href}>
+                      <a
+                        key={item.name}
+                        className={classNames(
+                          router.pathname === item.href
+                            ? 'bg-gray-900 text-white'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'block px-3 py-2 rounded-md text-base font-medium'
+                        )}
+                        aria-current={
+                          router.pathname === item.href ? 'page' : undefined
+                        }
+                      >
+                        {item.name}
+                      </a>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </SlideDown>
+          </div>
         </>
       )}
     </Disclosure>
