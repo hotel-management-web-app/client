@@ -1,8 +1,10 @@
 import React, { useState, Fragment } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Listbox, Transition } from '@headlessui/react';
 import { BsPlusLg, BsChevronExpand, BsCheck } from 'react-icons/bs';
-import Seo from '../../../components/Seo';
+import Seo from '../../../../components/Seo';
+import Header from '../../../../components/Admin/Header';
 
 const entries = [
   {
@@ -73,12 +75,13 @@ const roomTypes = [
 
 const RoomTypes = () => {
   const [selectedEntry, setSelectedEntry] = useState(entries[0]);
+  const router = useRouter();
   return (
     <div>
       <Seo title="Room Types" />
       <div className="flex justify-between">
-        <h1 className="text-2xl">Room Types</h1>
-        <Link href="#">
+        <Header title="Room types" />
+        <Link href={`${router.pathname}/create`}>
           <a className="flex items-center gap-3 bg-black text-white px-4 rounded-lg text-lg py-2">
             <BsPlusLg />
             Add Room type
