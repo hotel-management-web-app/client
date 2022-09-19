@@ -17,7 +17,7 @@ const AddRoomType = () => (
       <div className="flex items-center gap-5">
         <Header title="Add room type" />
         <Link href="/admin/hotel-configuration/room-types">
-          <a className="text-gray-500">
+          <a className="text-gray-400">
             <BsFillArrowLeftCircleFill className="inline mb-1 mr-1" />
             Go back to room types
           </a>
