@@ -48,19 +48,19 @@ const links: {
         route: 'logo',
       },
       {
-        id: 1,
+        id: 2,
         name: 'Room Types',
         route: 'room-types',
       },
       {
-        id: 1,
+        id: 3,
         name: 'Rooms',
         route: 'rooms',
       },
     ],
   },
   {
-    id: 1,
+    id: 5,
     name: 'Housekeeping',
     route: 'housekeeping',
     icon: <FaBroom size={iconSize} className="mr-4" />,
