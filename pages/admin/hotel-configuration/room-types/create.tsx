@@ -9,7 +9,7 @@ import EditableList from '../../../../components/Admin/EditableList';
 import ImageUploader from '../../../../components/Admin/ImageUploader';
 
 const AddRoomType = () => (
-  <form onSubmit={() => console.log('submit')}>
+  <form>
     <Seo title="Add Room Type" />
     <div className="flex justify-between items-center w-full">
       <Header title="Add room type" />
@@ -18,7 +18,7 @@ const AddRoomType = () => (
       </button>
     </div>
     <div className="bg-white rounded-lg mt-10 px-10 pt-3 pb-7">
-      <div className="flex flex-wrap gap-20">
+      <div className="flex flex-col 2xl:flex-row flex-wrap gap-20">
         <div className="w-96 xl:w-[500px]">
           <Input id="room-type-name" title="Name" />
           <Textarea id="room-type-description" title="Description" rows="10" />
@@ -45,7 +45,7 @@ const AddRoomType = () => (
           <h2 className="mt-10">Room Gallery</h2>
           <ImageUploader />
         </div>
-        <div className="lg:w-[400px] 2xl:mx-auto 2xl:ml-72">
+        <div className="2xl:w-[400px] 2xl:mx-auto 2xl:ml-72">
           <div className="mb-10">
             <h2 className="mt-5">Amenites</h2>
             <EditableList />
