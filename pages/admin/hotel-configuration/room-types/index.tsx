@@ -6,7 +6,7 @@ import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
 import Entries from '../../../../components/Admin/Entries';
 
-const headers = [
+const headers: { id: number; name: string }[] = [
   {
     id: 1,
     name: 'Id',
@@ -29,7 +29,12 @@ const headers = [
   },
 ];
 
-const roomTypes = [
+const roomTypes: {
+  id: number;
+  name: string;
+  occupancy: number;
+  price: string;
+}[] = [
   {
     id: 1,
     name: 'Standard',
@@ -104,6 +109,9 @@ const RoomTypes = () => {
               ))}
             </tbody>
           </table>
+          {roomTypes.length === 0 && (
+            <p className="text-center mt-5">No data available in table</p>
+          )}
         </div>
       </div>
     </div>
