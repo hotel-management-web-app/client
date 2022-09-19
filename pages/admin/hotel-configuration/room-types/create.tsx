@@ -1,5 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { BsPlusLg, BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import Header from '../../../../components/Admin/Header';
 import Input from '../../../../components/Admin/Input';
 import Textarea from '../../../../components/Admin/Textarea';
@@ -12,8 +14,17 @@ const AddRoomType = () => (
   <form>
     <Seo title="Add Room Type" />
     <div className="flex justify-between items-center w-full">
-      <Header title="Add room type" />
-      <button className="bg-black text-white px-4 py-2 rounded-lg w-40">
+      <div className="flex items-center gap-5">
+        <Header title="Add room type" />
+        <Link href="/admin/hotel-configuration/room-types">
+          <a className="text-gray-500">
+            <BsFillArrowLeftCircleFill className="inline mb-1 mr-1" />
+            Go back to room types
+          </a>
+        </Link>
+      </div>
+      <button className="bg-black text-white px-3 py-2 rounded-lg w-48">
+        <BsPlusLg className="inline mb-1 mr-3" />
         Add room type
       </button>
     </div>
