@@ -6,14 +6,20 @@ import Textarea from '../../../../components/Admin/Textarea';
 import Seo from '../../../../components/Seo';
 import NoImage from '../../../../public/images/no_image.jpg';
 import EditableList from '../../../../components/Admin/EditableList';
+import ImageUploader from '../../../../components/Admin/ImageUploader';
 
 const AddRoomType = () => (
-  <div>
+  <form onSubmit={() => console.log('submit')}>
     <Seo title="Add Room Type" />
-    <Header title="Add room type" />
-    <form className="bg-white rounded-lg mt-5 px-10 pt-3 pb-7">
-      <div className="flex">
-        <div className="w-[500px]">
+    <div className="flex justify-between items-center w-full">
+      <Header title="Add room type" />
+      <button className="bg-black text-white px-4 py-2 rounded-lg w-40">
+        Add room type
+      </button>
+    </div>
+    <div className="bg-white rounded-lg mt-10 px-10 pt-3 pb-7">
+      <div className="flex flex-wrap gap-20">
+        <div className="w-96 xl:w-[500px]">
           <Input id="room-type-name" title="Name" />
           <Textarea id="room-type-description" title="Description" rows="10" />
           <Input id="room-type-occupancy" title="Occupancy" />
@@ -21,7 +27,7 @@ const AddRoomType = () => (
           <label htmlFor="room-image" className="mt-10 block">
             Room Image
           </label>
-          <div className="flex items-center w-[1000px] mt-5 gap-10">
+          <div className="flex flex-wrap items-center w-96 xl:w-[1000px] mt-5 gap-10">
             <Image id="room-image" width="500" height="300" src={NoImage} />
             <input
               type="file"
@@ -36,8 +42,10 @@ const AddRoomType = () => (
               Upload image
             </label>
           </div>
+          <h2 className="mt-10">Room Gallery</h2>
+          <ImageUploader />
         </div>
-        <div className="w-[400px] mx-auto ml-96">
+        <div className="lg:w-[400px] 2xl:mx-auto 2xl:ml-72">
           <div className="mb-10">
             <h2 className="mt-5">Amenites</h2>
             <EditableList />
@@ -48,8 +56,8 @@ const AddRoomType = () => (
           </div>
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 );
 
 export default AddRoomType;
