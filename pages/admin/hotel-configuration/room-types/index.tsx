@@ -5,6 +5,7 @@ import { BsPlusLg } from 'react-icons/bs';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
 import Entries from '../../../../components/Admin/Entries';
+import TableWrapper from '../../../../components/Admin/TableWrapper';
 
 const headers: { id: number; name: string }[] = [
   {
@@ -69,7 +70,7 @@ const RoomTypes = () => {
           </a>
         </Link>
       </div>
-      <div className="bg-white px-5 py-7 mt-8 rounded-lg">
+      <TableWrapper>
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />
           <div className="flex items-center gap-3">
@@ -113,7 +114,7 @@ const RoomTypes = () => {
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>
-      </div>
+      </TableWrapper>
     </div>
   );
 };
