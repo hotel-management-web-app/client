@@ -1,10 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { BsPlusLg } from 'react-icons/bs';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
 import Table from '../../../../components/Admin/Table';
+import AddButton from '../../../../components/Admin/AddButton';
 
 const headers: { id: number; name: string }[] = [
   {
@@ -71,23 +69,15 @@ const rooms: {
   },
 ];
 
-const Rooms = () => {
-  const router = useRouter();
-  return (
-    <div>
-      <Seo title="Rooms" />
-      <div className="flex justify-between">
-        <Header title="Rooms" />
-        <Link href={`${router.pathname}/create`}>
-          <a className="flex items-center gap-3 bg-black text-white px-4 rounded-lg text-lg py-2">
-            <BsPlusLg />
-            Add Room
-          </a>
-        </Link>
-      </div>
-      <Table headers={headers} items={rooms} />
+const Rooms = () => (
+  <div>
+    <Seo title="Rooms" />
+    <div className="flex justify-between">
+      <Header title="Rooms" />
+      <AddButton title="room" />
     </div>
-  );
-};
+    <Table headers={headers} items={rooms} />
+  </div>
+);
 
 export default Rooms;
