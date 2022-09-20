@@ -1,7 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { BsPlusLg, BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import Header from '../../../../components/Admin/Header';
 import Input from '../../../../components/Admin/Input';
 import Textarea from '../../../../components/Admin/Textarea';
@@ -9,6 +7,8 @@ import Seo from '../../../../components/Seo';
 import NoImage from '../../../../public/images/no_image.jpg';
 import EditableList from '../../../../components/Admin/EditableList';
 import ImageUploader from '../../../../components/Admin/ImageUploader';
+import BackButton from '../../../../components/Admin/BackButton';
+import SubmitButton from '../../../../components/Admin/SubmitButton';
 
 const AddRoomType = () => (
   <form>
@@ -16,17 +16,12 @@ const AddRoomType = () => (
     <div className="flex justify-between items-center w-full">
       <div className="flex items-center gap-5">
         <Header title="Add room type" />
-        <Link href="/admin/hotel-configuration/room-types">
-          <a className="text-gray-400">
-            <BsFillArrowLeftCircleFill className="inline mb-1 mr-1" />
-            Go back to room types
-          </a>
-        </Link>
+        <BackButton
+          name="room types"
+          url="/admin/hotel-configuration/room-types/"
+        />
       </div>
-      <button className="bg-black text-white px-3 py-2 rounded-lg w-48">
-        <BsPlusLg className="inline mb-1 mr-3" />
-        Add room type
-      </button>
+      <SubmitButton name="Add room type" />
     </div>
     <div className="bg-white rounded-lg mt-10 px-10 pt-3 pb-7">
       <div className="flex flex-col 2xl:flex-row flex-wrap gap-20">

@@ -74,7 +74,7 @@ const Rooms = () => (
     <Seo title="Rooms" />
     <div className="flex justify-between">
       <Header title="Rooms" />
-      <AddButton title="room" />
+      <AddButton name="room" />
     </div>
     <Table headers={headers} items={rooms} />
   </div>
