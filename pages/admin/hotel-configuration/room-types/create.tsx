@@ -9,6 +9,7 @@ import EditableList from '../../../../components/Admin/EditableList';
 import ImageUploader from '../../../../components/Admin/ImageUploader';
 import BackButton from '../../../../components/Admin/BackButton';
 import SubmitButton from '../../../../components/Admin/SubmitButton';
+import FormWrapper from '../../../../components/Admin/FormWrapper';
 
 const AddRoomType = () => (
   <form>
@@ -23,7 +24,7 @@ const AddRoomType = () => (
       </div>
       <SubmitButton name="Add room type" />
     </div>
-    <div className="bg-white rounded-lg mt-10 px-10 pt-3 pb-7">
+    <FormWrapper>
       <div className="flex flex-col 2xl:flex-row flex-wrap gap-20">
         <div className="w-96 xl:w-[500px]">
           <Input id="room-type-name" title="Name" />
@@ -53,7 +54,7 @@ const AddRoomType = () => (
         </div>
         <div className="2xl:w-[400px] 2xl:mx-auto 2xl:ml-72">
           <div className="mb-10">
-            <h2 className="mt-5">Amenites</h2>
+            <h2 className="mt-5">Amenities</h2>
             <EditableList />
           </div>
           <div className="mb-10">
@@ -62,7 +63,7 @@ const AddRoomType = () => (
           </div>
         </div>
       </div>
-    </div>
+    </FormWrapper>
   </form>
 );
 
