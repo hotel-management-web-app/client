@@ -15,7 +15,7 @@ const AddRoomType = () => (
   <form>
     <Seo title="Add Room Type" />
     <div className="flex justify-between items-center w-full">
-      <div className="flex items-center gap-5">
+      <div className="flex items-center flex-wrap gap-5">
         <Header title="Add room type" />
         <BackButton
           name="room types"

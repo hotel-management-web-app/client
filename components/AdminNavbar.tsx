@@ -82,13 +82,13 @@ const AdminNavbar = () => {
         >
           <CSSTransition
             in={isOpen}
-            timeout={500}
+            timeout={300}
             unmountOnExit
             classNames={{
               enter: 'opacity-0',
-              enterActive: 'opacity-100 transition duration-500',
+              enterActive: 'opacity-100 transition duration-300',
               exit: 'opacity-100',
-              exitActive: 'opacity-0 transition duration-500',
+              exitActive: 'opacity-0 transition duration-300',
             }}
           >
             <button
@@ -99,13 +99,13 @@ const AdminNavbar = () => {
           </CSSTransition>
           <CSSTransition
             in={isOpen}
-            timeout={500}
+            timeout={300}
             unmountOnExit
             classNames={{
               enter: 'transform -translate-x-full',
-              enterActive: 'transform translate-x-0 transition duration-500',
+              enterActive: 'transform translate-x-0 transition duration-300',
               exit: 'transform translate-x-0',
-              exitActive: 'transform -translate-x-full transition duration-500',
+              exitActive: 'transform -translate-x-full transition duration-300',
             }}
           >
             <div className="fixed top-0 h-full w-[280px] flex z-40">
