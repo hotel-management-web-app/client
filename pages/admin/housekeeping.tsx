@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../../components/Admin/Header';
 import HousekeepingStatus from '../../components/Admin/HousekeepingStatus';
+import PriorityStatus from '../../components/Admin/PriorityStatus';
 import Seo from '../../components/Seo';
 
 const headers = [
@@ -100,7 +101,9 @@ const Housekeeping = () => (
               <td className="py-3">
                 <HousekeepingStatus />
               </td>
-              <td className="py-3">{room.priority}</td>
+              <td className="py-3">
+                <PriorityStatus />
+              </td>
               <td className="py-3">{room.floor}</td>
               <td className="py-3">{room.reservationStatus}</td>
               <td className="py-3">{room.comments}</td>
