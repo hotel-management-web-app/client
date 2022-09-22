@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../../components/Admin/Header';
+import HousekeepingStatus from '../../components/Admin/HousekeepingStatus';
 import Seo from '../../components/Seo';
 
 const headers = [
@@ -45,7 +46,7 @@ const rooms = [
     comments: 'Wash windows',
   },
   {
-    id: 1,
+    id: 2,
     roomNumber: 1,
     roomType: 'Family room',
     housekeepingStatus: 'Cleaning',
@@ -55,7 +56,7 @@ const rooms = [
     comments: 'Wash windows',
   },
   {
-    id: 1,
+    id: 3,
     roomNumber: 1,
     roomType: 'Family room',
     housekeepingStatus: 'Cleaning',
@@ -65,7 +66,7 @@ const rooms = [
     comments: 'Wash windows',
   },
   {
-    id: 1,
+    id: 4,
     roomNumber: 1,
     roomType: 'Family room',
     housekeepingStatus: 'Cleaning',
@@ -96,7 +97,9 @@ const Housekeeping = () => (
             <tr key={room.id} className="border-b">
               <td className="py-3">{room.roomNumber}</td>
               <td className="py-3">{room.roomType}</td>
-              <td className="py-3">{room.housekeepingStatus}</td>
+              <td className="py-3">
+                <HousekeepingStatus />
+              </td>
               <td className="py-3">{room.priority}</td>
               <td className="py-3">{room.floor}</td>
               <td className="py-3">{room.reservationStatus}</td>
