@@ -21,7 +21,7 @@ const priorityStatuses = [
   },
 ];
 
-const PriorityStatuses = () => {
+const PriorityStatus = () => {
   const [selectedPriority, setSelectedPriority] = useState(priorityStatuses[0]);
   return (
     <Listbox value={selectedPriority} onChange={setSelectedPriority}>
@@ -83,4 +83,4 @@ const PriorityStatuses = () => {
   );
 };
 
-export default PriorityStatuses;
+export default PriorityStatus;
