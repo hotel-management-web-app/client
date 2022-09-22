@@ -22,7 +22,7 @@ const AddRoomType = () => (
           url="/admin/hotel-configuration/room-types/"
         />
       </div>
-      <SubmitButton name="Add room type" />
+      <SubmitButton addIcon name="Add room type" />
     </div>
     <FormWrapper>
       <div className="flex flex-col 2xl:flex-row flex-wrap gap-20">

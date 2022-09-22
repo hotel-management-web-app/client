@@ -15,7 +15,7 @@ const AddRoom = () => (
         <Header title="Add room" />
         <BackButton name="rooms" url="/admin/hotel-configuration/rooms/" />
       </div>
-      <SubmitButton name="Add room" />
+      <SubmitButton addIcon name="Add room" />
     </div>
     <FormWrapper>
       <div className="mx-auto w-11/12 lg:w-3/4 py-5">
