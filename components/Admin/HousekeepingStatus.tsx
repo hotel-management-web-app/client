@@ -7,21 +7,25 @@ const housekeepingStatuses = [
   {
     id: 1,
     name: 'Clean',
+    textColor: '#388e3c',
     backgroundColor: '#86EFAC',
   },
   {
     id: 2,
     name: 'Cleaning',
+    textColor: '#1e88e5',
     backgroundColor: '#93C5FD',
   },
   {
     id: 3,
     name: 'Dirty',
+    textColor: '#e53935',
     backgroundColor: '#FCA5A5',
   },
   {
     id: 4,
     name: 'Out of service',
+    textColor: '#757575',
     backgroundColor: '#D1D5DB',
   },
 ];
@@ -33,15 +37,17 @@ const HousekeepingStatus = () => {
       <div className="relative mt-1">
         <Listbox.Button
           id="room-type"
-          style={{ backgroundColor: selectedStatus.backgroundColor }}
+          style={{
+            backgroundColor: selectedStatus.backgroundColor,
+            color: selectedStatus.textColor,
+          }}
           className="relative cursor-default rounded-lg py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 border w-40"
         >
-          <span className="block truncate">{selectedStatus.name}</span>
+          <span className="block truncate text-center">
+            {selectedStatus.name}
+          </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <GoChevronDown
-              className="h-5 w-5 text-gray-400"
-              aria-hidden="true"
-            />
+            <GoChevronDown className="h-5 w-5" aria-hidden="true" />
           </span>
         </Listbox.Button>
         <Transition
@@ -50,7 +56,7 @@ const HousekeepingStatus = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+          <Listbox.Options className="absolute mt-1 max-h-60 w-40 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
             {housekeepingStatuses.map((housekeepingStatus) => (
               <Listbox.Option
                 key={housekeepingStatus.id}
