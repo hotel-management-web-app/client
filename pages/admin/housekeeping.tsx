@@ -84,7 +84,7 @@ const Housekeeping = () => (
     <Seo title="Housekeeping" />
     <Header title="Housekeeping" />
     <div className="overflow-auto px-5 py-7 mt-8 bg-white rounded-lg">
-      <table className="table-auto min-w-[500px] w-full">
+      <table className="table-auto min-w-[1200px] w-full">
         <thead className="text-left">
           <tr className="border-b">
             {headers.map((header) => (
@@ -99,10 +99,10 @@ const Housekeeping = () => (
             <tr key={room.id} className="border-b">
               <td className="py-3">{room.roomNumber}</td>
               <td className="py-3">{room.roomType}</td>
-              <td className="py-3">
+              <td className="py-3 w-60">
                 <HousekeepingStatus />
               </td>
-              <td className="py-3">
+              <td className="py-3 w-60">
                 <PriorityStatus />
               </td>
               <td className="py-3">{room.floor}</td>
