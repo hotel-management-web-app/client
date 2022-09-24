@@ -11,7 +11,7 @@ const Textarea: React.FC<TextareaProps> = ({
   title = 'Title',
   ...restProps
 }) => (
-  <>
+  <div>
     <label htmlFor={id} className="block mt-5">
       {title}
     </label>
@@ -21,7 +21,7 @@ const Textarea: React.FC<TextareaProps> = ({
       placeholder={title}
       {...restProps}
     />
-  </>
+  </div>
 );
 
 export default Textarea;
