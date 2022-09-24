@@ -7,7 +7,7 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({ id, title = 'Title', ...restProps }) => (
-  <>
+  <div>
     <label htmlFor={id} className="block mt-5">
       {title}
     </label>
@@ -17,7 +17,7 @@ const Input: React.FC<InputProps> = ({ id, title = 'Title', ...restProps }) => (
       placeholder={title}
       {...restProps}
     />
-  </>
+  </div>
 );
 
 export default Input;

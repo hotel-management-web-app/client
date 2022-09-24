@@ -10,12 +10,9 @@ import ListboxInput from '../../../../components/Admin/ListboxInput';
 const AddRoom = () => (
   <form>
     <Seo title="Add Room" />
-    <div className="flex justify-between items-center w-full">
-      <div className="flex items-center flex-wrap gap-5">
-        <Header title="Add room" />
-        <BackButton name="rooms" url="/admin/hotel-configuration/rooms/" />
-      </div>
-      <SubmitButton addIcon name="Add room" />
+    <div className="flex items-center flex-wrap gap-5">
+      <Header title="Add room" />
+      <BackButton name="rooms" url="/admin/hotel-configuration/rooms/" />
     </div>
     <FormWrapper>
       <div className="mx-auto w-11/12 lg:w-3/4 py-5">
@@ -27,6 +24,9 @@ const AddRoom = () => (
           min="0"
         />
         <Input id="room-number" title="Room number" type="number" min="0" />
+      </div>
+      <div className="mt-5 flex justify-center">
+        <SubmitButton name="Add room" />
       </div>
     </FormWrapper>
   </form>
