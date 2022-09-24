@@ -14,15 +14,12 @@ import FormWrapper from '../../../../components/Admin/FormWrapper';
 const AddRoomType = () => (
   <form>
     <Seo title="Add Room Type" />
-    <div className="flex justify-between items-center w-full">
-      <div className="flex items-center flex-wrap gap-5">
-        <Header title="Add room type" />
-        <BackButton
-          name="room types"
-          url="/admin/hotel-configuration/room-types/"
-        />
-      </div>
-      <SubmitButton addIcon name="Add room type" />
+    <div className="flex items-center flex-wrap gap-5">
+      <Header title="Add room type" />
+      <BackButton
+        name="room types"
+        url="/admin/hotel-configuration/room-types/"
+      />
     </div>
     <FormWrapper>
       <div className="flex flex-col 2xl:flex-row flex-wrap gap-20">
@@ -62,6 +59,9 @@ const AddRoomType = () => (
             <EditableList />
           </div>
         </div>
+      </div>
+      <div className="mt-10 flex justify-center">
+        <SubmitButton name="Add room type" />
       </div>
     </FormWrapper>
   </form>

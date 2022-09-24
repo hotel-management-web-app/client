@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Switch } from '@headlessui/react';
 
 const GuestStatusToggler = () => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
   return (
     <div>
       <label htmlFor="status" className="block mb-1">
