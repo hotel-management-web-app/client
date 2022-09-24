@@ -1,4 +1,5 @@
 import React from 'react';
+import ActiveSwitch from '../../../components/Admin/GuestStatusToggler';
 import BackButton from '../../../components/Admin/BackButton';
 import FormWrapper from '../../../components/Admin/FormWrapper';
 import Header from '../../../components/Admin/Header';
@@ -18,7 +19,7 @@ const AddGuests = () => (
       <SubmitButton addIcon name="Add guests" />
     </div>
     <FormWrapper>
-      status
+      <ActiveSwitch />
       <div className="grid lg:grid-cols-2 gap-x-20">
         <Input id="first-name" title="First name" />
         <Input id="first-name" title="Last name" />
