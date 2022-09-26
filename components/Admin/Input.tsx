@@ -8,7 +8,7 @@ interface InputProps {
 
 const Input: React.FC<InputProps> = ({ id, title = 'Title', ...restProps }) => (
   <div>
-    <label htmlFor={id} className="block mt-5">
+    <label htmlFor={id} className="block">
       {title}
     </label>
     <input

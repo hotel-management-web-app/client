@@ -23,7 +23,7 @@ const roomTypes: {
 const ListboxInput = () => {
   const [selectedItem, setSelectedItem] = useState(roomTypes[0]);
   return (
-    <>
+    <div>
       <label htmlFor="room-type" className="mt-5">
         Room type
       </label>
@@ -80,7 +80,7 @@ const ListboxInput = () => {
           </Transition>
         </div>
       </Listbox>
-    </>
+    </div>
   );
 };
 

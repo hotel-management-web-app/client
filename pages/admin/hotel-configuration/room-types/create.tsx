@@ -22,36 +22,40 @@ const AddRoomType = () => (
       />
     </div>
     <FormWrapper>
-      <div className="flex flex-col 2xl:flex-row flex-wrap gap-20">
-        <div className="w-96 xl:w-[500px]">
+      <div className="flex flex-col 2xl:flex-row flex-wrap gap-20 mt-5">
+        <div className="w-96 xl:w-[500px] flex flex-col gap-5">
           <Input id="room-type-name" title="Name" />
           <Textarea id="room-type-description" title="Description" rows="10" />
           <Input id="room-type-occupancy" title="Occupancy" />
           <Input id="room-type-price" title="Price" />
-          <label htmlFor="room-image" className="mt-10 block">
-            Room Image
-          </label>
-          <div className="flex flex-wrap items-center w-96 xl:w-[1000px] mt-5 gap-10">
-            <Image id="room-image" width="500" height="300" src={NoImage} />
-            <input
-              type="file"
-              id="room-image-upload"
-              className="hidden"
-              accept="image/*"
-            />
-            <label
-              htmlFor="room-image-upload"
-              className="bg-black text-white px-4 py-2 rounded-lg w-40 text-center cursor-pointer"
-            >
-              Upload image
+          <div>
+            <label htmlFor="room-image" className="mt-10 block">
+              Room Image
             </label>
+            <div className="flex flex-wrap items-center w-96 xl:w-[1000px] mt-5 gap-10">
+              <Image id="room-image" width="500" height="300" src={NoImage} />
+              <input
+                type="file"
+                id="room-image-upload"
+                className="hidden"
+                accept="image/*"
+              />
+              <label
+                htmlFor="room-image-upload"
+                className="bg-black text-white px-4 py-2 rounded-lg w-40 text-center cursor-pointer"
+              >
+                Upload image
+              </label>
+            </div>
           </div>
-          <h2 className="mt-10">Room Gallery</h2>
-          <ImageUploader />
+          <div>
+            <h2 className="mt-10">Room Gallery</h2>
+            <ImageUploader />
+          </div>
         </div>
         <div className="2xl:w-[400px] 2xl:mx-auto 2xl:ml-72">
           <div className="mb-10">
-            <h2 className="mt-5">Amenities</h2>
+            <h2>Amenities</h2>
             <EditableList />
           </div>
           <div className="mb-10">

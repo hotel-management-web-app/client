@@ -16,14 +16,16 @@ const AddRoom = () => (
     </div>
     <FormWrapper>
       <div className="mx-auto w-11/12 lg:w-3/4 py-5">
-        <ListboxInput />
-        <Input
-          id="room-floor-number"
-          title="Floor number"
-          type="number"
-          min="0"
-        />
-        <Input id="room-number" title="Room number" type="number" min="0" />
+        <div className="flex flex-col gap-5">
+          <ListboxInput />
+          <Input
+            id="room-floor-number"
+            title="Floor number"
+            type="number"
+            min="0"
+          />
+          <Input id="room-number" title="Room number" type="number" min="0" />
+        </div>
       </div>
       <div className="mt-5 flex justify-center">
         <SubmitButton name="Add room" />
