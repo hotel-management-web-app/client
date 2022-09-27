@@ -13,7 +13,7 @@ const Input: React.FC<InputProps> = ({ id, title = 'Title', ...restProps }) => (
     </label>
     <input
       id={id}
-      className="border border-px rounded-lg py-2 px-3 w-full focus:outline-none mt-1"
+      className="border border-[#ccc] border-px rounded-lg py-2 px-3 w-full focus:outline-none mt-1"
       placeholder={title}
       {...restProps}
     />
