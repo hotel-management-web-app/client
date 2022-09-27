@@ -116,7 +116,7 @@ const AddBooking = () => {
               <Tab>New guest</Tab>
             </TabList>
             <TabPanel>
-              <div className="w-2/3 mx-auto my-10">
+              <div className="lg:w-2/3 mx-auto my-10">
                 <SelectInput id="guest" title="Guest" options={guestOptions} />
               </div>
             </TabPanel>
