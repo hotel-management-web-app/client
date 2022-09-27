@@ -12,12 +12,12 @@ const Textarea: React.FC<TextareaProps> = ({
   ...restProps
 }) => (
   <div>
-    <label htmlFor={id} className="block mt-5">
+    <label htmlFor={id} className="block">
       {title}
     </label>
     <textarea
       id={id}
-      className="border border-px rounded-lg py-2 px-3 w-full focus:outline-none mt-1"
+      className="border border-[#ccc] border-px rounded-lg py-2 px-3 w-full focus:outline-none mt-1"
       placeholder={title}
       {...restProps}
     />

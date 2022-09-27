@@ -8,12 +8,12 @@ interface InputProps {
 
 const Input: React.FC<InputProps> = ({ id, title = 'Title', ...restProps }) => (
   <div>
-    <label htmlFor={id} className="block mt-5">
+    <label htmlFor={id} className="block">
       {title}
     </label>
     <input
       id={id}
-      className="border border-px rounded-lg py-2 px-3 w-full focus:outline-none mt-1"
+      className="border border-[#ccc] border-px rounded py-2 px-3 w-full focus:outline-none mt-1 h-[36px]"
       placeholder={title}
       {...restProps}
     />
