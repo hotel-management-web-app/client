@@ -62,7 +62,7 @@ const AddBooking = () => {
         </div>
         <FormWrapper>
           <h2 className="text-2xl mt-5 mb-3">Details</h2>
-          <div className="grid grid-cols-3 gap-x-40 gap-y-10">
+          <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-x-20 2xl:gap-x-40 gap-y-10">
             <SelectInput
               id="booking-status"
               title="Status"
@@ -115,7 +115,6 @@ const AddBooking = () => {
               <Tab>Existing guest</Tab>
               <Tab>New guest</Tab>
             </TabList>
-
             <TabPanel>
               <div className="w-2/3 mx-auto my-10">
                 <SelectInput id="guest" title="Guest" options={guestOptions} />
@@ -135,7 +134,6 @@ const AddBooking = () => {
               </div>
             </TabPanel>
           </Tabs>
-
           <div className="mt-5 flex justify-center">
             <SubmitButton name="Add booking" />
           </div>

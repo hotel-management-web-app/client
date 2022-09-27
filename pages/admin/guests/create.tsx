@@ -17,7 +17,7 @@ const AddGuests = () => (
     </div>
     <FormWrapper>
       <GuestStatusToggler />
-      <div className="grid lg:grid-cols-2 gap-x-20 gap-y-5 mt-5">
+      <div className="grid lg:grid-cols-2 gap-x-20 gap-y-10 mt-5">
         <Input id="first-name" title="First name" />
         <Input id="first-name" title="Last name" />
         <Input id="first-name" title="Email addres" />
