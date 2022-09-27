@@ -9,6 +9,7 @@ const customStyles = {
     '&:hover': {
       border: '1px solid #ccc',
     },
+    marginTop: '4px',
   }),
 };
 
