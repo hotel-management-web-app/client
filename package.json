@@ -23,8 +23,10 @@
     "react-icons": "^4.4.0",
     "react-images-uploading": "^3.1.7",
     "react-modal": "^3.15.1",
+    "react-select": "^5.4.0",
     "react-simple-image-viewer": "^1.2.2",
     "react-slidedown": "^2.4.7",
+    "react-tabs": "^5.1.0",
     "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
