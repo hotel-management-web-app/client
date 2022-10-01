@@ -20,12 +20,12 @@ const Logo = () => {
       <Header title="Logo" />
       <FormWrapper>
         <div className="flex justify-center my-5">
-          <div className="flex flex-col gap-10 w-2/3">
+          <div className="flex flex-col gap-10 lg:w-2/3">
             <Input id="hotel-name" title="Hotel name" />
             <label htmlFor="" className="block -mb-8">
               Logo
             </label>
-            <div className="flex items-center gap-10">
+            <div className="flex items-center gap-10 flex-wrap">
               <Image src={file} alt="no image" width="100" height="100" />
               <FileUploader
                 handleChange={handleChange}
