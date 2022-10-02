@@ -15,7 +15,7 @@ const roomTypeOptions = [
 ];
 
 const AddRoom = () => (
-  <form>
+  <div>
     <Seo title="Add Room" />
     <div className="flex items-center flex-wrap gap-5">
       <Header title="Add room" />
@@ -42,7 +42,7 @@ const AddRoom = () => (
         <SubmitButton name="Add room" />
       </div>
     </FormWrapper>
-  </form>
+  </div>
 );
 
 export default AddRoom;
