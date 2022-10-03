@@ -1,9 +1,27 @@
 {
-  "posts": [
-    { "id": 1, "title": "json-server", "author": "typicode" }
+  "room-types": [
+    {
+      "id": 1,
+      "name": "Single room",
+      "description": "Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.",
+      "imgUrl": "/../public/room.png",
+      "roomUrl": "/rooms/1"
+    },
+    {
+      "id": 2,
+      "name": "Double room",
+      "description": "Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool. Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.",
+      "imgUrl": "/../public/room.png",
+      "roomUrl": "/rooms/2"
+    },
+    {
+      "id": 3,
+      "name": "Deluxe room",
+      "description": "Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.",
+      "imgUrl": "/../public/room.png",
+      "roomUrl": "/rooms/3"
+    }
   ],
-  "comments": [
-    { "id": 1, "body": "some comment", "postId": 1 }
-  ],
+  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
   "profile": { "name": "typicode" }
 }
