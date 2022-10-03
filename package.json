@@ -25,6 +25,7 @@
     "react-icons": "^4.4.0",
     "react-images-uploading": "^3.1.7",
     "react-modal": "^3.15.1",
+    "react-query": "^3.39.2",
     "react-select": "^5.4.0",
     "react-simple-image-viewer": "^1.2.2",
     "react-slidedown": "^2.4.7",
