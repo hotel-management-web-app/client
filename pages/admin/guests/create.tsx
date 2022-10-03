@@ -9,7 +9,7 @@ import Textarea from '../../../components/Admin/Textarea';
 import Seo from '../../../components/Seo';
 
 const AddGuests = () => (
-  <form>
+  <div>
     <Seo title="Add Guest" />
     <div className="flex items-center flex-wrap gap-5">
       <Header title="Add Guest" />
@@ -32,7 +32,7 @@ const AddGuests = () => (
         <SubmitButton name="Add guests" />
       </div>
     </FormWrapper>
-  </form>
+  </div>
 );
 
 export default AddGuests;

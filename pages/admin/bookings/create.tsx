@@ -54,7 +54,7 @@ const AddBooking = () => {
     useState<FocusedInputShape | null>(null);
   return (
     <div>
-      <form>
+      <div>
         <Seo title="Add booking" />
         <div className="flex items-center flex-wrap gap-5">
           <Header title="Add booking" />
@@ -138,7 +138,7 @@ const AddBooking = () => {
             <SubmitButton name="Add booking" />
           </div>
         </FormWrapper>
-      </form>
+      </div>
     </div>
   );
 };

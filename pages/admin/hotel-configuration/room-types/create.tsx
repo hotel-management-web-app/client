@@ -12,7 +12,7 @@ import SubmitButton from '../../../../components/Admin/SubmitButton';
 import FormWrapper from '../../../../components/Admin/FormWrapper';
 
 const AddRoomType = () => (
-  <form>
+  <div>
     <Seo title="Add Room Type" />
     <div className="flex items-center flex-wrap gap-5">
       <Header title="Add room type" />
@@ -68,7 +68,7 @@ const AddRoomType = () => (
         <SubmitButton name="Add room type" />
       </div>
     </FormWrapper>
-  </form>
+  </div>
 );
 
 export default AddRoomType;

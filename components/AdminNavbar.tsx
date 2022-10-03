@@ -3,6 +3,7 @@ import { AiFillDashboard } from 'react-icons/ai';
 // eslint-disable-next-line object-curly-newline
 import { FaCalendarAlt, FaUsers, FaBroom, FaBars } from 'react-icons/fa';
 import { BsFillGearFill } from 'react-icons/bs';
+import { TbReport } from 'react-icons/tb';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CSSTransition } from 'react-transition-group';
@@ -64,6 +65,12 @@ const links: {
     name: 'Housekeeping',
     route: 'housekeeping',
     icon: <FaBroom size={iconSize} className="mr-4" />,
+  },
+  {
+    id: 5,
+    name: 'Reports',
+    route: 'reports',
+    icon: <TbReport size={iconSize} className="mr-4" />,
   },
 ];
 
