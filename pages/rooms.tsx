@@ -7,9 +7,7 @@ import RoomsImg from '../public/images/rooms.png';
 import RoomImg from '../public/images/room.png';
 
 export const getServerSideProps = async () => {
-  const data = await axios
-    .get(`${process.env.REACT_APP_API}/room-types`)
-    .then((res) => res.data);
+  const data = await axios.get('/room-types').then((res) => res.data);
 
   return { props: { roomTypes: data } };
 };

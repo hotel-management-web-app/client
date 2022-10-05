@@ -5,9 +5,7 @@ import AboutBg from '../public/images/about-bg.png';
 import Seo from '../components/Seo';
 
 export const getServerSideProps = async () => {
-  const data = await axios
-    .get(`${process.env.REACT_APP_API}/about-details`)
-    .then((res) => res.data);
+  const data = await axios.get('/about-details').then((res) => res.data);
 
   return { props: { aboutDetails: data } };
 };
