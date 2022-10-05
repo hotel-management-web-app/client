@@ -38,7 +38,9 @@ const Navbar = () => {
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
-                  <p className="text-white text-2xl font-bold">Your Logo</p>
+                  <Link href="/">
+                    <a className="text-white text-2xl font-bold">Your Logo</a>
+                  </Link>
                 </div>
                 <div className="hidden sm:block sm:mx-auto">
                   <div className="flex space-x-4">
