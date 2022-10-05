@@ -31,47 +31,44 @@ interface RoomProps {
   };
 }
 
-const Room: React.FC<RoomProps> = ({ roomType }) => {
-  console.log(roomType);
-  return (
-    <div>
-      <Seo title="Room" />
-      <Image src={RoomBg} alt="Standard double room" layout="responsive" />
-      <div className="container mx-auto max-w-container mb-40 px-5 2xl:px-0">
-        <h1 className="text-center text-4xl sm:text-5xl font-light mt-20">
-          {roomType.name}
-        </h1>
-        <div className="flex flex-col 2xl:flex-row flex-wrap items-center 2xl:justify-between gap-10 2xl:items-start mt-20">
-          <div className="bg-dark-gray w-full max-w-[750px] text-center 2xl:w-72 text-white px-12 py-9">
-            <h2 className="text-2xl font-medium">Amenities</h2>
-            <ul className="list-disc ml-5 mt-2 leading-[40px]">
-              {roomType.amenities.map((amenity) => (
-                <li key={amenity.id}>{amenity.name}</li>
-              ))}
-            </ul>
-          </div>
-          <p className="font-light max-w-[750px] text-xl text-center leading-[40px]">
-            {roomType.description}
-          </p>
-          <div className="bg-dark-gray text-center w-full max-w-[750px] 2xl:w-72 text-white px-12 py-9">
-            <ul className="list-disc ml-5 mt-2 leading-[40px]">
-              {roomType.details.map((detail) => (
-                <li key={detail.id}>{detail.name}</li>
-              ))}
-            </ul>
-          </div>
+const Room: React.FC<RoomProps> = ({ roomType }) => (
+  <div>
+    <Seo title="Room" />
+    <Image src={RoomBg} alt="Standard double room" layout="responsive" />
+    <div className="container mx-auto max-w-container mb-40 px-5 2xl:px-0">
+      <h1 className="text-center text-4xl sm:text-5xl font-light mt-20">
+        {roomType.name}
+      </h1>
+      <div className="flex flex-col 2xl:flex-row flex-wrap items-center 2xl:justify-between gap-10 2xl:items-start mt-20">
+        <div className="bg-dark-gray w-full max-w-[750px] text-center 2xl:w-72 text-white px-12 py-9">
+          <h2 className="text-2xl font-medium">Amenities</h2>
+          <ul className="list-disc ml-5 mt-2 leading-[40px]">
+            {roomType.amenities.map((amenity) => (
+              <li key={amenity.id}>{amenity.name}</li>
+            ))}
+          </ul>
         </div>
-        <div className="flex justify-center mt-24">
-          <Link href="/rooms">
-            <a className="bg-dark-gray text-white text-2xl py-6 px-16">
-              Make a reservation
-            </a>
-          </Link>
+        <p className="font-light max-w-[750px] text-xl text-center leading-[40px]">
+          {roomType.description}
+        </p>
+        <div className="bg-dark-gray text-center w-full max-w-[750px] 2xl:w-72 text-white px-12 py-9">
+          <ul className="list-disc ml-5 mt-2 leading-[40px]">
+            {roomType.details.map((detail) => (
+              <li key={detail.id}>{detail.name}</li>
+            ))}
+          </ul>
         </div>
-        <RoomImages />
       </div>
+      <div className="flex justify-center mt-24">
+        <Link href="/rooms">
+          <a className="bg-dark-gray text-white text-2xl py-6 px-16">
+            Make a reservation
+          </a>
+        </Link>
+      </div>
+      <RoomImages />
     </div>
-  );
-};
+  </div>
+);
 
 export default Room;
