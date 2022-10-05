@@ -1,33 +1,25 @@
 import React from 'react';
 import Image from 'next/image';
+import axios from 'axios';
 import AboutBg from '../public/images/about-bg.png';
 import Seo from '../components/Seo';
 
-const details = [
-  {
-    id: 1,
-    title: 'Mission',
-    description:
-      'We are on a mission to continuously elevate the traditional hospitality sector and set the trend in tailored, luxury living. It’s the service of a 5-star superior hotel, served to you in utter privacy.',
-    imgUrl: '/../public/images/about1.png',
-  },
-  {
-    id: 2,
-    title: 'Vision',
-    description:
-      'Our vision is to create properties rich in character in the world’s most exclusive and desirable destinations. Plus, our commitment to sustainability starts at the beginning. We use local resources to thoughtfully create each of our properties, such as woods in high supply from nearby forests, produce from locally owned businesses and solar panels for renewable energy.',
-    imgUrl: '/../public/images/about2.png',
-  },
-  {
-    id: 3,
-    title: 'Values',
-    description:
-      'Authenticity, sustainability, and a personalised service lie at the core of our identity. Each of our staff is handpicked because of their unwavering standards, whether it’s a trailblazing chef from a renowned restaurant or a wellness coach that’s perfectly suited to you.',
-    imgUrl: '/../public/images/about3.png',
-  },
-];
+export const getServerSideProps = async () => {
+  const data = await axios.get('/about-details').then((res) => res.data);
 
-const about = () => (
+  return { props: { aboutDetails: data } };
+};
+
+interface AboutProps {
+  aboutDetails: {
+    id: number;
+    title: string;
+    description: string;
+    imgUrl: string;
+  }[];
+}
+
+const About: React.FC<AboutProps> = ({ aboutDetails }) => (
   <div>
     <Seo title="About Us" />
     <section id="hero" className="relative">
@@ -50,21 +42,21 @@ const about = () => (
         reflect its natural surroundings.
       </p>
       <div className="mt-40 flex flex-col gap-40 px-8 2xl:px-0 text-center xl:text-left">
-        {details.map((detail, index) => (
+        {aboutDetails.map((aboutDetail, index) => (
           <div
-            key={detail.id}
+            key={aboutDetail.id}
             className={`flex ${
               index % 2 === 1 && 'flex-row-reverse'
             } justify-center xl:justify-between gap-x-20 gap-y-10 flex-wrap-reverse`}
           >
             <div className="w-[500px]">
-              <h2 className="text-4xl font-medium">{detail.title}</h2>
+              <h2 className="text-4xl font-medium">{aboutDetail.title}</h2>
               <p className="font-light text-lg leading-8 mt-5">
-                {detail.description}
+                {aboutDetail.description}
               </p>
             </div>
             <Image
-              src={detail.imgUrl}
+              src={aboutDetail.imgUrl}
               alt="about"
               width="525px"
               height="445px"
@@ -76,4 +68,4 @@ const about = () => (
   </div>
 );
 
-export default about;
+export default About;
