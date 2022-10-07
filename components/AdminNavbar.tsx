@@ -67,7 +67,7 @@ const links: {
     icon: <FaBroom size={iconSize} className="mr-4" />,
   },
   {
-    id: 5,
+    id: 6,
     name: 'Reports',
     route: 'reports',
     icon: <TbReport size={iconSize} className="mr-4" />,
