@@ -1,8 +1,9 @@
 import React from 'react';
+import axios from 'axios';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
-import Table from '../../../../components/Admin/Table';
 import AddButton from '../../../../components/Admin/AddButton';
+import Entries from '../../../../components/Admin/Entries';
 
 const headers: { id: number; name: string }[] = [
   {
@@ -27,40 +28,74 @@ const headers: { id: number; name: string }[] = [
   },
 ];
 
-const roomTypes: {
-  id: number;
-  name: string;
-  occupancy: number;
-  price: string;
-}[] = [
-  {
-    id: 1,
-    name: 'Standard',
-    occupancy: 4,
-    price: '1200$',
-  },
-  {
-    id: 2,
-    name: 'Deluxe',
-    occupancy: 5,
-    price: '1500$',
-  },
-  {
-    id: 3,
-    name: 'Single',
-    occupancy: 1,
-    price: '1000$',
-  },
-];
+export const getServerSideProps = async () => {
+  const data = await axios.get('/room-types').then((res) => res.data);
 
-const RoomTypes = () => (
+  return { props: { roomTypes: data } };
+};
+
+interface RoomTypesProps {
+  roomTypes: {
+    id: number;
+    name: string;
+    occupancy: number;
+    price: string;
+  }[];
+}
+
+const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => (
   <div>
     <Seo title="Room Types" />
     <div className="flex justify-between">
       <Header title="Room types" />
       <AddButton name="room type" />
     </div>
-    <Table headers={headers} items={roomTypes} />
+    <div className="bg-white px-5 py-7 mt-8 rounded-lg">
+      <div className="flex justify-between flex-wrap gap-5">
+        <Entries />
+        <div className="flex items-center gap-3">
+          <p>Search</p>
+          <input className="border rounded py-1" />
+        </div>
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto min-w-[500px] w-full mt-8">
+          <thead className="text-left">
+            <tr className="border-b">
+              {headers.map((header) => (
+                <th key={header.id} className="pb-2">
+                  {header.name}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {roomTypes.map((roomType) => (
+              <tr key={roomType.id} className="border-b">
+                <td>{roomType.id}</td>
+                <td>{roomType.name}</td>
+                <td>{roomType.occupancy}</td>
+                <td>{roomType.price}</td>
+                <td>{roomType.name}</td>
+                <td className="w-40 py-3">
+                  <div>
+                    <button className="bg-[#16D00B] text-white px-4 py-1 rounded-lg">
+                      Edit
+                    </button>
+                    <button className="bg-[#FC3532] text-white px-4 py-1 rounded-lg ml-4">
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {roomTypes.length === 0 && (
+          <p className="text-center mt-5">No data available in table</p>
+        )}
+      </div>
+    </div>
   </div>
 );
 
