@@ -76,7 +76,6 @@ const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => (
                 <td>{roomType.name}</td>
                 <td>{roomType.occupancy}</td>
                 <td>{roomType.price}</td>
-                <td>{roomType.name}</td>
                 <td className="w-40 py-3">
                   <div>
                     <button className="bg-[#16D00B] text-white px-4 py-1 rounded-lg">

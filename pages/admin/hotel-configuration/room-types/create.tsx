@@ -3,6 +3,7 @@ import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from 'react-query';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 import Header from '../../../../components/Admin/Header';
 import Input from '../../../../components/Admin/Input';
@@ -43,6 +44,7 @@ const schema = yup.object({
 });
 
 const AddRoomType = () => {
+  const router = useRouter();
   const methods = useForm<AddRoomTypeInputs>({
     resolver: yupResolver(schema),
     mode: 'onChange',
@@ -50,7 +52,13 @@ const AddRoomType = () => {
   const { handleSubmit } = methods;
 
   const { mutate, isLoading } = useMutation<Response, Error, AddRoomTypeInputs>(
-    (roomType) => axios.post('/room-types', roomType)
+    (roomType) => axios.post('/room-types', roomType),
+    {
+      onSuccess: () =>
+        router.push(
+          'http://localhost:3000/admin/hotel-configuration/room-types'
+        ),
+    }
   );
 
   const onSubmit: SubmitHandler<AddRoomTypeInputs> = (data) => {
@@ -92,9 +100,7 @@ const AddRoomType = () => {
           </div>
         </div>
         <div className="mt-10 flex justify-center">
-          <SubmitButton
-            name={`${isLoading ? 'Loading...' : 'Add room type'}`}
-          />
+          <SubmitButton name="Add room type" isLoading={isLoading} />
         </div>
       </FormWrapper>
     </FormProvider>
