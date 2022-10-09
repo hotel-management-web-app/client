@@ -1,5 +1,7 @@
 import React from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import Header from '../../../../components/Admin/Header';
 import Input from '../../../../components/Admin/Input';
 import Textarea from '../../../../components/Admin/Textarea';
@@ -11,7 +13,7 @@ import BackButton from '../../../../components/Admin/BackButton';
 import SubmitButton from '../../../../components/Admin/SubmitButton';
 import FormWrapper from '../../../../components/Admin/FormWrapper';
 
-interface Inputs {
+interface AddRoomTypeInputs {
   name: string;
   description: string;
   occupancy: number;
@@ -20,10 +22,38 @@ interface Inputs {
   roomImages: string[];
 }
 
+const schema = yup.object({
+  name: yup.string().required('Name is required!'),
+  description: yup.string(),
+  occupancy: yup
+    .number()
+    .typeError('Occupancy must be a number!')
+    .positive()
+    .integer('Occupancy must be an integer!')
+    .required('Occupancy is required!'),
+  price: yup
+    .number()
+    .typeError('Price must be a number!')
+    .positive()
+    .required('Price is required!'),
+  roomImage: yup.string(),
+  roomImages: yup.array(),
+});
+
 const AddRoomType = () => {
-  const methods = useForm<Inputs>();
-  const { handleSubmit } = methods;
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const methods = useForm<AddRoomTypeInputs>({
+    resolver: yupResolver(schema),
+    mode: 'onChange',
+  });
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+  const onSubmit: SubmitHandler<AddRoomTypeInputs> = (data) => {
+    console.log(data);
+    console.log(errors);
+  };
+
   return (
     <FormProvider {...methods}>
       <Seo title="Add Room Type" />
@@ -37,27 +67,23 @@ const AddRoomType = () => {
       <FormWrapper onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col 2xl:flex-row flex-wrap gap-20 mt-5">
           <div className="w-96 xl:w-[500px] flex flex-col gap-5">
-            <Input id="room-type-name" title="Name" />
-            <Textarea
-              id="room-type-description"
-              title="Description"
-              rows="10"
-            />
-            <Input id="room-type-occupancy" title="Occupancy" />
-            <Input id="room-type-price" title="Price" />
+            <Input id="name" title="Name" />
+            <Textarea id="description" title="Description" rows="10" />
+            <Input id="occupancy" title="Occupancy" type="number" min="0" />
+            <Input id="price" title="Price" />
             <ImageUploader />
-            <div>
-              <h2 className="mt-10">Room Gallery</h2>
+            <div className="mt-10">
+              <label>Room Gallery</label>
               <ImagesUploader />
             </div>
           </div>
           <div className="2xl:w-[400px] 2xl:mx-auto 2xl:ml-72">
             <div className="mb-10">
-              <h2>Amenities</h2>
+              <label>Amenities</label>
               <EditableList name="amenities" />
             </div>
             <div className="mb-10">
-              <h2 className="mt-5">Details</h2>
+              <label className="mt-5">Details</label>
               <EditableList name="details" />
             </div>
           </div>

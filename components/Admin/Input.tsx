@@ -9,20 +9,32 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({ id, title = 'Title', ...restProps }) => {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+  const camelizedTitle = camelize(title);
+  const error = errors[camelizedTitle];
 
   return (
-    <div>
+    <div className="relative">
       <label htmlFor={id} className="block">
         {title}
       </label>
       <input
         id={id}
-        className="border border-[#ccc] border-px rounded py-2 px-3 w-full focus:outline-none mt-1 h-[36px]"
+        className={`border ${
+          error ? 'border-red-500' : 'border-[#ccc]'
+        }   border-px rounded py-2 px-3 w-full focus:outline-none mt-1 h-[36px]`}
         placeholder={title}
-        {...register(camelize(title))}
+        {...register(camelizedTitle)}
         {...restProps}
       />
+      {error && (
+        <p className="text-red-500 text-sm absolute">
+          {error.message as string}
+        </p>
+      )}
     </div>
   );
 };
