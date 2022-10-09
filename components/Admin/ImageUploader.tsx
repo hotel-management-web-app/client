@@ -8,11 +8,12 @@ const ImageUploader = () => {
 
   const { setValue } = useFormContext();
 
+  setValue('image', image);
+
   const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selectedImage = URL.createObjectURL(e.target.files[0] ?? '');
       setImage(selectedImage);
-      setValue('image', selectedImage);
     }
   };
 

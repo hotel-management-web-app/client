@@ -146,6 +146,46 @@
           "name": "Stunning ocean view"
         }
       ]
+    },
+    {
+      "price": 23,
+      "occupancy": 232,
+      "description": "2323",
+      "name": "134",
+      "images": [],
+      "amenities": [],
+      "details": [],
+      "image": "blob:http://localhost:3000/1782d210-fe92-4806-badf-2e5ce47681bf",
+      "id": 4
+    },
+    {
+      "price": 23,
+      "occupancy": 232,
+      "description": "2323",
+      "name": "134",
+      "images": [],
+      "amenities": [
+        {
+          "id": 1665333009602,
+          "name": "dsf"
+        },
+        {
+          "id": 1665333010490,
+          "name": "dsf"
+        }
+      ],
+      "details": [
+        {
+          "id": 1665333012562,
+          "name": "dsf"
+        },
+        {
+          "id": 1665333013482,
+          "name": "dsf"
+        }
+      ],
+      "image": "blob:http://localhost:3000/1782d210-fe92-4806-badf-2e5ce47681bf",
+      "id": 5
     }
   ],
   "about-details": [
@@ -168,5 +208,7 @@
       "imgUrl": "/../public/images/about3.png"
     }
   ],
-  "profile": { "name": "typicode" }
+  "profile": {
+    "name": "typicode"
+  }
 }

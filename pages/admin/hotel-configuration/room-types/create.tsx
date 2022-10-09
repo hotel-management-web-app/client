@@ -2,6 +2,8 @@ import React from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useMutation } from 'react-query';
+import axios from 'axios';
 import Header from '../../../../components/Admin/Header';
 import Input from '../../../../components/Admin/Input';
 import Textarea from '../../../../components/Admin/Textarea';
@@ -45,13 +47,14 @@ const AddRoomType = () => {
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit } = methods;
+
+  const { mutate, isLoading } = useMutation<Response, Error, AddRoomTypeInputs>(
+    (roomType) => axios.post('/room-types', roomType)
+  );
+
   const onSubmit: SubmitHandler<AddRoomTypeInputs> = (data) => {
-    console.log(data);
-    console.log(errors);
+    mutate(data);
   };
 
   return (
@@ -89,7 +92,9 @@ const AddRoomType = () => {
           </div>
         </div>
         <div className="mt-10 flex justify-center">
-          <SubmitButton name="Add room type" />
+          <SubmitButton
+            name={`${isLoading ? 'Loading...' : 'Add room type'}`}
+          />
         </div>
       </FormWrapper>
     </FormProvider>
