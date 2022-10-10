@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useMutation } from 'react-query';
@@ -91,9 +92,11 @@ const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => {
                   <td>{roomType.price}</td>
                   <td className="w-40 py-3">
                     <div>
-                      <button className="bg-[#16D00B] text-white px-4 py-1 rounded-lg">
-                        Edit
-                      </button>
+                      <Link href={`${router.pathname}/edit/${roomType.id}`}>
+                        <a className="bg-[#16D00B] text-white px-4 py-1 rounded-lg">
+                          Edit
+                        </a>
+                      </Link>
                       <button
                         className="bg-[#FC3532] text-white px-4 py-1 rounded-lg ml-4"
                         onClick={() => deleteRoomType(roomType.id)}
