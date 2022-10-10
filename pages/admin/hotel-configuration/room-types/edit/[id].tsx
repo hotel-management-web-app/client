@@ -1,9 +1,11 @@
 import React from 'react';
+import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from 'react-query';
-import { useRouter } from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
 import axios from 'axios';
 import Header from '../../../../../components/Admin/Header';
 import Input from '../../../../../components/Admin/Input';
@@ -25,6 +27,20 @@ interface AddRoomTypeInputs {
   roomImages: string[];
 }
 
+interface ServerSideParams extends ParsedUrlQuery {
+  id: string;
+}
+
+interface EditRoomTypeProps {
+  roomTypeData: {
+    id: number;
+    name: string;
+    description: string;
+    occupancy: number;
+    price: string;
+  };
+}
+
 const schema = yup.object({
   name: yup.string().required('Name is required!'),
   description: yup.string(),
@@ -43,7 +59,14 @@ const schema = yup.object({
   roomImages: yup.array(),
 });
 
-const EditRoomType = () => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { id } = params as ServerSideParams;
+  const data = await axios.get(`/room-types/${id}`).then((res) => res.data);
+
+  return { props: { roomTypeData: data } };
+};
+
+const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
   const router = useRouter();
   const { id } = router.query;
   const methods = useForm<AddRoomTypeInputs>({
@@ -53,7 +76,7 @@ const EditRoomType = () => {
   const { handleSubmit } = methods;
 
   const { mutate, isLoading } = useMutation<Response, Error, AddRoomTypeInputs>(
-    (roomType) => axios.post(`/room-types/${id}`, roomType),
+    (roomType) => axios.put(`/room-types/${id}`, roomType),
     {
       onSuccess: () =>
         router.push(
@@ -65,6 +88,8 @@ const EditRoomType = () => {
   const onSubmit: SubmitHandler<AddRoomTypeInputs> = (data) => {
     mutate(data);
   };
+
+  console.log(roomTypeData);
 
   return (
     <FormProvider {...methods}>
@@ -79,10 +104,21 @@ const EditRoomType = () => {
       <FormWrapper onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col 2xl:flex-row flex-wrap gap-20 mt-5">
           <div className="w-96 xl:w-[500px] flex flex-col gap-5">
-            <Input id="name" title="Name" />
-            <Textarea id="description" title="Description" rows="10" />
-            <Input id="occupancy" title="Occupancy" type="number" min="0" />
-            <Input id="price" title="Price" />
+            <Input id="name" title="Name" value={roomTypeData.name} />
+            <Textarea
+              id="description"
+              title="Description"
+              rows="10"
+              value={roomTypeData.description}
+            />
+            <Input
+              id="occupancy"
+              title="Occupancy"
+              type="number"
+              min="0"
+              value={roomTypeData.occupancy}
+            />
+            <Input id="price" title="Price" value={roomTypeData.price} />
             <ImageUploader />
             <div className="mt-10">
               <label>Room Gallery</label>
