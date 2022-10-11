@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useFormContext } from 'react-hook-form';
 
-interface EditableListProps {
-  name: string;
-}
-
 interface Item {
   id: number;
   name: string;
 }
 
-const EditableList: React.FC<EditableListProps> = ({ name }) => {
-  const [items, setItems] = useState<Item[]>([]);
+interface EditableListProps {
+  name: string;
+  itemsProp?: Item[];
+}
+
+const EditableList: React.FC<EditableListProps> = ({
+  name,
+  itemsProp = [],
+}) => {
+  const [items, setItems] = useState<Item[]>(itemsProp);
   const { setValue } = useFormContext();
 
   setValue(name, items);
@@ -45,7 +49,7 @@ const EditableList: React.FC<EditableListProps> = ({ name }) => {
   return (
     <div>
       {items.map((item) => (
-        <div className="flex items-center gap-5">
+        <div key={item.id} className="flex items-center gap-5">
           <input
             key={item.id}
             type="text"

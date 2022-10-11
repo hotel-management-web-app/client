@@ -38,6 +38,14 @@ interface EditRoomTypeProps {
     description: string;
     occupancy: number;
     price: string;
+    amenities: {
+      id: number;
+      name: string;
+    }[];
+    details: {
+      id: number;
+      name: string;
+    }[];
   };
 }
 
@@ -76,7 +84,7 @@ const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
   const { handleSubmit } = methods;
 
   const { mutate, isLoading } = useMutation<Response, Error, AddRoomTypeInputs>(
-    (roomType) => axios.put(`/room-types/${id}`, roomType),
+    async (roomType) => axios.put(`/room-types/${id}`, roomType),
     {
       onSuccess: () =>
         router.push(
@@ -88,8 +96,6 @@ const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
   const onSubmit: SubmitHandler<AddRoomTypeInputs> = (data) => {
     mutate(data);
   };
-
-  console.log(roomTypeData);
 
   return (
     <FormProvider {...methods}>
@@ -128,11 +134,14 @@ const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
           <div className="2xl:w-[400px] 2xl:mx-auto 2xl:ml-72">
             <div className="mb-10">
               <label>Amenities</label>
-              <EditableList name="amenities" />
+              <EditableList
+                name="amenities"
+                itemsProp={roomTypeData.amenities}
+              />
             </div>
             <div className="mb-10">
               <label className="mt-5">Details</label>
-              <EditableList name="details" />
+              <EditableList name="details" itemsProp={roomTypeData.details} />
             </div>
           </div>
         </div>

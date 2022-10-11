@@ -52,7 +52,7 @@ const AddRoomType = () => {
   const { handleSubmit } = methods;
 
   const { mutate, isLoading } = useMutation<Response, Error, AddRoomTypeInputs>(
-    (roomType) => axios.post('/room-types', roomType),
+    async (roomType) => axios.post('/room-types', roomType),
     {
       onSuccess: () =>
         router.push(

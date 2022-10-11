@@ -47,7 +47,7 @@ interface RoomTypesProps {
 }
 
 const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => {
-  const { mutate } = useMutation((id: number) =>
+  const { mutate } = useMutation(async (id: number) =>
     axios.delete(`/room-types/${id}`)
   );
   const router = useRouter();

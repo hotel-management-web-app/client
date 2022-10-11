@@ -10,7 +10,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   name,
   isLoading = false,
 }) => (
-  <button className="bg-black text-white px-3 py-2 rounded-lg w-48 relative">
+  <button className="bg-black text-white px-10 py-2 rounded-lg relative">
     {isLoading && (
       <TailSpin
         height="20"
