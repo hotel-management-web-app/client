@@ -104,21 +104,21 @@ const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
       <FormWrapper onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col 2xl:flex-row flex-wrap gap-20 mt-5">
           <div className="w-96 xl:w-[500px] flex flex-col gap-5">
-            <Input id="name" title="Name" value={roomTypeData.name} />
+            <Input id="name" title="Name" defaultValue={roomTypeData.name} />
             <Textarea
               id="description"
               title="Description"
               rows="10"
-              value={roomTypeData.description}
+              defaultValue={roomTypeData.description}
             />
             <Input
               id="occupancy"
               title="Occupancy"
               type="number"
               min="0"
-              value={roomTypeData.occupancy}
+              defaultValue={roomTypeData.occupancy}
             />
-            <Input id="price" title="Price" value={roomTypeData.price} />
+            <Input id="price" title="Price" defaultValue={roomTypeData.price} />
             <ImageUploader />
             <div className="mt-10">
               <label>Room Gallery</label>
@@ -137,7 +137,7 @@ const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
           </div>
         </div>
         <div className="mt-10 flex justify-center">
-          <SubmitButton name="Add room type" isLoading={isLoading} />
+          <SubmitButton name="Update room type" isLoading={isLoading} />
         </div>
       </FormWrapper>
     </FormProvider>
