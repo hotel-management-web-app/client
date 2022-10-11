@@ -5,16 +5,18 @@ import * as yup from 'yup';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import Header from '../../../../components/Admin/Header';
-import Input from '../../../../components/Admin/Input';
-import Textarea from '../../../../components/Admin/Textarea';
 import Seo from '../../../../components/Seo';
-import EditableList from '../../../../components/Admin/EditableList';
-import ImageUploader from '../../../../components/Admin/ImageUploader';
-import ImagesUploader from '../../../../components/Admin/ImagesUploader';
-import BackButton from '../../../../components/Admin/BackButton';
-import SubmitButton from '../../../../components/Admin/SubmitButton';
-import FormWrapper from '../../../../components/Admin/FormWrapper';
+import {
+  Header,
+  Input,
+  Textarea,
+  EditableList,
+  ImageUploader,
+  ImagesUploader,
+  BackButton,
+  SubmitButton,
+  FormWrapper,
+} from '../../../../components/Admin';
 
 interface AddRoomTypeInputs {
   name: string;
