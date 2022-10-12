@@ -52,9 +52,9 @@ const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => {
   );
   const router = useRouter();
 
-  const deleteRoomType = (id: number) => {
-    mutate(id);
-    router.reload();
+  const deleteRoomType = async (id: number) => {
+    await mutate(id);
+    router.replace(router.asPath);
   };
 
   return (
