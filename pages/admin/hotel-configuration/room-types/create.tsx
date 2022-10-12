@@ -68,7 +68,7 @@ const AddRoomType = () => {
   };
 
   return (
-    <FormProvider {...methods}>
+    <div>
       <Seo title="Add Room Type" />
       <div className="flex items-center flex-wrap gap-5">
         <Header title="Add room type" />
@@ -77,35 +77,37 @@ const AddRoomType = () => {
           url="/admin/hotel-configuration/room-types/"
         />
       </div>
-      <FormWrapper onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col 2xl:flex-row flex-wrap gap-20 mt-5">
-          <div className="w-96 xl:w-[500px] flex flex-col gap-5">
-            <Input id="name" title="Name" />
-            <Textarea id="description" title="Description" rows="10" />
-            <Input id="occupancy" title="Occupancy" type="number" min="0" />
-            <Input id="price" title="Price" />
-            <ImageUploader />
-            <div className="mt-10">
-              <label>Room Gallery</label>
-              <ImagesUploader />
+      <FormProvider {...methods}>
+        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col 2xl:flex-row flex-wrap gap-20 mt-5">
+            <div className="w-96 xl:w-[500px] flex flex-col gap-5">
+              <Input id="name" title="Name" />
+              <Textarea id="description" title="Description" rows="10" />
+              <Input id="occupancy" title="Occupancy" type="number" min="0" />
+              <Input id="price" title="Price" />
+              <ImageUploader />
+              <div className="mt-10">
+                <label>Room Gallery</label>
+                <ImagesUploader />
+              </div>
+            </div>
+            <div className="2xl:w-[400px] 2xl:mx-auto 2xl:ml-72">
+              <div className="mb-10">
+                <label>Amenities</label>
+                <EditableList name="amenities" />
+              </div>
+              <div className="mb-10">
+                <label className="mt-5">Details</label>
+                <EditableList name="details" />
+              </div>
             </div>
           </div>
-          <div className="2xl:w-[400px] 2xl:mx-auto 2xl:ml-72">
-            <div className="mb-10">
-              <label>Amenities</label>
-              <EditableList name="amenities" />
-            </div>
-            <div className="mb-10">
-              <label className="mt-5">Details</label>
-              <EditableList name="details" />
-            </div>
+          <div className="mt-10 flex justify-center">
+            <SubmitButton name="Add room type" isLoading={isLoading} />
           </div>
-        </div>
-        <div className="mt-10 flex justify-center">
-          <SubmitButton name="Add room type" isLoading={isLoading} />
-        </div>
-      </FormWrapper>
-    </FormProvider>
+        </FormWrapper>
+      </FormProvider>
+    </div>
   );
 };
 

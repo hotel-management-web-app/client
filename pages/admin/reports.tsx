@@ -1,4 +1,5 @@
 import React from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
 import FormWrapper from '../../components/Admin/FormWrapper';
 import Header from '../../components/Admin/Header';
 import Input from '../../components/Admin/Input';
@@ -68,26 +69,34 @@ const reports = [
   },
 ];
 
-const Reports = () => (
-  <div>
-    <Seo title="Reports" />
-    <Header title="Reports" />
-    <FormWrapper>
-      <div className="flex items-end gap-10 flex-wrap">
-        <Input id="from" title="From" type="date" />
-        <Input id="to" title="To" type="date" />
-        <SubmitButton name="Generate raport" />
-      </div>
-      <div className="grid lg:grid-cols-3 xl:grid-cols-4 mt-10 gap-y-10">
-        {reports.map((report) => (
-          <div key={report.id}>
-            <p>{report.title}</p>
-            <p className="text-gray-400 mt-1">{report.result}</p>
+const Reports = () => {
+  const methods = useForm();
+  const { handleSubmit } = methods;
+
+  const onSubmit = () => {};
+  return (
+    <div>
+      <Seo title="Reports" />
+      <Header title="Reports" />
+      <FormProvider {...methods}>
+        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex items-end gap-10 flex-wrap">
+            <Input id="from" title="From" type="date" />
+            <Input id="to" title="To" type="date" />
+            <SubmitButton name="Generate raport" />
           </div>
-        ))}
-      </div>
-    </FormWrapper>
-  </div>
-);
+          <div className="grid lg:grid-cols-3 xl:grid-cols-4 mt-10 gap-y-10">
+            {reports.map((report) => (
+              <div key={report.id}>
+                <p>{report.title}</p>
+                <p className="text-gray-400 mt-1">{report.result}</p>
+              </div>
+            ))}
+          </div>
+        </FormWrapper>
+      </FormProvider>
+    </div>
+  );
+};
 
 export default Reports;
