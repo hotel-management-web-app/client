@@ -168,7 +168,30 @@
       "imgUrl": "/../public/images/about3.png"
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "rooms": [
+    {
+      "id": 1,
+      "name": "Standard",
+      "floor": 1,
+      "occupancy": 4,
+      "price": "1200",
+      "reservationStatus": "Vacant"
+    },
+    {
+      "id": 2,
+      "name": "Deluxe",
+      "floor": 1,
+      "occupancy": 5,
+      "price": "1500$",
+      "reservationStatus": "Vacant"
+    },
+    {
+      "id": 3,
+      "name": "Single",
+      "floor": 2,
+      "occupancy": 1,
+      "price": "1000$",
+      "reservationStatus": "Vacant"
+    }
+  ]
 }
