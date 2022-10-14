@@ -2,43 +2,21 @@ import React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
+import { nanoid } from 'nanoid';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
 import AddButton from '../../../../components/Admin/AddButton';
 import EditButton from '../../../../components/Admin/EditButton';
 import { Entries } from '../../../../components/Admin';
 import DeleteButton from '../../../../components/Admin/DeleteButton';
-import roomTypes from '../room-types';
 
-const headers: { id: number; name: string }[] = [
-  {
-    id: 1,
-    name: 'Id',
-  },
-  {
-    id: 2,
-    name: 'Name',
-  },
-  {
-    id: 3,
-    name: 'Floor',
-  },
-  {
-    id: 3,
-    name: 'Occupancy',
-  },
-  {
-    id: 4,
-    name: 'Price',
-  },
-  {
-    id: 4,
-    name: 'Reservation Status',
-  },
-  {
-    id: 5,
-    name: 'Action',
-  },
+const headers: string[] = [
+  'Id',
+  'Room type',
+  'Room number',
+  'Floor number',
+  'Reservation Status',
+  'Action',
 ];
 
 export const getServerSideProps = async () => {
@@ -51,12 +29,11 @@ export const getServerSideProps = async () => {
 
 interface RoomsProps {
   data: {
-    id: 1;
-    name: 'Standard';
-    floor: 1;
-    occupancy: 4;
-    price: '1200';
-    reservationStatus: 'Vacant';
+    id: number;
+    roomType: string;
+    roomNumber: number;
+    floorNumber: number;
+    reservationStatus: string;
   }[];
 }
 
@@ -91,8 +68,8 @@ const Rooms: React.FC<RoomsProps> = ({ data }) => {
             <thead className="text-left">
               <tr className="border-b">
                 {headers.map((header) => (
-                  <th key={header.id} className="pb-2">
-                    {header.name}
+                  <th key={nanoid()} className="pb-2">
+                    {header}
                   </th>
                 ))}
               </tr>
@@ -101,9 +78,10 @@ const Rooms: React.FC<RoomsProps> = ({ data }) => {
               {data.map((room) => (
                 <tr key={room.id} className="border-b">
                   <td>{room.id}</td>
-                  <td>{room.name}</td>
-                  <td>{room.occupancy}</td>
-                  <td>{room.price}</td>
+                  <td>{room.roomType}</td>
+                  <td>{room.roomNumber}</td>
+                  <td>{room.floorNumber}</td>
+                  <td>{room.reservationStatus}</td>
                   <td className="w-40 py-3">
                     <div>
                       <EditButton id={room.id} />
@@ -116,7 +94,7 @@ const Rooms: React.FC<RoomsProps> = ({ data }) => {
               ))}
             </tbody>
           </table>
-          {roomTypes.length === 0 && (
+          {data.length === 0 && (
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>

@@ -171,27 +171,31 @@
   "rooms": [
     {
       "id": 1,
-      "name": "Standard",
-      "floor": 1,
-      "occupancy": 4,
-      "price": "1200",
+      "roomType": "Standard",
+      "roomNumber": 1,
+      "floorNumber": 1,
       "reservationStatus": "Vacant"
     },
     {
       "id": 2,
-      "name": "Deluxe",
-      "floor": 1,
-      "occupancy": 5,
-      "price": "1500$",
+      "roomType": "Deluxe",
+      "roomNumber": 2,
+      "floorNumber": 1,
+
       "reservationStatus": "Vacant"
     },
     {
       "id": 3,
-      "name": "Single",
-      "floor": 2,
-      "occupancy": 1,
-      "price": "1000$",
+      "roomType": "Single",
+      "roomNumber": 3,
+      "floorNumber": 2,
       "reservationStatus": "Vacant"
+    },
+    {
+      "roomNumber": 234,
+      "floorNumber": 23,
+      "roomType": "Single room",
+      "id": 4
     }
   ]
 }

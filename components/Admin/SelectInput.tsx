@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import Select from 'react-select';
+import camelize from '../../utils/camelize';
 
 const customStyles = {
   control: (provided: object) => ({
@@ -24,8 +26,19 @@ const SelectInput: React.FC<SelectInputProps> = ({ id, title, options }) => {
     value: string;
     label: string;
   } | null>(null);
+
+  const {
+    setValue,
+    formState: { errors },
+  } = useFormContext();
+
+  const camelizedTitle = camelize(title);
+  const error = errors[camelizedTitle];
+
+  setValue(camelizedTitle, selectedOption?.label);
+
   return (
-    <div>
+    <div className="relative">
       <label htmlFor={id}>{title}</label>
       <Select
         id={id}
@@ -34,6 +47,11 @@ const SelectInput: React.FC<SelectInputProps> = ({ id, title, options }) => {
         onChange={setSelectedOption}
         options={options}
       />
+      {error && (
+        <p className="text-red-500 text-sm absolute">
+          {error.message as string}
+        </p>
+      )}
     </div>
   );
 };
