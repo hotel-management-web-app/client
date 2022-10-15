@@ -174,28 +174,21 @@
       "roomType": "Standard",
       "roomNumber": 1,
       "floorNumber": 1,
-      "reservationStatus": "Vacant"
+      "roomStatus": "Vacant"
     },
     {
       "id": 2,
       "roomType": "Deluxe",
       "roomNumber": 2,
       "floorNumber": 1,
-
-      "reservationStatus": "Vacant"
+      "roomStatus": "Vacant"
     },
     {
       "id": 3,
       "roomType": "Single",
       "roomNumber": 3,
       "floorNumber": 2,
-      "reservationStatus": "Vacant"
-    },
-    {
-      "roomNumber": 234,
-      "floorNumber": 23,
-      "roomType": "Single room",
-      "id": 4
+      "roomStatus": "Vacant"
     }
   ]
 }

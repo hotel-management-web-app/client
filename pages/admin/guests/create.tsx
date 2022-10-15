@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import GuestStatusToggler from '../../../components/Admin/GuestStatusToggler';
+import GuestStatusToggler from '../../../components/Admin/StatusToggler';
 import BackButton from '../../../components/Admin/BackButton';
 import FormWrapper from '../../../components/Admin/FormWrapper';
 import Header from '../../../components/Admin/Header';

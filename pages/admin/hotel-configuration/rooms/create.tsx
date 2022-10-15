@@ -13,16 +13,18 @@ import FormWrapper from '../../../../components/Admin/FormWrapper';
 import Input from '../../../../components/Admin/Input';
 import SelectInput from '../../../../components/Admin/SelectInput';
 import camelize from '../../../../utils/camelize';
+import StatusToggler from '../../../../components/Admin/StatusToggler';
 
 interface AddRoomInputs {
   name: string;
   floor: number;
   occupancy: number;
   price: string;
-  reservationStatus: string;
+  roomStatus: string;
 }
 
 const schema = yup.object({
+  roomStatus: yup.string(),
   roomType: yup.string().required(),
   floorNumber: yup
     .number()
@@ -78,6 +80,12 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="mx-auto w-11/12 lg:w-3/4 py-5">
             <div className="flex flex-col gap-5">
+              <StatusToggler
+                id="room-status"
+                label="Room status"
+                checkedValue="Reserved"
+                uncheckedValue="Vacant"
+              />
               <SelectInput
                 id="room-type"
                 title="Room type"

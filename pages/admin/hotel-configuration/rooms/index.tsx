@@ -33,7 +33,7 @@ interface RoomsProps {
     roomType: string;
     roomNumber: number;
     floorNumber: number;
-    reservationStatus: string;
+    roomStatus: string;
   }[];
 }
 
@@ -81,7 +81,7 @@ const Rooms: React.FC<RoomsProps> = ({ data }) => {
                   <td>{room.roomType}</td>
                   <td>{room.roomNumber}</td>
                   <td>{room.floorNumber}</td>
-                  <td>{room.reservationStatus}</td>
+                  <td>{room.roomStatus}</td>
                   <td className="w-40 py-3">
                     <div>
                       <EditButton id={room.id} />

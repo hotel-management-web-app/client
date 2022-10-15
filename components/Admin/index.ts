@@ -3,7 +3,7 @@ export { default as BackButton } from './BackButton';
 export { default as EditableList } from './EditableList';
 export { default as Entries } from './Entries';
 export { default as FormWrapper } from './FormWrapper';
-export { default as GuestStatusToggler } from './GuestStatusToggler';
+export { default as GuestStatusToggler } from './StatusToggler';
 export { default as Header } from './Header';
 export { default as HousekeepingComments } from './HousekeepingComments';
 export { default as HousekeepingStatus } from './HousekeepingStatus';
