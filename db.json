@@ -170,25 +170,32 @@
   ],
   "rooms": [
     {
-      "id": 1,
-      "roomType": "Standard",
       "roomNumber": 1,
       "floorNumber": 1,
-      "roomStatus": "Vacant"
+      "roomType": "Single room",
+      "roomStatus": "Vacant",
+      "id": 1
     },
     {
-      "id": 2,
-      "roomType": "Deluxe",
       "roomNumber": 2,
       "floorNumber": 1,
-      "roomStatus": "Vacant"
+      "roomType": "Double room",
+      "roomStatus": "Vacant",
+      "id": 2
     },
     {
-      "id": 3,
-      "roomType": "Single",
       "roomNumber": 3,
       "floorNumber": 2,
-      "roomStatus": "Vacant"
+      "roomType": "Deluxe room",
+      "roomStatus": "Vacant",
+      "id": 3
+    },
+    {
+      "roomNumber": 234,
+      "floorNumber": 2134,
+      "roomType": "Double room",
+      "roomStatus": "Reserved",
+      "id": 4
     }
   ]
 }

@@ -1,9 +1,10 @@
 import React from 'react';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Seo from '../../../../components/Seo';
-import camelize from '../../../../utils/camelize';
+import { ParsedUrlQuery } from 'querystring';
 import {
   BackButton,
   Header,
@@ -12,10 +13,17 @@ import {
   Input,
   SelectInput,
   StatusToggler,
-} from '../../../../components/Admin';
-import { useAddRoom } from '../../../../lib/operations/rooms';
-import { Room, RoomType, SelectOption } from '../../../../lib/types';
-import { getRoomTypes } from '../../../../lib/api/roomTypes';
+} from '../../../../../components/Admin';
+import Seo from '../../../../../components/Seo';
+import camelize from '../../../../../utils/camelize';
+import { useUpdateRoom } from '../../../../../lib/operations/rooms';
+import { Room, RoomType, SelectOption } from '../../../../../lib/types';
+import { getRoomTypes } from '../../../../../lib/api/roomTypes';
+import { getRoom } from '../../../../../lib/api/rooms';
+
+interface ServerSideParams extends ParsedUrlQuery {
+  id: string;
+}
 
 const schema = yup.object({
   roomStatus: yup.string(),
@@ -29,22 +37,27 @@ const schema = yup.object({
 
 interface AddRoomProps {
   roomTypes: RoomType[];
+  room: Room;
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const roomTypes = await getRoomTypes();
+  const { id } = params as ServerSideParams;
+  const room = await getRoom(Number(id));
 
-  return { props: { roomTypes } };
+  return { props: { roomTypes, room } };
 };
 
-const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
+const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
+  const router = useRouter();
+  const { id } = router.query;
   const methods = useForm<Room>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useAddRoom();
+  const { mutate, isLoading } = useUpdateRoom(Number(id));
 
   const onSubmit: SubmitHandler<Room> = (data) => {
     mutate(data);
@@ -57,9 +70,9 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
 
   return (
     <div>
-      <Seo title="Add Room" />
+      <Seo title="Edit Room" />
       <div className="flex items-center flex-wrap gap-5">
-        <Header title="Add room" />
+        <Header title="Edit room" />
         <BackButton name="rooms" url="/admin/hotel-configuration/rooms/" />
       </div>
       <FormProvider {...methods}>
@@ -71,28 +84,34 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
                 label="Room status"
                 checkedValue="Reserved"
                 uncheckedValue="Vacant"
+                defaultStatus={room.roomStatus === 'Reserved'}
               />
               <SelectInput
                 id="room-type"
                 title="Room type"
                 options={roomTypesOptions}
+                defaultOption={roomTypesOptions.find(
+                  (roomTypeOption) => roomTypeOption.label === room.roomType
+                )}
               />
               <Input
                 id="room-floor-number"
                 title="Floor number"
                 type="number"
                 min="0"
+                defaultValue={room.floorNumber}
               />
               <Input
                 id="room-number"
                 title="Room number"
                 type="number"
                 min="0"
+                defaultValue={room.roomNumber}
               />
             </div>
           </div>
           <div className="mt-5 flex justify-center">
-            <SubmitButton name="Add room" isLoading={isLoading} />
+            <SubmitButton name="Update room" isLoading={isLoading} />
           </div>
         </FormWrapper>
       </FormProvider>
@@ -100,4 +119,4 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
   );
 };
 
-export default AddRoom;
+export default EditRoom;

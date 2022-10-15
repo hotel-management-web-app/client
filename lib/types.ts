@@ -21,3 +21,8 @@ export interface Room {
   floorNumber: number;
   roomStatus: string;
 }
+
+export interface SelectOption {
+  label: string;
+  value: string;
+}

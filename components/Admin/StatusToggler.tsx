@@ -8,6 +8,7 @@ interface StatusTogglerProps {
   label: string;
   checkedValue: string;
   uncheckedValue: string;
+  defaultStatus?: boolean;
 }
 
 const StatusToggler: React.FC<StatusTogglerProps> = ({
@@ -15,8 +16,9 @@ const StatusToggler: React.FC<StatusTogglerProps> = ({
   label,
   checkedValue,
   uncheckedValue,
+  defaultStatus = true,
 }) => {
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(defaultStatus);
   const { setValue } = useFormContext();
 
   setValue(camelize(label), checked ? checkedValue : uncheckedValue);
