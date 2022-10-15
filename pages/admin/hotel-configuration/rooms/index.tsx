@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
 import { nanoid } from 'nanoid';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
@@ -9,6 +8,7 @@ import AddButton from '../../../../components/Admin/AddButton';
 import EditButton from '../../../../components/Admin/EditButton';
 import { Entries } from '../../../../components/Admin';
 import DeleteButton from '../../../../components/Admin/DeleteButton';
+import { useDeleteRoom } from '../../../../lib/operations/rooms';
 
 const headers: string[] = [
   'Id',
@@ -38,12 +38,10 @@ interface RoomsProps {
 }
 
 const Rooms: React.FC<RoomsProps> = ({ data }) => {
-  const { mutate } = useMutation(async (id: number) =>
-    axios.delete(`/rooms/${id}`)
-  );
+  const { mutate } = useDeleteRoom();
   const router = useRouter();
 
-  const deleteRoomType = async (id: number) => {
+  const deleteRoom = async (id: number) => {
     await mutate(id);
     router.replace(router.asPath);
   };
@@ -85,9 +83,7 @@ const Rooms: React.FC<RoomsProps> = ({ data }) => {
                   <td className="w-40 py-3">
                     <div>
                       <EditButton id={room.id} />
-                      <DeleteButton
-                        deleteHandler={() => deleteRoomType(room.id)}
-                      />
+                      <DeleteButton deleteHandler={() => deleteRoom(room.id)} />
                     </div>
                   </td>
                 </tr>

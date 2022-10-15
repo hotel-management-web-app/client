@@ -1,7 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import router from 'next/router';
-import { useMutation } from 'react-query';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,14 +12,8 @@ import Input from '../../../../components/Admin/Input';
 import SelectInput from '../../../../components/Admin/SelectInput';
 import camelize from '../../../../utils/camelize';
 import StatusToggler from '../../../../components/Admin/StatusToggler';
-
-interface AddRoomInputs {
-  name: string;
-  floor: number;
-  occupancy: number;
-  price: string;
-  roomStatus: string;
-}
+import { useAddRoom } from '../../../../lib/operations/rooms';
+import { Room, RoomType } from '../../../../lib/types';
 
 const schema = yup.object({
   roomStatus: yup.string(),
@@ -34,9 +26,7 @@ const schema = yup.object({
 });
 
 interface AddRoomProps {
-  roomTypes: {
-    name: string;
-  }[];
+  roomTypes: RoomType[];
 }
 
 export const getServerSideProps = async () => {
@@ -46,21 +36,15 @@ export const getServerSideProps = async () => {
 };
 
 const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
-  const methods = useForm<AddRoomInputs>({
+  const methods = useForm<Room>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useMutation<Response, Error, AddRoomInputs>(
-    async (room) => axios.post('/rooms', room),
-    {
-      onSuccess: () =>
-        router.push('http://localhost:3000/admin/hotel-configuration/rooms'),
-    }
-  );
+  const { mutate, isLoading } = useAddRoom();
 
-  const onSubmit: SubmitHandler<AddRoomInputs> = (data) => {
+  const onSubmit: SubmitHandler<Room> = (data) => {
     mutate(data);
   };
 

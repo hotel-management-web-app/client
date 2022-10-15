@@ -1,42 +1,16 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import { useMutation } from 'react-query';
+import { nanoid } from 'nanoid';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
 import AddButton from '../../../../components/Admin/AddButton';
 import Entries from '../../../../components/Admin/Entries';
 import EditButton from '../../../../components/Admin/EditButton';
 import DeleteButton from '../../../../components/Admin/DeleteButton';
+import { getRoomTypes, deleteRoomType } from '../../../../lib/api/roomTypes';
 
-const headers: { id: number; name: string }[] = [
-  {
-    id: 1,
-    name: 'Id',
-  },
-  {
-    id: 2,
-    name: 'Name',
-  },
-  {
-    id: 3,
-    name: 'Occupancy',
-  },
-  {
-    id: 4,
-    name: 'Price',
-  },
-  {
-    id: 5,
-    name: 'Action',
-  },
-];
-
-export const getServerSideProps = async () => {
-  const data = await axios.get('/room-types').then((res) => res.data);
-
-  return { props: { roomTypes: data } };
-};
+const headers: string[] = ['ID', 'Name', 'Occupancy', 'Price', 'Action'];
 
 interface RoomTypesProps {
   roomTypes: {
@@ -47,13 +21,17 @@ interface RoomTypesProps {
   }[];
 }
 
+export const getServerSideProps = async () => {
+  const data = await getRoomTypes();
+
+  return { props: { roomTypes: data } };
+};
+
 const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => {
-  const { mutate } = useMutation(async (id: number) =>
-    axios.delete(`/room-types/${id}`)
-  );
+  const { mutate } = useMutation(async (id: number) => deleteRoomType(id));
   const router = useRouter();
 
-  const deleteRoomType = async (id: number) => {
+  const deleteRoomTypeHandler = async (id: number) => {
     await mutate(id);
     router.replace(router.asPath);
   };
@@ -78,8 +56,8 @@ const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => {
             <thead className="text-left">
               <tr className="border-b">
                 {headers.map((header) => (
-                  <th key={header.id} className="pb-2">
-                    {header.name}
+                  <th key={nanoid()} className="pb-2">
+                    {header}
                   </th>
                 ))}
               </tr>
@@ -95,7 +73,7 @@ const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => {
                     <div>
                       <EditButton id={roomType.id} />
                       <DeleteButton
-                        deleteHandler={() => deleteRoomType(roomType.id)}
+                        deleteHandler={() => deleteRoomTypeHandler(roomType.id)}
                       />
                     </div>
                   </td>

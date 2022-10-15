@@ -4,9 +4,7 @@ import { GetServerSideProps } from 'next';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useMutation } from 'react-query';
 import { ParsedUrlQuery } from 'querystring';
-import axios from 'axios';
 import Seo from '../../../../../components/Seo';
 import {
   Header,
@@ -19,36 +17,16 @@ import {
   SubmitButton,
   FormWrapper,
 } from '../../../../../components/Admin';
-
-interface AddRoomTypeInputs {
-  name: string;
-  description: string;
-  occupancy: number;
-  price: string;
-  roomImage: string;
-  roomImages: string[];
-}
+import { getRoomType } from '../../../../../lib/api/roomTypes';
+import { useUpdateRoomType } from '../../../../../lib/operations/roomTypes';
+import { RoomType } from '../../../../../lib/types';
 
 interface ServerSideParams extends ParsedUrlQuery {
   id: string;
 }
 
 interface EditRoomTypeProps {
-  roomTypeData: {
-    id: number;
-    name: string;
-    description: string;
-    occupancy: number;
-    price: string;
-    amenities: {
-      id: number;
-      name: string;
-    }[];
-    details: {
-      id: number;
-      name: string;
-    }[];
-  };
+  roomTypeData: RoomType;
 }
 
 const schema = yup.object({
@@ -71,7 +49,7 @@ const schema = yup.object({
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as ServerSideParams;
-  const data = await axios.get(`/room-types/${id}`).then((res) => res.data);
+  const data = await getRoomType(Number(id));
 
   return { props: { roomTypeData: data } };
 };
@@ -79,23 +57,15 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
   const router = useRouter();
   const { id } = router.query;
-  const methods = useForm<AddRoomTypeInputs>({
+  const methods = useForm<RoomType>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useMutation<Response, Error, AddRoomTypeInputs>(
-    async (roomType) => axios.put(`/room-types/${id}`, roomType),
-    {
-      onSuccess: () =>
-        router.push(
-          'http://localhost:3000/admin/hotel-configuration/room-types'
-        ),
-    }
-  );
+  const { mutate, isLoading } = useUpdateRoomType(Number(id));
 
-  const onSubmit: SubmitHandler<AddRoomTypeInputs> = (data) => {
+  const onSubmit: SubmitHandler<RoomType> = (data) => {
     mutate(data);
   };
 

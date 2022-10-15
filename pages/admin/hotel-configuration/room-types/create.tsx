@@ -2,9 +2,6 @@ import React from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useMutation } from 'react-query';
-import { useRouter } from 'next/router';
-import axios from 'axios';
 import Seo from '../../../../components/Seo';
 import {
   Header,
@@ -17,15 +14,8 @@ import {
   SubmitButton,
   FormWrapper,
 } from '../../../../components/Admin';
-
-interface AddRoomTypeInputs {
-  name: string;
-  description: string;
-  occupancy: number;
-  price: string;
-  roomImage: string;
-  roomImages: string[];
-}
+import { useAddRoomType } from '../../../../lib/operations/roomTypes';
+import { RoomType } from '../../../../lib/types';
 
 const schema = yup.object({
   name: yup.string().required('Name is required!'),
@@ -46,24 +36,15 @@ const schema = yup.object({
 });
 
 const AddRoomType = () => {
-  const router = useRouter();
-  const methods = useForm<AddRoomTypeInputs>({
+  const methods = useForm<RoomType>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useMutation<Response, Error, AddRoomTypeInputs>(
-    async (roomType) => axios.post('/room-types', roomType),
-    {
-      onSuccess: () =>
-        router.push(
-          'http://localhost:3000/admin/hotel-configuration/room-types'
-        ),
-    }
-  );
+  const { mutate, isLoading } = useAddRoomType();
 
-  const onSubmit: SubmitHandler<AddRoomTypeInputs> = (data) => {
+  const onSubmit: SubmitHandler<RoomType> = (data) => {
     mutate(data);
   };
 
