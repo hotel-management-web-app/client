@@ -1,7 +1,6 @@
 import React from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import Seo from '../../../../components/Seo';
 import {
   Header,
@@ -16,28 +15,11 @@ import {
 } from '../../../../components/Admin';
 import { useAddRoomType } from '../../../../lib/operations/roomTypes';
 import { RoomType } from '../../../../lib/types';
-
-const schema = yup.object({
-  name: yup.string().required('Name is required!'),
-  description: yup.string(),
-  occupancy: yup
-    .number()
-    .typeError('Occupancy must be a number!')
-    .positive()
-    .integer('Occupancy must be an integer!')
-    .required('Occupancy is required!'),
-  price: yup
-    .number()
-    .typeError('Price must be a number!')
-    .positive()
-    .required('Price is required!'),
-  roomImage: yup.string(),
-  roomImages: yup.array(),
-});
+import { roomTypeSchema } from '../../../../lib/schemas';
 
 const AddRoomType = () => {
   const methods = useForm<RoomType>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(roomTypeSchema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;

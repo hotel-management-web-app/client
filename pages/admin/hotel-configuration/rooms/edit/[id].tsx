@@ -2,7 +2,6 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   BackButton,
@@ -24,16 +23,7 @@ import {
 } from '../../../../../lib/types';
 import { getRoomTypes } from '../../../../../lib/api/roomTypes';
 import { getRoom } from '../../../../../lib/api/rooms';
-
-const schema = yup.object({
-  roomStatus: yup.string(),
-  roomType: yup.string().required(),
-  floorNumber: yup
-    .number()
-    .typeError('Floor number must be a number')
-    .required(),
-  roomNumber: yup.number().typeError('Room number must be a number').required(),
-});
+import { roomSchema } from '../../../../../lib/schemas';
 
 interface AddRoomProps {
   roomTypes: RoomType[];
@@ -52,7 +42,7 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
   const router = useRouter();
   const { id } = router.query;
   const methods = useForm<Room>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(roomSchema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;

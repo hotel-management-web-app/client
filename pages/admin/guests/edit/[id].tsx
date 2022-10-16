@@ -2,7 +2,6 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   StatusToggler,
@@ -17,24 +16,7 @@ import Seo from '../../../../components/Seo';
 import { Guest, ServerSideParams } from '../../../../lib/types';
 import { useUpdateGuest } from '../../../../lib/operations/guests';
 import { getGuest } from '../../../../lib/api/guests';
-
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
-const schema = yup.object({
-  firstName: yup.string().required('First Name is required!'),
-  lastName: yup.string().required('Last Name is required!'),
-  emailAddress: yup
-    .string()
-    .email('Field should contain a valid e-mail')
-    .required('Email address is required!'),
-  phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid!'),
-  country: yup.string(),
-  address: yup.string(),
-  city: yup.string(),
-  postalCode: yup.string(),
-  notes: yup.string(),
-});
+import { guestSchema } from '../../../../lib/schemas';
 
 interface EditGuestProps {
   guest: Guest;
@@ -50,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 const EditGuest: React.FC<EditGuestProps> = ({ guest }) => {
   const router = useRouter();
   const methods = useForm<Guest>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(guestSchema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;

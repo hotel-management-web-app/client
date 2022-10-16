@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Seo from '../../../../components/Seo';
 import camelize from '../../../../utils/camelize';
@@ -16,16 +15,7 @@ import {
 import { useAddRoom } from '../../../../lib/operations/rooms';
 import { Room, RoomType, SelectOption } from '../../../../lib/types';
 import { getRoomTypes } from '../../../../lib/api/roomTypes';
-
-const schema = yup.object({
-  roomStatus: yup.string(),
-  roomType: yup.string().required(),
-  floorNumber: yup
-    .number()
-    .typeError('Floor number must be a number')
-    .required(),
-  roomNumber: yup.number().typeError('Room number must be a number').required(),
-});
+import { roomSchema } from '../../../../lib/schemas';
 
 interface AddRoomProps {
   roomTypes: RoomType[];
@@ -39,7 +29,7 @@ export const getServerSideProps = async () => {
 
 const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
   const methods = useForm<Room>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(roomSchema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;
