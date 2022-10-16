@@ -197,5 +197,66 @@
       "roomStatus": "Reserved",
       "id": 4
     }
+  ],
+  "guests": [
+    {
+      "status": "Active",
+      "firstName": "Darth",
+      "lastName": "Vader",
+      "emailAddress": "darthvader@gmail.com",
+      "phoneNumber": "123 456 789",
+      "country": "Tatooine",
+      "address": "",
+      "city": "Curusant",
+      "postalCode": "59-220",
+      "notes": "",
+      "latestBooking": "30.10.2022",
+      "id": 1
+    },
+    {
+      "status": "Active",
+      "firstName": "Darth",
+      "lastName": "Vader",
+      "emailAddress": "darthvader@gmail.com",
+      "phoneNumber": "123 456 789",
+      "country": "Tatooine",
+      "address": "",
+      "city": "Curusant",
+      "postalCode": "59-220",
+      "notes": "",
+      "latestBooking": "30.10.2022",
+      "id": 2
+    },
+    {
+      "id": 3,
+      "firstName": "Darth",
+      "lastName": "Vader",
+      "emailAddress": "darthvader@gmail.com",
+      "phoneNumber": "123 456 789",
+      "country": "Tatooine",
+      "Address": "Jabba Palace",
+      "latestBooking": "",
+      "city": "Curusant",
+      "postalCode": "59-220",
+      "status": "Active",
+      "bookings": "0",
+      "Notes": "You do not know the power of the dark side",
+      "address": "",
+      "notes": ""
+    },
+    {
+      "status": "Active",
+      "firstName": "Shev",
+      "lastName": "Palpatine",
+      "emailAddress": "palpatine@gmail.com",
+      "phoneNumber": "123456",
+      "country": "",
+      "address": "",
+      "city": "",
+      "postalCode": "",
+      "notes": "",
+      "latestBooking": "30.10.2022",
+      "id": 4
+    }
   ]
 }

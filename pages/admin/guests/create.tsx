@@ -1,19 +1,51 @@
 import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import GuestStatusToggler from '../../../components/Admin/StatusToggler';
-import BackButton from '../../../components/Admin/BackButton';
-import FormWrapper from '../../../components/Admin/FormWrapper';
-import Header from '../../../components/Admin/Header';
-import Input from '../../../components/Admin/Input';
-import SubmitButton from '../../../components/Admin/SubmitButton';
-import Textarea from '../../../components/Admin/Textarea';
+import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  StatusToggler,
+  BackButton,
+  FormWrapper,
+  Header,
+  Input,
+  SubmitButton,
+  Textarea,
+} from '../../../components/Admin';
 import Seo from '../../../components/Seo';
+import { Guest } from '../../../lib/types';
+import { useAddGuest } from '../../../lib/operations/guests';
 
-const AddGuests = () => {
-  const methods = useForm();
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+const schema = yup.object({
+  firstName: yup.string().required('First Name is required!'),
+  lastName: yup.string().required('Last Name is required!'),
+  emailAddress: yup
+    .string()
+    .email('Field should contain a valid e-mail')
+    .required('Email address is required!'),
+  phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid!'),
+  country: yup.string(),
+  address: yup.string(),
+  city: yup.string(),
+  postalCode: yup.string(),
+  notes: yup.string(),
+});
+
+const AddGuest = () => {
+  const methods = useForm<Guest>({
+    resolver: yupResolver(schema),
+    mode: 'onChange',
+  });
   const { handleSubmit } = methods;
 
-  const onSubmit = () => {};
+  const { mutate, isLoading } = useAddGuest();
+
+  const onSubmit: SubmitHandler<Guest> = (data) => {
+    mutate(data);
+  };
+
   return (
     <div>
       <Seo title="Add Guest" />
@@ -23,11 +55,16 @@ const AddGuests = () => {
       </div>
       <FormProvider {...methods}>
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
-          <GuestStatusToggler />
+          <StatusToggler
+            id="status"
+            label="Status"
+            checkedValue="Active"
+            uncheckedValue="Inactive"
+          />
           <div className="grid lg:grid-cols-2 gap-x-20 gap-y-10 mt-5">
             <Input id="first-name" title="First name" />
             <Input id="first-name" title="Last name" />
-            <Input id="first-name" title="Email addres" />
+            <Input id="first-name" title="Email address" />
             <Input id="first-name" title="Phone number" />
             <Input id="first-name" title="Country" />
             <Input id="first-name" title="Address" />
@@ -36,11 +73,12 @@ const AddGuests = () => {
             <Textarea id="notes" title="Notes" rows="5" />
           </div>
           <div className="mt-5 flex justify-center">
-            <SubmitButton name="Add guests" />
+            <SubmitButton name="Add guest" isLoading={isLoading} />
           </div>
         </FormWrapper>
       </FormProvider>
     </div>
   );
 };
-export default AddGuests;
+
+export default AddGuest;

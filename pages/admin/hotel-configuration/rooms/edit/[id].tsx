@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ParsedUrlQuery } from 'querystring';
 import {
   BackButton,
   Header,
@@ -17,13 +16,14 @@ import {
 import Seo from '../../../../../components/Seo';
 import camelize from '../../../../../utils/camelize';
 import { useUpdateRoom } from '../../../../../lib/operations/rooms';
-import { Room, RoomType, SelectOption } from '../../../../../lib/types';
+import {
+  Room,
+  RoomType,
+  SelectOption,
+  ServerSideParams,
+} from '../../../../../lib/types';
 import { getRoomTypes } from '../../../../../lib/api/roomTypes';
 import { getRoom } from '../../../../../lib/api/rooms';
-
-interface ServerSideParams extends ParsedUrlQuery {
-  id: string;
-}
 
 const schema = yup.object({
   roomStatus: yup.string(),
