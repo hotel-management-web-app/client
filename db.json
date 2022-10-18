@@ -292,5 +292,48 @@
       "departureDate": "30.11.2022",
       "bookingStatus": "not confirmed"
     }
+  ],
+  "housekeeping": [
+    {
+      "id": 1,
+      "roomNumber": 1,
+      "roomType": "Family room",
+      "housekeepingStatus": "Cleaning",
+      "priority": "Medium",
+      "floor": 2,
+      "reservationStatus": "Vacant",
+      "comments": "Wash",
+      "Cleaning": ""
+    },
+    {
+      "id": 2,
+      "roomNumber": 1,
+      "roomType": "Family room",
+      "housekeepingStatus": "Dirty",
+      "priority": "Low",
+      "floor": 2,
+      "reservationStatus": "Vacant",
+      "comments": "Clean the floor"
+    },
+    {
+      "id": 3,
+      "roomNumber": 1,
+      "roomType": "Family room",
+      "housekeepingStatus": "Out of service",
+      "priority": "High",
+      "floor": 2,
+      "reservationStatus": "Vacant",
+      "comments": "Wash windows"
+    },
+    {
+      "id": 4,
+      "roomNumber": 1,
+      "roomType": "Family room",
+      "housekeepingStatus": "Clean",
+      "priority": "Medium",
+      "floor": 2,
+      "reservationStatus": "Vacant",
+      "comments": "Wash windows"
+    }
   ]
 }

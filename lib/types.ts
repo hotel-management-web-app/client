@@ -58,6 +58,34 @@ export interface Booking {
   guest: string;
 }
 
+export interface Housekeeping {
+  id: number;
+  roomNumber: number;
+  roomType: string;
+  housekeepingStatus: string;
+  priority: string;
+  floor: number;
+  reservationStatus: string;
+  comments: string;
+}
+
+export interface HousekeepingField {
+  [key: string]: string;
+}
+
+export interface HousekeepingStatus {
+  id: number;
+  name: string;
+  textColor: string;
+  backgroundColor: string;
+}
+
+export interface PriorityStatus {
+  id: number;
+  name: string;
+  color: string;
+}
+
 export interface ServerSideParams extends ParsedUrlQuery {
   id: string;
 }

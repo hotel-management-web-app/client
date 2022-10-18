@@ -1,85 +1,34 @@
 import React from 'react';
+import { nanoid } from 'nanoid';
 import Header from '../../components/Admin/Header';
 import HousekeepingComments from '../../components/Admin/HousekeepingComments';
 import HousekeepingStatus from '../../components/Admin/HousekeepingStatus';
 import PriorityStatus from '../../components/Admin/PriorityStatus';
 import Seo from '../../components/Seo';
+import { getRooms } from '../../lib/api/housekeeping';
+import { Housekeeping } from '../../lib/types';
 
 const headers = [
-  {
-    id: 1,
-    name: 'Room',
-  },
-  {
-    id: 2,
-    name: 'Room Type',
-  },
-  {
-    id: 3,
-    name: 'Housekeeping Status',
-  },
-  {
-    id: 4,
-    name: 'Priority',
-  },
-  {
-    id: 5,
-    name: 'Floor',
-  },
-  {
-    id: 6,
-    name: 'Reservation Status',
-  },
-  {
-    id: 7,
-    name: 'Comments and notes',
-  },
+  'Room',
+  'Room Type',
+  'Housekeeping Status',
+  'Priority',
+  'Floor',
+  'Reservation Status',
+  'Comments and notes',
 ];
 
-const rooms = [
-  {
-    id: 1,
-    roomNumber: 1,
-    roomType: 'Family room',
-    housekeepingStatus: 'Cleaning',
-    priority: 'High',
-    floor: 2,
-    reservationStatus: 'Vacant',
-    comments: 'Wash windows',
-  },
-  {
-    id: 2,
-    roomNumber: 1,
-    roomType: 'Family room',
-    housekeepingStatus: 'Cleaning',
-    priority: 'High',
-    floor: 2,
-    reservationStatus: 'Vacant',
-    comments: 'Wash windows',
-  },
-  {
-    id: 3,
-    roomNumber: 1,
-    roomType: 'Family room',
-    housekeepingStatus: 'Cleaning',
-    priority: 'High',
-    floor: 2,
-    reservationStatus: 'Vacant',
-    comments: 'Wash windows',
-  },
-  {
-    id: 4,
-    roomNumber: 1,
-    roomType: 'Family room',
-    housekeepingStatus: 'Cleaning',
-    priority: 'High',
-    floor: 2,
-    reservationStatus: 'Vacant',
-    comments: 'Wash windows',
-  },
-];
+interface HousekeepingProps {
+  housekeeping: Housekeeping[];
+}
 
-const Housekeeping = () => (
+export const getServerSideProps = async () => {
+  const housekeeping = await getRooms();
+
+  return { props: { housekeeping } };
+};
+
+const HousekeepingPage: React.FC<HousekeepingProps> = ({ housekeeping }) => (
   <div>
     <Seo title="Housekeeping" />
     <Header title="Housekeeping" />
@@ -88,27 +37,30 @@ const Housekeeping = () => (
         <thead className="text-left">
           <tr className="border-b">
             {headers.map((header) => (
-              <th key={header.id} className="pb-2">
-                {header.name}
+              <th key={nanoid()} className="pb-2">
+                {header}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {rooms.map((room) => (
+          {housekeeping.map((room) => (
             <tr key={room.id} className="border-b">
               <td className="py-3">{room.roomNumber}</td>
               <td className="py-3">{room.roomType}</td>
               <td className="py-3 w-60">
-                <HousekeepingStatus />
+                <HousekeepingStatus
+                  id={room.id}
+                  status={room.housekeepingStatus}
+                />
               </td>
               <td className="py-3 w-60">
-                <PriorityStatus />
+                <PriorityStatus id={room.id} status={room.priority} />
               </td>
               <td className="py-3">{room.floor}</td>
               <td className="py-3">{room.reservationStatus}</td>
               <td className="py-3">
-                <HousekeepingComments />
+                <HousekeepingComments id={room.id} value={room.comments} />
               </td>
             </tr>
           ))}
@@ -118,4 +70,4 @@ const Housekeeping = () => (
   </div>
 );
 
-export default Housekeeping;
+export default HousekeepingPage;

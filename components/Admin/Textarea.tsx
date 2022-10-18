@@ -5,12 +5,16 @@ import camelize from '../../utils/camelize';
 interface TextareaProps {
   id: string;
   title: string;
+  placeholder?: string;
+  fieldName?: string;
   [restProps: string]: any;
 }
 
 const Textarea: React.FC<TextareaProps> = ({
   id,
   title = 'Title',
+  placeholder = title,
+  fieldName = camelize(title),
   ...restProps
 }) => {
   const { register } = useFormContext();
@@ -23,8 +27,8 @@ const Textarea: React.FC<TextareaProps> = ({
       <textarea
         id={id}
         className="border border-[#ccc] border-px rounded-lg py-2 px-3 w-full focus:outline-none mt-1"
-        placeholder={title}
-        {...register(camelize(title))}
+        placeholder={placeholder}
+        {...register(fieldName)}
         {...restProps}
       />
     </div>
