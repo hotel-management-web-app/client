@@ -66,33 +66,25 @@ const EditGuest: React.FC<EditGuestProps> = ({ guest }) => {
               defaultValue={guest.firstName}
             />
             <Input
-              id="first-name"
+              id="last-name"
               title="Last name"
               defaultValue={guest.lastName}
             />
             <Input
-              id="first-name"
+              id="email-address"
               title="Email address"
               defaultValue={guest.emailAddress}
             />
             <Input
-              id="first-name"
+              id="phone-number"
               title="Phone number"
               defaultValue={guest.phoneNumber}
             />
+            <Input id="country" title="Country" defaultValue={guest.country} />
+            <Input id="address" title="Address" defaultValue={guest.address} />
+            <Input id="city" title="City" defaultValue={guest.city} />
             <Input
-              id="first-name"
-              title="Country"
-              defaultValue={guest.country}
-            />
-            <Input
-              id="first-name"
-              title="Address"
-              defaultValue={guest.address}
-            />
-            <Input id="first-name" title="City" defaultValue={guest.city} />
-            <Input
-              id="first-name"
+              id="postal-code"
               title="Postal Code"
               defaultValue={guest.postalCode}
             />

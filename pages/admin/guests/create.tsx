@@ -45,13 +45,13 @@ const AddGuest = () => {
           />
           <div className="grid lg:grid-cols-2 gap-x-20 gap-y-10 mt-5">
             <Input id="first-name" title="First name" />
-            <Input id="first-name" title="Last name" />
-            <Input id="first-name" title="Email address" />
-            <Input id="first-name" title="Phone number" />
-            <Input id="first-name" title="Country" />
-            <Input id="first-name" title="Address" />
-            <Input id="first-name" title="City" />
-            <Input id="first-name" title="Postal Code" />
+            <Input id="last-name" title="Last name" />
+            <Input id="email-address" title="Email address" />
+            <Input id="phone-number" title="Phone number" />
+            <Input id="country" title="Country" />
+            <Input id="address" title="Address" />
+            <Input id="city" title="City" />
+            <Input id="postal-code" title="Postal Code" />
             <Textarea id="notes" title="Notes" rows="5" />
           </div>
           <div className="mt-5 flex justify-center">

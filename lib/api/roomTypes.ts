@@ -1,17 +1,19 @@
 import axios from 'axios';
 import { RoomType } from '../types';
 
+const baseUrl = '/room-types';
+
 export const getRoomTypes = async () =>
-  axios.get('/room-types').then((res) => res.data);
+  axios.get(baseUrl).then((res) => res.data);
 
 export const getRoomType = async (id: number) =>
-  axios.get(`/room-types/${id}`).then((res) => res.data);
+  axios.get(`${baseUrl}/${id}`).then((res) => res.data);
 
 export const addRoomType = async (roomType: RoomType) =>
-  axios.post('/room-types', roomType);
+  axios.post(baseUrl, roomType);
 
 export const updateRoomType = async (id: number, roomType: RoomType) =>
-  axios.put(`/room-types/${id}`, roomType);
+  axios.put(`${baseUrl}/${id}`, roomType);
 
 export const deleteRoomType = async (id: number) =>
-  axios.delete(`/room-types/${id}`);
+  axios.delete(`${baseUrl}/${id}`);

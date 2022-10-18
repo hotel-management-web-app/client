@@ -1,76 +1,106 @@
+import { nanoid } from 'nanoid';
+import { useRouter } from 'next/router';
 import React from 'react';
 import AddButton from '../../../components/Admin/AddButton';
+import DeleteButton from '../../../components/Admin/DeleteButton';
+import EditButton from '../../../components/Admin/EditButton';
 import Header from '../../../components/Admin/Header';
-import Table from '../../../components/Admin/Table';
 import Seo from '../../../components/Seo';
+import { getBookings } from '../../../lib/api/bookings';
+import { useDeleteBooking } from '../../../lib/operations/bookings';
+import { Booking } from '../../../lib/types';
+import camelize from '../../../utils/camelize';
 
 const headers = [
-  {
-    id: 1,
-    name: 'Room number',
-  },
-  {
-    id: 2,
-    name: 'Guest name',
-  },
-  {
-    id: 3,
-    name: 'Arrival date',
-  },
-  {
-    id: 4,
-    name: 'Departure day',
-  },
-  {
-    id: 5,
-    name: 'Status',
-  },
-  {
-    id: 6,
-    name: 'Action',
-  },
+  'Room number',
+  'Guest',
+  'Arrival date',
+  'Departure date',
+  'Status',
+  'Action',
 ];
 
-const bookings = [
-  {
-    roomNumber: 1,
-    guestName: 'Darth Vader',
-    arrivalDate: '30.10.2022',
-    departureDate: '30.11.2022',
-    bookingStatus: 'confirmed',
-  },
-  {
-    roomNumber: 2,
-    guestName: 'Darth Vader',
-    arrivalDate: '30.10.2022',
-    departureDate: '30.11.2022',
-    bookingStatus: 'pending',
-  },
-  {
-    roomNumber: 3,
-    guestName: 'Darth Vader',
-    arrivalDate: '30.10.2022',
-    departureDate: '30.11.2022',
-    bookingStatus: 'cancelled',
-  },
-  {
-    roomNumber: 4,
-    guestName: 'Darth Vader',
-    arrivalDate: '30.10.2022',
-    departureDate: '30.11.2022',
-    bookingStatus: 'not confirmed',
-  },
-];
+const bookingStatusColores: { [key: string]: string } = {
+  confirmed: '#22C55E',
+  pending: '#FB923C',
+  cancelled: '#EF4444',
+  notConfirmed: '#9CA3AF',
+};
 
-const Bookings = () => (
-  <div>
-    <Seo title="Bookings" />
-    <div className="flex justify-between">
-      <Header title="Bookings" />
-      <AddButton name="booking" />
+export interface BookingsProps {
+  bookings: Booking[];
+}
+
+export const getServerSideProps = async () => {
+  const bookings = await getBookings();
+
+  return {
+    props: { bookings },
+  };
+};
+
+const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
+  const { mutate } = useDeleteBooking();
+  const router = useRouter();
+
+  const deleteBooking = async (id: number) => {
+    await mutate(id);
+    router.replace(router.asPath);
+  };
+  return (
+    <div>
+      <Seo title="Bookings" />
+      <div className="flex justify-between">
+        <Header title="Bookings" />
+        <AddButton name="booking" />
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto min-w-[500px] w-full mt-8">
+          <thead className="text-left">
+            <tr className="border-b">
+              {headers.map((header) => (
+                <th key={nanoid()} className="pb-2">
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {bookings.map((booking) => (
+              <tr key={booking.id} className="border-b">
+                <td>{booking.room}</td>
+                <td>{booking.guest}</td>
+                <td>{booking.arrivalDate}</td>
+                <td>{booking.departureDate}</td>
+                <td>
+                  <span
+                    style={{
+                      backgroundColor:
+                        bookingStatusColores[camelize(booking.status)],
+                    }}
+                    className="px-3 py-1 rounded text-white capitalize"
+                  >
+                    {booking.status}
+                  </span>
+                </td>
+                <td className="w-40 py-3">
+                  <div>
+                    <EditButton id={booking.id!} />
+                    <DeleteButton
+                      deleteHandler={() => deleteBooking(booking.id!)}
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {bookings.length === 0 && (
+          <p className="text-center mt-5">No data available in table</p>
+        )}
+      </div>
     </div>
-    <Table headers={headers} items={bookings} />
-  </div>
-);
+  );
+};
 
 export default Bookings;

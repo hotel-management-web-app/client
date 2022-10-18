@@ -258,5 +258,39 @@
       "latestBooking": "30.10.2022",
       "id": 4
     }
+  ],
+  "bookings": [
+    {
+      "id": 1,
+      "roomNumber": 1,
+      "guestName": "Darth Vader",
+      "arrivalDate": "30.10.2022",
+      "departureDate": "30.11.2022",
+      "bookingStatus": "confirmed"
+    },
+    {
+      "id": 2,
+      "roomNumber": 2,
+      "guestName": "Darth Vader",
+      "arrivalDate": "30.10.2022",
+      "departureDate": "30.11.2022",
+      "bookingStatus": "pending"
+    },
+    {
+      "id": 3,
+      "roomNumber": 3,
+      "guestName": "Darth Vader",
+      "arrivalDate": "30.10.2022",
+      "departureDate": "30.11.2022",
+      "bookingStatus": "cancelled"
+    },
+    {
+      "id": 4,
+      "roomNumber": 4,
+      "guestName": "Darth Vader",
+      "arrivalDate": "30.10.2022",
+      "departureDate": "30.11.2022",
+      "bookingStatus": "not confirmed"
+    }
   ]
 }

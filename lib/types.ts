@@ -25,8 +25,8 @@ export interface Room {
 }
 
 export interface SelectOption {
-  label: string;
-  value: string;
+  label: string | number;
+  value: string | number;
 }
 
 export interface Guest {
@@ -43,6 +43,19 @@ export interface Guest {
   status: string;
   bookings: number;
   notes: string;
+}
+
+export interface Booking {
+  id?: number;
+  status: string;
+  arrivalDate: string;
+  departureDate: string;
+  paymentMethod: string;
+  roomType: string;
+  room: number;
+  adults: number;
+  children: number;
+  guest: string;
 }
 
 export interface ServerSideParams extends ParsedUrlQuery {
