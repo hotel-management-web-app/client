@@ -6,6 +6,8 @@
       "description": "Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.",
       "imgUrl": "/../public/room.png",
       "roomUrl": "/rooms/1",
+      "occupancy": 4,
+      "price": "1200$",
       "amenities": [
         {
           "id": 1,
@@ -53,6 +55,8 @@
       "description": "Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool. Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.",
       "imgUrl": "/../public/room.png",
       "roomUrl": "/rooms/2",
+      "occupancy": 5,
+      "price": "1500$",
       "amenities": [
         {
           "id": 1,
@@ -100,6 +104,8 @@
       "description": "Spacious two bedroom villas, each with a full gourmet kitchen and expansive terrace. Many feature a private outdoor plunge pool.",
       "imgUrl": "/../public/room.png",
       "roomUrl": "/rooms/3",
+      "occupancy": 5,
+      "price": "1000$",
       "amenities": [
         {
           "id": 1,
@@ -162,5 +168,178 @@
       "imgUrl": "/../public/images/about3.png"
     }
   ],
-  "profile": { "name": "typicode" }
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "floorNumber": 1,
+      "roomType": "Single room",
+      "roomStatus": "Vacant",
+      "id": 1
+    },
+    {
+      "roomNumber": 2,
+      "floorNumber": 1,
+      "roomType": "Double room",
+      "roomStatus": "Vacant",
+      "id": 2
+    },
+    {
+      "roomNumber": 3,
+      "floorNumber": 2,
+      "roomType": "Deluxe room",
+      "roomStatus": "Vacant",
+      "id": 3
+    },
+    {
+      "roomNumber": 234,
+      "floorNumber": 2134,
+      "roomType": "Double room",
+      "roomStatus": "Reserved",
+      "id": 4
+    }
+  ],
+  "guests": [
+    {
+      "status": "Active",
+      "firstName": "Darth",
+      "lastName": "Vader",
+      "emailAddress": "darthvader@gmail.com",
+      "phoneNumber": "123 456 789",
+      "country": "Tatooine",
+      "address": "",
+      "city": "Curusant",
+      "postalCode": "59-220",
+      "notes": "",
+      "latestBooking": "30.10.2022",
+      "id": 1
+    },
+    {
+      "status": "Active",
+      "firstName": "Darth",
+      "lastName": "Vader",
+      "emailAddress": "darthvader@gmail.com",
+      "phoneNumber": "123 456 789",
+      "country": "Tatooine",
+      "address": "",
+      "city": "Curusant",
+      "postalCode": "59-220",
+      "notes": "",
+      "latestBooking": "30.10.2022",
+      "id": 2
+    },
+    {
+      "id": 3,
+      "firstName": "Darth",
+      "lastName": "Vader",
+      "emailAddress": "darthvader@gmail.com",
+      "phoneNumber": "123 456 789",
+      "country": "Tatooine",
+      "Address": "Jabba Palace",
+      "latestBooking": "",
+      "city": "Curusant",
+      "postalCode": "59-220",
+      "status": "Active",
+      "bookings": "0",
+      "Notes": "You do not know the power of the dark side",
+      "address": "",
+      "notes": ""
+    },
+    {
+      "status": "Active",
+      "firstName": "Shev",
+      "lastName": "Palpatine",
+      "emailAddress": "palpatine@gmail.com",
+      "phoneNumber": "123456",
+      "country": "",
+      "address": "",
+      "city": "",
+      "postalCode": "",
+      "notes": "",
+      "latestBooking": "30.10.2022",
+      "id": 4
+    }
+  ],
+  "bookings": [
+    {
+      "id": 1,
+      "roomNumber": 1,
+      "guestName": "Darth Vader",
+      "arrivalDate": "30.10.2022",
+      "departureDate": "30.11.2022",
+      "status": "confirmed"
+    },
+    {
+      "id": 2,
+      "roomNumber": 2,
+      "guestName": "Darth Vader",
+      "arrivalDate": "30.10.2022",
+      "departureDate": "30.11.2022",
+      "status": "pending"
+    },
+    {
+      "id": 3,
+      "roomNumber": 3,
+      "guestName": "Darth Vader",
+      "arrivalDate": "30.10.2022",
+      "departureDate": "30.11.2022",
+      "status": "cancelled"
+    },
+    {
+      "id": 4,
+      "roomNumber": 4,
+      "guestName": "Darth Vader",
+      "arrivalDate": "30.10.2022",
+      "departureDate": "30.11.2022",
+      "status": "not confirmed"
+    }
+  ],
+  "housekeeping": [
+    {
+      "id": 1,
+      "roomNumber": 1,
+      "roomType": "Family room",
+      "housekeepingStatus": "Cleaning",
+      "priority": "Medium",
+      "floor": 2,
+      "reservationStatus": "Vacant",
+      "comments": "Wash",
+      "Cleaning": ""
+    },
+    {
+      "id": 2,
+      "roomNumber": 1,
+      "roomType": "Family room",
+      "housekeepingStatus": "Dirty",
+      "priority": "Low",
+      "floor": 2,
+      "reservationStatus": "Vacant",
+      "comments": "Clean the floor"
+    },
+    {
+      "id": 3,
+      "roomNumber": 1,
+      "roomType": "Family room",
+      "housekeepingStatus": "Out of service",
+      "priority": "High",
+      "floor": 2,
+      "reservationStatus": "Vacant",
+      "comments": "Wash windows"
+    },
+    {
+      "id": 4,
+      "roomNumber": 1,
+      "roomType": "Family room",
+      "housekeepingStatus": "Clean",
+      "priority": "Medium",
+      "floor": 2,
+      "reservationStatus": "Vacant",
+      "comments": "Wash windows"
+    }
+  ],
+  "general-settings": {
+    "hotelName": "Hotel",
+    "country": "Poland",
+    "email": "admin@example.com",
+    "phoneNumber": "123456789"
+  }
 }

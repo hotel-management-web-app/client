@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { useFormContext } from 'react-hook-form';
 
-const defaultItems = [
-  {
-    id: 1,
-    name: 'Coding',
-  },
-  {
-    id: 2,
-    name: 'Reading',
-  },
-  {
-    id: 3,
-    name: 'Listening',
-  },
-];
+interface Item {
+  id: number;
+  name: string;
+}
 
-const EditableList = () => {
-  const [items, setItems] = useState(defaultItems);
+interface EditableListProps {
+  name: string;
+  itemsProp?: Item[];
+}
+
+const EditableList: React.FC<EditableListProps> = ({
+  name,
+  itemsProp = [],
+}) => {
+  const [items, setItems] = useState<Item[]>(itemsProp);
+  const { setValue } = useFormContext();
+
+  setValue(name, items);
 
   const addNewItem = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && e.target.value !== '') {
+    const target = e.target as HTMLInputElement;
+    if (e.key === 'Enter' && target.value !== '') {
       e.preventDefault();
-      setItems([...items, { id: Date.now(), name: e.target.value }]);
-      e.target.value = '';
+      setItems([...items, { id: Date.now(), name: target.value }]);
+      target.value = '';
     }
   };
 
@@ -46,11 +49,11 @@ const EditableList = () => {
   return (
     <div>
       {items.map((item) => (
-        <div className="flex items-center gap-5">
+        <div key={item.id} className="flex items-center gap-5">
           <input
             key={item.id}
             type="text"
-            className="border border-px rounded-lg py-2 px-3 w-4/5 focus:outline-none mt-3"
+            className="border border-[#ccc] border-px rounded py-2 px-3 w-4/5 focus:outline-none mt-3"
             value={item.name}
             onChange={(e) => updateItem(e, item.id)}
             placeholder="Enter a value"
@@ -62,7 +65,7 @@ const EditableList = () => {
       ))}
       <input
         type="text"
-        className="border border-px rounded-lg py-2 px-3 w-4/5 focus:outline-none mt-3"
+        className="border border-[#ccc] border-px rounded py-2 px-3 w-4/5 focus:outline-none mt-3"
         placeholder="Enter a value"
         onKeyDown={addNewItem}
       />

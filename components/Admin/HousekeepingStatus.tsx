@@ -2,8 +2,10 @@ import React, { useState, Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { BsCheck } from 'react-icons/bs';
 import { GoChevronDown } from 'react-icons/go';
+import { useUpdateHousekeepingField } from '../../lib/operations/housekeeping';
+import { HousekeepingStatus } from '../../lib/types';
 
-const housekeepingStatuses = [
+const housekeepingStatuses: HousekeepingStatus[] = [
   {
     id: 1,
     name: 'Clean',
@@ -30,21 +32,40 @@ const housekeepingStatuses = [
   },
 ];
 
-const HousekeepingStatus = () => {
-  const [selectedStatus, setSelectedStatus] = useState(housekeepingStatuses[0]);
+interface HousekeepingStatusProps {
+  id: number;
+  status: string;
+}
+
+const HousekeepingStatusPage: React.FC<HousekeepingStatusProps> = ({
+  id,
+  status,
+}) => {
+  const [selectedStatus, setSelectedStatus] = useState(
+    housekeepingStatuses.find(
+      (housekeepingStatus) => housekeepingStatus.name === status
+    )
+  );
+  const { mutate } = useUpdateHousekeepingField(id);
+
+  const changeHandler = (housekeepingStatus: HousekeepingStatus) => {
+    setSelectedStatus(housekeepingStatus);
+    mutate({ housekeepingStatus: housekeepingStatus.name });
+  };
+
   return (
-    <Listbox value={selectedStatus} onChange={setSelectedStatus}>
+    <Listbox value={selectedStatus} onChange={changeHandler}>
       <div className="relative mt-1">
         <Listbox.Button
           id="room-type"
           style={{
-            backgroundColor: selectedStatus.backgroundColor,
-            color: selectedStatus.textColor,
+            backgroundColor: selectedStatus?.backgroundColor,
+            color: selectedStatus?.textColor,
           }}
           className="relative cursor-default rounded-lg py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 border w-40"
         >
           <span className="block truncate text-center">
-            {selectedStatus.name}
+            {selectedStatus?.name}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <GoChevronDown className="h-5 w-5" aria-hidden="true" />
@@ -92,4 +113,4 @@ const HousekeepingStatus = () => {
   );
 };
 
-export default HousekeepingStatus;
+export default HousekeepingStatusPage;

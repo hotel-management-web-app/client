@@ -11,7 +11,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter();
   const queryClient = new QueryClient();
 
-  axios.defaults.baseURL = process.env.REACT_APP_API;
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API;
 
   if (router.pathname.includes('admin')) {
     return (

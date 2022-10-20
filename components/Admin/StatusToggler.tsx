@@ -1,15 +1,35 @@
 import React, { useState } from 'react';
 import { Switch } from '@headlessui/react';
+import { useFormContext } from 'react-hook-form';
+import camelize from '../../utils/camelize';
 
-const GuestStatusToggler = () => {
-  const [checked, setChecked] = useState(true);
+interface StatusTogglerProps {
+  id: string;
+  label: string;
+  checkedValue: string;
+  uncheckedValue: string;
+  defaultStatus?: boolean;
+}
+
+const StatusToggler: React.FC<StatusTogglerProps> = ({
+  id,
+  label,
+  checkedValue,
+  uncheckedValue,
+  defaultStatus = true,
+}) => {
+  const [checked, setChecked] = useState(defaultStatus);
+  const { setValue } = useFormContext();
+
+  setValue(camelize(label), checked ? checkedValue : uncheckedValue);
+
   return (
     <div>
-      <label htmlFor="status" className="block mb-1">
-        Status
+      <label htmlFor={id} className="block mb-1">
+        {label}
       </label>
       <Switch
-        id="status"
+        id={id}
         checked={checked}
         onChange={setChecked}
         className={`${
@@ -18,11 +38,11 @@ const GuestStatusToggler = () => {
       >
         {checked ? (
           <span className="absolute left-1/2 transform -translate-x-1/2 text-white">
-            Active
+            {checkedValue}
           </span>
         ) : (
           <span className="absolute left-1/2 transform -translate-x-1/2 text-white">
-            Inactive
+            {uncheckedValue}
           </span>
         )}
         <span
@@ -35,4 +55,4 @@ const GuestStatusToggler = () => {
   );
 };
 
-export default GuestStatusToggler;
+export default StatusToggler;

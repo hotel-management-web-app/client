@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"json-server db.json -p 4000\"",
+    "dev": "npx concurrently \"next dev\" \"npx json-server db.json -p 4000\"",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --fix",
@@ -12,9 +12,12 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",
+    "@hookform/resolvers": "^2.9.8",
     "@types/react-modal": "^3.13.1",
     "@types/react-transition-group": "^4.4.5",
     "axios": "^0.27.2",
+    "concurrently": "^7.4.0",
+    "json-server": "^0.17.0",
     "moment": "^2.29.4",
     "nanoid": "^4.0.0",
     "next": "12.3.1",
@@ -22,15 +25,18 @@
     "react-dates": "^21.8.0",
     "react-dom": "18.2.0",
     "react-drag-drop-files": "^2.3.7",
+    "react-hook-form": "^7.37.0",
     "react-icons": "^4.4.0",
     "react-images-uploading": "^3.1.7",
+    "react-loader-spinner": "^5.3.4",
     "react-modal": "^3.15.1",
     "react-query": "^3.39.2",
     "react-select": "^5.4.0",
     "react-simple-image-viewer": "^1.2.2",
     "react-slidedown": "^2.4.7",
     "react-tabs": "^5.1.0",
-    "react-transition-group": "^4.4.5"
+    "react-transition-group": "^4.4.5",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "18.8.0",

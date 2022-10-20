@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import Modal from 'react-modal';
+import { useUpdateHousekeepingField } from '../../lib/operations/housekeeping';
+import { HousekeepingField } from '../../lib/types';
 import FormWrapper from './FormWrapper';
 import SubmitButton from './SubmitButton';
 import Textarea from './Textarea';
@@ -21,27 +24,51 @@ const customStyles = {
   },
 };
 
-const HousekeepingComments = () => {
+interface HousekeepingCommentsProps {
+  id: number;
+  value?: string;
+}
+
+const HousekeepingComments: React.FC<HousekeepingCommentsProps> = ({
+  id,
+  value = '',
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [comments, setComments] = useState<string>(value);
+  const methods = useForm<HousekeepingField>();
+  const { handleSubmit } = methods;
+  const { mutate, isLoading } = useUpdateHousekeepingField(id);
+
+  const onSubmit: SubmitHandler<HousekeepingField> = (data) => {
+    mutate(data);
+    setComments(data.comments);
+    setIsModalOpen(false);
+  };
   return (
     <div>
-      <button onClick={() => setIsModalOpen(true)}>Wash windows</button>
+      <button onClick={() => setIsModalOpen(true)}>{comments}</button>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         style={customStyles}
       >
-        <FormWrapper>
-          <form>
+        <FormProvider {...methods}>
+          <FormWrapper onSubmit={handleSubmit(onSubmit)}>
             <h2 className="text-center text-2xl pb-8 -mt-5">
               Comments and notes
             </h2>
-            <Textarea id="comments" title="Enter comment..." rows={10} />
+            <Textarea
+              id="comments"
+              title="Enter comment..."
+              defaultValue={value}
+              fieldName="comments"
+              rows={10}
+            />
             <div className="flex justify-center mt-5">
-              <SubmitButton name="Save" />
+              <SubmitButton name="Save" isLoading={isLoading} />
             </div>
-          </form>
-        </FormWrapper>
+          </FormWrapper>
+        </FormProvider>
       </Modal>
     </div>
   );

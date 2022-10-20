@@ -2,6 +2,8 @@ import React, { useState, Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { BsCheck, BsRecordCircleFill } from 'react-icons/bs';
 import { GoChevronDown } from 'react-icons/go';
+import { useUpdateHousekeepingField } from '../../lib/operations/housekeeping';
+import { PriorityStatus } from '../../lib/types';
 
 const priorityStatuses = [
   {
@@ -21,18 +23,33 @@ const priorityStatuses = [
   },
 ];
 
-const PriorityStatus = () => {
-  const [selectedPriority, setSelectedPriority] = useState(priorityStatuses[0]);
+interface PriorityStatusProps {
+  id: number;
+  status: string;
+}
+
+const PriorityStatusPage: React.FC<PriorityStatusProps> = ({ id, status }) => {
+  const [selectedPriority, setSelectedPriority] = useState(
+    priorityStatuses.find((priorityStatus) => priorityStatus.name === status)
+  );
+
+  const { mutate } = useUpdateHousekeepingField(id);
+
+  const changeHandler = (priorityStatus: PriorityStatus) => {
+    setSelectedPriority(priorityStatus);
+    mutate({ priority: priorityStatus.name });
+  };
+
   return (
-    <Listbox value={selectedPriority} onChange={setSelectedPriority}>
+    <Listbox value={selectedPriority} onChange={changeHandler}>
       <div className="relative mt-1">
         <Listbox.Button
           id="room-type"
           className="relative cursor-default rounded-lg py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 border w-40"
         >
           <span className="flex items-center gap-3 truncate">
-            <BsRecordCircleFill style={{ color: selectedPriority.color }} />
-            {selectedPriority.name}
+            <BsRecordCircleFill style={{ color: selectedPriority?.color }} />
+            {selectedPriority?.name}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <GoChevronDown
@@ -83,4 +100,4 @@ const PriorityStatus = () => {
   );
 };
 
-export default PriorityStatus;
+export default PriorityStatusPage;
