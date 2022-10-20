@@ -68,8 +68,8 @@ const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
           <tbody>
             {bookings.map((booking) => (
               <tr key={booking.id} className="border-b">
-                <td>{booking.room}</td>
-                <td>{booking.guest}</td>
+                <td>{booking.roomNumber}</td>
+                <td>{booking.guestName}</td>
                 <td>{booking.arrivalDate}</td>
                 <td>{booking.departureDate}</td>
                 <td>

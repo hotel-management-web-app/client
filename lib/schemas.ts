@@ -45,3 +45,13 @@ export const guestSchema = yup.object({
   postalCode: yup.string(),
   notes: yup.string(),
 });
+
+export const generalSettingsSchema = yup.object({
+  hotelName: yup.string().required('Hotel name is required!'),
+  country: yup.string().required('Country is required!'),
+  email: yup
+    .string()
+    .email('Email is not valid!')
+    .required('Email is required!'),
+  phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid!'),
+});

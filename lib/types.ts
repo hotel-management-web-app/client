@@ -52,10 +52,10 @@ export interface Booking {
   departureDate: string;
   paymentMethod: string;
   roomType: string;
-  room: number;
+  roomNumber: number;
   adults: number;
   children: number;
-  guest: string;
+  guestName: string;
 }
 
 export interface Housekeeping {
@@ -88,4 +88,11 @@ export interface PriorityStatus {
 
 export interface ServerSideParams extends ParsedUrlQuery {
   id: string;
+}
+
+export interface GeneralSettings {
+  hotelName: 'Hotel';
+  country: 'Poland';
+  email: 'admin@example.com';
+  phoneNumber: '123456789';
 }

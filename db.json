@@ -266,7 +266,7 @@
       "guestName": "Darth Vader",
       "arrivalDate": "30.10.2022",
       "departureDate": "30.11.2022",
-      "bookingStatus": "confirmed"
+      "status": "confirmed"
     },
     {
       "id": 2,
@@ -274,7 +274,7 @@
       "guestName": "Darth Vader",
       "arrivalDate": "30.10.2022",
       "departureDate": "30.11.2022",
-      "bookingStatus": "pending"
+      "status": "pending"
     },
     {
       "id": 3,
@@ -282,7 +282,7 @@
       "guestName": "Darth Vader",
       "arrivalDate": "30.10.2022",
       "departureDate": "30.11.2022",
-      "bookingStatus": "cancelled"
+      "status": "cancelled"
     },
     {
       "id": 4,
@@ -290,7 +290,7 @@
       "guestName": "Darth Vader",
       "arrivalDate": "30.10.2022",
       "departureDate": "30.11.2022",
-      "bookingStatus": "not confirmed"
+      "status": "not confirmed"
     }
   ],
   "housekeeping": [
@@ -335,5 +335,11 @@
       "reservationStatus": "Vacant",
       "comments": "Wash windows"
     }
-  ]
+  ],
+  "general-settings": {
+    "hotelName": "Hotel",
+    "country": "Poland",
+    "email": "admin@example.com",
+    "phoneNumber": "123456789"
+  }
 }

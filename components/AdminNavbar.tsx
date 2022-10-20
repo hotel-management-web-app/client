@@ -45,8 +45,8 @@ const links: {
     sublinks: [
       {
         id: 1,
-        name: 'Logo',
-        route: 'logo',
+        name: 'General settings',
+        route: 'general-settings',
       },
       {
         id: 2,
