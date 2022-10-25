@@ -1,11 +1,11 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 import AboutImg from '../../public/images/about1.png';
 import AddAboutDetails from './AddAboutDetails';
 import { useDeleteAboutDetail } from '../../lib/operations/about';
 import EditAboutDetails from './EditAboutDetails';
 import { AboutDetail } from '../../lib/types';
+import useRefreshServerSideProps from '../../lib/hooks/useRefreshServerSideProps';
 
 interface AboutDetailsProps {
   details: AboutDetail[];
@@ -13,11 +13,11 @@ interface AboutDetailsProps {
 
 const AboutDetails: React.FC<AboutDetailsProps> = ({ details }) => {
   const { mutate } = useDeleteAboutDetail();
-  const router = useRouter();
+  const { refresh } = useRefreshServerSideProps();
 
   const deleteAboutDetail = async (id: number) => {
     await mutate(id);
-    router.replace(router.asPath);
+    refresh();
   };
   return (
     <div className="bg-white px-10 pt-3 pb-7">

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,6 +11,7 @@ import FormWrapper from './FormWrapper';
 import { useAddAboutDetail } from '../../lib/operations/about';
 import { AboutDetail } from '../../lib/types';
 import { aboutDetailSchema } from '../../lib/schemas';
+import useRefreshServerSideProps from '../../lib/hooks/useRefreshServerSideProps';
 
 const AddAboutDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,12 +22,12 @@ const AddAboutDetails = () => {
   const { handleSubmit } = methods;
 
   const { mutate, isLoading, isError } = useAddAboutDetail();
-  const router = useRouter();
+  const { refresh } = useRefreshServerSideProps();
 
   const onSubmit: SubmitHandler<AboutDetail> = async (data) => {
     await mutate(data);
     if (!isError) {
-      router.replace(router.asPath);
+      refresh();
       setIsModalOpen(false);
     }
   };
