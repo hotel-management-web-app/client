@@ -21,13 +21,15 @@ const AddAboutDetails = () => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useAddAboutDetail();
+  const { mutate, isLoading, isError } = useAddAboutDetail();
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<AboutDetail> = (data) => {
-    setIsModalOpen(false);
-    mutate(data);
-    router.replace(router.asPath);
+  const onSubmit: SubmitHandler<AboutDetail> = async (data) => {
+    await mutate(data);
+    if (!isError) {
+      router.replace(router.asPath);
+      setIsModalOpen(false);
+    }
   };
 
   return (

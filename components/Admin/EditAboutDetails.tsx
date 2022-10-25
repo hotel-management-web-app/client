@@ -24,13 +24,15 @@ const EditAboutDetails: React.FC<EditAboutDetailsProps> = ({ aboutDetail }) => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useUpdateAboutDetail(aboutDetail.id);
+  const { mutate, isLoading, isError } = useUpdateAboutDetail(aboutDetail.id);
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<AboutDetail> = (data) => {
-    setIsModalOpen(false);
-    mutate(data);
-    router.replace(router.asPath);
+  const onSubmit: SubmitHandler<AboutDetail> = async (data) => {
+    await mutate(data);
+    if (!isError) {
+      router.replace(router.asPath);
+      setIsModalOpen(false);
+    }
   };
 
   return (
