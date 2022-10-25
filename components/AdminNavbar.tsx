@@ -58,6 +58,11 @@ const links: {
         name: 'Rooms',
         route: 'rooms',
       },
+      {
+        id: 4,
+        name: 'About settings',
+        route: 'about-settings',
+      },
     ],
   },
   {

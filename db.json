@@ -148,6 +148,10 @@
       ]
     }
   ],
+  "about-info": {
+    "title": "Welcome to our hotel",
+    "description": "Since 2016, we’ve grown from our roots as an award-winning hotel in Gstaad, Switzerland, to include a wider collection of chalets and waterfront retreats that stretch from the Alps to the Mediterranean. And, while we evolve to the changing needs of our guests, we’ve kept true to our signature Ultima experience. You will come to expect exceptionally high service from our in-house teams, as well as the utmost comfort and discretion. Wellbeing and sustainability are also at the core of our DNA. Each property has access to its own extensive, state-of-the-art wellness amenities and has been artistically curated to reflect its natural surroundings."
+  },
   "about-details": [
     {
       "id": 1,
