@@ -45,7 +45,7 @@ const AboutSettingsPage: React.FC<AboutSettingsPageProps> = ({
       <Header title="About settings" />
       <FormProvider {...methods}>
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
-          <div className="mx-auto w-1/2 my-5">
+          <div className="mx-auto lg:w-2/3 2xl:w-1/2 my-5">
             <Input id="title" title="Title" defaultValue={aboutInfo.title} />
             <div className="mt-5">
               <Textarea

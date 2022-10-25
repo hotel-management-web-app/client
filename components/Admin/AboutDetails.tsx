@@ -26,15 +26,15 @@ const AboutDetails: React.FC<AboutDetailsProps> = ({ details }) => {
         <AddAboutDetails />
       </div>
       {details.map((detail) => (
-        <div key={detail.id} className="flex justify-between mt-10">
-          <div className="flex gap-10">
+        <div key={detail.id} className="flex justify-between mt-10 flex-wrap">
+          <div className="flex gap-x-10 gap-y-5 flex-wrap">
             <Image src={AboutImg} alt="about" width="200px" height="200px" />
-            <div className="w-1/2">
+            <div>
               <h3 className="text-lg font-medium">{detail.title}</h3>
-              <p className="mt-3">{detail.description}</p>
+              <p className="mt-3 max-w-[700px]">{detail.description}</p>
             </div>
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-5 mt-5 2xl:mt-0">
             <EditAboutDetails aboutDetail={detail} />
             <button
               className="text-white bg-red-500 px-5 py-1 rounded-lg"
