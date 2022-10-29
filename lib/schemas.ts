@@ -55,3 +55,8 @@ export const generalSettingsSchema = yup.object({
     .required('Email is required!'),
   phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid!'),
 });
+
+export const aboutDetailSchema = yup.object({
+  title: yup.string().required('Title is required!'),
+  description: yup.string(),
+});

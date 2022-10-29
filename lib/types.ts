@@ -96,3 +96,17 @@ export interface GeneralSettings {
   email: 'admin@example.com';
   phoneNumber: '123456789';
 }
+
+export interface AboutDetail {
+  id: number;
+  title: string;
+  description: string;
+  imgUrl: string;
+}
+
+export interface AboutInfo {
+  id: number;
+  title: string;
+  description: string;
+  aboutDetails: AboutDetail[];
+}

@@ -3,18 +3,23 @@ import { useFormContext } from 'react-hook-form';
 import camelize from '../../utils/camelize';
 
 interface InputProps {
-  id: string;
-  title: string;
+  id?: string;
+  title?: string;
+  fieldName?: string;
   [restProps: string]: any;
 }
 
-const Input: React.FC<InputProps> = ({ id, title = 'Title', ...restProps }) => {
+const Input: React.FC<InputProps> = ({
+  id = 'title',
+  title = 'Title',
+  fieldName = camelize(title),
+  ...restProps
+}) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
-  const camelizedTitle = camelize(title);
-  const error = errors[camelizedTitle];
+  const error = errors[fieldName];
 
   return (
     <div className="relative">
@@ -27,7 +32,7 @@ const Input: React.FC<InputProps> = ({ id, title = 'Title', ...restProps }) => {
           error ? 'border-red-500' : 'border-[#ccc]'
         }   border-px rounded py-2 px-3 w-full focus:outline-none mt-1 h-[36px]`}
         placeholder={title}
-        {...register(camelizedTitle)}
+        {...register(fieldName)}
         {...restProps}
       />
       {error && (
