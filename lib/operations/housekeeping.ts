@@ -1,10 +1,17 @@
 import { AxiosResponse, AxiosError } from 'axios';
-import { useMutation } from 'react-query';
-import { updateHousekeepingStatus } from '../api/housekeeping';
-import { HousekeepingField } from '../types';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { getRooms, updateHousekeepingStatus } from '../api/housekeeping';
+import { Housekeeping, HousekeepingField } from '../types';
 
-// eslint-disable-next-line import/prefer-default-export
-export const useUpdateHousekeepingField = (id: number) =>
-  useMutation<AxiosResponse, AxiosError, HousekeepingField>(async (status) =>
-    updateHousekeepingStatus(id, status)
+export const useGetRooms = () =>
+  useQuery<Housekeeping[], AxiosError>(['housekeeping'], getRooms);
+
+export const useUpdateHousekeepingField = (id: number) => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse, AxiosError, HousekeepingField>(
+    async (status) => updateHousekeepingStatus(id, status),
+    {
+      onSuccess: () => queryClient.invalidateQueries(['housekeeping']),
+    }
   );
+};

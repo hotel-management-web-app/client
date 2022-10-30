@@ -1,6 +1,6 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import { useRouter } from 'next/router';
+import { dehydrate, QueryClient } from 'react-query';
 import { Entries } from '../../../components/Admin';
 import AddButton from '../../../components/Admin/AddButton';
 import DeleteButton from '../../../components/Admin/DeleteButton';
@@ -8,8 +8,7 @@ import EditButton from '../../../components/Admin/EditButton';
 import Header from '../../../components/Admin/Header';
 import Seo from '../../../components/Seo';
 import { getGuests } from '../../../lib/api/guests';
-import { Guest } from '../../../lib/types';
-import { useDeleteGuest } from '../../../lib/operations/guests';
+import { useDeleteGuest, useGetGuests } from '../../../lib/operations/guests';
 
 const headers: string[] = [
   'Id',
@@ -21,23 +20,20 @@ const headers: string[] = [
   'Action',
 ];
 
-interface GuestsProps {
-  guests: Guest[];
-}
-
 export const getServerSideProps = async () => {
-  const guests = await getGuests();
+  const queryClient = new QueryClient();
 
-  return { props: { guests } };
+  await queryClient.prefetchQuery(['guests'], getGuests);
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const Guests: React.FC<GuestsProps> = ({ guests }) => {
+const Guests = () => {
+  const { data } = useGetGuests();
   const { mutate } = useDeleteGuest();
-  const router = useRouter();
 
   const deleteGuest = async (id: number) => {
     await mutate(id);
-    router.replace(router.asPath);
   };
 
   return (
@@ -67,7 +63,7 @@ const Guests: React.FC<GuestsProps> = ({ guests }) => {
               </tr>
             </thead>
             <tbody>
-              {guests.map((guest) => (
+              {data?.map((guest) => (
                 <tr key={guest.id} className="border-b">
                   <td>{guest.id}</td>
                   <td>
@@ -91,7 +87,7 @@ const Guests: React.FC<GuestsProps> = ({ guests }) => {
               ))}
             </tbody>
           </table>
-          {guests.length === 0 && (
+          {data?.length === 0 && (
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>

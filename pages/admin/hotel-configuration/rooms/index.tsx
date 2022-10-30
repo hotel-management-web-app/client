@@ -1,6 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/router';
+import { dehydrate, QueryClient } from 'react-query';
 import { nanoid } from 'nanoid';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
@@ -8,7 +7,8 @@ import AddButton from '../../../../components/Admin/AddButton';
 import EditButton from '../../../../components/Admin/EditButton';
 import { Entries } from '../../../../components/Admin';
 import DeleteButton from '../../../../components/Admin/DeleteButton';
-import { useDeleteRoom } from '../../../../lib/operations/rooms';
+import { useDeleteRoom, useGetRooms } from '../../../../lib/operations/rooms';
+import { getRooms } from '../../../../lib/api/rooms';
 
 const headers: string[] = [
   'Id',
@@ -20,30 +20,19 @@ const headers: string[] = [
 ];
 
 export const getServerSideProps = async () => {
-  const data = await axios.get('/rooms').then((res) => res.data);
+  const queryClient = new QueryClient();
 
-  return {
-    props: { data },
-  };
+  await queryClient.prefetchQuery(['rooms'], getRooms);
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-interface RoomsProps {
-  data: {
-    id: number;
-    roomType: string;
-    roomNumber: number;
-    floorNumber: number;
-    roomStatus: string;
-  }[];
-}
-
-const Rooms: React.FC<RoomsProps> = ({ data }) => {
+const Rooms = () => {
+  const { data } = useGetRooms();
   const { mutate } = useDeleteRoom();
-  const router = useRouter();
 
   const deleteRoom = async (id: number) => {
     await mutate(id);
-    router.replace(router.asPath);
   };
 
   return (
@@ -73,7 +62,7 @@ const Rooms: React.FC<RoomsProps> = ({ data }) => {
               </tr>
             </thead>
             <tbody>
-              {data.map((room) => (
+              {data?.map((room) => (
                 <tr key={room.id} className="border-b">
                   <td>{room.id}</td>
                   <td>{room.roomType}</td>
@@ -90,7 +79,7 @@ const Rooms: React.FC<RoomsProps> = ({ data }) => {
               ))}
             </tbody>
           </table>
-          {data.length === 0 && (
+          {data?.length === 0 && (
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>

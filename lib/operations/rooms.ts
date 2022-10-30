@@ -1,10 +1,13 @@
 import { AxiosResponse, AxiosError } from 'axios';
 import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
-import { addRoom, deleteRoom, updateRoom } from '../api/rooms';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { addRoom, deleteRoom, getRooms, updateRoom } from '../api/rooms';
 import { Room } from '../types';
 
 const backUrl = 'http://localhost:3000/admin/hotel-configuration/rooms';
+
+export const useGetRooms = () =>
+  useQuery<Room[], AxiosError>(['rooms'], getRooms);
 
 export const useAddRoom = () => {
   const router = useRouter();
@@ -26,5 +29,9 @@ export const useUpdateRoom = (id: number) => {
   );
 };
 
-export const useDeleteRoom = () =>
-  useMutation<AxiosResponse, AxiosError, number>(deleteRoom);
+export const useDeleteRoom = () => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse, AxiosError, number>(deleteRoom, {
+    onSuccess: () => queryClient.invalidateQueries(['rooms']),
+  });
+};
