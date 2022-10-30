@@ -1,25 +1,20 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import axios from 'axios';
 import Seo from '../components/Seo';
 import RoomsImg from '../public/images/rooms.png';
 import RoomImg from '../public/images/room.png';
+import { RoomType } from '../lib/types';
+import { getRoomTypes } from '../lib/api/roomTypes';
 
 export const getServerSideProps = async () => {
-  const data = await axios.get('/room-types').then((res) => res.data);
+  const data = await getRoomTypes();
 
   return { props: { roomTypes: data } };
 };
 
 interface RoomsProps {
-  roomTypes: {
-    id: number;
-    name: string;
-    description: string;
-    imgUrl: string;
-    roomUrl: string;
-  }[];
+  roomTypes: RoomType[];
 }
 
 const Rooms: React.FC<RoomsProps> = ({ roomTypes }) => (
@@ -44,10 +39,10 @@ const Rooms: React.FC<RoomsProps> = ({ roomTypes }) => (
               <p className="my-4 font-light h-[120px] overflow-clip">
                 {roomType.description}
               </p>
-              <Link href={roomType.roomUrl}>
+              <Link href={`/rooms/${roomType.id}`}>
                 <a className="underline">More Details</a>
               </Link>
-              <Link href={roomType.roomUrl}>
+              <Link href="/room-booking">
                 <a className="bg-dark-gray text-white text-lg p-2 float-right mt-7 mb-8 ">
                   Book Now
                 </a>
