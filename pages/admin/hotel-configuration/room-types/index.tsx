@@ -1,6 +1,5 @@
 import React from 'react';
-import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
+import { dehydrate, QueryClient } from 'react-query';
 import { nanoid } from 'nanoid';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
@@ -8,32 +7,29 @@ import AddButton from '../../../../components/Admin/AddButton';
 import Entries from '../../../../components/Admin/Entries';
 import EditButton from '../../../../components/Admin/EditButton';
 import DeleteButton from '../../../../components/Admin/DeleteButton';
-import { getRoomTypes, deleteRoomType } from '../../../../lib/api/roomTypes';
+import { getRoomTypes } from '../../../../lib/api/roomTypes';
+import {
+  useDeleteRoomType,
+  useGetRoomTypes,
+} from '../../../../lib/operations/roomTypes';
 
 const headers: string[] = ['ID', 'Name', 'Occupancy', 'Price', 'Action'];
 
-interface RoomTypesProps {
-  roomTypes: {
-    id: number;
-    name: string;
-    occupancy: number;
-    price: string;
-  }[];
-}
-
 export const getServerSideProps = async () => {
-  const data = await getRoomTypes();
+  const queryClient = new QueryClient();
 
-  return { props: { roomTypes: data } };
+  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => {
-  const { mutate } = useMutation(async (id: number) => deleteRoomType(id));
-  const router = useRouter();
+const RoomTypes = () => {
+  const { data } = useGetRoomTypes();
+
+  const { mutate } = useDeleteRoomType();
 
   const deleteRoomTypeHandler = async (id: number) => {
     await mutate(id);
-    router.replace(router.asPath);
   };
 
   return (
@@ -63,7 +59,7 @@ const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => {
               </tr>
             </thead>
             <tbody>
-              {roomTypes.map((roomType) => (
+              {data?.map((roomType) => (
                 <tr key={roomType.id} className="border-b">
                   <td>{roomType.id}</td>
                   <td>{roomType.name}</td>
@@ -81,7 +77,7 @@ const RoomTypes: React.FC<RoomTypesProps> = ({ roomTypes }) => {
               ))}
             </tbody>
           </table>
-          {roomTypes.length === 0 && (
+          {data?.length === 0 && (
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>

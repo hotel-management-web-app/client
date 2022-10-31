@@ -306,7 +306,7 @@
       "priority": "Medium",
       "floor": 2,
       "reservationStatus": "Vacant",
-      "comments": "Wash",
+      "comments": "Wash The windows",
       "Cleaning": ""
     },
     {
@@ -341,8 +341,13 @@
     }
   ],
   "general-settings": {
-    "hotelName": "Hotel",
+    "hotelName": "Hotel Paradise",
     "country": "Poland",
+    "email": "admin@example.com",
+    "phoneNumber": "123456789"
+  },
+  "profile-info": {
+    "name": "Admin",
     "email": "admin@example.com",
     "phoneNumber": "123456789"
   }

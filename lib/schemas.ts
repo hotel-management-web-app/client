@@ -53,10 +53,25 @@ export const generalSettingsSchema = yup.object({
     .string()
     .email('Email is not valid!')
     .required('Email is required!'),
-  phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid!'),
+  phoneNumber: yup
+    .string()
+    .matches(phoneRegExp, 'Phone number is not valid!')
+    .required('Phone number is required!'),
 });
 
 export const aboutDetailSchema = yup.object({
   title: yup.string().required('Title is required!'),
   description: yup.string(),
+});
+
+export const profileSchema = yup.object({
+  name: yup.string().required('Name is required!'),
+  email: yup
+    .string()
+    .email('Email is not valid!')
+    .required('Email is required!'),
+  phoneNumber: yup
+    .string()
+    .matches(phoneRegExp, 'Phone number is not valid!')
+    .required('Phone number is required!'),
 });

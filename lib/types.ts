@@ -91,10 +91,10 @@ export interface ServerSideParams extends ParsedUrlQuery {
 }
 
 export interface GeneralSettings {
-  hotelName: 'Hotel';
-  country: 'Poland';
-  email: 'admin@example.com';
-  phoneNumber: '123456789';
+  hotelName: string;
+  country: string;
+  email: string;
+  phoneNumber: string;
 }
 
 export interface AboutDetail {
@@ -109,4 +109,10 @@ export interface AboutInfo {
   title: string;
   description: string;
   aboutDetails: AboutDetail[];
+}
+
+export interface ProfileInfo {
+  name: string;
+  email: string;
+  phoneNumber: string;
 }

@@ -2,12 +2,12 @@ import React from 'react';
 import { TailSpin } from 'react-loader-spinner';
 
 interface SubmitButtonProps {
-  name: string;
+  name?: string;
   isLoading?: boolean;
 }
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
-  name,
+  name = 'Save',
   isLoading = false,
 }) => (
   <button className="bg-black text-white px-10 py-2 rounded-lg relative">

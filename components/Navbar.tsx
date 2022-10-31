@@ -5,6 +5,7 @@ import { Disclosure } from '@headlessui/react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoMdClose } from 'react-icons/io';
 import SlideDown from 'react-slidedown';
+import { useGetSettings } from '../lib/operations/generalSettings';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -19,6 +20,7 @@ function classNames(...classes: string[]) {
 
 const Navbar = () => {
   const router = useRouter();
+  const { data, isLoading } = useGetSettings();
   return (
     <Disclosure as="nav" className="bg-black py-2">
       {({ open }) => (
@@ -39,7 +41,9 @@ const Navbar = () => {
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
                   <Link href="/">
-                    <a className="text-white text-2xl font-bold">Your Logo</a>
+                    <a className="text-white text-2xl font-bold">
+                      {isLoading ? <>Loading logo...</> : data?.hotelName}
+                    </a>
                   </Link>
                 </div>
                 <div className="hidden sm:block sm:mx-auto">

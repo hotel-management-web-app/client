@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { AiFillDashboard } from 'react-icons/ai';
 // eslint-disable-next-line object-curly-newline
-import { FaCalendarAlt, FaUsers, FaBroom, FaBars } from 'react-icons/fa';
+import { IoMdExit } from 'react-icons/io';
+import {
+  FaCalendarAlt,
+  FaUsers,
+  FaBroom,
+  FaBars,
+  FaUserAlt,
+} from 'react-icons/fa';
 import { BsFillGearFill } from 'react-icons/bs';
 import { TbReport } from 'react-icons/tb';
 import Link from 'next/link';
@@ -83,8 +90,24 @@ const AdminNavbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <div>
+      <div className="absolute top-3 right-7">
+        <div className="flex gap-10 text-gray-500">
+          <Link href="/admin/profile">
+            <a className="flex items-center gap-1">
+              <FaUserAlt size="14" />
+              Profile
+            </a>
+          </Link>
+          <Link href="#">
+            <a className="flex items-center gap-1">
+              <IoMdExit />
+              Logout
+            </a>
+          </Link>
+        </div>
+      </div>
       <div>
-        <button onClick={() => setIsOpen(!isOpen)}>
+        <button className="mt-2 ml-2" onClick={() => setIsOpen(!isOpen)}>
           <FaBars size="25" />
         </button>
         <div

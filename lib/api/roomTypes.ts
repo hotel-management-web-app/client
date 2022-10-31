@@ -3,7 +3,7 @@ import { RoomType } from '../types';
 
 const baseUrl = '/room-types';
 
-export const getRoomTypes = async () =>
+export const getRoomTypes = (): Promise<RoomType[]> =>
   axios.get(baseUrl).then((res) => res.data);
 
 export const getRoomType = async (id: number) =>
