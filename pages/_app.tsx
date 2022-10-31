@@ -1,16 +1,24 @@
 import React from 'react';
 import axios from 'axios';
-import type { AppProps } from 'next/app';
+import type { AppContext, AppProps } from 'next/app';
+import App from 'next/app';
 import { useRouter } from 'next/router';
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
 import Layout from '../components/Layout';
 import AdminLayout from '../components/AdminLayout';
 import '../styles/globals.css';
+import { getSettings } from '../lib/api/generalSettings';
+import { Context } from '../lib/context';
+import { GeneralSettings } from '../lib/types';
 
-const MyApp: React.FC<AppProps<{ dehydratedState: unknown }>> = ({
-  Component,
-  pageProps,
-}) => {
+interface MyAppProps extends AppProps {
+  settings: GeneralSettings;
+  pageProps: {
+    dehydratedState: unknown;
+  };
+}
+
+const MyApp = ({ Component, pageProps, settings }: MyAppProps) => {
   const router = useRouter();
   const queryClient = new QueryClient();
 
@@ -29,14 +37,24 @@ const MyApp: React.FC<AppProps<{ dehydratedState: unknown }>> = ({
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Hydrate>
-    </QueryClientProvider>
+    <Context.Provider value={settings}>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Hydrate>
+      </QueryClientProvider>
+    </Context.Provider>
   );
+};
+
+MyApp.getInitialProps = async (context: AppContext) => {
+  const ctx = await App.getInitialProps(context);
+
+  const settings = await getSettings();
+
+  return { ...ctx, settings };
 };
 
 export default MyApp;

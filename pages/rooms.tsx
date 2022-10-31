@@ -8,9 +8,9 @@ import { RoomType } from '../lib/types';
 import { getRoomTypes } from '../lib/api/roomTypes';
 
 export const getServerSideProps = async () => {
-  const data = await getRoomTypes();
+  const roomTypes = await getRoomTypes();
 
-  return { props: { roomTypes: data } };
+  return { props: { roomTypes } };
 };
 
 interface RoomsProps {
