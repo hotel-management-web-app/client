@@ -8,18 +8,32 @@ import {
   SubmitButton,
 } from '../../components/Admin';
 import Seo from '../../components/Seo';
+import { getProfileInfo } from '../../lib/api/profile';
+import { useUpdateProfileInfo } from '../../lib/operations/profile';
 import { profileSchema } from '../../lib/schemas';
-import { GeneralSettings } from '../../lib/types';
+import { ProfileInfo } from '../../lib/types';
 
-const Profile = () => {
-  const methods = useForm<GeneralSettings>({
+interface ProfileProps {
+  profileInfo: ProfileInfo;
+}
+
+export const getServerSideProps = async () => {
+  const profileInfo = await getProfileInfo();
+
+  return { props: { profileInfo } };
+};
+
+const Profile: React.FC<ProfileProps> = ({ profileInfo }) => {
+  const methods = useForm<ProfileInfo>({
     resolver: yupResolver(profileSchema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;
 
-  const onSubmit: SubmitHandler<GeneralSettings> = (data) => {
-    console.log(data);
+  const { mutate, isLoading } = useUpdateProfileInfo();
+
+  const onSubmit: SubmitHandler<ProfileInfo> = (data) => {
+    mutate(data);
   };
 
   return (
@@ -28,7 +42,7 @@ const Profile = () => {
       <Header title="Profile" />
       <FormProvider {...methods}>
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
-          <div className="w-1/2 2xl:w-5/12 mx-auto my-5">
+          <div className="w-4/5 sm:w-1/2 2xl:w-5/12 mx-auto my-5">
             <div className=" flex flex-col gap-5">
               <div className="flex justify-between">
                 <div>
@@ -40,13 +54,16 @@ const Profile = () => {
                   <p>26.10.2022</p>
                 </div>
               </div>
-              <Input title="Name" />
-              <Input title="Email" />
-              <Input title="Phone number" />
+              <Input title="Name" defaultValue={profileInfo.name} />
+              <Input title="Email" defaultValue={profileInfo.email} />
+              <Input
+                title="Phone number"
+                defaultValue={profileInfo.phoneNumber}
+              />
             </div>
           </div>
-          <div className="flex justify-center mt-5">
-            <SubmitButton />
+          <div className="flex justify-center mt-8">
+            <SubmitButton isLoading={isLoading} />
           </div>
         </FormWrapper>
       </FormProvider>

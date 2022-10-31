@@ -110,3 +110,9 @@ export interface AboutInfo {
   description: string;
   aboutDetails: AboutDetail[];
 }
+
+export interface ProfileInfo {
+  name: string;
+  email: string;
+  phoneNumber: string;
+}

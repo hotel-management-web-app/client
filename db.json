@@ -345,5 +345,10 @@
     "country": "Poland",
     "email": "admin@example.com",
     "phoneNumber": "123456789"
+  },
+  "profile-info": {
+    "name": "Admin",
+    "email": "admin@example.com",
+    "phoneNumber": "123456789"
   }
 }
