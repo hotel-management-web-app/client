@@ -83,6 +83,7 @@ const AdminNavbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <div>
+      <p>Logout</p>
       <div>
         <button onClick={() => setIsOpen(!isOpen)}>
           <FaBars size="25" />
