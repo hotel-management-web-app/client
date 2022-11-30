@@ -71,8 +71,8 @@ const Guests = () => {
                     &nbsp;
                     {guest.lastName}
                   </td>
-                  <td>{guest.emailAddress}</td>
-                  <td>{guest.latestBooking}</td>
+                  <td>{guest.email}</td>
+                  <td>{guest.lastBooking}</td>
                   <td>{guest.bookings}</td>
                   <td>{guest.status}</td>
                   <td className="w-40 py-3">

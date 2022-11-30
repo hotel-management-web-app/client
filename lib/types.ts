@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
 export interface RoomType {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   occupancy: number;
@@ -33,11 +33,11 @@ export interface Guest {
   id: number;
   firstName: string;
   lastName: string;
-  emailAddress: string;
+  email: string;
   phoneNumber: string;
   country: string;
   address: string;
-  latestBooking: string;
+  lastBooking: string;
   city: string;
   postalCode: string;
   status: string;
