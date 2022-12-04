@@ -59,17 +59,17 @@ const RoomTypes = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((roomType) => (
-                <tr key={roomType.id} className="border-b">
-                  <td>{roomType.id}</td>
-                  <td>{roomType.name}</td>
-                  <td>{roomType.occupancy}</td>
-                  <td>{roomType.price}</td>
+              {data?.map(({ id, name, occupancy, price }) => (
+                <tr key={id} className="border-b">
+                  <td>{id}</td>
+                  <td>{name}</td>
+                  <td>{occupancy}</td>
+                  <td>{price}</td>
                   <td className="w-40 py-3">
                     <div>
-                      <EditButton id={roomType.id} />
+                      <EditButton id={id} />
                       <DeleteButton
-                        deleteHandler={() => deleteRoomTypeHandler(roomType.id)}
+                        deleteHandler={() => deleteRoomTypeHandler(id!)}
                       />
                     </div>
                   </td>

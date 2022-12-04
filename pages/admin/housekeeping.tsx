@@ -28,7 +28,7 @@ export const getServerSideProps = async () => {
 };
 
 const HousekeepingPage = () => {
-  const { data } = useGetRooms();
+  const { data: rooms } = useGetRooms();
   return (
     <div>
       <Seo title="Housekeeping" />
@@ -45,29 +45,37 @@ const HousekeepingPage = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.map((room) => (
-              <tr key={room.id} className="border-b">
-                <td className="py-3">{room.roomNumber}</td>
-                <td className="py-3">{room.roomType}</td>
-                <td className="py-3 w-60">
-                  <HousekeepingStatus
-                    id={room.id}
-                    status={room.housekeepingStatus}
-                  />
-                </td>
-                <td className="py-3 w-60">
-                  <PriorityStatus id={room.id} status={room.priority} />
-                </td>
-                <td className="py-3">{room.floor}</td>
-                <td className="py-3">{room.reservationStatus}</td>
-                <td className="py-3">
-                  <HousekeepingComments id={room.id} value={room.comments} />
-                </td>
-              </tr>
-            ))}
+            {rooms?.map(
+              ({
+                id,
+                roomNumber,
+                roomType,
+                housekeepingStatus,
+                priority,
+                floor,
+                reservationStatus,
+                comments,
+              }) => (
+                <tr key={id} className="border-b">
+                  <td className="py-3">{roomNumber}</td>
+                  <td className="py-3">{roomType}</td>
+                  <td className="py-3 w-60">
+                    <HousekeepingStatus id={id} status={housekeepingStatus} />
+                  </td>
+                  <td className="py-3 w-60">
+                    <PriorityStatus id={id} status={priority} />
+                  </td>
+                  <td className="py-3">{floor}</td>
+                  <td className="py-3">{reservationStatus}</td>
+                  <td className="py-3">
+                    <HousekeepingComments id={id} value={comments} />
+                  </td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
-        {data?.length === 0 && (
+        {rooms?.length === 0 && (
           <p className="text-center mt-5">No data available in table</p>
         )}
       </div>

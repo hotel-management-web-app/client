@@ -62,21 +62,23 @@ const Rooms = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((room) => (
-                <tr key={room.id} className="border-b">
-                  <td>{room.id}</td>
-                  <td>{room.roomType}</td>
-                  <td>{room.roomNumber}</td>
-                  <td>{room.floorNumber}</td>
-                  <td>{room.roomStatus}</td>
-                  <td className="w-40 py-3">
-                    <div>
-                      <EditButton id={room.id} />
-                      <DeleteButton deleteHandler={() => deleteRoom(room.id)} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {data?.map(
+                ({ id, roomType, roomNumber, floorNumber, roomStatus }) => (
+                  <tr key={id} className="border-b">
+                    <td>{id}</td>
+                    <td>{roomType}</td>
+                    <td>{roomNumber}</td>
+                    <td>{floorNumber}</td>
+                    <td>{roomStatus}</td>
+                    <td className="w-40 py-3">
+                      <div>
+                        <EditButton id={id} />
+                        <DeleteButton deleteHandler={() => deleteRoom(id)} />
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
           {data?.length === 0 && (

@@ -48,20 +48,20 @@ const Navbar = () => {
                 </div>
                 <div className="hidden sm:block sm:mx-auto">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <Link key={item.name} href={item.href}>
+                    {navigation.map(({ name, href }) => (
+                      <Link key={name} href={href}>
                         <a
                           className={classNames(
-                            router.pathname === item.href
+                            router.pathname === href
                               ? 'bg-gray-700 text-white'
                               : 'text-white hover:bg-gray-700 hover:text-white',
                             'px-3 py-2 rounded-md text-lg font-medium'
                           )}
                           aria-current={
-                            router.pathname === item.href ? 'page' : undefined
+                            router.pathname === href ? 'page' : undefined
                           }
                         >
-                          {item.name}
+                          {name}
                         </a>
                       </Link>
                     ))}
@@ -69,12 +69,11 @@ const Navbar = () => {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <a
-                  href="/room-booking"
-                  className="text-white border border-white text-lg font-medium px-5 py-1"
-                >
-                  Book Now
-                </a>
+                <Link href="/room-booking">
+                  <a className="text-white border border-white text-lg font-medium px-5 py-1">
+                    Book Now
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -82,21 +81,20 @@ const Navbar = () => {
             <SlideDown>
               {open && (
                 <div className="px-2 pt-2 pb-3 space-y-1">
-                  {navigation.map((item) => (
-                    <Link href={item.href}>
+                  {navigation.map(({ name, href }) => (
+                    <Link key={name} href={href}>
                       <a
-                        key={item.name}
                         className={classNames(
-                          router.pathname === item.href
+                          router.pathname === href
                             ? 'bg-gray-900 text-white'
                             : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'block px-3 py-2 rounded-md text-base font-medium'
                         )}
                         aria-current={
-                          router.pathname === item.href ? 'page' : undefined
+                          router.pathname === href ? 'page' : undefined
                         }
                       >
-                        {item.name}
+                        {name}
                       </a>
                     </Link>
                   ))}
