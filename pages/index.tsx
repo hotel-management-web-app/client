@@ -9,9 +9,9 @@ import Newsletter from '../components/Newsletter';
 import HeroBg from '../public/images/hero-bg.png';
 
 export const getServerSideProps = async () => {
-  const data = await axios.get('/room-types').then((res) => res.data);
+  const roomTypes = await axios.get('/room-types').then((res) => res.data);
 
-  return { props: { roomTypes: data } };
+  return { props: { roomTypes } };
 };
 
 interface HomeProps {

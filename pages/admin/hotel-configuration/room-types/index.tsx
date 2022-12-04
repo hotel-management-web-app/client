@@ -67,7 +67,7 @@ const RoomTypes = () => {
                   <td>{price}</td>
                   <td className="w-40 py-3">
                     <div>
-                      <EditButton id={id} />
+                      <EditButton id={id!} />
                       <DeleteButton
                         deleteHandler={() => deleteRoomTypeHandler(id!)}
                       />

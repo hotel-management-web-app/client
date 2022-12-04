@@ -29,7 +29,7 @@ export const getServerSideProps = async () => {
 };
 
 const Guests = () => {
-  const { data } = useGetGuests();
+  const { data: guests } = useGetGuests();
   const { mutate } = useDeleteGuest();
 
   const deleteGuest = async (id: number) => {
@@ -63,31 +63,39 @@ const Guests = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((guest) => (
-                <tr key={guest.id} className="border-b">
-                  <td>{guest.id}</td>
-                  <td>
-                    {guest.firstName}
-                    &nbsp;
-                    {guest.lastName}
-                  </td>
-                  <td>{guest.email}</td>
-                  <td>{guest.lastBooking}</td>
-                  <td>{guest.bookings}</td>
-                  <td>{guest.status}</td>
-                  <td className="w-40 py-3">
-                    <div>
-                      <EditButton id={guest.id} />
-                      <DeleteButton
-                        deleteHandler={() => deleteGuest(guest.id)}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {guests?.map(
+                ({
+                  id,
+                  firstName,
+                  lastName,
+                  email,
+                  lastBooking,
+                  bookings,
+                  status,
+                }) => (
+                  <tr key={id} className="border-b">
+                    <td>{id}</td>
+                    <td>
+                      {firstName}
+                      &nbsp;
+                      {lastName}
+                    </td>
+                    <td>{email}</td>
+                    <td>{lastBooking}</td>
+                    <td>{bookings}</td>
+                    <td>{status}</td>
+                    <td className="w-40 py-3">
+                      <div>
+                        <EditButton id={id} />
+                        <DeleteButton deleteHandler={() => deleteGuest(id)} />
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
-          {data?.length === 0 && (
+          {guests?.length === 0 && (
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>
