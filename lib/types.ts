@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
 export interface RoomType {
-  id?: number;
+  id: number;
   name: string;
   description: string;
   occupancy: number;

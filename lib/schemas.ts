@@ -20,7 +20,7 @@ export const roomTypeSchema = yup.object({
 
 export const roomSchema = yup.object({
   roomStatus: yup.string(),
-  roomType: yup.string().required(),
+  roomTypeId: yup.number().required(),
   floorNumber: yup
     .number()
     .typeError('Floor number must be a number')

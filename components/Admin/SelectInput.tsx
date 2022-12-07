@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Select from 'react-select';
 import { SelectOption } from '../../lib/types';
-import camelize from '../../utils/camelize';
 
 const customStyles = {
   control: (provided: object) => ({
@@ -19,6 +18,7 @@ const customStyles = {
 interface SelectInputProps {
   id: string;
   title: string;
+  keyName: string;
   options: SelectOption[];
   defaultOption?: SelectOption;
 }
@@ -26,6 +26,7 @@ interface SelectInputProps {
 const SelectInput: React.FC<SelectInputProps> = ({
   id,
   title,
+  keyName,
   options,
   defaultOption = null,
 }) => {
@@ -38,10 +39,9 @@ const SelectInput: React.FC<SelectInputProps> = ({
     formState: { errors },
   } = useFormContext();
 
-  const camelizedTitle = camelize(title);
-  const error = errors[camelizedTitle];
+  const error = errors[keyName];
 
-  setValue(camelizedTitle, selectedOption?.label);
+  setValue(keyName, selectedOption?.value);
 
   return (
     <div className="relative">
