@@ -19,6 +19,7 @@ export interface RoomType {
 export interface Room {
   id: number;
   roomType: string;
+  roomTypeId: number;
   roomNumber: number;
   floorNumber: number;
   roomStatus: string;

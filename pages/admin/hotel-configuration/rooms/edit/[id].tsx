@@ -13,7 +13,6 @@ import {
   StatusToggler,
 } from '../../../../../components/Admin';
 import Seo from '../../../../../components/Seo';
-import camelize from '../../../../../utils/camelize';
 import { useUpdateRoom } from '../../../../../lib/operations/rooms';
 import {
   Room,
@@ -24,6 +23,7 @@ import {
 import { getRoomTypes } from '../../../../../lib/api/roomTypes';
 import { getRoom } from '../../../../../lib/api/rooms';
 import { roomSchema } from '../../../../../lib/schemas';
+import { convertRoomStatus } from '../../../../../utils/convertRoomStatus';
 
 interface AddRoomProps {
   roomTypes: RoomType[];
@@ -50,13 +50,17 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
   const { mutate, isLoading } = useUpdateRoom(Number(id));
 
   const onSubmit: SubmitHandler<Room> = (data) => {
-    mutate(data);
+    const convertedRoomStatus = convertRoomStatus(data.roomStatus);
+    const updatedRoom = { ...data, roomStatus: convertedRoomStatus! };
+    mutate(updatedRoom);
   };
 
-  const roomTypesOptions: SelectOption[] = roomTypes.map((roomType) => ({
-    value: camelize(roomType.name),
-    label: roomType.name,
-  }));
+  const roomTypesOptions: SelectOption[] = roomTypes.map(
+    ({ id: roomTypeId, name }) => ({
+      value: roomTypeId,
+      label: name,
+    })
+  );
 
   return (
     <div>
@@ -79,9 +83,10 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
               <SelectInput
                 id="room-type"
                 title="Room type"
+                keyName="roomTypeId"
                 options={roomTypesOptions}
                 defaultOption={roomTypesOptions.find(
-                  (roomTypeOption) => roomTypeOption.label === room.roomType
+                  (roomTypeOption) => roomTypeOption.value === room.roomTypeId
                 )}
               />
               <Input
