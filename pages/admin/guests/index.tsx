@@ -70,7 +70,7 @@ const Guests = () => {
                   lastName,
                   email,
                   lastBooking,
-                  bookings,
+                  _count,
                   status,
                 }) => (
                   <tr key={id} className="border-b">
@@ -82,7 +82,7 @@ const Guests = () => {
                     </td>
                     <td>{email}</td>
                     <td>{lastBooking}</td>
-                    <td>{bookings}</td>
+                    <td>{_count.bookings}</td>
                     <td>{status}</td>
                     <td className="w-40 py-3">
                       <div>

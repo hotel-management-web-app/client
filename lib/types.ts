@@ -18,7 +18,7 @@ export interface RoomType {
 
 export interface Room {
   id: number;
-  roomType: string;
+  roomType: { name: string };
   roomTypeId: number;
   roomNumber: number;
   floorNumber: number;
@@ -45,7 +45,7 @@ export interface Guest {
   city: string;
   postalCode: string;
   status: string;
-  bookings: number;
+  _count: { bookings: number };
   notes: string;
 }
 

@@ -67,7 +67,7 @@ const Rooms = () => {
                 ({ id, roomType, roomNumber, floorNumber, roomStatus }) => (
                   <tr key={id} className="border-b">
                     <td>{id}</td>
-                    <td>{roomType}</td>
+                    <td>{roomType.name}</td>
                     <td>{roomNumber}</td>
                     <td>{floorNumber}</td>
                     <td>{roomStatuses[roomStatus]}</td>

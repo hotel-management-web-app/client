@@ -64,7 +64,7 @@ const HousekeepingPage = () => {
               }) => (
                 <tr key={id} className="border-b">
                   <td className="py-3">{roomNumber}</td>
-                  <td className="py-3">{roomType}</td>
+                  <td className="py-3">{roomType.name}</td>
                   <td className="py-3 w-60">
                     <HousekeepingStatus
                       id={id}
