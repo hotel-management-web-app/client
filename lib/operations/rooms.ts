@@ -1,8 +1,14 @@
 import { AxiosResponse, AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { addRoom, deleteRoom, getRooms, updateRoom } from '../api/rooms';
-import { Room } from '../types';
+import {
+  addRoom,
+  deleteRoom,
+  getRooms,
+  updateRoom,
+  updateRoomField,
+} from '../api/rooms';
+import { Room, StatusesProps } from '../types';
 
 const backUrl = 'http://localhost:3000/admin/hotel-configuration/rooms';
 
@@ -25,6 +31,16 @@ export const useUpdateRoom = (id: number) => {
     async (room) => updateRoom(id, room),
     {
       onSuccess: () => router.push(backUrl),
+    }
+  );
+};
+
+export const useUpdateRoomField = (id: number) => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse, AxiosError, StatusesProps>(
+    async (status) => updateRoomField(id, status),
+    {
+      onSuccess: () => queryClient.invalidateQueries(['rooms']),
     }
   );
 };

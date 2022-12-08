@@ -6,14 +6,20 @@ import HousekeepingComments from '../../components/Admin/HousekeepingComments';
 import HousekeepingStatus from '../../components/Admin/HousekeepingStatus';
 import PriorityStatus from '../../components/Admin/PriorityStatus';
 import Seo from '../../components/Seo';
-import { getRooms } from '../../lib/api/housekeeping';
-import { useGetRooms } from '../../lib/operations/housekeeping';
+import { getRooms } from '../../lib/api/rooms';
+import { useGetRooms } from '../../lib/operations/rooms';
+import {
+  housekeepingStatuses,
+  priorityStatuses,
+  roomStatuses,
+} from '../../constants/constants';
 
 const headers = [
   'Room',
   'Room Type',
   'Housekeeping Status',
   'Priority',
+  'Room',
   'Floor',
   'Reservation Status',
   'Comments and notes',
@@ -22,7 +28,7 @@ const headers = [
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['housekeeping'], getRooms);
+  await queryClient.prefetchQuery(['rooms'], getRooms);
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
@@ -52,21 +58,28 @@ const HousekeepingPage = () => {
                 roomType,
                 housekeepingStatus,
                 priority,
-                floor,
-                reservationStatus,
+                floorNumber,
+                roomStatus,
                 comments,
               }) => (
                 <tr key={id} className="border-b">
                   <td className="py-3">{roomNumber}</td>
                   <td className="py-3">{roomType}</td>
                   <td className="py-3 w-60">
-                    <HousekeepingStatus id={id} status={housekeepingStatus} />
+                    <HousekeepingStatus
+                      id={id}
+                      status={housekeepingStatuses[housekeepingStatus]}
+                    />
                   </td>
                   <td className="py-3 w-60">
-                    <PriorityStatus id={id} status={priority} />
+                    <PriorityStatus
+                      id={id}
+                      status={priorityStatuses[priority]}
+                    />
                   </td>
-                  <td className="py-3">{floor}</td>
-                  <td className="py-3">{reservationStatus}</td>
+                  <td className="py-3">{roomNumber}</td>
+                  <td className="py-3">{floorNumber}</td>
+                  <td className="py-3">{roomStatuses[roomStatus]}</td>
                   <td className="py-3">
                     <HousekeepingComments id={id} value={comments} />
                   </td>

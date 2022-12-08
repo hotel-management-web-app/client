@@ -2,10 +2,12 @@ import React, { useState, Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { BsCheck } from 'react-icons/bs';
 import { GoChevronDown } from 'react-icons/go';
-import { useUpdateHousekeepingField } from '../../lib/operations/housekeeping';
-import { HousekeepingStatus } from '../../lib/types';
+import { useUpdateRoomField } from '../../lib/operations/rooms';
+import { HousekeepingStatusOption } from '../../lib/types';
+import { convertToOriginalForm } from '../../utils/convertToOriginalForm';
+import { housekeepingStatuses } from '../../constants/constants';
 
-const housekeepingStatuses: HousekeepingStatus[] = [
+const housekeepingStatusOptions: HousekeepingStatusOption[] = [
   {
     id: 1,
     name: 'Clean',
@@ -42,15 +44,19 @@ const HousekeepingStatusPage: React.FC<HousekeepingStatusProps> = ({
   status,
 }) => {
   const [selectedStatus, setSelectedStatus] = useState(
-    housekeepingStatuses.find(
+    housekeepingStatusOptions.find(
       (housekeepingStatus) => housekeepingStatus.name === status
     )
   );
-  const { mutate } = useUpdateHousekeepingField(id);
+  const { mutate } = useUpdateRoomField(id);
 
-  const changeHandler = (housekeepingStatus: HousekeepingStatus) => {
+  const changeHandler = (housekeepingStatus: HousekeepingStatusOption) => {
     setSelectedStatus(housekeepingStatus);
-    mutate({ housekeepingStatus: housekeepingStatus.name });
+    const convertedHousekeepingStatus = convertToOriginalForm(
+      housekeepingStatuses,
+      housekeepingStatus.name
+    );
+    mutate({ housekeepingStatus: convertedHousekeepingStatus! });
   };
 
   return (
@@ -78,15 +84,15 @@ const HousekeepingStatusPage: React.FC<HousekeepingStatusProps> = ({
           leaveTo="opacity-0"
         >
           <Listbox.Options className="absolute mt-1 max-h-60 w-40 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
-            {housekeepingStatuses.map((housekeepingStatus) => (
+            {housekeepingStatusOptions.map((housekeepingStatusOption) => (
               <Listbox.Option
-                key={housekeepingStatus.id}
+                key={housekeepingStatusOption.id}
                 className={({ active }) =>
                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
                     active ? 'bg-gray-100 text-black' : 'text-gray-900'
                   }`
                 }
-                value={housekeepingStatus}
+                value={housekeepingStatusOption}
               >
                 {({ selected }) => (
                   <>
@@ -95,7 +101,7 @@ const HousekeepingStatusPage: React.FC<HousekeepingStatusProps> = ({
                         selected ? 'font-medium' : 'font-normal'
                       }`}
                     >
-                      {housekeepingStatus.name}
+                      {housekeepingStatusOption.name}
                     </span>
                     {selected ? (
                       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600">

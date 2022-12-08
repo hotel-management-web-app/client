@@ -15,7 +15,8 @@ import { useAddRoom } from '../../../../lib/operations/rooms';
 import { Room, RoomType, SelectOption } from '../../../../lib/types';
 import { getRoomTypes } from '../../../../lib/api/roomTypes';
 import { roomSchema } from '../../../../lib/schemas';
-import { convertRoomStatus } from '../../../../utils/convertRoomStatus';
+import { convertToOriginalForm } from '../../../../utils/convertToOriginalForm';
+import { roomStatuses } from '../../../../constants/constants';
 
 interface AddRoomProps {
   roomTypes: RoomType[];
@@ -37,7 +38,10 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
   const { mutate, isLoading } = useAddRoom();
 
   const onSubmit: SubmitHandler<Room> = (data) => {
-    const convertedRoomStatus = convertRoomStatus(data.roomStatus);
+    const convertedRoomStatus = convertToOriginalForm(
+      roomStatuses,
+      data.roomStatus
+    );
     const room = { ...data, roomStatus: convertedRoomStatus! };
     mutate(room);
   };

@@ -23,6 +23,9 @@ export interface Room {
   roomNumber: number;
   floorNumber: number;
   roomStatus: string;
+  housekeepingStatus: string;
+  priority: string;
+  comments: string;
 }
 
 export interface SelectOption {
@@ -70,18 +73,14 @@ export interface Housekeeping {
   comments: string;
 }
 
-export interface HousekeepingField {
-  [key: string]: string;
-}
-
-export interface HousekeepingStatus {
+export interface HousekeepingStatusOption {
   id: number;
   name: string;
   textColor: string;
   backgroundColor: string;
 }
 
-export interface PriorityStatus {
+export interface PriorityStatusOption {
   id: number;
   name: string;
   color: string;
@@ -116,4 +115,8 @@ export interface ProfileInfo {
   name: string;
   email: string;
   phoneNumber: string;
+}
+
+export interface StatusesProps {
+  [key: string]: string;
 }
