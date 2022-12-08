@@ -9,6 +9,7 @@ import Header from '../../../components/Admin/Header';
 import Seo from '../../../components/Seo';
 import { getGuests } from '../../../lib/api/guests';
 import { useDeleteGuest, useGetGuests } from '../../../lib/operations/guests';
+import { guestStatuses } from '../../../constants/constants';
 
 const headers: string[] = [
   'Id',
@@ -83,7 +84,7 @@ const Guests = () => {
                     <td>{email}</td>
                     <td>{lastBooking}</td>
                     <td>{_count.bookings}</td>
-                    <td>{status}</td>
+                    <td>{guestStatuses[status]}</td>
                     <td className="w-40 py-3">
                       <div>
                         <EditButton id={id} />

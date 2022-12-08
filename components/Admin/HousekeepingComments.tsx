@@ -30,7 +30,9 @@ const HousekeepingComments: React.FC<HousekeepingCommentsProps> = ({
   };
   return (
     <div>
-      <button onClick={() => setIsModalOpen(true)}>{comments}</button>
+      <button onClick={() => setIsModalOpen(true)}>
+        {comments || <p className="text-gray-400">No comments</p>}
+      </button>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}

@@ -17,3 +17,8 @@ export const priorityStatuses: StatusesProps = {
   MEDIUM: 'Medium',
   LOW: 'Low',
 };
+
+export const guestStatuses: StatusesProps = {
+  ACTIVE: 'Active',
+  INACTIVE: 'Inactive',
+};
