@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { nanoid } from 'nanoid';
 import { useRouter } from 'next/router';
 import React from 'react';
 import AddButton from '../../../components/Admin/AddButton';
@@ -55,7 +54,7 @@ const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
           <thead className="text-left">
             <tr className="border-b">
               {headers.map((header) => (
-                <th key={nanoid()} className="pb-2">
+                <th key={header} className="pb-2">
                   {header}
                 </th>
               ))}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
-import { nanoid } from 'nanoid';
 import Header from '../../components/Admin/Header';
 import HousekeepingComments from '../../components/Admin/HousekeepingComments';
 import HousekeepingStatus from '../../components/Admin/HousekeepingStatus';
@@ -44,7 +43,7 @@ const HousekeepingPage = () => {
           <thead className="text-left">
             <tr className="border-b">
               {headers.map((header) => (
-                <th key={nanoid()} className="pb-2">
+                <th key={header} className="pb-2">
                   {header}
                 </th>
               ))}

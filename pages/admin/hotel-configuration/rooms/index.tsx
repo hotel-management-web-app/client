@@ -1,6 +1,5 @@
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
-import { nanoid } from 'nanoid';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
 import AddButton from '../../../../components/Admin/AddButton';
@@ -56,7 +55,7 @@ const Rooms = () => {
             <thead className="text-left">
               <tr className="border-b">
                 {headers.map((header) => (
-                  <th key={nanoid()} className="pb-2">
+                  <th key={header} className="pb-2">
                     {header}
                   </th>
                 ))}
