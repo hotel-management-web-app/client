@@ -6,10 +6,10 @@ import DeleteButton from '../../../components/Admin/DeleteButton';
 import EditButton from '../../../components/Admin/EditButton';
 import Header from '../../../components/Admin/Header';
 import Seo from '../../../components/Seo';
+import { bookingStatuses } from '../../../constants/constants';
 import { getBookings } from '../../../lib/api/bookings';
 import { useDeleteBooking } from '../../../lib/operations/bookings';
 import { Booking } from '../../../lib/types';
-import camelize from '../../../utils/camelize';
 
 const headers = [
   'Room number',
@@ -19,13 +19,6 @@ const headers = [
   'Status',
   'Action',
 ];
-
-const bookingStatusColores: { [key: string]: string } = {
-  confirmed: '#22C55E',
-  pending: '#FB923C',
-  cancelled: '#EF4444',
-  notConfirmed: '#9CA3AF',
-};
 
 export interface BookingsProps {
   bookings: Booking[];
@@ -75,12 +68,11 @@ const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
                 <td>
                   <span
                     style={{
-                      backgroundColor:
-                        bookingStatusColores[camelize(booking.status)],
+                      backgroundColor: bookingStatuses[booking.status].color,
                     }}
                     className="px-3 py-1 rounded text-white capitalize"
                   >
-                    {booking.status}
+                    {bookingStatuses[booking.status].convertedName}
                   </span>
                 </td>
                 <td className="w-40 py-3">

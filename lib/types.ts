@@ -120,3 +120,10 @@ export interface ProfileInfo {
 export interface StatusesProps {
   [key: string]: string;
 }
+
+export interface BookingStatusedProps {
+  [key: string]: {
+    convertedName: string;
+    color: string;
+  };
+}

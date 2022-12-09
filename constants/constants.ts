@@ -1,4 +1,4 @@
-import { StatusesProps } from '../lib/types';
+import { BookingStatusedProps, StatusesProps } from '../lib/types';
 
 export const roomStatuses: StatusesProps = {
   VACANT: 'Vacant',
@@ -21,4 +21,23 @@ export const priorityStatuses: StatusesProps = {
 export const guestStatuses: StatusesProps = {
   ACTIVE: 'Active',
   INACTIVE: 'Inactive',
+};
+
+export const bookingStatuses: BookingStatusedProps = {
+  CONFIRMED: {
+    convertedName: 'Confirmed',
+    color: '#22C55E',
+  },
+  PENDING: {
+    convertedName: 'Pending',
+    color: '#FB923C',
+  },
+  NOT_CONFIRMED: {
+    convertedName: 'Not confirmed',
+    color: '#9CA3AF',
+  },
+  CANCELLED: {
+    convertedName: 'Cancelled',
+    color: '#EF4444',
+  },
 };
