@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { nanoid } from 'nanoid';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -19,6 +20,8 @@ const headers = [
   'Status',
   'Action',
 ];
+
+const dateFormat = 'DD-MM-YYYY';
 
 export interface BookingsProps {
   bookings: Booking[];
@@ -63,8 +66,8 @@ const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
               <tr key={booking.id} className="border-b">
                 <td>{booking.roomNumber}</td>
                 <td>{booking.guestName}</td>
-                <td>{booking.arrivalDate}</td>
-                <td>{booking.departureDate}</td>
+                <td>{moment(booking.arrivalDate).format(dateFormat)}</td>
+                <td>{moment(booking.departureDate).format(dateFormat)}</td>
                 <td>
                   <span
                     style={{
