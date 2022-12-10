@@ -39,11 +39,7 @@ export interface Guest {
   lastName: string;
   email: string;
   phoneNumber: string;
-  country: string;
-  address: string;
   lastBooking: string;
-  city: string;
-  postalCode: string;
   status: string;
   _count: { bookings: number };
   notes: string;

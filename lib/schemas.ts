@@ -34,15 +34,11 @@ const phoneRegExp =
 export const guestSchema = yup.object({
   firstName: yup.string().required('First Name is required!'),
   lastName: yup.string().required('Last Name is required!'),
-  emailAddress: yup
+  email: yup
     .string()
     .email('Field should contain a valid e-mail')
     .required('Email address is required!'),
   phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid!'),
-  country: yup.string(),
-  address: yup.string(),
-  city: yup.string(),
-  postalCode: yup.string(),
   notes: yup.string(),
 });
 

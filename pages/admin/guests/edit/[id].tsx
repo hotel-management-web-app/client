@@ -17,6 +17,8 @@ import { Guest, ServerSideParams } from '../../../../lib/types';
 import { useUpdateGuest } from '../../../../lib/operations/guests';
 import { getGuest } from '../../../../lib/api/guests';
 import { guestSchema } from '../../../../lib/schemas';
+import { convertToOriginalForm } from '../../../../utils/convertToOriginalForm';
+import { guestStatuses } from '../../../../constants/constants';
 
 interface EditGuestProps {
   guest: Guest;
@@ -40,7 +42,12 @@ const EditGuest: React.FC<EditGuestProps> = ({ guest }) => {
   const { mutate, isLoading } = useUpdateGuest(Number(id));
 
   const onSubmit: SubmitHandler<Guest> = (data) => {
-    mutate(data);
+    const convertedGuestStatus = convertToOriginalForm(
+      guestStatuses,
+      data.status
+    );
+    const updatedGuest = { ...data, status: convertedGuestStatus! };
+    mutate(updatedGuest);
   };
 
   return (
@@ -57,7 +64,7 @@ const EditGuest: React.FC<EditGuestProps> = ({ guest }) => {
             label="Status"
             checkedValue="Active"
             uncheckedValue="Inactive"
-            defaultStatus={guest.status === 'Active'}
+            defaultStatus={guestStatuses[guest.status] === 'Active'}
           />
           <div className="grid lg:grid-cols-2 gap-x-20 gap-y-10 mt-5">
             <Input
@@ -73,20 +80,13 @@ const EditGuest: React.FC<EditGuestProps> = ({ guest }) => {
             <Input
               id="email-address"
               title="Email address"
-              defaultValue={guest.emailAddress}
+              fieldName="email"
+              defaultValue={guest.email}
             />
             <Input
               id="phone-number"
               title="Phone number"
               defaultValue={guest.phoneNumber}
-            />
-            <Input id="country" title="Country" defaultValue={guest.country} />
-            <Input id="address" title="Address" defaultValue={guest.address} />
-            <Input id="city" title="City" defaultValue={guest.city} />
-            <Input
-              id="postal-code"
-              title="Postal Code"
-              defaultValue={guest.postalCode}
             />
             <Textarea
               id="notes"
@@ -95,8 +95,8 @@ const EditGuest: React.FC<EditGuestProps> = ({ guest }) => {
               defaultValue={guest.notes}
             />
           </div>
-          <div className="mt-5 flex justify-center">
-            <SubmitButton name="Edit guest" isLoading={isLoading} />
+          <div className="mt-10 flex justify-center">
+            <SubmitButton name="Update guest" isLoading={isLoading} />
           </div>
         </FormWrapper>
       </FormProvider>
