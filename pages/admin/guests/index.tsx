@@ -1,5 +1,6 @@
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
+import moment from 'moment';
 import { Entries } from '../../../components/Admin';
 import AddButton from '../../../components/Admin/AddButton';
 import DeleteButton from '../../../components/Admin/DeleteButton';
@@ -81,7 +82,7 @@ const Guests = () => {
                       {lastName}
                     </td>
                     <td>{email}</td>
-                    <td>{lastBooking}</td>
+                    <td>{moment(lastBooking).format('DD-MM-YYYY')}</td>
                     <td>{_count.bookings}</td>
                     <td>{guestStatuses[status]}</td>
                     <td className="w-40 py-3">

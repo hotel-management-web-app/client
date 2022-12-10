@@ -7,7 +7,7 @@ import EditAboutDetails from './EditAboutDetails';
 import { AboutDetail } from '../../lib/types';
 
 interface AboutDetailsProps {
-  details: AboutDetail[];
+  details?: AboutDetail[];
 }
 
 const AboutDetails: React.FC<AboutDetailsProps> = ({ details }) => {
@@ -22,7 +22,7 @@ const AboutDetails: React.FC<AboutDetailsProps> = ({ details }) => {
         <h2 className="font-medium text-lg">About details</h2>
         <AddAboutDetails />
       </div>
-      {details.map((detail) => (
+      {details?.map((detail) => (
         <div key={detail.id} className="flex justify-between mt-10 flex-wrap">
           <div className="flex gap-x-10 gap-y-5 flex-wrap">
             <Image src={AboutImg} alt="about" width="200px" height="200px" />
