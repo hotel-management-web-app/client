@@ -61,32 +61,39 @@ const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
             </tr>
           </thead>
           <tbody>
-            {bookings.map((booking) => (
-              <tr key={booking.id} className="border-b">
-                <td>{booking.roomNumber}</td>
-                <td>{booking.guestName}</td>
-                <td>{moment(booking.arrivalDate).format(dateFormat)}</td>
-                <td>{moment(booking.departureDate).format(dateFormat)}</td>
-                <td>
-                  <span
-                    style={{
-                      backgroundColor: bookingStatuses[booking.status].color,
-                    }}
-                    className="px-3 py-1 rounded text-white capitalize"
-                  >
-                    {bookingStatuses[booking.status].convertedName}
-                  </span>
-                </td>
-                <td className="w-40 py-3">
-                  <div>
-                    <EditButton id={booking.id!} />
-                    <DeleteButton
-                      deleteHandler={() => deleteBooking(booking.id!)}
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {bookings.map((booking) => {
+              const { roomNumber } = booking.room;
+              const { firstName, lastName } = booking.guest;
+              const { id, arrivalDate, departureDate, status } = booking;
+              return (
+                <tr key={id} className="border-b">
+                  <td>{roomNumber}</td>
+                  <td>
+                    {firstName}
+                    &nbsp;
+                    {lastName}
+                  </td>
+                  <td>{moment(arrivalDate).format(dateFormat)}</td>
+                  <td>{moment(departureDate).format(dateFormat)}</td>
+                  <td>
+                    <span
+                      style={{
+                        backgroundColor: bookingStatuses[status].color,
+                      }}
+                      className="px-3 py-1 rounded text-white capitalize"
+                    >
+                      {bookingStatuses[status].convertedName}
+                    </span>
+                  </td>
+                  <td className="w-40 py-3">
+                    <div>
+                      <EditButton id={id!} />
+                      <DeleteButton deleteHandler={() => deleteBooking(id!)} />
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         {bookings.length === 0 && (

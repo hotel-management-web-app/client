@@ -55,7 +55,8 @@ export interface Booking {
   roomNumber: number;
   adults: number;
   children: number;
-  guestName: string;
+  guest: Guest;
+  room: Room;
 }
 
 export interface Housekeeping {
