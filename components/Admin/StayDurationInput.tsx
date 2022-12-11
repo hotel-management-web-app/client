@@ -5,8 +5,6 @@ import { useFormContext } from 'react-hook-form';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
-const dateFormat = 'DD/MM/YYYY';
-
 const StayDurationInput = () => {
   const { setValue } = useFormContext();
   const [arrivalDateValue, setArrivalDateValue] =
@@ -17,11 +15,11 @@ const StayDurationInput = () => {
     useState<FocusedInputShape | null>(null);
 
   useEffect(() => {
-    setValue('arrivalDate', arrivalDateValue?.format(dateFormat));
+    setValue('arrivalDate', arrivalDateValue?.toISOString());
   }, [arrivalDateValue, setValue]);
 
   useEffect(() => {
-    setValue('departureDate', departureDateValue?.format(dateFormat));
+    setValue('departureDate', departureDateValue?.toISOString());
   }, [departureDateValue, setValue]);
 
   return (

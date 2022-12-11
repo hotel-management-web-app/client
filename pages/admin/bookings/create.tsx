@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { dehydrate, QueryClient } from 'react-query';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import 'react-tabs/style/react-tabs.css';
@@ -12,63 +13,62 @@ import Textarea from '../../../components/Admin/Textarea';
 import SubmitButton from '../../../components/Admin/SubmitButton';
 import StayDurationInput from '../../../components/Admin/StayDurationInput';
 import { getRoomTypes } from '../../../lib/api/roomTypes';
-import { getRooms } from '../../../lib/api/rooms';
 import { Booking, Guest, Room, RoomType } from '../../../lib/types';
-import camelize from '../../../utils/camelize';
 import { getGuests } from '../../../lib/api/guests';
+import { useAddBooking } from '../../../lib/operations/bookings';
+import RoomTypeSelector from '../../../components/Admin/RoomTypeSelector';
+import { useGetRoomTypes } from '../../../lib/operations/roomTypes';
+import { useGetGuests } from '../../../lib/operations/guests';
 
 const statusOptions: { value: string; label: string }[] = [
-  { value: 'confirmed', label: 'Confirmed' },
-  { value: 'pending', label: 'Pending' },
-  { value: 'cancelled', label: 'Cancelled' },
-  { value: 'not confirmed', label: 'Not confirmed' },
-];
-
-const paymantMethodOptions = [
-  { value: 'bank-account', label: 'Bank account' },
-  { value: 'cash', label: 'Cash' },
+  { value: 'CONFIRMED', label: 'Confirmed' },
+  { value: 'PENDING', label: 'Pending' },
+  { value: 'CANCELLED', label: 'Cancelled' },
+  { value: 'NOT_CONFIRMED', label: 'Not confirmed' },
 ];
 
 interface AddBookingProps {
   roomTypes: RoomType[];
-  rooms: Room[];
   guests: Guest[];
 }
 
 export const getServerSideProps = async () => {
-  const roomTypes = await getRoomTypes();
-  const rooms = await getRooms();
-  const guests = await getGuests();
+  const queryClient = new QueryClient();
 
-  return { props: { roomTypes, rooms, guests } };
+  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+  await queryClient.prefetchQuery(['guests'], getGuests);
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const AddBooking: React.FC<AddBookingProps> = ({
-  roomTypes,
-  rooms,
-  guests,
-}) => {
+const AddBooking: React.FC<AddBookingProps> = () => {
+  const { data: roomTypes } = useGetRoomTypes();
+  const { data: guests } = useGetGuests();
   const [isNewGuest, setIsNewGuest] = useState(false);
+  const [rooms, setRooms] = useState<Room[]>([]);
   const methods = useForm<Booking>();
   const { handleSubmit } = methods;
 
+  const { mutate, isLoading } = useAddBooking();
+
   const onSubmit: SubmitHandler<Booking> = (data) => {
-    console.log(data);
+    const { adults, children } = data;
+    mutate({ ...data, adults: Number(adults), children: Number(children) });
   };
 
-  const roomTypesOptions = roomTypes.map((roomType) => ({
-    value: camelize(roomType.name),
+  const roomTypesOptions = roomTypes?.map((roomType) => ({
+    value: roomType,
     label: roomType.name,
   }));
 
-  const roomsOptions = rooms.map((room) => ({
-    value: room.roomNumber,
-    label: room.roomNumber,
+  const roomsOptions = rooms?.map(({ id, roomNumber }) => ({
+    value: id,
+    label: roomNumber,
   }));
 
-  const guestsOptions = guests.map((guest) => ({
-    value: camelize(`${guest.firstName} ${guest.lastName}`),
-    label: `${guest.firstName} ${guest.lastName}`,
+  const guestsOptions = guests?.map(({ id, firstName, lastName }) => ({
+    value: id,
+    label: `${firstName} ${lastName}`,
   }));
 
   return (
@@ -90,20 +90,16 @@ const AddBooking: React.FC<AddBookingProps> = ({
                 defaultOption={statusOptions[0]}
               />
               <StayDurationInput />
-              <SelectInput
-                id="payment-method"
-                title="Payment method"
-                options={paymantMethodOptions}
-                defaultOption={paymantMethodOptions[0]}
-              />
-              <SelectInput
+              <RoomTypeSelector
                 id="room-type"
                 title="Room type"
+                setRooms={setRooms}
                 options={roomTypesOptions}
               />
               <SelectInput
                 id="room-number"
                 title="Room"
+                keyName="roomId"
                 options={roomsOptions}
               />
               <Input id="adults" title="Adults" type="number" min="1" max="5" />
@@ -126,6 +122,7 @@ const AddBooking: React.FC<AddBookingProps> = ({
                   <SelectInput
                     id="guest"
                     title="Guest"
+                    keyName="guestId"
                     options={guestsOptions}
                   />
                 </div>
@@ -137,17 +134,13 @@ const AddBooking: React.FC<AddBookingProps> = ({
                     <Input id="last-name" title="Last name" />
                     <Input id="email-address" title="Email address" />
                     <Input id="phone-number" title="Phone number" />
-                    <Input id="country" title="Country" />
-                    <Input id="address" title="Address" />
-                    <Input id="city" title="City" />
-                    <Input id="postal-code" title="Postal Code" />
                     <Textarea id="notes" title="Notes" rows="5" />
                   </div>
                 )}
               </TabPanel>
             </Tabs>
             <div className="mt-5 flex justify-center">
-              <SubmitButton name="Add booking" />
+              <SubmitButton name="Add booking" isLoading={isLoading} />
             </div>
           </FormWrapper>
         </FormProvider>

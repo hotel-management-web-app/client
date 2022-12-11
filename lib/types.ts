@@ -1,21 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
 
-export interface RoomType {
-  id: number;
-  name: string;
-  description: string;
-  occupancy: number;
-  price: string;
-  amenities: {
-    id: number;
-    name: string;
-  }[];
-  details: {
-    id: number;
-    name: string;
-  }[];
-}
-
 export interface Room {
   id: number;
   roomType: { name: string };
@@ -26,6 +10,23 @@ export interface Room {
   housekeepingStatus: string;
   priority: string;
   comments: string;
+}
+
+export interface RoomType {
+  id: number;
+  name: string;
+  description: string;
+  occupancy: number;
+  rooms: Room[];
+  price: string;
+  amenities: {
+    id: number;
+    name: string;
+  }[];
+  details: {
+    id: number;
+    name: string;
+  }[];
 }
 
 export interface SelectOption {
