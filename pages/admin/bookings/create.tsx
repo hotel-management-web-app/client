@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import 'react-tabs/style/react-tabs.css';
 import BackButton from '../../../components/Admin/BackButton';
 import FormWrapper from '../../../components/Admin/FormWrapper';
@@ -19,6 +20,7 @@ import { useAddBooking } from '../../../lib/operations/bookings';
 import RoomTypeSelector from '../../../components/Admin/RoomTypeSelector';
 import { useGetRoomTypes } from '../../../lib/operations/roomTypes';
 import { useGetGuests } from '../../../lib/operations/guests';
+import { bookingSchema } from '../../../lib/schemas';
 
 const statusOptions: { value: string; label: string }[] = [
   { value: 'CONFIRMED', label: 'Confirmed' },
@@ -46,14 +48,16 @@ const AddBooking: React.FC<AddBookingProps> = () => {
   const { data: guests } = useGetGuests();
   const [isNewGuest, setIsNewGuest] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
-  const methods = useForm<Booking>();
+  const methods = useForm<Booking>({
+    resolver: yupResolver(bookingSchema),
+    mode: 'onChange',
+  });
   const { handleSubmit } = methods;
 
   const { mutate, isLoading } = useAddBooking();
 
   const onSubmit: SubmitHandler<Booking> = (data) => {
-    const { adults, children } = data;
-    mutate({ ...data, adults: Number(adults), children: Number(children) });
+    mutate(data);
   };
 
   const roomTypesOptions = roomTypes?.map((roomType) => ({

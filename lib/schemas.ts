@@ -42,6 +42,18 @@ export const guestSchema = yup.object({
   notes: yup.string(),
 });
 
+export const bookingSchema = yup.object({
+  status: yup.string().required('Status is required!'),
+  arrivalDate: yup.date().required('Arrival date is required!'),
+  departureDate: yup.date().required('Departure date is required!'),
+  roomId: yup.number().required('Room is required!'),
+  adults: yup.number().typeError('Number of adults is required!').required(),
+  children: yup
+    .number()
+    .typeError('Number of children is required!')
+    .required('Number of children is required!'),
+});
+
 export const generalSettingsSchema = yup.object({
   hotelName: yup.string().required('Hotel name is required!'),
   country: yup.string().required('Country is required!'),

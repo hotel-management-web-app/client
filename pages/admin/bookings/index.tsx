@@ -1,6 +1,6 @@
 import moment from 'moment';
-import { useRouter } from 'next/router';
 import React from 'react';
+import { dehydrate, QueryClient } from 'react-query';
 import AddButton from '../../../components/Admin/AddButton';
 import DeleteButton from '../../../components/Admin/DeleteButton';
 import EditButton from '../../../components/Admin/EditButton';
@@ -8,7 +8,10 @@ import Header from '../../../components/Admin/Header';
 import Seo from '../../../components/Seo';
 import { bookingStatuses } from '../../../constants/constants';
 import { getBookings } from '../../../lib/api/bookings';
-import { useDeleteBooking } from '../../../lib/operations/bookings';
+import {
+  useDeleteBooking,
+  useGetBookings,
+} from '../../../lib/operations/bookings';
 import { Booking } from '../../../lib/types';
 
 const headers = [
@@ -27,20 +30,19 @@ export interface BookingsProps {
 }
 
 export const getServerSideProps = async () => {
-  const bookings = await getBookings();
+  const queryClient = new QueryClient();
 
-  return {
-    props: { bookings },
-  };
+  await queryClient.prefetchQuery(['bookings'], getBookings);
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
+const Bookings: React.FC<BookingsProps> = () => {
+  const { data: bookings } = useGetBookings();
   const { mutate } = useDeleteBooking();
-  const router = useRouter();
 
   const deleteBooking = async (id: number) => {
     await mutate(id);
-    router.replace(router.asPath);
   };
   return (
     <div>
@@ -61,7 +63,7 @@ const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
             </tr>
           </thead>
           <tbody>
-            {bookings.map((booking) => {
+            {bookings?.map((booking) => {
               const { roomNumber } = booking.room;
               const { firstName, lastName } = booking.guest;
               const { id, arrivalDate, departureDate, status } = booking;
@@ -96,7 +98,7 @@ const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
             })}
           </tbody>
         </table>
-        {bookings.length === 0 && (
+        {bookings?.length === 0 && (
           <p className="text-center mt-5">No data available in table</p>
         )}
       </div>

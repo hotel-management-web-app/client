@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import React, { useState, useEffect } from 'react';
 import { FocusedInputShape, DateRangePicker } from 'react-dates';
 import moment from 'moment';
@@ -6,7 +7,10 @@ import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
 const StayDurationInput = () => {
-  const { setValue } = useFormContext();
+  const {
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const [arrivalDateValue, setArrivalDateValue] =
     useState<moment.Moment | null>(null);
   const [departureDateValue, setDepartureDateValue] =
@@ -21,6 +25,9 @@ const StayDurationInput = () => {
   useEffect(() => {
     setValue('departureDate', departureDateValue?.toISOString());
   }, [departureDateValue, setValue]);
+
+  const arrivalDateError = errors['arrivalDate'];
+  const departureDateError = errors['departureDate'];
 
   return (
     <div>
@@ -41,6 +48,11 @@ const StayDurationInput = () => {
         displayFormat="DD/MM/YYYY"
         enableOutsideDays={false}
       />
+      {(arrivalDateError || departureDateError) && (
+        <p className="text-red-500 text-sm absolute">
+          Arrival and departure dates are required!
+        </p>
+      )}
     </div>
   );
 };
