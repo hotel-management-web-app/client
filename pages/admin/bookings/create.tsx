@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { dehydrate, QueryClient } from 'react-query';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import 'react-tabs/style/react-tabs.css';
@@ -10,14 +9,13 @@ import Header from '../../../components/Admin/Header';
 import Seo from '../../../components/Seo';
 import SelectInput from '../../../components/Admin/SelectInput';
 import Input from '../../../components/Admin/Input';
-import Textarea from '../../../components/Admin/Textarea';
 import SubmitButton from '../../../components/Admin/SubmitButton';
+import RoomTypeSelector from '../../../components/Admin/RoomTypeSelector';
 import StayDurationInput from '../../../components/Admin/StayDurationInput';
 import { getRoomTypes } from '../../../lib/api/roomTypes';
 import { Booking, Guest, Room, RoomType } from '../../../lib/types';
 import { getGuests } from '../../../lib/api/guests';
 import { useAddBooking } from '../../../lib/operations/bookings';
-import RoomTypeSelector from '../../../components/Admin/RoomTypeSelector';
 import { useGetRoomTypes } from '../../../lib/operations/roomTypes';
 import { useGetGuests } from '../../../lib/operations/guests';
 import { bookingSchema } from '../../../lib/schemas';
@@ -46,7 +44,6 @@ export const getServerSideProps = async () => {
 const AddBooking: React.FC<AddBookingProps> = () => {
   const { data: roomTypes } = useGetRoomTypes();
   const { data: guests } = useGetGuests();
-  const [isNewGuest, setIsNewGuest] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
   const methods = useForm<Booking>({
     resolver: yupResolver(bookingSchema),
@@ -71,7 +68,7 @@ const AddBooking: React.FC<AddBookingProps> = () => {
   }));
 
   const guestsOptions = guests?.map(({ id, firstName, lastName }) => ({
-    value: id,
+    value: id!,
     label: `${firstName} ${lastName}`,
   }));
 
@@ -114,35 +111,13 @@ const AddBooking: React.FC<AddBookingProps> = () => {
                 min="1"
                 max="5"
               />
+              <SelectInput
+                id="guest"
+                title="Guest"
+                keyName="guestId"
+                options={guestsOptions}
+              />
             </div>
-            <h2 className="text-2xl mt-10 mb-2">Guest Information</h2>
-            <Tabs>
-              <TabList>
-                <Tab onClick={() => setIsNewGuest(false)}>Existing guest</Tab>
-                <Tab onClick={() => setIsNewGuest(true)}>New guest</Tab>
-              </TabList>
-              <TabPanel>
-                <div className="lg:w-2/3 mx-auto my-10">
-                  <SelectInput
-                    id="guest"
-                    title="Guest"
-                    keyName="guestId"
-                    options={guestsOptions}
-                  />
-                </div>
-              </TabPanel>
-              <TabPanel>
-                {isNewGuest && (
-                  <div className="grid lg:grid-cols-2 gap-x-20 gap-y-5 mt-5">
-                    <Input id="first-name" title="First name" />
-                    <Input id="last-name" title="Last name" />
-                    <Input id="email-address" title="Email address" />
-                    <Input id="phone-number" title="Phone number" />
-                    <Textarea id="notes" title="Notes" rows="5" />
-                  </div>
-                )}
-              </TabPanel>
-            </Tabs>
             <div className="mt-5 flex justify-center">
               <SubmitButton name="Add booking" isLoading={isLoading} />
             </div>

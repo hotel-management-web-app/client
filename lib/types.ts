@@ -35,14 +35,14 @@ export interface SelectOption {
 }
 
 export interface Guest {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
-  lastBooking: string;
+  lastBooking?: string;
   status: string;
-  _count: { bookings: number };
+  _count?: { bookings: number };
   notes: string;
 }
 
@@ -51,13 +51,13 @@ export interface Booking {
   status: string;
   arrivalDate: string;
   departureDate: string;
-  paymentMethod: string;
-  roomType: string;
   roomNumber: number;
   adults: number;
   children: number;
-  guest: Guest;
-  room: Room;
+  guest?: Guest;
+  guestId?: number;
+  room?: Room;
+  roomId: number;
 }
 
 export interface Housekeeping {

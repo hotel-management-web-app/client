@@ -9,10 +9,11 @@ export const getBookings = async () =>
 export const getBooking = async (id: number) =>
   axios.get(`${baseUrl}/${id}`).then((res) => res.data);
 
-export const addBooking = async (geust: Booking) => axios.post(baseUrl, geust);
+export const addBooking = async (booking: Booking) =>
+  axios.post(baseUrl, booking);
 
-export const updateBooking = async (id: number, geust: Booking) =>
-  axios.patch(`${baseUrl}/${id}`, geust);
+export const updateBooking = async (id: number, booking: Booking) =>
+  axios.patch(`${baseUrl}/${id}`, booking);
 
 export const deleteBooking = async (id: number) =>
   axios.delete(`${baseUrl}/${id}`);
