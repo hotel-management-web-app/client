@@ -6,15 +6,23 @@ import { useFormContext } from 'react-hook-form';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
-const StayDurationInput = () => {
+interface StayDurationInputProps {
+  defaultArrivalDate?: string;
+  defaultDepartureDate?: string;
+}
+
+const StayDurationInput: React.FC<StayDurationInputProps> = ({
+  defaultArrivalDate,
+  defaultDepartureDate,
+}) => {
   const {
     setValue,
     formState: { errors },
   } = useFormContext();
   const [arrivalDateValue, setArrivalDateValue] =
-    useState<moment.Moment | null>(null);
+    useState<moment.Moment | null>(moment(defaultArrivalDate) || null);
   const [departureDateValue, setDepartureDateValue] =
-    useState<moment.Moment | null>(null);
+    useState<moment.Moment | null>(moment(defaultDepartureDate) || null);
   const [focusedInputValue, setFocusedInputValue] =
     useState<FocusedInputShape | null>(null);
 

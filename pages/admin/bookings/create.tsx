@@ -108,7 +108,7 @@ const AddBooking: React.FC<AddBookingProps> = () => {
                 id="children"
                 title="Children"
                 type="number"
-                min="1"
+                min="0"
                 max="5"
               />
               <SelectInput

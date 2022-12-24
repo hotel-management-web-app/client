@@ -13,7 +13,7 @@ export const addBooking = async (booking: Booking) =>
   axios.post(baseUrl, booking);
 
 export const updateBooking = async (id: number, booking: Booking) =>
-  axios.patch(`${baseUrl}/${id}`, booking);
+  axios.put(`${baseUrl}/${id}`, booking);
 
 export const deleteBooking = async (id: number) =>
   axios.delete(`${baseUrl}/${id}`);

@@ -116,7 +116,10 @@ const EditBooking: React.FC<EditBookingProps> = () => {
                   (statusOption) => statusOption.value === booking?.status
                 )}
               />
-              <StayDurationInput />
+              <StayDurationInput
+                defaultArrivalDate={booking?.arrivalDate}
+                defaultDepartureDate={booking?.departureDate}
+              />
               <RoomTypeSelector
                 id="room-type"
                 title="Room type"
@@ -148,7 +151,7 @@ const EditBooking: React.FC<EditBookingProps> = () => {
                 id="children"
                 title="Children"
                 type="number"
-                min="1"
+                min="0"
                 max="5"
                 defaultValue={booking?.children}
               />
@@ -163,7 +166,7 @@ const EditBooking: React.FC<EditBookingProps> = () => {
               />
             </div>
             <div className="mt-5 flex justify-center">
-              <SubmitButton name="Add booking" isLoading={isLoading} />
+              <SubmitButton name="Update booking" isLoading={isLoading} />
             </div>
           </FormWrapper>
         </FormProvider>
