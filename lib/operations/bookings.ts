@@ -6,6 +6,7 @@ import {
   updateBooking,
   deleteBooking,
   getBookings,
+  getBooking,
 } from '../api/bookings';
 import { Booking } from '../types';
 
@@ -13,6 +14,9 @@ const backUrl = 'http://localhost:3000/admin/bookings';
 
 export const useGetBookings = () =>
   useQuery<Booking[], AxiosError>(['bookings'], getBookings);
+
+export const useGetBooking = (id: number) =>
+  useQuery<Booking, AxiosError>(['bookings'], () => getBooking(id));
 
 export const useAddBooking = () => {
   const router = useRouter();

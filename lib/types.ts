@@ -1,17 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
 
-export interface Room {
-  id: number;
-  roomType: { name: string };
-  roomTypeId: number;
-  roomNumber: number;
-  floorNumber: number;
-  roomStatus: string;
-  housekeepingStatus: string;
-  priority: string;
-  comments: string;
-}
-
 export interface RoomType {
   id: number;
   name: string;
@@ -27,6 +15,18 @@ export interface RoomType {
     id: number;
     name: string;
   }[];
+}
+
+export interface Room {
+  id: number;
+  roomType: RoomType;
+  roomTypeId: number;
+  roomNumber: number;
+  floorNumber: number;
+  roomStatus: string;
+  housekeepingStatus: string;
+  priority: string;
+  comments: string;
 }
 
 export interface SelectOption {
@@ -54,9 +54,9 @@ export interface Booking {
   roomNumber: number;
   adults: number;
   children: number;
-  guest?: Guest;
-  guestId?: number;
-  room?: Room;
+  guest: Guest;
+  guestId: number;
+  room: Room;
   roomId: number;
 }
 
