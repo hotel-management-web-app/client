@@ -62,10 +62,12 @@ const AddBooking: React.FC<AddBookingProps> = () => {
     label: roomType.name,
   }));
 
-  const roomsOptions = rooms?.map(({ id, roomNumber }) => ({
-    value: id,
-    label: roomNumber,
-  }));
+  const roomsOptions = rooms
+    ?.filter(({ roomStatus }) => roomStatus !== 'RESERVED')
+    .map(({ id, roomNumber }) => ({
+      value: id,
+      label: roomNumber,
+    }));
 
   const guestsOptions = guests?.map(({ id, firstName, lastName }) => ({
     value: id!,

@@ -86,10 +86,12 @@ const EditBooking: React.FC<EditBookingProps> = () => {
     label: roomType.name,
   }));
 
-  const roomsOptions = rooms?.map(({ id, roomNumber }) => ({
-    value: id,
-    label: roomNumber,
-  }));
+  const roomsOptions = rooms
+    ?.filter(({ roomStatus }) => roomStatus !== 'RESERVED')
+    .map(({ id, roomNumber }) => ({
+      value: id,
+      label: roomNumber,
+    }));
 
   const guestsOptions = guests?.map(({ id, firstName, lastName }) => ({
     value: id!,
@@ -99,9 +101,9 @@ const EditBooking: React.FC<EditBookingProps> = () => {
   return (
     <div>
       <div>
-        <Seo title="Add booking" />
+        <Seo title="Edit booking" />
         <div className="flex items-center flex-wrap gap-5">
-          <Header title="Add booking" />
+          <Header title="Edit booking" />
           <BackButton name="bookings" url="/admin/bookings" />
         </div>
         <FormProvider {...methods}>
