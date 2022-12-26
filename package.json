@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npx concurrently \"next dev\" \"npx json-server db.json -p 4000\"",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --fix",

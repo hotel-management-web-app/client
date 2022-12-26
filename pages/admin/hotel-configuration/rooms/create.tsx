@@ -2,7 +2,6 @@ import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Seo from '../../../../components/Seo';
-import camelize from '../../../../utils/camelize';
 import {
   BackButton,
   Header,
@@ -16,6 +15,8 @@ import { useAddRoom } from '../../../../lib/operations/rooms';
 import { Room, RoomType, SelectOption } from '../../../../lib/types';
 import { getRoomTypes } from '../../../../lib/api/roomTypes';
 import { roomSchema } from '../../../../lib/schemas';
+import { convertToOriginalForm } from '../../../../utils/convertToOriginalForm';
+import { roomStatuses } from '../../../../constants/constants';
 
 interface AddRoomProps {
   roomTypes: RoomType[];
@@ -37,12 +38,17 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
   const { mutate, isLoading } = useAddRoom();
 
   const onSubmit: SubmitHandler<Room> = (data) => {
-    mutate(data);
+    const convertedRoomStatus = convertToOriginalForm(
+      roomStatuses,
+      data.roomStatus
+    );
+    const room = { ...data, roomStatus: convertedRoomStatus! };
+    mutate(room);
   };
 
-  const roomTypesOptions: SelectOption[] = roomTypes.map((roomType) => ({
-    value: camelize(roomType.name),
-    label: roomType.name,
+  const roomTypesOptions: SelectOption[] = roomTypes.map(({ id, name }) => ({
+    value: id,
+    label: name,
   }));
 
   return (
@@ -64,6 +70,7 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
               />
               <SelectInput
                 id="room-type"
+                keyName="roomTypeId"
                 title="Room type"
                 options={roomTypesOptions}
               />

@@ -1,6 +1,5 @@
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
-import { nanoid } from 'nanoid';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
 import AddButton from '../../../../components/Admin/AddButton';
@@ -52,24 +51,24 @@ const RoomTypes = () => {
             <thead className="text-left">
               <tr className="border-b">
                 {headers.map((header) => (
-                  <th key={nanoid()} className="pb-2">
+                  <th key={header} className="pb-2">
                     {header}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {data?.map((roomType) => (
-                <tr key={roomType.id} className="border-b">
-                  <td>{roomType.id}</td>
-                  <td>{roomType.name}</td>
-                  <td>{roomType.occupancy}</td>
-                  <td>{roomType.price}</td>
+              {data?.map(({ id, name, occupancy, price }) => (
+                <tr key={id} className="border-b">
+                  <td>{id}</td>
+                  <td>{name}</td>
+                  <td>{occupancy}</td>
+                  <td>{price}</td>
                   <td className="w-40 py-3">
                     <div>
-                      <EditButton id={roomType.id} />
+                      <EditButton id={id!} />
                       <DeleteButton
-                        deleteHandler={() => deleteRoomTypeHandler(roomType.id)}
+                        deleteHandler={() => deleteRoomTypeHandler(id!)}
                       />
                     </div>
                   </td>

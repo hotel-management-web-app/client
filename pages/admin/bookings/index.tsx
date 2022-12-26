@@ -1,15 +1,18 @@
-import { nanoid } from 'nanoid';
-import { useRouter } from 'next/router';
+import moment from 'moment';
 import React from 'react';
+import { dehydrate, QueryClient } from 'react-query';
 import AddButton from '../../../components/Admin/AddButton';
 import DeleteButton from '../../../components/Admin/DeleteButton';
 import EditButton from '../../../components/Admin/EditButton';
 import Header from '../../../components/Admin/Header';
 import Seo from '../../../components/Seo';
+import { bookingStatuses } from '../../../constants/constants';
 import { getBookings } from '../../../lib/api/bookings';
-import { useDeleteBooking } from '../../../lib/operations/bookings';
+import {
+  useDeleteBooking,
+  useGetBookings,
+} from '../../../lib/operations/bookings';
 import { Booking } from '../../../lib/types';
-import camelize from '../../../utils/camelize';
 
 const headers = [
   'Room number',
@@ -20,32 +23,26 @@ const headers = [
   'Action',
 ];
 
-const bookingStatusColores: { [key: string]: string } = {
-  confirmed: '#22C55E',
-  pending: '#FB923C',
-  cancelled: '#EF4444',
-  notConfirmed: '#9CA3AF',
-};
+const dateFormat = 'DD-MM-YYYY';
 
 export interface BookingsProps {
   bookings: Booking[];
 }
 
 export const getServerSideProps = async () => {
-  const bookings = await getBookings();
+  const queryClient = new QueryClient();
 
-  return {
-    props: { bookings },
-  };
+  await queryClient.prefetchQuery(['bookings'], getBookings);
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
+const Bookings: React.FC<BookingsProps> = () => {
+  const { data: bookings } = useGetBookings();
   const { mutate } = useDeleteBooking();
-  const router = useRouter();
 
   const deleteBooking = async (id: number) => {
     await mutate(id);
-    router.replace(router.asPath);
   };
   return (
     <div>
@@ -59,43 +56,49 @@ const Bookings: React.FC<BookingsProps> = ({ bookings }) => {
           <thead className="text-left">
             <tr className="border-b">
               {headers.map((header) => (
-                <th key={nanoid()} className="pb-2">
+                <th key={header} className="pb-2">
                   {header}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {bookings.map((booking) => (
-              <tr key={booking.id} className="border-b">
-                <td>{booking.roomNumber}</td>
-                <td>{booking.guestName}</td>
-                <td>{booking.arrivalDate}</td>
-                <td>{booking.departureDate}</td>
-                <td>
-                  <span
-                    style={{
-                      backgroundColor:
-                        bookingStatusColores[camelize(booking.status)],
-                    }}
-                    className="px-3 py-1 rounded text-white capitalize"
-                  >
-                    {booking.status}
-                  </span>
-                </td>
-                <td className="w-40 py-3">
-                  <div>
-                    <EditButton id={booking.id!} />
-                    <DeleteButton
-                      deleteHandler={() => deleteBooking(booking.id!)}
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {bookings?.map((booking) => {
+              const { roomNumber } = booking.room;
+              const { firstName, lastName } = booking.guest;
+              const { id, arrivalDate, departureDate, status } = booking;
+              return (
+                <tr key={id} className="border-b">
+                  <td>{roomNumber}</td>
+                  <td>
+                    {firstName}
+                    &nbsp;
+                    {lastName}
+                  </td>
+                  <td>{moment(arrivalDate).format(dateFormat)}</td>
+                  <td>{moment(departureDate).format(dateFormat)}</td>
+                  <td>
+                    <span
+                      style={{
+                        backgroundColor: bookingStatuses[status].color,
+                      }}
+                      className="px-3 py-1 rounded text-white capitalize"
+                    >
+                      {bookingStatuses[status].convertedName}
+                    </span>
+                  </td>
+                  <td className="w-40 py-3">
+                    <div>
+                      <EditButton id={id!} />
+                      <DeleteButton deleteHandler={() => deleteBooking(id!)} />
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
-        {bookings.length === 0 && (
+        {bookings?.length === 0 && (
           <p className="text-center mt-5">No data available in table</p>
         )}
       </div>

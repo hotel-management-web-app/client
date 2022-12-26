@@ -1,6 +1,5 @@
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
-import { nanoid } from 'nanoid';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Header';
 import AddButton from '../../../../components/Admin/AddButton';
@@ -9,6 +8,7 @@ import { Entries } from '../../../../components/Admin';
 import DeleteButton from '../../../../components/Admin/DeleteButton';
 import { useDeleteRoom, useGetRooms } from '../../../../lib/operations/rooms';
 import { getRooms } from '../../../../lib/api/rooms';
+import { roomStatuses } from '../../../../constants/constants';
 
 const headers: string[] = [
   'Id',
@@ -28,7 +28,7 @@ export const getServerSideProps = async () => {
 };
 
 const Rooms = () => {
-  const { data } = useGetRooms();
+  const { data: rooms } = useGetRooms();
   const { mutate } = useDeleteRoom();
 
   const deleteRoom = async (id: number) => {
@@ -55,31 +55,33 @@ const Rooms = () => {
             <thead className="text-left">
               <tr className="border-b">
                 {headers.map((header) => (
-                  <th key={nanoid()} className="pb-2">
+                  <th key={header} className="pb-2">
                     {header}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {data?.map((room) => (
-                <tr key={room.id} className="border-b">
-                  <td>{room.id}</td>
-                  <td>{room.roomType}</td>
-                  <td>{room.roomNumber}</td>
-                  <td>{room.floorNumber}</td>
-                  <td>{room.roomStatus}</td>
-                  <td className="w-40 py-3">
-                    <div>
-                      <EditButton id={room.id} />
-                      <DeleteButton deleteHandler={() => deleteRoom(room.id)} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {rooms?.map(
+                ({ id, roomType, roomNumber, floorNumber, roomStatus }) => (
+                  <tr key={id} className="border-b">
+                    <td>{id}</td>
+                    <td>{roomType.name}</td>
+                    <td>{roomNumber}</td>
+                    <td>{floorNumber}</td>
+                    <td>{roomStatuses[roomStatus]}</td>
+                    <td className="w-40 py-3">
+                      <div>
+                        <EditButton id={id} />
+                        <DeleteButton deleteHandler={() => deleteRoom(id)} />
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
-          {data?.length === 0 && (
+          {rooms?.length === 0 && (
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>

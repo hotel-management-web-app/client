@@ -9,9 +9,9 @@ import RoomImages from '../../components/RoomImages';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
-  const data = await axios.get(`/room-types/${id}`).then((res) => res.data);
+  const roomType = await axios.get(`/room-types/${id}`).then((res) => res.data);
 
-  return { props: { roomType: data } };
+  return { props: { roomType } };
 };
 
 interface RoomProps {
@@ -43,8 +43,8 @@ const Room: React.FC<RoomProps> = ({ roomType }) => (
         <div className="bg-dark-gray w-full max-w-[750px] text-center 2xl:w-72 text-white px-12 py-9">
           <h2 className="text-2xl font-medium">Amenities</h2>
           <ul className="list-disc ml-5 mt-2 leading-[40px]">
-            {roomType.amenities.map((amenity) => (
-              <li key={amenity.id}>{amenity.name}</li>
+            {roomType.amenities.map(({ id, name }) => (
+              <li key={id}>{name}</li>
             ))}
           </ul>
         </div>

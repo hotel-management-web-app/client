@@ -11,7 +11,7 @@ export const getGuest = async (id: number) =>
 export const addGuest = async (guest: Guest) => axios.post(baseUrl, guest);
 
 export const updateGuest = async (id: number, guest: Guest) =>
-  axios.patch(`${baseUrl}/${id}`, guest);
+  axios.put(`${baseUrl}/${id}`, guest);
 
 export const deleteGuest = async (id: number) =>
   axios.delete(`${baseUrl}/${id}`);

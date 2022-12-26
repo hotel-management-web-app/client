@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import React, { useState, useEffect } from 'react';
 import { FocusedInputShape, DateRangePicker } from 'react-dates';
 import moment from 'moment';
@@ -5,24 +6,36 @@ import { useFormContext } from 'react-hook-form';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
-const dateFormat = 'DD/MM/YYYY';
+interface StayDurationInputProps {
+  defaultArrivalDate?: string;
+  defaultDepartureDate?: string;
+}
 
-const StayDurationInput = () => {
-  const { setValue } = useFormContext();
+const StayDurationInput: React.FC<StayDurationInputProps> = ({
+  defaultArrivalDate,
+  defaultDepartureDate,
+}) => {
+  const {
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const [arrivalDateValue, setArrivalDateValue] =
-    useState<moment.Moment | null>(null);
+    useState<moment.Moment | null>(moment(defaultArrivalDate) || null);
   const [departureDateValue, setDepartureDateValue] =
-    useState<moment.Moment | null>(null);
+    useState<moment.Moment | null>(moment(defaultDepartureDate) || null);
   const [focusedInputValue, setFocusedInputValue] =
     useState<FocusedInputShape | null>(null);
 
   useEffect(() => {
-    setValue('arrivalDate', arrivalDateValue?.format(dateFormat));
+    setValue('arrivalDate', arrivalDateValue?.toISOString());
   }, [arrivalDateValue, setValue]);
 
   useEffect(() => {
-    setValue('departureDate', departureDateValue?.format(dateFormat));
+    setValue('departureDate', departureDateValue?.toISOString());
   }, [departureDateValue, setValue]);
+
+  const arrivalDateError = errors['arrivalDate'];
+  const departureDateError = errors['departureDate'];
 
   return (
     <div>
@@ -43,6 +56,11 @@ const StayDurationInput = () => {
         displayFormat="DD/MM/YYYY"
         enableOutsideDays={false}
       />
+      {(arrivalDateError || departureDateError) && (
+        <p className="text-red-500 text-sm absolute">
+          Arrival and departure dates are required!
+        </p>
+      )}
     </div>
   );
 };

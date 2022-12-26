@@ -14,6 +14,8 @@ import Seo from '../../../components/Seo';
 import { Guest } from '../../../lib/types';
 import { useAddGuest } from '../../../lib/operations/guests';
 import { guestSchema } from '../../../lib/schemas';
+import { guestStatuses } from '../../../constants/constants';
+import { convertToOriginalForm } from '../../../utils/convertToOriginalForm';
 
 const AddGuest = () => {
   const methods = useForm<Guest>({
@@ -25,7 +27,12 @@ const AddGuest = () => {
   const { mutate, isLoading } = useAddGuest();
 
   const onSubmit: SubmitHandler<Guest> = (data) => {
-    mutate(data);
+    const convertedGuestStatus = convertToOriginalForm(
+      guestStatuses,
+      data.status
+    );
+    const guest = { ...data, status: convertedGuestStatus! };
+    mutate(guest);
   };
 
   return (
@@ -46,12 +53,8 @@ const AddGuest = () => {
           <div className="grid lg:grid-cols-2 gap-x-20 gap-y-10 mt-5">
             <Input id="first-name" title="First name" />
             <Input id="last-name" title="Last name" />
-            <Input id="email-address" title="Email address" />
+            <Input id="email-address" title="Email address" fieldName="email" />
             <Input id="phone-number" title="Phone number" />
-            <Input id="country" title="Country" />
-            <Input id="address" title="Address" />
-            <Input id="city" title="City" />
-            <Input id="postal-code" title="Postal Code" />
             <Textarea id="notes" title="Notes" rows="5" />
           </div>
           <div className="mt-5 flex justify-center">

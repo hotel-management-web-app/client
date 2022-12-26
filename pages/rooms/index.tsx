@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Seo from '../components/Seo';
-import RoomsImg from '../public/images/rooms.png';
-import RoomImg from '../public/images/room.png';
-import { RoomType } from '../lib/types';
-import { getRoomTypes } from '../lib/api/roomTypes';
+import Seo from '../../components/Seo';
+import RoomsImg from '../../public/images/rooms.png';
+import RoomImg from '../../public/images/room.png';
+import { RoomType } from '../../lib/types';
+import { getRoomTypes } from '../../lib/api/roomTypes';
 
 export const getServerSideProps = async () => {
   const roomTypes = await getRoomTypes();
@@ -28,18 +28,18 @@ const Rooms: React.FC<RoomsProps> = ({ roomTypes }) => (
     </div>
     <section id="rooms" className="container mx-auto max-w-container">
       <div className="flex justify-center 2xl:justify-between gap-12 flex-wrap mt-28 mb-52">
-        {roomTypes.map((roomType) => (
+        {roomTypes.map(({ id, name, description }) => (
           <div
-            key={roomType.id}
+            key={id}
             className="w-[430px] shadow-[0px_10px_30px_-10px_rgba(0,0,0,0.8)]"
           >
             <Image src={RoomImg} alt="room" />
             <div className="px-8 pt-5 pb-8">
-              <h2 className="text-3xl font-medium">{roomType.name}</h2>
+              <h2 className="text-3xl font-medium">{name}</h2>
               <p className="my-4 font-light h-[120px] overflow-clip">
-                {roomType.description}
+                {description}
               </p>
-              <Link href={`/rooms/${roomType.id}`}>
+              <Link href={`/rooms/${id}`}>
                 <a className="underline">More Details</a>
               </Link>
               <Link href="/room-booking">

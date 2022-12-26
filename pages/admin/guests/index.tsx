@@ -1,6 +1,6 @@
 import React from 'react';
-import { nanoid } from 'nanoid';
 import { dehydrate, QueryClient } from 'react-query';
+import moment from 'moment';
 import { Entries } from '../../../components/Admin';
 import AddButton from '../../../components/Admin/AddButton';
 import DeleteButton from '../../../components/Admin/DeleteButton';
@@ -9,6 +9,7 @@ import Header from '../../../components/Admin/Header';
 import Seo from '../../../components/Seo';
 import { getGuests } from '../../../lib/api/guests';
 import { useDeleteGuest, useGetGuests } from '../../../lib/operations/guests';
+import { guestStatuses } from '../../../constants/constants';
 
 const headers: string[] = [
   'Id',
@@ -29,7 +30,7 @@ export const getServerSideProps = async () => {
 };
 
 const Guests = () => {
-  const { data } = useGetGuests();
+  const { data: guests } = useGetGuests();
   const { mutate } = useDeleteGuest();
 
   const deleteGuest = async (id: number) => {
@@ -56,38 +57,46 @@ const Guests = () => {
             <thead className="text-left">
               <tr className="border-b">
                 {headers.map((header) => (
-                  <th key={nanoid()} className="pb-2">
+                  <th key={header} className="pb-2">
                     {header}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {data?.map((guest) => (
-                <tr key={guest.id} className="border-b">
-                  <td>{guest.id}</td>
-                  <td>
-                    {guest.firstName}
-                    &nbsp;
-                    {guest.lastName}
-                  </td>
-                  <td>{guest.emailAddress}</td>
-                  <td>{guest.latestBooking}</td>
-                  <td>{guest.bookings}</td>
-                  <td>{guest.status}</td>
-                  <td className="w-40 py-3">
-                    <div>
-                      <EditButton id={guest.id} />
-                      <DeleteButton
-                        deleteHandler={() => deleteGuest(guest.id)}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {guests?.map(
+                ({
+                  id,
+                  firstName,
+                  lastName,
+                  email,
+                  lastBooking,
+                  _count,
+                  status,
+                }) => (
+                  <tr key={id} className="border-b">
+                    <td>{id}</td>
+                    <td>
+                      {firstName}
+                      &nbsp;
+                      {lastName}
+                    </td>
+                    <td>{email}</td>
+                    <td>{moment(lastBooking).format('DD-MM-YYYY')}</td>
+                    <td>{_count.bookings}</td>
+                    <td>{guestStatuses[status]}</td>
+                    <td className="w-40 py-3">
+                      <div>
+                        <EditButton id={id} />
+                        <DeleteButton deleteHandler={() => deleteGuest(id)} />
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
-          {data?.length === 0 && (
+          {guests?.length === 0 && (
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>

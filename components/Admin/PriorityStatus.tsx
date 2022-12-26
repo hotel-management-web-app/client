@@ -2,10 +2,12 @@ import React, { useState, Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { BsCheck, BsRecordCircleFill } from 'react-icons/bs';
 import { GoChevronDown } from 'react-icons/go';
-import { useUpdateHousekeepingField } from '../../lib/operations/housekeeping';
-import { PriorityStatus } from '../../lib/types';
+import { useUpdateRoomField } from '../../lib/operations/rooms';
+import { PriorityStatusOption } from '../../lib/types';
+import { convertToOriginalForm } from '../../utils/convertToOriginalForm';
+import { priorityStatuses } from '../../constants/constants';
 
-const priorityStatuses = [
+const priorityStatusOptions: PriorityStatusOption[] = [
   {
     id: 1,
     name: 'High',
@@ -28,16 +30,22 @@ interface PriorityStatusProps {
   status: string;
 }
 
-const PriorityStatusPage: React.FC<PriorityStatusProps> = ({ id, status }) => {
+const PriorityStatus: React.FC<PriorityStatusProps> = ({ id, status }) => {
   const [selectedPriority, setSelectedPriority] = useState(
-    priorityStatuses.find((priorityStatus) => priorityStatus.name === status)
+    priorityStatusOptions.find(
+      (priorityStatusOption) => priorityStatusOption.name === status
+    )
   );
 
-  const { mutate } = useUpdateHousekeepingField(id);
+  const { mutate } = useUpdateRoomField(id);
 
-  const changeHandler = (priorityStatus: PriorityStatus) => {
+  const changeHandler = (priorityStatus: PriorityStatusOption) => {
     setSelectedPriority(priorityStatus);
-    mutate({ priority: priorityStatus.name });
+    const convertedPriorityStatus = convertToOriginalForm(
+      priorityStatuses,
+      priorityStatus.name
+    );
+    mutate({ priority: convertedPriorityStatus! });
   };
 
   return (
@@ -65,15 +73,15 @@ const PriorityStatusPage: React.FC<PriorityStatusProps> = ({ id, status }) => {
           leaveTo="opacity-0"
         >
           <Listbox.Options className="absolute mt-1 max-h-60 w-40 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
-            {priorityStatuses.map((priorityStatus) => (
+            {priorityStatusOptions.map((priorityStatusOption) => (
               <Listbox.Option
-                key={priorityStatus.id}
+                key={priorityStatusOption.id}
                 className={({ active }) =>
                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
                     active ? 'bg-gray-100 text-black' : 'text-gray-900'
                   }`
                 }
-                value={priorityStatus}
+                value={priorityStatusOption}
               >
                 {({ selected }) => (
                   <>
@@ -82,7 +90,7 @@ const PriorityStatusPage: React.FC<PriorityStatusProps> = ({ id, status }) => {
                         selected ? 'font-medium' : 'font-normal'
                       }`}
                     >
-                      {priorityStatus.name}
+                      {priorityStatusOption.name}
                     </span>
                     {selected ? (
                       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600">
@@ -100,4 +108,4 @@ const PriorityStatusPage: React.FC<PriorityStatusProps> = ({ id, status }) => {
   );
 };
 
-export default PriorityStatusPage;
+export default PriorityStatus;

@@ -7,4 +7,4 @@ export const getAboutInfo = async () =>
   axios.get(baseUrl).then((res) => res.data);
 
 export const updateAboutInfo = async (aboutInfo: AboutInfo) =>
-  axios.post(baseUrl, aboutInfo);
+  axios.put(baseUrl, aboutInfo);

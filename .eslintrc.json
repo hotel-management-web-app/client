@@ -33,6 +33,7 @@
     "jsx-a11y/anchor-is-valid": "off",
     "object-curly-newline": "off",
     "import/prefer-default-export": "off",
+    "no-use-before-define": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "import/extensions": [
       "error",

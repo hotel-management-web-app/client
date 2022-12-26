@@ -1,4 +1,5 @@
 import React from 'react';
+import { dehydrate, QueryClient } from 'react-query';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Seo from '../../../components/Seo';
 import {
@@ -11,7 +12,11 @@ import {
 import { getAboutInfo } from '../../../lib/api/about';
 import { AboutDetail, AboutInfo } from '../../../lib/types';
 import { getAboutDetails } from '../../../lib/api/aboutDetails';
-import { useUpdateAboutInfo } from '../../../lib/operations/about';
+import {
+  useGetAboutDetails,
+  useGetAboutInfo,
+  useUpdateAboutInfo,
+} from '../../../lib/operations/about';
 import AboutDetails from '../../../components/Admin/AboutDetails';
 
 interface AboutSettingsPageProps {
@@ -20,19 +25,20 @@ interface AboutSettingsPageProps {
 }
 
 export const getServerSideProps = async () => {
-  const aboutInfo = await getAboutInfo();
-  const aboutDetails = await getAboutDetails();
+  const queryClient = new QueryClient();
 
-  return { props: { aboutInfo, aboutDetails } };
+  await queryClient.prefetchQuery(['aboutInfo'], getAboutInfo);
+  await queryClient.prefetchQuery(['aboutDetails'], getAboutDetails);
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const AboutSettingsPage: React.FC<AboutSettingsPageProps> = ({
-  aboutInfo,
-  aboutDetails,
-}) => {
+const AboutSettingsPage: React.FC<AboutSettingsPageProps> = () => {
   const methods = useForm<AboutInfo>();
   const { handleSubmit } = methods;
 
+  const { data: aboutInfo } = useGetAboutInfo();
+  const { data: aboutDetails } = useGetAboutDetails();
   const { mutate, isLoading } = useUpdateAboutInfo();
 
   const onSubmit: SubmitHandler<AboutInfo> = (data) => {
@@ -46,13 +52,13 @@ const AboutSettingsPage: React.FC<AboutSettingsPageProps> = ({
       <FormProvider {...methods}>
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="mx-auto lg:w-2/3 2xl:w-1/2 my-5">
-            <Input id="title" title="Title" defaultValue={aboutInfo.title} />
+            <Input id="title" title="Title" defaultValue={aboutInfo?.title} />
             <div className="mt-5">
               <Textarea
                 id="title"
                 title="Description"
                 rows="8"
-                defaultValue={aboutInfo.description}
+                defaultValue={aboutInfo?.description}
               />
             </div>
           </div>

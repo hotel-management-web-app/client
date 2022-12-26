@@ -5,6 +5,7 @@ export interface RoomType {
   name: string;
   description: string;
   occupancy: number;
+  rooms: Room[];
   price: string;
   amenities: {
     id: number;
@@ -18,10 +19,14 @@ export interface RoomType {
 
 export interface Room {
   id: number;
-  roomType: string;
+  roomType: RoomType;
+  roomTypeId: number;
   roomNumber: number;
   floorNumber: number;
   roomStatus: string;
+  housekeepingStatus: string;
+  priority: string;
+  comments: string;
 }
 
 export interface SelectOption {
@@ -30,18 +35,14 @@ export interface SelectOption {
 }
 
 export interface Guest {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
-  emailAddress: string;
+  email: string;
   phoneNumber: string;
-  country: string;
-  address: string;
-  latestBooking: string;
-  city: string;
-  postalCode: string;
+  lastBooking?: string;
   status: string;
-  bookings: number;
+  _count?: { bookings: number };
   notes: string;
 }
 
@@ -50,12 +51,13 @@ export interface Booking {
   status: string;
   arrivalDate: string;
   departureDate: string;
-  paymentMethod: string;
-  roomType: string;
   roomNumber: number;
   adults: number;
   children: number;
-  guestName: string;
+  guest: Guest;
+  guestId: number;
+  room: Room;
+  roomId: number;
 }
 
 export interface Housekeeping {
@@ -69,18 +71,14 @@ export interface Housekeeping {
   comments: string;
 }
 
-export interface HousekeepingField {
-  [key: string]: string;
-}
-
-export interface HousekeepingStatus {
+export interface HousekeepingStatusOption {
   id: number;
   name: string;
   textColor: string;
   backgroundColor: string;
 }
 
-export interface PriorityStatus {
+export interface PriorityStatusOption {
   id: number;
   name: string;
   color: string;
@@ -115,4 +113,15 @@ export interface ProfileInfo {
   name: string;
   email: string;
   phoneNumber: string;
+}
+
+export interface StatusesProps {
+  [key: string]: string;
+}
+
+export interface BookingStatusedProps {
+  [key: string]: {
+    convertedName: string;
+    color: string;
+  };
 }

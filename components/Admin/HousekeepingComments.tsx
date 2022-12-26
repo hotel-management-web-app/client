@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import Modal from 'react-modal';
-import { useUpdateHousekeepingField } from '../../lib/operations/housekeeping';
-import { HousekeepingField } from '../../lib/types';
+import { useUpdateRoomField } from '../../lib/operations/rooms';
+import { StatusesProps } from '../../lib/types';
 import FormWrapper from './FormWrapper';
 import SubmitButton from './SubmitButton';
 import Textarea from './Textarea';
@@ -19,18 +19,20 @@ const HousekeepingComments: React.FC<HousekeepingCommentsProps> = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comments, setComments] = useState<string>(value);
-  const methods = useForm<HousekeepingField>();
+  const methods = useForm<StatusesProps>();
   const { handleSubmit } = methods;
-  const { mutate, isLoading } = useUpdateHousekeepingField(id);
+  const { mutate, isLoading } = useUpdateRoomField(id);
 
-  const onSubmit: SubmitHandler<HousekeepingField> = (data) => {
+  const onSubmit: SubmitHandler<StatusesProps> = (data) => {
     mutate(data);
     setComments(data.comments);
     setIsModalOpen(false);
   };
   return (
     <div>
-      <button onClick={() => setIsModalOpen(true)}>{comments}</button>
+      <button onClick={() => setIsModalOpen(true)}>
+        {comments || <p className="text-gray-400">No comments</p>}
+      </button>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}

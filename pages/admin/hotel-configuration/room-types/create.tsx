@@ -27,7 +27,8 @@ const AddRoomType = () => {
   const { mutate, isLoading } = useAddRoomType();
 
   const onSubmit: SubmitHandler<RoomType> = (data) => {
-    mutate(data);
+    const { name, description, occupancy, price, amenities, details } = data;
+    mutate({ name, description, occupancy, price, amenities, details });
   };
 
   return (

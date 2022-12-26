@@ -16,15 +16,6 @@ const BookingForm = () => (
           <BookingFormInput id="email" title="Email address" />
           <BookingFormInput id="phone-number" title="Phone number" />
         </div>
-        <h2 className="text-xl font-medium border-b-2 pb-3 mt-10">
-          Additional information
-        </h2>
-        <div className="grid md:grid-cols-2 gap-x-24 gap-y-10 mt-6">
-          <BookingFormInput id="country" title="Country" />
-          <BookingFormInput id="address" title="Address" />
-          <BookingFormInput id="city" title="City" />
-          <BookingFormInput id="postal-code" title="Postal Code" />
-        </div>
         <h2 className="text-xl font-medium border-b-2 pb-3 mt-10 mb-6">
           Payment information
         </h2>
