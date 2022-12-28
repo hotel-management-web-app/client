@@ -18,12 +18,17 @@ const AddAboutDetails = () => {
     resolver: yupResolver(aboutDetailSchema),
     mode: 'onChange',
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, register } = methods;
 
   const { mutate, isLoading, isError } = useAddAboutDetail();
 
   const onSubmit: SubmitHandler<AboutDetail> = async (data) => {
-    await mutate(data);
+    const image = data.image[0];
+    const { title, description } = data;
+    const form = new FormData();
+    form.append('data', JSON.stringify({ title, description }));
+    form.append('image', image);
+    mutate(form);
     if (!isError) {
       setIsModalOpen(false);
     }
@@ -44,10 +49,11 @@ const AddAboutDetails = () => {
         style={customStyles}
       >
         <FormProvider {...methods}>
-          <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+          <FormWrapper onSubmit={handleSubmit(onSubmit)} multipart>
             <h2 className="text-center text-2xl pb-8 -mt-5">
               Add about detail
             </h2>
+            <input type="file" {...register('image')} accept="image/*" />
             <Input />
             <div className="mt-5">
               <Textarea id="description" title="Description" rows={10} />

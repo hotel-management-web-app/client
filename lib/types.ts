@@ -99,7 +99,7 @@ export interface AboutDetail {
   id: number;
   title: string;
   description: string;
-  imgUrl: string;
+  image: string;
 }
 
 export interface AboutInfo {

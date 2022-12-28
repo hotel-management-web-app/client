@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import AboutImg from '../../public/images/about1.png';
 import AddAboutDetails from './AddAboutDetails';
 import { useDeleteAboutDetail } from '../../lib/operations/about';
 import EditAboutDetails from './EditAboutDetails';
@@ -25,7 +24,13 @@ const AboutDetails: React.FC<AboutDetailsProps> = ({ details }) => {
       {details?.map((detail) => (
         <div key={detail.id} className="flex justify-between mt-10 flex-wrap">
           <div className="flex gap-x-10 gap-y-5 flex-wrap">
-            <Image src={AboutImg} alt="about" width="200px" height="200px" />
+            <Image
+              loader={() => detail.image}
+              src={detail.image}
+              alt="about"
+              width="200px"
+              height="200px"
+            />
             <div>
               <h3 className="text-lg font-medium">{detail.title}</h3>
               <p className="mt-3 max-w-[700px]">{detail.description}</p>
