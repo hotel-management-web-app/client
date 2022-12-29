@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import AboutBg from '../public/images/about-bg.png';
-import AboutImg from '../public/images/about1.png';
 import Seo from '../components/Seo';
 import { getAboutDetails } from '../lib/api/aboutDetails';
 import { getAboutInfo } from '../lib/api/about';
@@ -36,7 +35,7 @@ const About: React.FC<AboutProps> = ({ aboutInfo, aboutDetails }) => (
         {aboutInfo.description}
       </p>
       <div className="mt-40 flex flex-col gap-40 px-8 2xl:px-0 text-center xl:text-left">
-        {aboutDetails.map(({ id, title, description }, index) => (
+        {aboutDetails.map(({ id, image, title, description }, index) => (
           <div
             key={id}
             className={`flex ${
@@ -47,7 +46,13 @@ const About: React.FC<AboutProps> = ({ aboutInfo, aboutDetails }) => (
               <h2 className="text-4xl font-medium">{title}</h2>
               <p className="font-light text-lg leading-8 mt-5">{description}</p>
             </div>
-            <Image src={AboutImg} alt="about" width="525px" height="445px" />
+            <Image
+              loader={() => image}
+              src={image}
+              alt="about"
+              width="525px"
+              height="445px"
+            />
           </div>
         ))}
       </div>
