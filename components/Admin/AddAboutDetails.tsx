@@ -11,6 +11,7 @@ import FormWrapper from './FormWrapper';
 import { useAddAboutDetail } from '../../lib/operations/about';
 import { AboutDetail } from '../../lib/types';
 import { aboutDetailSchema } from '../../lib/schemas';
+import ImageUploader from './ImageUploader';
 
 const AddAboutDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,19 +19,21 @@ const AddAboutDetails = () => {
     resolver: yupResolver(aboutDetailSchema),
     mode: 'onChange',
   });
-  const { handleSubmit, register } = methods;
+  const { handleSubmit, reset } = methods;
 
   const { mutate, isLoading, isError } = useAddAboutDetail();
 
   const onSubmit: SubmitHandler<AboutDetail> = async (data) => {
-    const image = data.image[0];
     const { title, description } = data;
     const form = new FormData();
+
     form.append('data', JSON.stringify({ title, description }));
-    form.append('image', image);
+    if (data.image) form.append('image', data.image);
+
     mutate(form);
     if (!isError) {
       setIsModalOpen(false);
+      reset();
     }
   };
 
@@ -53,7 +56,9 @@ const AddAboutDetails = () => {
             <h2 className="text-center text-2xl pb-8 -mt-5">
               Add about detail
             </h2>
-            <input type="file" {...register('image')} accept="image/*" />
+            <div className="mb-5">
+              <ImageUploader id="about-image" label="Image" width={200} />
+            </div>
             <Input />
             <div className="mt-5">
               <Textarea id="description" title="Description" rows={10} />
