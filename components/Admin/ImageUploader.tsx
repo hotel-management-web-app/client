@@ -8,6 +8,7 @@ interface ImageUploaderProps {
   label: string;
   width?: number;
   height?: number;
+  defaultImage?: string;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({
@@ -15,8 +16,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   label,
   width = 300,
   height = width,
+  defaultImage,
 }) => {
-  const [image, setImage] = useState<StaticImageData | string>(NoImage);
+  const [image, setImage] = useState<StaticImageData | string>(
+    defaultImage || NoImage
+  );
 
   const { setValue } = useFormContext();
 
@@ -34,7 +38,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         {label}
       </label>
       <div className="flex flex-wrap items-center mt-5 gap-10">
-        <Image id={`${id}-display`} width={width} height={height} src={image} />
+        <Image
+          loader={() => image as string}
+          id={`${id}-display`}
+          width={width}
+          height={height}
+          src={image}
+        />
         <input
           type="file"
           id={`${id}-upload`}
