@@ -22,21 +22,19 @@ const EditAboutDetails: React.FC<EditAboutDetailsProps> = ({ aboutDetail }) => {
     resolver: yupResolver(aboutDetailSchema),
     mode: 'onChange',
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit } = methods;
 
   const { mutate, isLoading, isError } = useUpdateAboutDetail(aboutDetail.id);
 
   const onSubmit: SubmitHandler<AboutDetail> = async (data) => {
     const { title, description } = data;
     const form = new FormData();
-
     form.append('data', JSON.stringify({ title, description }));
     if (data.image) form.append('image', data.image);
 
     mutate(form);
     if (!isError) {
       setIsModalOpen(false);
-      reset();
     }
   };
 
