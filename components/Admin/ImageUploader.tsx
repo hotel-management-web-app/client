@@ -9,6 +9,7 @@ interface ImageUploaderProps {
   width?: number;
   height?: number;
   defaultImage?: string;
+  loader?: boolean;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({
@@ -17,6 +18,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   width = 300,
   height = width,
   defaultImage,
+  loader = false,
 }) => {
   const [image, setImage] = useState<StaticImageData | string>(
     defaultImage || NoImage
@@ -39,7 +41,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       </label>
       <div className="flex flex-wrap items-center mt-5 gap-10">
         <Image
-          loader={() => image as string}
+          {...(loader ? { loader: () => image as string } : {})}
           id={`${id}-display`}
           width={width}
           height={height}

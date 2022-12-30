@@ -54,7 +54,7 @@ const EditAboutDetails: React.FC<EditAboutDetailsProps> = ({ aboutDetail }) => {
         style={customStyles}
       >
         <FormProvider {...methods}>
-          <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+          <FormWrapper onSubmit={handleSubmit(onSubmit)} multipart>
             <h2 className="text-center text-2xl pb-8 -mt-5">
               Edit about detail
             </h2>
@@ -64,6 +64,7 @@ const EditAboutDetails: React.FC<EditAboutDetailsProps> = ({ aboutDetail }) => {
                 label="Image"
                 width={200}
                 defaultImage={aboutDetail.image}
+                loader
               />
             </div>
             <Input defaultValue={aboutDetail.title} />
