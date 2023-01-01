@@ -27,10 +27,10 @@ const EditAboutDetails: React.FC<EditAboutDetailsProps> = ({ aboutDetail }) => {
   const { mutate, isLoading, isError } = useUpdateAboutDetail(aboutDetail.id);
 
   const onSubmit: SubmitHandler<AboutDetail> = async (data) => {
-    const { title, description } = data;
+    const { image, title, description } = data;
     const form = new FormData();
     form.append('data', JSON.stringify({ title, description }));
-    if (data.image) form.append('image', data.image);
+    if (image) form.append('image', image);
 
     mutate(form);
     if (!isError) {

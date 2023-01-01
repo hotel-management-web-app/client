@@ -89,6 +89,7 @@ export interface ServerSideParams extends ParsedUrlQuery {
 }
 
 export interface GeneralSettings {
+  logo: string | Blob;
   hotelName: string;
   country: string;
   email: string;

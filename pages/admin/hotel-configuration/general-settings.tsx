@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import Image, { StaticImageData } from 'next/image';
+import { dehydrate, QueryClient } from 'react-query';
+import Image from 'next/image';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FileUploader } from 'react-drag-drop-files';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import FormWrapper from '../../../components/Admin/FormWrapper';
 import Header from '../../../components/Admin/Header';
 import Seo from '../../../components/Seo';
-import NoImage from '../../../public/images/no_image.jpg';
 import Input from '../../../components/Admin/Input';
 import { SubmitButton } from '../../../components/Admin';
 import { getSettings } from '../../../lib/api/generalSettings';
-import { useUpdateSettings } from '../../../lib/operations/generalSettings';
+import {
+  useGetSettings,
+  useUpdateSettings,
+} from '../../../lib/operations/generalSettings';
 import { GeneralSettings } from '../../../lib/types';
 import { generalSettingsSchema } from '../../../lib/schemas';
 
@@ -21,48 +24,66 @@ interface GeneralSettingsPageProps {
 }
 
 export const getServerSideProps = async () => {
-  const settings = await getSettings();
+  const queryClient = new QueryClient();
 
-  return { props: { settings } };
+  await queryClient.prefetchQuery(['settings'], getSettings);
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const GeneralSettingsPage: React.FC<GeneralSettingsPageProps> = ({
-  settings,
-}) => {
+const GeneralSettingsPage: React.FC<GeneralSettingsPageProps> = () => {
+  const { data: settings } = useGetSettings();
   const methods = useForm<GeneralSettings>({
     resolver: yupResolver(generalSettingsSchema),
     mode: 'onChange',
   });
-  const { handleSubmit } = methods;
-  const [file, setFile] = useState<StaticImageData | string>(NoImage);
+  const { handleSubmit, setValue } = methods;
+  const [file, setFile] = useState<string | Blob | undefined>(settings?.logo);
 
   const { mutate, isLoading } = useUpdateSettings();
 
-  const handleChange = (selectedFile: string) => {
-    setFile(selectedFile);
+  const handleChange = (selectedFile: Blob) => {
+    const imageUrl = URL.createObjectURL(selectedFile);
+    setValue('logo', selectedFile);
+    setFile(imageUrl);
   };
 
   const onSubmit: SubmitHandler<GeneralSettings> = (data) => {
-    mutate(data);
+    const { logo, hotelName, country, email, phoneNumber } = data;
+    const form = new FormData();
+
+    form.append(
+      'data',
+      JSON.stringify({ hotelName, country, email, phoneNumber })
+    );
+    if (logo) form.append('logo', logo);
+    mutate(form);
   };
+
   return (
     <div>
       <Seo title="General settings" />
       <Header title="General settings" />
       <FormProvider {...methods}>
-        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+        <FormWrapper onSubmit={handleSubmit(onSubmit)} multipart>
           <div className="flex justify-center my-5">
             <div className="flex flex-col gap-10 lg:w-2/3">
               <Input
                 id="hotel-name"
                 title="Hotel name"
-                defaultValue={settings.hotelName}
+                defaultValue={settings?.hotelName}
               />
               <label htmlFor="" className="block -mb-8">
                 Logo
               </label>
               <div className="flex items-center gap-10 flex-wrap">
-                <Image src={file} alt="no image" width="100" height="100" />
+                <Image
+                  loader={() => file as string}
+                  src={file as string}
+                  alt="no image"
+                  width="100"
+                  height="100"
+                />
                 <FileUploader
                   handleChange={handleChange}
                   name="file"
@@ -72,17 +93,17 @@ const GeneralSettingsPage: React.FC<GeneralSettingsPageProps> = ({
               <Input
                 id="hotel-name"
                 title="Country"
-                defaultValue={settings.country}
+                defaultValue={settings?.country}
               />
               <Input
                 id="hotel-name"
                 title="Email"
-                defaultValue={settings.email}
+                defaultValue={settings?.email}
               />
               <Input
                 id="hotel-name"
                 title="Phone number"
-                defaultValue={settings.phoneNumber}
+                defaultValue={settings?.phoneNumber}
               />
             </div>
           </div>
