@@ -27,7 +27,7 @@ const Rooms: React.FC<RoomsProps> = ({ roomTypes }) => (
       </h1>
     </div>
     <section id="rooms" className="container mx-auto max-w-container">
-      <div className="flex justify-center 2xl:justify-between gap-12 flex-wrap mt-28 mb-52">
+      <div className="grid lg:grid-cols-2 2xl:grid-cols-3 place-items-center gap-20 mt-28 mb-52">
         {roomTypes.map(({ id, name, description }) => (
           <div
             key={id}
