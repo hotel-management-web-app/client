@@ -43,7 +43,8 @@ const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
   const { mutate, isLoading } = useUpdateRoomType(Number(id));
 
   const onSubmit: SubmitHandler<RoomType> = (data) => {
-    mutate(data);
+    const { name, description, occupancy, price, amenities, details } = data;
+    mutate({ name, description, occupancy, price, amenities, details });
   };
 
   return (
@@ -79,7 +80,12 @@ const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
                 title="Price"
                 defaultValue={roomTypeData.price}
               />
-              <ImageUploader />
+              <ImageUploader
+                id="room-type-image"
+                label="Room Image"
+                width={500}
+                height={300}
+              />
               <div className="mt-10">
                 <label>Room Gallery</label>
                 <ImagesUploader />

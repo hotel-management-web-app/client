@@ -49,7 +49,12 @@ const AddRoomType = () => {
               <Textarea id="description" title="Description" rows="10" />
               <Input id="occupancy" title="Occupancy" type="number" min="0" />
               <Input id="price" title="Price" />
-              <ImageUploader />
+              <ImageUploader
+                id="room-type-image"
+                label="Room Image"
+                width={500}
+                height={300}
+              />
               <div className="mt-10">
                 <label>Room Gallery</label>
                 <ImagesUploader />
