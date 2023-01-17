@@ -9,11 +9,15 @@ export const getRoomTypes = (): Promise<RoomType[]> =>
 export const getRoomType = async (id: number) =>
   axios.get(`${baseUrl}/${id}`).then((res) => res.data);
 
-export const addRoomType = async (roomType: RoomType) =>
-  axios.post(baseUrl, roomType);
+export const addRoomType = async (formData: FormData) =>
+  axios.post(baseUrl, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 
-export const updateRoomType = async (id: number, roomType: RoomType) =>
-  axios.put(`${baseUrl}/${id}`, roomType);
+export const updateRoomType = async (id: number, formData: FormData) =>
+  axios.put(`${baseUrl}/${id}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 
 export const deleteRoomType = async (id: number) =>
   axios.delete(`${baseUrl}/${id}`);

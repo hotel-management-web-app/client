@@ -16,7 +16,7 @@ export const useGetRoomTypes = () =>
 
 export const useAddRoomType = () => {
   const router = useRouter();
-  return useMutation<AxiosResponse, AxiosError, RoomType>(
+  return useMutation<AxiosResponse, AxiosError, FormData>(
     async (roomType) => addRoomType(roomType),
     {
       onSuccess: () => router.push(backUrl),
@@ -26,7 +26,7 @@ export const useAddRoomType = () => {
 
 export const useUpdateRoomType = (id: number) => {
   const router = useRouter();
-  return useMutation<AxiosResponse, AxiosError, RoomType>(
+  return useMutation<AxiosResponse, AxiosError, FormData>(
     async (roomType) => updateRoomType(id, roomType),
     {
       onSuccess: () => router.push(backUrl),

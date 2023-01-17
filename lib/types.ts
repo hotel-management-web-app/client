@@ -6,6 +6,8 @@ export interface RoomType {
   description: string;
   occupancy: number;
   rooms?: Room[];
+  image: File | string;
+  images: File[] | string[];
   price: string;
   amenities: string[];
   details: string[];

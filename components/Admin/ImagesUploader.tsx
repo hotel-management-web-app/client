@@ -12,9 +12,11 @@ const ImagesUploader = () => {
   const onChange = (imageList: ImageListType) => {
     // data for submit
     setImages(imageList as never[]);
+    setValue(
+      'images',
+      imageList.map((image) => image.file)
+    );
   };
-
-  setValue('images', images);
 
   return (
     <div className="mt-10">
