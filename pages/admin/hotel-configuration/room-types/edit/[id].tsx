@@ -1,4 +1,5 @@
 import React from 'react';
+import { dehydrate, QueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
@@ -16,7 +17,10 @@ import {
   FormWrapper,
 } from '../../../../../components/Admin';
 import { getRoomType } from '../../../../../lib/api/roomTypes';
-import { useUpdateRoomType } from '../../../../../lib/operations/roomTypes';
+import {
+  useGetRoomType,
+  useUpdateRoomType,
+} from '../../../../../lib/operations/roomTypes';
 import { RoomType, ServerSideParams } from '../../../../../lib/types';
 import { roomTypeSchema } from '../../../../../lib/schemas';
 
@@ -26,14 +30,18 @@ interface EditRoomTypeProps {
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as ServerSideParams;
-  const data = await getRoomType(Number(id));
+  const queryClient = new QueryClient();
 
-  return { props: { roomTypeData: data } };
+  await queryClient.prefetchQuery(['roomTypes'], () => getRoomType(Number(id)));
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
+const EditRoomType: React.FC<EditRoomTypeProps> = () => {
   const router = useRouter();
   const { id } = router.query;
+  const { data: roomTypeData } = useGetRoomType(Number(id));
+
   const methods = useForm<RoomType>({
     resolver: yupResolver(roomTypeSchema),
     mode: 'onChange',
@@ -43,8 +51,36 @@ const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
   const { mutate, isLoading } = useUpdateRoomType(Number(id));
 
   const onSubmit: SubmitHandler<RoomType> = (data) => {
-    const { name, description, occupancy, price, amenities, details } = data;
-    mutate({ name, description, occupancy, price, amenities, details });
+    const {
+      image,
+      images,
+      name,
+      description,
+      occupancy,
+      price,
+      amenities,
+      details,
+    } = data;
+
+    const form = new FormData();
+    form.append(
+      'data',
+      JSON.stringify({
+        name,
+        description,
+        occupancy,
+        price,
+        amenities,
+        details,
+      })
+    );
+
+    if (image) form.append('image', image);
+    if (images) {
+      images.forEach((currentImage) => form.append('images', currentImage));
+    }
+
+    mutate(form);
   };
 
   return (
@@ -61,34 +97,36 @@ const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col 2xl:flex-row flex-wrap gap-20 mt-5">
             <div className="w-96 xl:w-[500px] flex flex-col gap-5">
-              <Input id="name" title="Name" defaultValue={roomTypeData.name} />
+              <Input id="name" title="Name" defaultValue={roomTypeData?.name} />
               <Textarea
                 id="description"
                 title="Description"
                 rows="10"
-                defaultValue={roomTypeData.description}
+                defaultValue={roomTypeData?.description}
               />
               <Input
                 id="occupancy"
                 title="Occupancy"
                 type="number"
                 min="0"
-                defaultValue={roomTypeData.occupancy}
+                defaultValue={roomTypeData?.occupancy}
               />
               <Input
                 id="price"
                 title="Price"
-                defaultValue={roomTypeData.price}
+                defaultValue={roomTypeData?.price}
               />
               <ImageUploader
                 id="room-type-image"
                 label="Room Image"
                 width={500}
+                defaultImage={roomTypeData?.image as string}
+                loader
                 height={300}
               />
               <div className="mt-10">
                 <label>Room Gallery</label>
-                <ImagesUploader />
+                <ImagesUploader defaultImages={roomTypeData?.images} />
               </div>
             </div>
             <div className="2xl:w-[400px] 2xl:mx-auto 2xl:ml-72">
@@ -96,12 +134,15 @@ const EditRoomType: React.FC<EditRoomTypeProps> = ({ roomTypeData }) => {
                 <label>Amenities</label>
                 <EditableList
                   name="amenities"
-                  itemsProp={roomTypeData.amenities}
+                  itemsProp={roomTypeData?.amenities}
                 />
               </div>
               <div className="mb-10">
                 <label className="mt-5">Details</label>
-                <EditableList name="details" itemsProp={roomTypeData.details} />
+                <EditableList
+                  name="details"
+                  itemsProp={roomTypeData?.details}
+                />
               </div>
             </div>
           </div>

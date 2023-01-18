@@ -4,8 +4,14 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { GrFormClose } from 'react-icons/gr';
 import { useFormContext } from 'react-hook-form';
 
-const ImagesUploader = () => {
-  const [images, setImages] = useState([]);
+interface ImagesUploaderProps {
+  defaultImages?: string[] | File[];
+}
+
+const ImagesUploader: React.FC<ImagesUploaderProps> = ({ defaultImages }) => {
+  const [images, setImages] = useState(
+    defaultImages ? defaultImages?.map((image) => ({ dataURL: image })) : []
+  );
   const { setValue } = useFormContext();
   const maxNumber = 69;
 
@@ -22,7 +28,7 @@ const ImagesUploader = () => {
     <div className="mt-10">
       <ImageUploading
         multiple
-        value={images}
+        value={images as ImageListType}
         onChange={onChange}
         maxNumber={maxNumber}
       >
