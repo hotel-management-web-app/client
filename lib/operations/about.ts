@@ -22,7 +22,7 @@ export const useGetAboutDetails = () =>
 
 export const useAddAboutDetail = () => {
   const queryClient = useQueryClient();
-  return useMutation<AxiosResponse, AxiosError, AboutDetail>(
+  return useMutation<AxiosResponse, AxiosError, FormData>(
     async (aboutDetail) => addAboutDetail(aboutDetail),
     {
       onSuccess: () => queryClient.invalidateQueries(['aboutDetails']),
@@ -32,7 +32,7 @@ export const useAddAboutDetail = () => {
 
 export const useUpdateAboutDetail = (id: number) => {
   const queryClient = useQueryClient();
-  return useMutation<AxiosResponse, AxiosError, AboutDetail>(
+  return useMutation<AxiosResponse, AxiosError, FormData>(
     async (aboutDetail) => updateAboutDetail(id, aboutDetail),
     {
       onSuccess: () => queryClient.invalidateQueries(['aboutDetails']),

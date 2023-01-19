@@ -3,9 +3,9 @@ import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
-import RoomBg from '../../public/images/room-details.png';
 import Seo from '../../components/Seo';
 import RoomImages from '../../components/RoomImages';
+import { RoomType } from '../../lib/types';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
@@ -15,26 +15,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 interface RoomProps {
-  roomType: {
-    id: number;
-    name: string;
-    description: string;
-    roomUrl: string;
-    amenities: {
-      id: number;
-      name: string;
-    }[];
-    details: {
-      id: number;
-      name: string;
-    }[];
-  };
+  roomType: RoomType;
 }
 
 const Room: React.FC<RoomProps> = ({ roomType }) => (
   <div>
     <Seo title="Room" />
-    <Image src={RoomBg} alt="Standard double room" layout="responsive" />
+    <Image
+      loader={() => roomType?.image as string}
+      src={roomType?.image as string}
+      layout="responsive"
+      width="1920"
+      height="650"
+      alt="Standard double room"
+    />
     <div className="container mx-auto max-w-container mb-40 px-5 2xl:px-0">
       <h1 className="text-center text-4xl sm:text-5xl font-light mt-20">
         {roomType.name}
@@ -43,8 +37,8 @@ const Room: React.FC<RoomProps> = ({ roomType }) => (
         <div className="bg-dark-gray w-full max-w-[750px] text-center 2xl:w-72 text-white px-12 py-9">
           <h2 className="text-2xl font-medium">Amenities</h2>
           <ul className="list-disc ml-5 mt-2 leading-[40px]">
-            {roomType.amenities.map(({ id, name }) => (
-              <li key={id}>{name}</li>
+            {roomType.amenities.map((amenity) => (
+              <li key={amenity}>{amenity}</li>
             ))}
           </ul>
         </div>
@@ -54,7 +48,7 @@ const Room: React.FC<RoomProps> = ({ roomType }) => (
         <div className="bg-dark-gray text-center w-full max-w-[750px] 2xl:w-72 text-white px-12 py-9">
           <ul className="list-disc ml-5 mt-2 leading-[40px]">
             {roomType.details.map((detail) => (
-              <li key={detail.id}>{detail.name}</li>
+              <li key={detail}>{detail}</li>
             ))}
           </ul>
         </div>
@@ -66,7 +60,7 @@ const Room: React.FC<RoomProps> = ({ roomType }) => (
           </a>
         </Link>
       </div>
-      <RoomImages />
+      <RoomImages images={roomType.images as string[]} />
     </div>
   </div>
 );

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Disclosure } from '@headlessui/react';
@@ -40,11 +41,21 @@ const Navbar = () => {
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
-                  <Link href="/">
-                    <a className="text-white text-2xl font-bold">
-                      {isLoading ? <>Loading logo...</> : data?.hotelName}
-                    </a>
-                  </Link>
+                  {isLoading ? (
+                    <>Loading logo...</>
+                  ) : (
+                    <Link href="/">
+                      <a className="text-white text-2xl font-bold flex items-center gap-2">
+                        <Image
+                          loader={() => data?.logo as string}
+                          src={data?.logo as string}
+                          width="50"
+                          height="50"
+                        />
+                        {data?.hotelName}
+                      </a>
+                    </Link>
+                  )}
                 </div>
                 <div className="hidden sm:block sm:mx-auto">
                   <div className="flex space-x-4">

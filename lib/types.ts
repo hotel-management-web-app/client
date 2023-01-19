@@ -1,20 +1,16 @@
 import { ParsedUrlQuery } from 'querystring';
 
 export interface RoomType {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   occupancy: number;
-  rooms: Room[];
+  rooms?: Room[];
+  image: File | string;
+  images: File[] | string[];
   price: string;
-  amenities: {
-    id: number;
-    name: string;
-  }[];
-  details: {
-    id: number;
-    name: string;
-  }[];
+  amenities: string[];
+  details: string[];
 }
 
 export interface Room {
@@ -89,6 +85,7 @@ export interface ServerSideParams extends ParsedUrlQuery {
 }
 
 export interface GeneralSettings {
+  logo: string | Blob;
   hotelName: string;
   country: string;
   email: string;
@@ -99,7 +96,7 @@ export interface AboutDetail {
   id: number;
   title: string;
   description: string;
-  imgUrl: string;
+  image: string;
 }
 
 export interface AboutInfo {

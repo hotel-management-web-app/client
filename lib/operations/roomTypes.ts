@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   addRoomType,
   deleteRoomType,
+  getRoomType,
   getRoomTypes,
   updateRoomType,
 } from '../api/roomTypes';
@@ -14,9 +15,12 @@ const backUrl = 'http://localhost:3000/admin/hotel-configuration/room-types';
 export const useGetRoomTypes = () =>
   useQuery<RoomType[], AxiosError>(['roomTypes'], getRoomTypes);
 
+export const useGetRoomType = (id: number) =>
+  useQuery<RoomType, AxiosError>(['roomTypes'], () => getRoomType(id));
+
 export const useAddRoomType = () => {
   const router = useRouter();
-  return useMutation<AxiosResponse, AxiosError, RoomType>(
+  return useMutation<AxiosResponse, AxiosError, FormData>(
     async (roomType) => addRoomType(roomType),
     {
       onSuccess: () => router.push(backUrl),
@@ -26,7 +30,7 @@ export const useAddRoomType = () => {
 
 export const useUpdateRoomType = (id: number) => {
   const router = useRouter();
-  return useMutation<AxiosResponse, AxiosError, RoomType>(
+  return useMutation<AxiosResponse, AxiosError, FormData>(
     async (roomType) => updateRoomType(id, roomType),
     {
       onSuccess: () => router.push(backUrl),

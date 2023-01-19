@@ -27,8 +27,36 @@ const AddRoomType = () => {
   const { mutate, isLoading } = useAddRoomType();
 
   const onSubmit: SubmitHandler<RoomType> = (data) => {
-    const { name, description, occupancy, price, amenities, details } = data;
-    mutate({ name, description, occupancy, price, amenities, details });
+    const {
+      image,
+      images,
+      name,
+      description,
+      occupancy,
+      price,
+      amenities,
+      details,
+    } = data;
+
+    const form = new FormData();
+    form.append(
+      'data',
+      JSON.stringify({
+        name,
+        description,
+        occupancy,
+        price,
+        amenities,
+        details,
+      })
+    );
+
+    if (image) form.append('image', image);
+    if (images) {
+      images.forEach((currentImage) => form.append('images', currentImage));
+    }
+
+    mutate(form);
   };
 
   return (
@@ -42,14 +70,19 @@ const AddRoomType = () => {
         />
       </div>
       <FormProvider {...methods}>
-        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+        <FormWrapper onSubmit={handleSubmit(onSubmit)} multipart>
           <div className="flex flex-col 2xl:flex-row flex-wrap gap-20 mt-5">
             <div className="w-96 xl:w-[500px] flex flex-col gap-5">
               <Input id="name" title="Name" />
               <Textarea id="description" title="Description" rows="10" />
               <Input id="occupancy" title="Occupancy" type="number" min="0" />
               <Input id="price" title="Price" />
-              <ImageUploader />
+              <ImageUploader
+                id="room-type-image"
+                label="Room Image"
+                width={500}
+                height={300}
+              />
               <div className="mt-10">
                 <label>Room Gallery</label>
                 <ImagesUploader />

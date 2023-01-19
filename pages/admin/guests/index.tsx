@@ -83,12 +83,12 @@ const Guests = () => {
                     </td>
                     <td>{email}</td>
                     <td>{moment(lastBooking).format('DD-MM-YYYY')}</td>
-                    <td>{_count.bookings}</td>
+                    <td>{_count?.bookings}</td>
                     <td>{guestStatuses[status]}</td>
                     <td className="w-40 py-3">
                       <div>
-                        <EditButton id={id} />
-                        <DeleteButton deleteHandler={() => deleteGuest(id)} />
+                        <EditButton id={id!} />
+                        <DeleteButton deleteHandler={() => deleteGuest(id!)} />
                       </div>
                     </td>
                   </tr>
