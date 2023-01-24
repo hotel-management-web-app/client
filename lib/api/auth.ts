@@ -11,4 +11,7 @@ export const login = async (data: LoginForm) =>
     .post(`${baseUrl}/login`, data, { withCredentials: true })
     .then((res) => res.data);
 
-export const logout = async () => axios.post(baseUrl);
+export const logout = async () =>
+  axios.post(`${baseUrl}/logout`, null, { withCredentials: true }).then(() => {
+    delete axios.defaults.headers.common.Authorization;
+  });

@@ -10,7 +10,7 @@ import {
 } from '../api/bookings';
 import { Booking } from '../types';
 
-const backUrl = 'http://localhost:3000/admin/bookings';
+const backUrl = '/admin/bookings';
 
 export const useGetBookings = () =>
   useQuery<Booking[], AxiosError>(['bookings'], getBookings);

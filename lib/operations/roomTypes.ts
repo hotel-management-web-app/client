@@ -10,7 +10,7 @@ import {
 } from '../api/roomTypes';
 import { RoomType } from '../types';
 
-const backUrl = 'http://localhost:3000/admin/hotel-configuration/room-types';
+const backUrl = '/admin/hotel-configuration/room-types';
 
 export const useGetRoomTypes = () =>
   useQuery<RoomType[], AxiosError>(['roomTypes'], getRoomTypes);

@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { addGuest, deleteGuest, getGuests, updateGuest } from '../api/guests';
 import { Guest } from '../types';
 
-const backUrl = 'http://localhost:3000/admin/guests';
+const backUrl = '/admin/guests';
 
 export const useGetGuests = () =>
   useQuery<Guest[], AxiosError>(['guests'], getGuests);
