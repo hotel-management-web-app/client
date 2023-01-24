@@ -83,3 +83,8 @@ export const profileSchema = yup.object({
     .matches(phoneRegExp, 'Phone number is not valid!')
     .required('Phone number is required!'),
 });
+
+export const loginSchema = yup.object({
+  email: yup.string().email().required('Email is required!'),
+  password: yup.string().required('Password is required!'),
+});

@@ -122,3 +122,8 @@ export interface BookingStatusedProps {
     color: string;
   };
 }
+
+export interface LoginForm {
+  email: string;
+  password: string;
+}
