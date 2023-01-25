@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import moment from 'moment';
 import React from 'react';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import {
@@ -8,8 +9,10 @@ import {
   SubmitButton,
 } from '../../components/Admin';
 import Seo from '../../components/Seo';
-import { getProfileInfo } from '../../lib/api/profile';
-import { useUpdateProfileInfo } from '../../lib/operations/profile';
+import {
+  useGetProfileInfo,
+  useUpdateProfileInfo,
+} from '../../lib/operations/profile';
 import { profileSchema } from '../../lib/schemas';
 import { ProfileInfo } from '../../lib/types';
 
@@ -17,24 +20,21 @@ interface ProfileProps {
   profileInfo: ProfileInfo;
 }
 
-export const getServerSideProps = async () => {
-  const profileInfo = await getProfileInfo();
-
-  return { props: { profileInfo } };
-};
-
-const Profile: React.FC<ProfileProps> = ({ profileInfo }) => {
+const Profile: React.FC<ProfileProps> = () => {
   const methods = useForm<ProfileInfo>({
     resolver: yupResolver(profileSchema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;
 
+  const { data: profileInfo } = useGetProfileInfo();
   const { mutate, isLoading } = useUpdateProfileInfo();
 
   const onSubmit: SubmitHandler<ProfileInfo> = (data) => {
     mutate(data);
   };
+
+  const dateFormat = 'DD.MM.YYYY';
 
   return (
     <div>
@@ -47,18 +47,22 @@ const Profile: React.FC<ProfileProps> = ({ profileInfo }) => {
               <div className="flex justify-between">
                 <div>
                   <p className="font-medium">Registration date</p>
-                  <p>26.10.2022</p>
+                  {profileInfo && (
+                    <p>{moment(profileInfo?.createdAt).format(dateFormat)}</p>
+                  )}
                 </div>
                 <div>
                   <p className="font-medium text-right">Last login</p>
-                  <p>26.10.2022</p>
+                  {profileInfo && (
+                    <p>{moment(profileInfo?.lastLogin).format(dateFormat)}</p>
+                  )}
                 </div>
               </div>
-              <Input title="Name" defaultValue={profileInfo.name} />
-              <Input title="Email" defaultValue={profileInfo.email} />
+              <Input title="Name" defaultValue={profileInfo?.name} />
+              <Input title="Email" defaultValue={profileInfo?.email} />
               <Input
                 title="Phone number"
-                defaultValue={profileInfo.phoneNumber}
+                defaultValue={profileInfo?.phoneNumber}
               />
             </div>
           </div>

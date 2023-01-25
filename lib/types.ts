@@ -110,6 +110,8 @@ export interface ProfileInfo {
   name: string;
   email: string;
   phoneNumber: string;
+  lastLogin: Date;
+  createdAt: Date;
 }
 
 export interface StatusesProps {
