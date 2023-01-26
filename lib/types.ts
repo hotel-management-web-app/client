@@ -110,6 +110,8 @@ export interface ProfileInfo {
   name: string;
   email: string;
   phoneNumber: string;
+  lastLogin: Date;
+  createdAt: Date;
 }
 
 export interface StatusesProps {
@@ -121,4 +123,9 @@ export interface BookingStatusedProps {
     convertedName: string;
     color: string;
   };
+}
+
+export interface LoginForm {
+  email: string;
+  password: string;
 }

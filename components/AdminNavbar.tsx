@@ -16,6 +16,7 @@ import Image from 'next/image';
 import { CSSTransition } from 'react-transition-group';
 import Deadpool from '../public/images/deadpool.png';
 import NavbarSubitems from './NavbarSubitems';
+import { useLogout } from '../lib/operations/auth';
 
 const iconSize = 25;
 
@@ -88,6 +89,9 @@ const links: {
 
 const AdminNavbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const { mutate } = useLogout();
+
   return (
     <div>
       <div className="absolute top-3 right-7">
@@ -98,12 +102,10 @@ const AdminNavbar = () => {
               Profile
             </a>
           </Link>
-          <Link href="#">
-            <a className="flex items-center gap-1">
-              <IoMdExit />
-              Logout
-            </a>
-          </Link>
+          <button className="flex items-center gap-1" onClick={() => mutate()}>
+            <IoMdExit />
+            Logout
+          </button>
         </div>
       </div>
       <div>
