@@ -6,7 +6,7 @@ import { RoomType, Booking } from '../../../lib/types';
  * TODO: Scheduler
  * * Add types
  * * Change tile size to bigger
- * ! Don't move events to room type fields if possible
+ * * Don't move events to room type fields if possible
  * ! Redirect to booking form on select dates
  * ! Send API requests to change dates on backend when events are moved
  * ! Change Schedule styling if possible
@@ -45,6 +45,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
     const resources: DayPilot.ResourceData[] = roomTypes.map((roomType) => ({
       id: roomType.id!,
       name: roomType.name,
+      preventUsage: true,
       expanded: true,
       children: roomType.rooms?.map((room) => ({
         id: room.roomNumber!,
