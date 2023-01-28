@@ -34,6 +34,12 @@ const links: {
     icon: <AiFillDashboard size={iconSize} className="mr-4" />,
   },
   {
+    id: 1,
+    name: 'Availability Calendar',
+    route: 'availability-calendar',
+    icon: <AiFillDashboard size={iconSize} className="mr-4" />,
+  },
+  {
     id: 2,
     name: 'Bookings',
     route: 'bookings',
