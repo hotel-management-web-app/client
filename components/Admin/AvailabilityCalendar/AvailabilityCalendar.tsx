@@ -5,7 +5,7 @@ import { RoomType, Booking } from '../../../lib/types';
 /**
  * TODO: Scheduler
  * * Add types
- * ! Change tile size to bigger
+ * * Change tile size to bigger
  * ! Don't move events to room type fields if possible
  * ! Redirect to booking form on select dates
  * ! Send API requests to change dates on backend when events are moved
@@ -64,6 +64,8 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
           treeEnabled
           events={events}
           resources={resources}
+          cellWidth={60}
+          eventHeight={50}
         />
       </div>
     );
