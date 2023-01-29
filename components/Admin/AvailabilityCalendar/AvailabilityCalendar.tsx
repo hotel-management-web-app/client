@@ -1,78 +1,226 @@
 import React from 'react';
-import { DayPilot, DayPilotScheduler } from 'daypilot-pro-react';
-import { RoomType, Booking } from '../../../lib/types';
+import Room from './Room';
 
-/**
- * TODO: Scheduler
- * * Add types
- * * Change tile size to bigger
- * * Don't move events to room type fields if possible
- * ! Redirect to booking form on select dates
- * ! Send API requests to change dates on backend when events are moved
- * ! Change Schedule styling if possible
- * ! Remove "DEMO" text if possible
- */
+const AvailabilityCalendar = () => {
+  const rooms = roomsData;
+  const bookings = bookingsData;
+  const cellWidth = 46;
+  const viewStartDate = Date.now();
 
-interface AvailabilityCalendarProps {
-  roomTypes?: RoomType[];
-  bookings?: Booking[];
-}
+  const fillUpDates = () => {
+    const datesArray = [];
+    let day = new Date();
+    if (viewStartDate != null) {
+      day = new Date(viewStartDate);
+    }
 
-const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
-  roomTypes,
-  bookings,
-}) => {
-  if (roomTypes && bookings) {
-    const startDate = '2023-01-20';
-    const days = 365;
-    const scale = 'Day';
-    const timeHeaders: DayPilot.TimeHeaderData[] = [
-      { groupBy: 'Month' },
-      { groupBy: 'Day', format: 'd' },
-    ];
+    datesArray.push(new Date(day.setDate(day.getDate())));
+    for (let aa = 0; aa < 30; aa += 1) {
+      const newDay = new Date(day.setDate(day.getDate() + 1));
+      datesArray.push(newDay);
+    }
 
-    // console.log(roomTypes);
-    console.log(bookings);
+    return datesArray;
+  };
 
-    const events: DayPilot.EventData[] = bookings.map((booking) => ({
-      start: new DayPilot.Date(booking.arrivalDate),
-      end: new DayPilot.Date(booking.departureDate),
-      id: booking.id!,
-      text: `${booking.guest.firstName} ${booking.guest.lastName}`,
-      resource: booking.room.roomNumber,
-    }));
+  const dates = fillUpDates();
 
-    const resources: DayPilot.ResourceData[] = roomTypes.map((roomType) => ({
-      id: roomType.id!,
-      name: roomType.name,
-      preventUsage: true,
-      expanded: true,
-      children: roomType.rooms?.map((room) => ({
-        id: room.roomNumber!,
-        name: String(room.roomNumber),
-      })),
-    }));
+  const renderHeaderDate = () => {
+    const datesHtml = dates.map((date) => {
+      const months = {
+        en: {
+          month_names: [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+          ],
+          month_names_short: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+          ],
+        },
+      };
 
-    // console.log(resources);
+      return (
+        <th key={date.getTime()} className="border">
+          <span className="font-normal">{date.getDate()}</span>
+          <div className="font-light">
+            {months.en.month_names_short[date.getMonth()]}
+          </div>
+        </th>
+      );
+    });
 
     return (
-      <div>
-        <DayPilotScheduler
-          startDate={startDate}
-          days={days}
-          scale={scale}
-          timeHeaders={timeHeaders}
-          treeEnabled
-          events={events}
-          resources={resources}
-          cellWidth={60}
-          eventHeight={50}
-        />
-      </div>
+      <thead className="border">
+        <tr>
+          <th>
+            <div className="w-48">ROOMS</div>
+          </th>
+          {datesHtml}
+        </tr>
+      </thead>
     );
-  }
+  };
 
-  return <div>Loading...</div>;
+  const renderRooms = (room: RoomsDataProps) => (
+    <Room
+      key={room.id}
+      room={room}
+      bookings={bookings}
+      dates={dates}
+      cellWidth={cellWidth}
+    />
+  );
+
+  const renderTableBody = () => {
+    const body = rooms.map((room) => renderRooms(room));
+    return <tbody>{body}</tbody>;
+  };
+
+  const head = renderHeaderDate();
+  const body = renderTableBody();
+
+  return (
+    <div>
+      <table className="table-fixed border">
+        {head}
+        {body}
+      </table>
+    </div>
+  );
 };
+
+export interface RoomsDataProps {
+  id: number;
+  title: string;
+  category?: string;
+  roomCount?: number;
+  tag?: string[];
+}
+
+export interface BookingDataProps {
+  id: number;
+  room_id: number;
+  guest_name: string;
+  objective: string;
+  unit: number;
+  channel: string;
+  adult_count: number;
+  child_count: number;
+  guests: {
+    name: string;
+    age: number;
+  }[];
+  from_date: string;
+  to_date: string;
+}
+
+const roomsData: RoomsDataProps[] = [
+  {
+    id: 1,
+    title: 'Studio',
+    category: 'Single',
+    roomCount: 1,
+    tag: ['non-ac', 'single'],
+  },
+  {
+    id: 2,
+    title: 'Double',
+    category: 'Royal',
+    roomCount: 2,
+    tag: ['ac', 'garden-view'],
+  },
+  {
+    id: 3,
+    title: 'Executive Suite',
+  },
+  {
+    id: 4,
+    title: 'Presidential Suite',
+  },
+  {
+    id: 5,
+    title: 'Queen sized',
+  },
+  {
+    id: 6,
+    title: 'King sized',
+  },
+  {
+    id: 7,
+    title: 'Hollywood Twin Room',
+  },
+];
+
+const bookingsData: BookingDataProps[] = [
+  {
+    id: 1,
+    room_id: 2,
+    guest_name: 'Aman',
+    objective: 'work',
+    unit: 2,
+    channel: 'offline',
+    adult_count: 2,
+    child_count: 0,
+    guests: [
+      {
+        name: 'Mr. Abdyl',
+        age: 30,
+      },
+      {
+        name: 'Mrs. Agnesa',
+        age: 25,
+      },
+    ],
+    from_date: '2023-01-29',
+    to_date: '2023-02-06',
+  },
+  {
+    id: 2,
+    room_id: 4,
+    guest_name: 'Aman',
+    objective: 'tour',
+    unit: 3,
+    channel: 'online',
+    adult_count: 2,
+    child_count: 1,
+    guests: [
+      {
+        name: 'Mr. Altin',
+        age: 35,
+      },
+      {
+        name: 'Mrs. Zjarrta',
+        age: 29,
+      },
+      {
+        name: 'Ms. Zerina',
+        age: 3,
+      },
+    ],
+    from_date: '2023-02-01',
+    to_date: '2023-02-09',
+  },
+];
 
 export default AvailabilityCalendar;

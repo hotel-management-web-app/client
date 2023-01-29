@@ -1,18 +1,12 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import { dehydrate, QueryClient } from 'react-query';
 import { Header } from '../../components/Admin';
 import Seo from '../../components/Seo';
 import { getRoomTypes } from '../../lib/api/roomTypes';
-import { useGetRoomTypes } from '../../lib/operations/roomTypes';
+// import { useGetRoomTypes } from '../../lib/operations/roomTypes';
 import { getBookings } from '../../lib/api/bookings';
-import { useGetBookings } from '../../lib/operations/bookings';
-
-const AvailabilityCalendar = dynamic(
-  () =>
-    import('../../components/Admin/AvailabilityCalendar/AvailabilityCalendar'),
-  { ssr: false }
-);
+// import { useGetBookings } from '../../lib/operations/bookings';
+import AvailabilityCalendar from '../../components/Admin/AvailabilityCalendar/AvailabilityCalendar';
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
@@ -24,9 +18,9 @@ export const getServerSideProps = async () => {
 };
 
 const AvailabilityCalendarPage = () => {
-  const { data: roomTypes } = useGetRoomTypes();
-  const { data: bookings } = useGetBookings();
-  // console.log(roomTypes);
+  // const { data: roomTypes } = useGetRoomTypes();
+  // const { data: bookings } = useGetBookings();
+  console.log('');
   return (
     <div>
       <Seo title="Availability Calendar" />
@@ -34,7 +28,7 @@ const AvailabilityCalendarPage = () => {
         <Header title="Availability Calendar" />
       </div>
       <div className="mt-5">
-        <AvailabilityCalendar roomTypes={roomTypes} bookings={bookings} />
+        <AvailabilityCalendar />
       </div>
     </div>
   );
