@@ -52,7 +52,7 @@ const Booking: React.FC<BookingProps> = ({ book, cellWidth }) => {
       <div className="relative">
         <div
           title={getTitle()}
-          className="absolute bg-red-300 w-full top-0 transform -translate-y-1/2"
+          className="absolute bg-red-300 w-full top-0 transform -translate-y-1/2 h-[41px] py-2 px-3"
           style={style}
         >
           {getContent()}

@@ -1,16 +1,22 @@
 import React from 'react';
 import RoomDate from './RoomDate';
 import Booking from './Booking';
-import { BookingDataProps, RoomsDataProps } from './AvailabilityCalendar';
+import { BookingDataProps } from './AvailabilityCalendar';
+import { Room } from '../../../lib/types';
 
 interface RoomProps {
   dates: Date[];
   bookings: BookingDataProps[];
   cellWidth: number;
-  room: RoomsDataProps;
+  room: Room;
 }
 
-const Room: React.FC<RoomProps> = ({ dates, bookings, cellWidth, room }) => {
+const RoomCell: React.FC<RoomProps> = ({
+  dates,
+  bookings,
+  cellWidth,
+  room,
+}) => {
   const daysTd = dates.map((day) => {
     const bookingsToday = bookings.filter((singleBook) => {
       const fromDate = new Date(singleBook.from_date);
@@ -34,12 +40,12 @@ const Room: React.FC<RoomProps> = ({ dates, bookings, cellWidth, room }) => {
 
   return (
     <tr key={room.id}>
-      <td className="border py-2">
-        <div>{room.title}</div>
+      <td className="border py-2 px-4">
+        <div className="whitespace-nowrap text-center">{room.roomNumber}</div>
       </td>
       {daysTd}
     </tr>
   );
 };
 
-export default Room;
+export default RoomCell;
