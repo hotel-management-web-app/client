@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { Booking, Room, RoomType } from '../../../lib/types';
@@ -40,7 +41,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
 
   const renderHeaderDate = () => {
     const datesHtml = dates.map((tempDate) => (
-      <th key={tempDate.getTime()} className="border">
+      <th key={nanoid()} className="border">
         <span className="font-normal">{tempDate.getDate()}</span>
       </th>
     ));
@@ -75,7 +76,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
     });
 
     const emptyCells = dates.map(() => (
-      <td className="border border-gray-300 bg-gray-200" />
+      <td key={nanoid()} className="border border-gray-300 bg-gray-200" />
     ));
 
     const body = roomTypes?.map((roomType) => {

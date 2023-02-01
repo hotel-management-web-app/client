@@ -1,4 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
+import { ReactNode } from 'react';
 
 export interface RoomType {
   id?: number;
@@ -128,4 +129,14 @@ export interface BookingStatusedProps {
 export interface LoginForm {
   email: string;
   password: string;
+}
+export interface LinkProps {
+  name: string;
+  route: string;
+  icon: ReactNode;
+  sublinks?: SublinkProps[];
+}
+export interface SublinkProps {
+  name: string;
+  route: string;
 }

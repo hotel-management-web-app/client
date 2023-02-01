@@ -1,4 +1,5 @@
 import React from 'react';
+import { nanoid } from 'nanoid';
 import RoomDate from './RoomDate';
 import BookingCell from './BookingCell';
 import { Booking, Room } from '../../../lib/types';
@@ -27,14 +28,14 @@ const RoomCell: React.FC<RoomProps> = ({
 
     const bookingsTodayJsx = bookingsToday.map((singleBook) => (
       <BookingCell
-        book={singleBook}
+        booking={singleBook}
         key={singleBook.id}
         cellWidth={cellWidth}
       />
     ));
 
     return (
-      <RoomDate key={day.getMinutes()} day={day} cellWidth={cellWidth}>
+      <RoomDate key={nanoid()} day={day} cellWidth={cellWidth}>
         {bookingsTodayJsx}
       </RoomDate>
     );
