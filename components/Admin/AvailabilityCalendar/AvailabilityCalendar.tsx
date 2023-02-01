@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { Booking, Room, RoomType } from '../../../lib/types';
 import RoomCell from './RoomCell';
@@ -13,28 +13,17 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
   bookingsProp,
 }) => {
   const rooms = [];
-
-  // console.log(roomTypes);
-  console.log(bookingsProp);
-
-  const bookings = bookingsData;
-  const cellWidth = 46;
-  // const viewStartDate = Date.now();
+  const bookings = bookingsProp;
+  const cellWidth = 45;
   const date = new Date(Date.now());
   const [month, setMonth] = useState(date.getMonth());
   const [year, setYear] = useState(date.getFullYear());
-  const scrollRef = useRef(null);
+
   const monthName = new Date(year, month, 1).toLocaleString('en-us', {
     month: 'long',
   });
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      console.log(scrollRef.current);
-    }
-  }, []);
-
-  function getAllDaysInMonth(yearProp: number, monthProp: number) {
+  const getAllDaysInMonth = (yearProp: number, monthProp: number) => {
     const tempDate = new Date(yearProp, monthProp, 1);
 
     const tempDates = [];
@@ -45,7 +34,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
     }
 
     return tempDates;
-  }
+  };
 
   const dates = getAllDaysInMonth(year, month);
 
@@ -57,9 +46,9 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
     ));
 
     return (
-      <thead className="border">
+      <thead>
         <tr>
-          <th>
+          <th className="sticky left-0 z-10 bg-white border">
             <div className="w-48">ROOMS</div>
           </th>
           {datesHtml}
@@ -72,7 +61,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
     <RoomCell
       key={room.id}
       room={room}
-      bookings={bookings}
+      bookings={bookings!}
       dates={dates}
       cellWidth={cellWidth}
     />
@@ -84,15 +73,17 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
         rooms.push(room);
       });
     });
+
     const emptyCells = dates.map(() => (
       <td className="border border-gray-300 bg-gray-200" />
     ));
+
     const body = roomTypes?.map((roomType) => {
       const tempRooms = roomType.rooms?.map((room) => renderRooms(room));
       return (
         <>
           <tr>
-            <td className="border text-center whitespace-nowrap px-3 py-2">
+            <td className="border text-center whitespace-nowrap px-3 py-2  sticky left-0 z-10 bg-white">
               {roomType.name}
             </td>
             {emptyCells}
@@ -101,6 +92,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
         </>
       );
     });
+
     return <tbody>{body}</tbody>;
   };
 
@@ -121,17 +113,16 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
     if (month === 11) setYear((prevYear) => prevYear + 1);
   };
 
-  // const onEndScroll = () => {
-  //   console.log('onEndScroll', scrollRef?.current?.scrollLeft);
-  // };
-
   const head = renderHeaderDate();
   const body = renderTableBody();
 
   return (
     <div>
-      <div className="flex mb-3 justify-center gap-5">
-        <button className="bg-red-400" onClick={previousMonth}>
+      <div className="flex mb-5 justify-center items-center gap-5">
+        <button
+          className="bg-transparent hover:bg-gray-400 text-gray-400 font-semibold hover:text-white py-1 px-2 border border-gray-400 hover:border-transparent rounded"
+          onClick={previousMonth}
+        >
           Prev Month
         </button>
         <p className="text-center text-xl">
@@ -139,98 +130,23 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
           &nbsp;
           {year}
         </p>
-        <button className="bg-red-400" onClick={nextMonth}>
+        <button
+          className="bg-transparent hover:bg-gray-400 text-gray-400 font-semibold hover:text-white py-1 px-2 border border-gray-400 hover:border-transparent rounded"
+          onClick={nextMonth}
+        >
           Next Month
         </button>
       </div>
-      <ScrollContainer
-        innerRef={scrollRef}
-        className="scroll-container"
-        ignoreElements="td"
-      >
-        <table className="table-fixed border">
-          {head}
-          {body}
-        </table>
-      </ScrollContainer>
+      <div className="overflow-hidden">
+        <ScrollContainer className="scroll-container" ignoreElements="td">
+          <table className="table-fixed border">
+            {head}
+            {body}
+          </table>
+        </ScrollContainer>
+      </div>
     </div>
   );
 };
-
-export interface RoomsDataProps {
-  id: number;
-  title: string;
-  category?: string;
-  roomCount?: number;
-  tag?: string[];
-}
-
-export interface BookingDataProps {
-  id: number;
-  room_id: number;
-  guest_name: string;
-  objective: string;
-  unit: number;
-  channel: string;
-  adult_count: number;
-  child_count: number;
-  guests: {
-    name: string;
-    age: number;
-  }[];
-  from_date: string;
-  to_date: string;
-}
-
-const bookingsData: BookingDataProps[] = [
-  {
-    id: 1,
-    room_id: 2,
-    guest_name: 'Aman',
-    objective: 'work',
-    unit: 2,
-    channel: 'offline',
-    adult_count: 2,
-    child_count: 0,
-    guests: [
-      {
-        name: 'Mr. Abdyl',
-        age: 30,
-      },
-      {
-        name: 'Mrs. Agnesa',
-        age: 25,
-      },
-    ],
-    from_date: '2023-01-29',
-    to_date: '2023-02-06',
-  },
-  {
-    id: 2,
-    room_id: 4,
-    guest_name: 'Aman',
-    objective: 'tour',
-    unit: 3,
-    channel: 'online',
-    adult_count: 2,
-    child_count: 1,
-    guests: [
-      {
-        name: 'Mr. Altin',
-        age: 35,
-      },
-      {
-        name: 'Mrs. Zjarrta',
-        age: 29,
-      },
-      {
-        name: 'Ms. Zerina',
-        age: 3,
-      },
-    ],
-    from_date: '2023-02-01',
-    to_date: '2023-02-09',
-  },
-];
 
 export default AvailabilityCalendar;

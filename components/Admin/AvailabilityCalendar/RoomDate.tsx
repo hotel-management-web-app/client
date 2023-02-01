@@ -8,9 +8,9 @@ interface RoomDateProps {
 
 const RoomDate: React.FC<RoomDateProps> = ({ day, cellWidth, children }) => (
   <td
-    className="border"
+    className="border z-0"
     key={day.getTime()}
-    style={{ width: `${cellWidth}px` }}
+    style={{ width: `${cellWidth}px`, minWidth: `${cellWidth}px` }}
   >
     {children}
   </td>

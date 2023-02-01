@@ -1,12 +1,11 @@
 import React from 'react';
 import RoomDate from './RoomDate';
-import Booking from './Booking';
-import { BookingDataProps } from './AvailabilityCalendar';
-import { Room } from '../../../lib/types';
+import BookingCell from './BookingCell';
+import { Booking, Room } from '../../../lib/types';
 
 interface RoomProps {
   dates: Date[];
-  bookings: BookingDataProps[];
+  bookings: Booking[];
   cellWidth: number;
   room: Room;
 }
@@ -19,16 +18,19 @@ const RoomCell: React.FC<RoomProps> = ({
 }) => {
   const daysTd = dates.map((day) => {
     const bookingsToday = bookings.filter((singleBook) => {
-      const fromDate = new Date(singleBook.from_date);
+      const fromDate = new Date(singleBook.arrivalDate);
       return !!(
         fromDate.toDateString() === day.toDateString() &&
-        singleBook.room_id === room.id
+        singleBook.roomId === room.id
       );
     });
 
-    // get all booking jsx code for current day
     const bookingsTodayJsx = bookingsToday.map((singleBook) => (
-      <Booking book={singleBook} key={singleBook.id} cellWidth={cellWidth} />
+      <BookingCell
+        book={singleBook}
+        key={singleBook.id}
+        cellWidth={cellWidth}
+      />
     ));
 
     return (
@@ -40,7 +42,7 @@ const RoomCell: React.FC<RoomProps> = ({
 
   return (
     <tr key={room.id}>
-      <td className="border py-2 px-4">
+      <td className="border py-2 px-4 sticky left-0 z-10 bg-white">
         <div className="whitespace-nowrap text-center">{room.roomNumber}</div>
       </td>
       {daysTd}

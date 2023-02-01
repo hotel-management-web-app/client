@@ -1,0 +1,62 @@
+import moment from 'moment';
+import React from 'react';
+import { Booking } from '../../../lib/types';
+
+interface BookingProps {
+  book: Booking;
+  cellWidth: number;
+}
+
+const BookingCell: React.FC<BookingProps> = ({ book, cellWidth }) => {
+  const bgColor = () => {
+    const h = (new Date(book.arrivalDate).getTime() * 21 * book.id!) % 255;
+    return `hsla(${h}, 29%, 60%, 0.9)`;
+  };
+
+  const getContent = () => {
+    const { guest } = book;
+    const title = `${guest.firstName} ${guest.lastName}`;
+
+    return title;
+  };
+
+  const getTitle = () => {
+    const { firstName, lastName } = book.guest;
+    const { arrivalDate, departureDate } = book;
+    const dateFormat = 'DD-MM-YYYY';
+    const title = `${firstName} ${lastName}\nfrom: ${moment(arrivalDate).format(
+      dateFormat
+    )}\nto: ${moment(departureDate).format(dateFormat)}`;
+    return title;
+  };
+
+  const { arrivalDate, departureDate } = book;
+
+  const numberOfDays = Math.ceil(
+    (new Date(departureDate).getTime() - new Date(arrivalDate).getTime()) /
+      (60 * 60 * 24 * 1000)
+  );
+
+  if (numberOfDays > 0) {
+    const style = {
+      width: `${numberOfDays * cellWidth}px`,
+      backgroundColor: bgColor(),
+    };
+
+    return (
+      <div className="relative">
+        <div
+          title={getTitle()}
+          className="absolute bg-red-300 w-full top-0 transform -translate-y-1/2 h-[41px] py-2 px-3 whitespace-nowrap"
+          style={style}
+        >
+          {getContent()}
+        </div>
+      </div>
+    );
+  }
+
+  return <div />;
+};
+
+export default BookingCell;
