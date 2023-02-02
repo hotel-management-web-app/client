@@ -13,7 +13,7 @@ interface StayDurationInputProps {
 
 const StayDurationInput: React.FC<StayDurationInputProps> = ({
   defaultArrivalDate,
-  defaultDepartureDate,
+  defaultDepartureDate = defaultArrivalDate,
 }) => {
   const {
     setValue,

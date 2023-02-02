@@ -34,6 +34,7 @@
     "object-curly-newline": "off",
     "import/prefer-default-export": "off",
     "no-use-before-define": "off",
+    "no-confusing-arrow": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "import/extensions": [
       "error",

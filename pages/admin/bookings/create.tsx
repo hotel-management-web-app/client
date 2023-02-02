@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -51,6 +52,10 @@ const AddBooking: React.FC<AddBookingProps> = () => {
   });
   const { handleSubmit } = methods;
 
+  const router = useRouter();
+  const { startDate, roomTypeId, roomId } = router.query;
+  const defaultArrivalDate = startDate as string;
+
   const { mutate, isLoading } = useAddBooking();
 
   const onSubmit: SubmitHandler<Booking> = (data) => {
@@ -74,6 +79,19 @@ const AddBooking: React.FC<AddBookingProps> = () => {
     label: `${firstName} ${lastName}`,
   }));
 
+  const defaultRoomTypeOption = roomTypesOptions?.find(
+    (option) => option.value.id === Number(roomTypeId)
+  );
+
+  const defaultRoom = defaultRoomTypeOption?.value?.rooms?.find(
+    (room) => room.id === Number(roomId)
+  );
+
+  const defaultRoomOption = defaultRoom && {
+    value: defaultRoom?.id,
+    label: defaultRoom?.roomNumber,
+  };
+
   return (
     <div>
       <div>
@@ -92,18 +110,20 @@ const AddBooking: React.FC<AddBookingProps> = () => {
                 options={statusOptions}
                 defaultOption={statusOptions[0]}
               />
-              <StayDurationInput />
+              <StayDurationInput defaultArrivalDate={defaultArrivalDate} />
               <RoomTypeSelector
                 id="room-type"
                 title="Room type"
                 setRooms={setRooms}
                 options={roomTypesOptions}
+                defaultOption={defaultRoomTypeOption}
               />
               <SelectInput
                 id="room-number"
                 title="Room"
                 keyName="roomId"
                 options={roomsOptions}
+                defaultOption={defaultRoomOption}
               />
               <Input id="adults" title="Adults" type="number" min="1" max="5" />
               <Input

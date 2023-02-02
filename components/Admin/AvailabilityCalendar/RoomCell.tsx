@@ -35,7 +35,7 @@ const RoomCell: React.FC<RoomProps> = ({
     ));
 
     return (
-      <RoomDate key={nanoid()} day={day} cellWidth={cellWidth}>
+      <RoomDate key={nanoid()} room={room} day={day} cellWidth={cellWidth}>
         {bookingsTodayJsx}
       </RoomDate>
     );
