@@ -1,25 +1,38 @@
 import React, { useState } from 'react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import 'react-tabs/style/react-tabs.css';
-import BackButton from '../../../components/Admin/BackButton';
-import FormWrapper from '../../../components/Admin/FormWrapper';
-import Header from '../../../components/Admin/Header';
-import Seo from '../../../components/Seo';
-import SelectInput from '../../../components/Admin/SelectInput';
-import Input from '../../../components/Admin/Input';
-import SubmitButton from '../../../components/Admin/SubmitButton';
-import RoomTypeSelector from '../../../components/Admin/RoomTypeSelector';
-import StayDurationInput from '../../../components/Admin/StayDurationInput';
-import { getRoomTypes } from '../../../lib/api/roomTypes';
-import { Booking, Guest, Room, RoomType } from '../../../lib/types';
-import { getGuests } from '../../../lib/api/guests';
-import { useAddBooking } from '../../../lib/operations/bookings';
-import { useGetRoomTypes } from '../../../lib/operations/roomTypes';
-import { useGetGuests } from '../../../lib/operations/guests';
-import { bookingSchema } from '../../../lib/schemas';
+import {
+  Header,
+  BackButton,
+  FormWrapper,
+  SelectInput,
+  Input,
+  SubmitButton,
+} from '../../../../components/Admin';
+import RoomTypeSelector from '../../../../components/Admin/RoomTypeSelector';
+import StayDurationInput from '../../../../components/Admin/StayDurationInput';
+import Seo from '../../../../components/Seo';
+import { getGuests } from '../../../../lib/api/guests';
+import { getRoomTypes } from '../../../../lib/api/roomTypes';
+import {
+  useGetBooking,
+  useUpdateBooking,
+} from '../../../../lib/operations/bookings';
+import { useGetGuests } from '../../../../lib/operations/guests';
+import { useGetRoomTypes } from '../../../../lib/operations/roomTypes';
+import { bookingSchema } from '../../../../lib/schemas';
+import {
+  RoomType,
+  Guest,
+  Room,
+  Booking,
+  ServerSideParams,
+} from '../../../../lib/types';
+import { getBooking } from '../../../../lib/api/bookings';
 
 const statusOptions: { value: string; label: string }[] = [
   { value: 'CONFIRMED', label: 'Confirmed' },
@@ -28,35 +41,41 @@ const statusOptions: { value: string; label: string }[] = [
   { value: 'NOT_CONFIRMED', label: 'Not confirmed' },
 ];
 
-interface AddBookingProps {
+interface EditBookingProps {
   roomTypes: RoomType[];
   guests: Guest[];
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { id } = params as ServerSideParams;
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
   await queryClient.prefetchQuery(['guests'], getGuests);
+  await queryClient.prefetchQuery(['bookings'], () => getBooking(Number(id)));
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const AddBooking: React.FC<AddBookingProps> = () => {
+const EditBooking: React.FC<EditBookingProps> = () => {
+  const router = useRouter();
+  const { id: bookingId } = router.query;
   const { data: roomTypes } = useGetRoomTypes();
   const { data: guests } = useGetGuests();
-  const [rooms, setRooms] = useState<Room[]>([]);
+  const { data: booking } = useGetBooking(Number(bookingId));
+
+  const [rooms, setRooms] = useState<Room[]>(
+    booking?.room.roomType.rooms || []
+  );
+
   const methods = useForm<Booking>({
     resolver: yupResolver(bookingSchema),
     mode: 'onChange',
   });
+
   const { handleSubmit } = methods;
 
-  const router = useRouter();
-  const { startDate, roomTypeId, roomId } = router.query;
-  const defaultArrivalDate = startDate as string;
-
-  const { mutate, isLoading } = useAddBooking();
+  const { mutate, isLoading } = useUpdateBooking(Number(bookingId));
 
   const onSubmit: SubmitHandler<Booking> = (data) => {
     mutate(data);
@@ -79,25 +98,12 @@ const AddBooking: React.FC<AddBookingProps> = () => {
     label: `${firstName} ${lastName}`,
   }));
 
-  const defaultRoomTypeOption = roomTypesOptions?.find(
-    (option) => option.value.id === Number(roomTypeId)
-  );
-
-  const defaultRoom = defaultRoomTypeOption?.value?.rooms?.find(
-    (room) => room.id === Number(roomId)
-  );
-
-  const defaultRoomOption = defaultRoom && {
-    value: defaultRoom?.id,
-    label: defaultRoom?.roomNumber,
-  };
-
   return (
     <div>
       <div>
-        <Seo title="Add booking" />
+        <Seo title="Edit booking" />
         <div className="flex items-center flex-wrap gap-5">
-          <Header title="Add booking" />
+          <Header title="Edit booking" />
           <BackButton name="bookings" url="/admin/bookings" />
         </div>
         <FormProvider {...methods}>
@@ -108,40 +114,61 @@ const AddBooking: React.FC<AddBookingProps> = () => {
                 id="booking-status"
                 title="Status"
                 options={statusOptions}
-                defaultOption={statusOptions[0]}
+                defaultOption={statusOptions.find(
+                  (statusOption) => statusOption.value === booking?.status
+                )}
               />
-              <StayDurationInput defaultArrivalDate={defaultArrivalDate} />
+              <StayDurationInput
+                defaultArrivalDate={booking?.arrivalDate}
+                defaultDepartureDate={booking?.departureDate}
+              />
               <RoomTypeSelector
                 id="room-type"
                 title="Room type"
                 setRooms={setRooms}
                 options={roomTypesOptions}
-                defaultOption={defaultRoomTypeOption}
+                defaultOption={roomTypesOptions?.find(
+                  (roomTypeOption) =>
+                    roomTypeOption.value.id === booking?.room.roomType.id
+                )}
               />
               <SelectInput
                 id="room-number"
                 title="Room"
                 keyName="roomId"
                 options={roomsOptions}
-                defaultOption={defaultRoomOption}
+                defaultOption={roomsOptions?.find(
+                  (roomOption) => roomOption.value === booking?.roomId
+                )}
               />
-              <Input id="adults" title="Adults" type="number" min="1" max="5" />
+              <Input
+                id="adults"
+                title="Adults"
+                type="number"
+                min="1"
+                max="5"
+                defaultValue={booking?.adults}
+              />
               <Input
                 id="children"
                 title="Children"
                 type="number"
                 min="0"
                 max="5"
+                defaultValue={booking?.children}
               />
               <SelectInput
                 id="guest"
                 title="Guest"
                 keyName="guestId"
                 options={guestsOptions}
+                defaultOption={guestsOptions?.find(
+                  (guestOption) => guestOption.value === booking?.guestId
+                )}
               />
             </div>
             <div className="mt-5 flex justify-center">
-              <SubmitButton name="Add booking" isLoading={isLoading} />
+              <SubmitButton name="Update booking" isLoading={isLoading} />
             </div>
           </FormWrapper>
         </FormProvider>
@@ -150,4 +177,4 @@ const AddBooking: React.FC<AddBookingProps> = () => {
   );
 };
 
-export default AddBooking;
+export default EditBooking;

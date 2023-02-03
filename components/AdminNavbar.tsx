@@ -1,85 +1,71 @@
 import React, { useState } from 'react';
-import { AiFillDashboard } from 'react-icons/ai';
-// eslint-disable-next-line object-curly-newline
+import { AiFillDashboard, AiOutlineBars } from 'react-icons/ai';
 import { IoMdExit } from 'react-icons/io';
-import {
-  FaCalendarAlt,
-  FaUsers,
-  FaBroom,
-  FaBars,
-  FaUserAlt,
-} from 'react-icons/fa';
+import { FaUsers, FaBroom, FaBars, FaUserAlt } from 'react-icons/fa';
 import { BsFillGearFill } from 'react-icons/bs';
+import { IoCalendar } from 'react-icons/io5';
 import { TbReport } from 'react-icons/tb';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CSSTransition } from 'react-transition-group';
 import Deadpool from '../public/images/deadpool.png';
 import NavbarSubitems from './NavbarSubitems';
+import { useLogout } from '../lib/operations/auth';
+import { LinkProps } from '../lib/types';
+import { routes } from '../utils/routes';
 
 const iconSize = 25;
 
-const links: {
-  id: number;
-  name: string;
-  route: string;
-  icon: React.ReactNode;
-  sublinks?: { id: number; name: string; route: string }[];
-}[] = [
+const links: LinkProps[] = [
   {
-    id: 1,
     name: 'Dashboard',
     route: 'dashboard',
     icon: <AiFillDashboard size={iconSize} className="mr-4" />,
   },
   {
-    id: 2,
-    name: 'Bookings',
-    route: 'bookings',
-    icon: <FaCalendarAlt size={iconSize} className="mr-4" />,
+    name: 'Availability Calendar',
+    route: 'availability-calendar',
+    icon: <IoCalendar size={iconSize} className="mr-4" />,
   },
   {
-    id: 3,
+    name: 'Bookings',
+    route: 'bookings',
+    icon: <AiOutlineBars size={iconSize} className="mr-4" />,
+  },
+  {
     name: 'Guests',
     route: 'guests',
     icon: <FaUsers size={iconSize} className="mr-4" />,
   },
   {
-    id: 4,
     name: 'Hotel Configuration',
     route: 'hotel-configuration',
     icon: <BsFillGearFill size={iconSize} className="mr-4" />,
     sublinks: [
       {
-        id: 1,
         name: 'General settings',
         route: 'general-settings',
       },
       {
-        id: 2,
         name: 'Room Types',
         route: 'room-types',
       },
       {
-        id: 3,
         name: 'Rooms',
         route: 'rooms',
       },
       {
-        id: 4,
         name: 'About settings',
         route: 'about-settings',
       },
     ],
   },
   {
-    id: 5,
     name: 'Housekeeping',
     route: 'housekeeping',
     icon: <FaBroom size={iconSize} className="mr-4" />,
   },
   {
-    id: 6,
     name: 'Reports',
     route: 'reports',
     icon: <TbReport size={iconSize} className="mr-4" />,
@@ -88,22 +74,23 @@ const links: {
 
 const AdminNavbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const { mutate } = useLogout();
+
   return (
     <div>
       <div className="absolute top-3 right-7">
         <div className="flex gap-10 text-gray-500">
-          <Link href="/admin/profile">
+          <Link href={routes.profile()}>
             <a className="flex items-center gap-1">
               <FaUserAlt size="14" />
               Profile
             </a>
           </Link>
-          <Link href="#">
-            <a className="flex items-center gap-1">
-              <IoMdExit />
-              Logout
-            </a>
-          </Link>
+          <button className="flex items-center gap-1" onClick={() => mutate()}>
+            <IoMdExit />
+            Logout
+          </button>
         </div>
       </div>
       <div>
@@ -170,7 +157,7 @@ const AdminNavbar = () => {
                       if (link.sublinks) {
                         return (
                           <NavbarSubitems
-                            key={link.id}
+                            key={link.name}
                             icon={link.icon}
                             name={link.name}
                             route={link.route}
@@ -179,7 +166,7 @@ const AdminNavbar = () => {
                         );
                       }
                       return (
-                        <Link key={link.id} href={link.route}>
+                        <Link key={link.name} href={link.route}>
                           <a className="hover:bg-gray-700 group flex items-center px-5 py-2 text-base font-medium rounded-md">
                             {link.icon}
                             {link.name}
@@ -212,7 +199,7 @@ const AdminNavbar = () => {
                 if (link.sublinks) {
                   return (
                     <NavbarSubitems
-                      key={link.id}
+                      key={link.name}
                       icon={link.icon}
                       name={link.name}
                       route={link.route}
@@ -222,7 +209,7 @@ const AdminNavbar = () => {
                 }
 
                 return (
-                  <Link key={link.id} href={`/admin/${link.route}`}>
+                  <Link key={link.name} href={routes.admin(link.route)}>
                     <a className="hover:bg-gray-700 group flex items-center px-5 py-2 font-medium rounded-md">
                       {link.icon}
                       {link.name}

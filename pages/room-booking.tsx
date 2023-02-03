@@ -76,9 +76,9 @@ const RoomBooking = () => (
         <div className="md:w-[330px] xl:w-[500px] border-b-2 pb-7 md:border-b-0 md:border-r-2 px-5">
           <p className="text-3xl">Amenities</p>
           <ul className="font-light list-disc ml-5">
-            {amenities.map((amenity) => (
-              <li key={amenity.id} className="mt-3">
-                {amenity.name}
+            {amenities.map(({ id, name }) => (
+              <li key={id} className="mt-3">
+                {name}
               </li>
             ))}
           </ul>

@@ -1,36 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useFormContext } from 'react-hook-form';
+import { nanoid } from 'nanoid';
 
 interface Item {
-  id: number;
+  id: string;
   name: string;
 }
 
 interface EditableListProps {
   name: string;
-  itemsProp?: Item[];
+  itemsProp?: string[];
 }
 
 const EditableList: React.FC<EditableListProps> = ({
   name,
   itemsProp = [],
 }) => {
-  const [items, setItems] = useState<Item[]>(itemsProp);
+  const [items, setItems] = useState<Item[]>(
+    itemsProp.map((item) => ({ id: nanoid(), name: item }))
+  );
   const { setValue } = useFormContext();
 
-  setValue(name, items);
+  useEffect(() => {
+    const filteredItems = items.map((item) => item.name);
+    setValue(name, filteredItems);
+  }, [items, name, setValue]);
 
   const addNewItem = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     if (e.key === 'Enter' && target.value !== '') {
       e.preventDefault();
-      setItems([...items, { id: Date.now(), name: target.value }]);
+      setItems([...items, { id: nanoid(), name: target.value }]);
       target.value = '';
     }
   };
 
-  const updateItem = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+  const updateItem = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     const updatedItems = items.map((item) => {
       if (item.id === id) {
         return { ...item, name: e.target.value };
@@ -42,7 +48,7 @@ const EditableList: React.FC<EditableListProps> = ({
     setItems(updatedItems);
   };
 
-  const removeItem = (id: number) => {
+  const removeItem = (id: string) => {
     setItems(items.filter((item) => item.id !== id));
   };
 

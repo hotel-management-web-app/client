@@ -1,19 +1,24 @@
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
-import { nanoid } from 'nanoid';
 import Header from '../../components/Admin/Header';
 import HousekeepingComments from '../../components/Admin/HousekeepingComments';
 import HousekeepingStatus from '../../components/Admin/HousekeepingStatus';
 import PriorityStatus from '../../components/Admin/PriorityStatus';
 import Seo from '../../components/Seo';
-import { getRooms } from '../../lib/api/housekeeping';
-import { useGetRooms } from '../../lib/operations/housekeeping';
+import { getRooms } from '../../lib/api/rooms';
+import { useGetRooms } from '../../lib/operations/rooms';
+import {
+  housekeepingStatuses,
+  priorityStatuses,
+  roomStatuses,
+} from '../../constants/constants';
 
 const headers = [
   'Room',
   'Room Type',
   'Housekeeping Status',
   'Priority',
+  'Room',
   'Floor',
   'Reservation Status',
   'Comments and notes',
@@ -22,13 +27,13 @@ const headers = [
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['housekeeping'], getRooms);
+  await queryClient.prefetchQuery(['rooms'], getRooms);
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const HousekeepingPage = () => {
-  const { data } = useGetRooms();
+  const { data: rooms } = useGetRooms();
   return (
     <div>
       <Seo title="Housekeeping" />
@@ -38,36 +43,51 @@ const HousekeepingPage = () => {
           <thead className="text-left">
             <tr className="border-b">
               {headers.map((header) => (
-                <th key={nanoid()} className="pb-2">
+                <th key={header} className="pb-2">
                   {header}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {data?.map((room) => (
-              <tr key={room.id} className="border-b">
-                <td className="py-3">{room.roomNumber}</td>
-                <td className="py-3">{room.roomType}</td>
-                <td className="py-3 w-60">
-                  <HousekeepingStatus
-                    id={room.id}
-                    status={room.housekeepingStatus}
-                  />
-                </td>
-                <td className="py-3 w-60">
-                  <PriorityStatus id={room.id} status={room.priority} />
-                </td>
-                <td className="py-3">{room.floor}</td>
-                <td className="py-3">{room.reservationStatus}</td>
-                <td className="py-3">
-                  <HousekeepingComments id={room.id} value={room.comments} />
-                </td>
-              </tr>
-            ))}
+            {rooms?.map(
+              ({
+                id,
+                roomNumber,
+                roomType,
+                housekeepingStatus,
+                priority,
+                floorNumber,
+                roomStatus,
+                comments,
+              }) => (
+                <tr key={id} className="border-b">
+                  <td className="py-3">{roomNumber}</td>
+                  <td className="py-3">{roomType.name}</td>
+                  <td className="py-3 w-60">
+                    <HousekeepingStatus
+                      id={id}
+                      status={housekeepingStatuses[housekeepingStatus]}
+                    />
+                  </td>
+                  <td className="py-3 w-60">
+                    <PriorityStatus
+                      id={id}
+                      status={priorityStatuses[priority]}
+                    />
+                  </td>
+                  <td className="py-3">{roomNumber}</td>
+                  <td className="py-3">{floorNumber}</td>
+                  <td className="py-3">{roomStatuses[roomStatus]}</td>
+                  <td className="py-3">
+                    <HousekeepingComments id={id} value={comments} />
+                  </td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
-        {data?.length === 0 && (
+        {rooms?.length === 0 && (
           <p className="text-center mt-5">No data available in table</p>
         )}
       </div>

@@ -19,13 +19,15 @@ const customStyles = {
 interface SelectInputProps {
   id: string;
   title: string;
-  options: SelectOption[];
+  keyName?: string;
+  options?: SelectOption[];
   defaultOption?: SelectOption;
 }
 
 const SelectInput: React.FC<SelectInputProps> = ({
   id,
   title,
+  keyName = camelize(title),
   options,
   defaultOption = null,
 }) => {
@@ -38,10 +40,9 @@ const SelectInput: React.FC<SelectInputProps> = ({
     formState: { errors },
   } = useFormContext();
 
-  const camelizedTitle = camelize(title);
-  const error = errors[camelizedTitle];
+  const error = errors[keyName];
 
-  setValue(camelizedTitle, selectedOption?.label);
+  setValue(keyName, selectedOption?.value);
 
   return (
     <div className="relative">

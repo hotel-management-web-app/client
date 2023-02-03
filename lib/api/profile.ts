@@ -7,4 +7,4 @@ export const getProfileInfo = async () =>
   axios.get(baseUrl).then((res) => res.data);
 
 export const updateProfileInfo = async (profileInfo: ProfileInfo) =>
-  axios.post(baseUrl, profileInfo);
+  axios.put(baseUrl, profileInfo);

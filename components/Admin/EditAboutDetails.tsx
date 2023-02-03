@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,6 +10,7 @@ import FormWrapper from './FormWrapper';
 import { useUpdateAboutDetail } from '../../lib/operations/about';
 import { AboutDetail } from '../../lib/types';
 import { aboutDetailSchema } from '../../lib/schemas';
+import ImageUploader from './ImageUploader';
 
 interface EditAboutDetailsProps {
   aboutDetail: AboutDetail;
@@ -25,12 +25,15 @@ const EditAboutDetails: React.FC<EditAboutDetailsProps> = ({ aboutDetail }) => {
   const { handleSubmit } = methods;
 
   const { mutate, isLoading, isError } = useUpdateAboutDetail(aboutDetail.id);
-  const router = useRouter();
 
   const onSubmit: SubmitHandler<AboutDetail> = async (data) => {
-    await mutate(data);
+    const { image, title, description } = data;
+    const form = new FormData();
+    form.append('data', JSON.stringify({ title, description }));
+    if (image) form.append('image', image);
+
+    mutate(form);
     if (!isError) {
-      router.replace(router.asPath);
       setIsModalOpen(false);
     }
   };
@@ -49,10 +52,19 @@ const EditAboutDetails: React.FC<EditAboutDetailsProps> = ({ aboutDetail }) => {
         style={customStyles}
       >
         <FormProvider {...methods}>
-          <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+          <FormWrapper onSubmit={handleSubmit(onSubmit)} multipart>
             <h2 className="text-center text-2xl pb-8 -mt-5">
               Edit about detail
             </h2>
+            <div className="mb-5">
+              <ImageUploader
+                id="about-image"
+                label="Image"
+                width={200}
+                defaultImage={aboutDetail.image}
+                loader
+              />
+            </div>
             <Input defaultValue={aboutDetail.title} />
             <div className="mt-5">
               <Textarea

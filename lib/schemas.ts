@@ -20,7 +20,7 @@ export const roomTypeSchema = yup.object({
 
 export const roomSchema = yup.object({
   roomStatus: yup.string(),
-  roomType: yup.string().required(),
+  roomTypeId: yup.number().required(),
   floorNumber: yup
     .number()
     .typeError('Floor number must be a number')
@@ -34,16 +34,24 @@ const phoneRegExp =
 export const guestSchema = yup.object({
   firstName: yup.string().required('First Name is required!'),
   lastName: yup.string().required('Last Name is required!'),
-  emailAddress: yup
+  email: yup
     .string()
     .email('Field should contain a valid e-mail')
     .required('Email address is required!'),
   phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid!'),
-  country: yup.string(),
-  address: yup.string(),
-  city: yup.string(),
-  postalCode: yup.string(),
   notes: yup.string(),
+});
+
+export const bookingSchema = yup.object({
+  status: yup.string().required('Status is required!'),
+  arrivalDate: yup.date().required('Arrival date is required!'),
+  departureDate: yup.date().required('Departure date is required!'),
+  roomId: yup.number().required('Room is required!'),
+  adults: yup.number().typeError('Number of adults is required!').required(),
+  children: yup
+    .number()
+    .typeError('Number of children is required!')
+    .required('Number of children is required!'),
 });
 
 export const generalSettingsSchema = yup.object({
@@ -74,4 +82,9 @@ export const profileSchema = yup.object({
     .string()
     .matches(phoneRegExp, 'Phone number is not valid!')
     .required('Phone number is required!'),
+});
+
+export const loginSchema = yup.object({
+  email: yup.string().email().required('Email is required!'),
+  password: yup.string().required('Password is required!'),
 });

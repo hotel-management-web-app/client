@@ -7,19 +7,16 @@ import Seo from '../components/Seo';
 import Booking from '../components/Booking';
 import Newsletter from '../components/Newsletter';
 import HeroBg from '../public/images/hero-bg.png';
+import { RoomType } from '../lib/types';
 
 export const getServerSideProps = async () => {
-  const data = await axios.get('/room-types').then((res) => res.data);
+  const roomTypes = await axios.get('/room-types').then((res) => res.data);
 
-  return { props: { roomTypes: data } };
+  return { props: { roomTypes } };
 };
 
 interface HomeProps {
-  roomTypes: {
-    id: number;
-    name: string;
-    roomUrl: string;
-  }[];
+  roomTypes: RoomType[];
 }
 
 const Home: React.FC<HomeProps> = ({ roomTypes }) => (
@@ -40,17 +37,18 @@ const Home: React.FC<HomeProps> = ({ roomTypes }) => (
       <section id="rooms" className="text-center">
         <h2 className="text-[2.5rem] font-light mt-20">See Our Rooms</h2>
         <div className="flex justify-around gap-y-10 2xl:justify-between flex-wrap mt-20 mb-16">
-          {roomTypes.slice(0, 3).map((roomType) => (
-            <Link href={roomType.roomUrl}>
-              <a key={roomType.id} className="relative">
+          {roomTypes.slice(0, 3).map(({ id, name, image }) => (
+            <Link key={id} href={`room-types/${id}`}>
+              <a className="relative">
                 <Image
-                  src="/../public/images/home-room-1.png"
-                  alt={roomType.name}
+                  src={image as string}
+                  loader={() => image as string}
+                  alt={name}
                   width="355"
                   height="473"
                 />
                 <p className="absolute text-white w-full text-3xl top-48 left-1/2 transform -translate-x-1/2">
-                  {roomType.name}
+                  {name}
                 </p>
               </a>
             </Link>
