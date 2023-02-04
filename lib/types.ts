@@ -140,3 +140,11 @@ export interface SublinkProps {
   name: string;
   route: string;
 }
+
+export interface DashboardData {
+  personCount: {
+    adults: number;
+    children: number;
+    [key: string]: any;
+  };
+}
