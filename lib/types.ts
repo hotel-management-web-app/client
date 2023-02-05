@@ -147,4 +147,12 @@ export interface DashboardData {
     children: number;
     [key: string]: any;
   };
+  allRoomStatusCount: {
+    availableRooms: number;
+    reservedRooms: number;
+  };
+  arrivalsAndDeparturesToday: {
+    arrivalsToday: Booking[];
+    departuresToday: Booking[];
+  };
 }
