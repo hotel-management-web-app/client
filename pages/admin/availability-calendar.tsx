@@ -6,7 +6,7 @@ import { getRoomTypes } from '../../lib/api/roomTypes';
 import { useGetRoomTypes } from '../../lib/operations/roomTypes';
 import { getBookings } from '../../lib/api/bookings';
 import { useGetBookings } from '../../lib/operations/bookings';
-import AvailabilityCalendar from '../../components/Admin/AvailabilityCalendar/AvailabilityCalendar';
+import AvailabilityCalendar from '../../components/Admin/AvailabilityCalendar';
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();

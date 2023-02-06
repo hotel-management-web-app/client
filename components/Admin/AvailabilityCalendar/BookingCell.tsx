@@ -35,12 +35,10 @@ const BookingCell: React.FC<BookingProps> = ({ booking, cellWidth }) => {
 
   const { arrivalDate, departureDate } = booking;
 
-  new Date(arrivalDate).setUTCHours(0, 0, 0, 0);
-  new Date(departureDate).setUTCHours(0, 0, 0, 0);
-
   const numberOfDays = Math.ceil(
     (new Date(departureDate).getTime() - new Date(arrivalDate).getTime()) /
-      (60 * 60 * 24 * 1000)
+      (60 * 60 * 24 * 1000) +
+      1
   );
 
   if (numberOfDays > 0) {
