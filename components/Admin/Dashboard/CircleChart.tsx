@@ -44,15 +44,15 @@ const CircleChart: React.FC<CircleChartProps> = ({
 
   if (horizontal) {
     return (
-      <div className="bg-white pl-3 pr-10 py-2 rounded-xl shadow-lg">
+      <div className="bg-white pl-4 pr-20 py-3 rounded-xl shadow-lg">
         <h2 className="font-medium text-lg">{title}</h2>
-        <div className="flex items-center gap-5">
-          <div className="flex justify-center relative">
-            <PieChart width={200} height={200}>
+        <div className="flex items-center gap-10 mt-3">
+          <div className="flex justify-center relative px-10 py-5">
+            <PieChart width={250} height={250}>
               <Pie
                 data={chartData}
-                innerRadius={50}
-                outerRadius={80}
+                innerRadius={80}
+                outerRadius={120}
                 labelLine={false}
                 fill="#8884d8"
                 dataKey="value"
@@ -62,13 +62,13 @@ const CircleChart: React.FC<CircleChartProps> = ({
                 ))}
               </Pie>
             </PieChart>
-            <p className="absolute top-1/2 transform -translate-y-1/2 text-2xl">
+            <p className="absolute top-1/2 transform -translate-y-1/2 text-4xl">
               {Number(dataSum)}
             </p>
           </div>
           <div>
             {chartData.map((item, index) => (
-              <div className="flex justify-between items-center w-64 mt-2 py-1 [&:not(:last-child)]:border-b">
+              <div className="flex justify-between items-center w-64 mt-2 py-1 [&:not(:first-child)]:mt-5 [&:not(:last-child)]:border-b">
                 <div className="flex items-center gap-2">
                   <div
                     className="w-3 h-3 rounded-full"
@@ -86,9 +86,9 @@ const CircleChart: React.FC<CircleChartProps> = ({
   }
 
   return (
-    <div className="w-80 bg-white px-3 py-2 rounded-xl shadow-lg">
+    <div className="w-80 bg-white px-4 py-3 rounded-xl shadow-lg">
       <h2 className="font-medium text-lg">{title}</h2>
-      <div className="flex justify-center relative">
+      <div className="flex justify-center relative py-2">
         <PieChart width={200} height={200}>
           <Pie
             data={chartData}
