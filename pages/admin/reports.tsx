@@ -1,9 +1,9 @@
 import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import FormWrapper from '../../components/Admin/FormWrapper';
-import Header from '../../components/Admin/Header';
-import Input from '../../components/Admin/Input';
-import SubmitButton from '../../components/Admin/SubmitButton';
+import FormWrapper from '../../components/Admin/Form/FormWrapper';
+import Header from '../../components/Admin/Table/Header';
+import Input from '../../components/Admin/Form/Input';
+import SubmitButton from '../../components/Admin/Form/SubmitButton';
 import Seo from '../../components/Seo';
 
 const reports = [

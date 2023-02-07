@@ -2,10 +2,10 @@ import React, { useState, Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { BsCheck } from 'react-icons/bs';
 import { GoChevronDown } from 'react-icons/go';
-import { useUpdateRoomField } from '../../lib/operations/rooms';
-import { HousekeepingStatusOption } from '../../lib/types';
-import { convertToOriginalForm } from '../../utils/convertToOriginalForm';
-import { housekeepingStatuses } from '../../constants/constants';
+import { useUpdateRoomField } from '../../../lib/operations/rooms';
+import { HousekeepingStatusOption } from '../../../lib/types';
+import { convertToOriginalForm } from '../../../utils/convertToOriginalForm';
+import { housekeepingStatuses } from '../../../constants/constants';
 
 const housekeepingStatusOptions: HousekeepingStatusOption[] = [
   {

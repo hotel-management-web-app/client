@@ -1,11 +1,11 @@
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 import Seo from '../../../../components/Seo';
-import Header from '../../../../components/Admin/Header';
-import AddButton from '../../../../components/Admin/AddButton';
-import Entries from '../../../../components/Admin/Entries';
-import EditButton from '../../../../components/Admin/EditButton';
-import DeleteButton from '../../../../components/Admin/DeleteButton';
+import Header from '../../../../components/Admin/Table/Header';
+import AddButton from '../../../../components/Admin/Table/AddButton';
+import Entries from '../../../../components/Admin/Table/Entries';
+import EditButton from '../../../../components/Admin/Table/EditButton';
+import DeleteButton from '../../../../components/Admin/Table/DeleteButton';
 import { getRoomTypes } from '../../../../lib/api/roomTypes';
 import {
   useDeleteRoomType,

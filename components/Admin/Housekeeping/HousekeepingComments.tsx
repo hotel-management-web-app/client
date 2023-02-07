@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import Modal from 'react-modal';
-import { useUpdateRoomField } from '../../lib/operations/rooms';
-import { StatusesProps } from '../../lib/types';
-import FormWrapper from './FormWrapper';
-import SubmitButton from './SubmitButton';
-import Textarea from './Textarea';
-import customStyles from '../../styles/modalStyles';
+import { useUpdateRoomField } from '../../../lib/operations/rooms';
+import { StatusesProps } from '../../../lib/types';
+import FormWrapper from '../Form/FormWrapper';
+import SubmitButton from '../Form/SubmitButton';
+import Textarea from '../Form/Textarea';
+import customStyles from '../../../styles/modalStyles';
 
 interface HousekeepingCommentsProps {
   id: number;

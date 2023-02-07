@@ -4,15 +4,15 @@ import { dehydrate, QueryClient } from 'react-query';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import 'react-tabs/style/react-tabs.css';
-import BackButton from '../../../components/Admin/BackButton';
-import FormWrapper from '../../../components/Admin/FormWrapper';
-import Header from '../../../components/Admin/Header';
+import BackButton from '../../../components/Admin/Table/BackButton';
+import FormWrapper from '../../../components/Admin/Form/FormWrapper';
+import Header from '../../../components/Admin/Table/Header';
 import Seo from '../../../components/Seo';
-import SelectInput from '../../../components/Admin/SelectInput';
-import Input from '../../../components/Admin/Input';
-import SubmitButton from '../../../components/Admin/SubmitButton';
-import RoomTypeSelector from '../../../components/Admin/RoomTypeSelector';
-import StayDurationInput from '../../../components/Admin/StayDurationInput';
+import SelectInput from '../../../components/Admin/Form/SelectInput';
+import Input from '../../../components/Admin/Form/Input';
+import SubmitButton from '../../../components/Admin/Form/SubmitButton';
+import RoomTypeSelector from '../../../components/Admin/Form/RoomTypeSelector';
+import StayDurationInput from '../../../components/Admin/Form/StayDurationInput';
 import { getRoomTypes } from '../../../lib/api/roomTypes';
 import { Booking, Guest, Room, RoomType } from '../../../lib/types';
 import { getGuests } from '../../../lib/api/guests';
@@ -54,7 +54,7 @@ const AddBooking: React.FC<AddBookingProps> = () => {
 
   const router = useRouter();
   const { startDate, roomTypeId, roomId } = router.query;
-  const defaultArrivalDate = startDate as string;
+  const defaultArrivalDate = startDate as unknown as Date;
 
   const { mutate, isLoading } = useAddBooking();
 

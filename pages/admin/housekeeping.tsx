@@ -1,9 +1,9 @@
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
-import Header from '../../components/Admin/Header';
-import HousekeepingComments from '../../components/Admin/HousekeepingComments';
-import HousekeepingStatus from '../../components/Admin/HousekeepingStatus';
-import PriorityStatus from '../../components/Admin/PriorityStatus';
+import Header from '../../components/Admin/Table/Header';
+import HousekeepingComments from '../../components/Admin/Housekeeping/HousekeepingComments';
+import HousekeepingStatus from '../../components/Admin/Housekeeping/HousekeepingStatus';
+import PriorityStatus from '../../components/Admin/Housekeeping/PriorityStatus';
 import Seo from '../../components/Seo';
 import { getRooms } from '../../lib/api/rooms';
 import { useGetRooms } from '../../lib/operations/rooms';
