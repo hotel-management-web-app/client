@@ -19,7 +19,7 @@ const Dashboard: React.FC<DashboardProps> = ({ dashboardData }) => {
   } = dashboardData || {};
 
   return (
-    <div className="mt-10 flex flex-wrap gap-16">
+    <div className="mt-10 flex flex-wrap gap-16 pb-16">
       <CircleChart title="Bookings" data={allBookingStatusCount} horizontal />
       <ArrivalsAndDepartures data={arrivalsAndDeparturesToday} />
       <CircleChart title="Rooms" data={allRoomStatusCount} />
