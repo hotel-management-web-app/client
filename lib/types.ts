@@ -167,6 +167,10 @@ export interface DashboardData {
     cancelled: number;
     notConfirmed: number;
   };
+  availableRoomsByRoomTypeCount: {
+    name: string;
+    count: number;
+  }[];
 }
 
 export interface ChartDataProps {
