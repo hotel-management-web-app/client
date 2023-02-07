@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Select from 'react-select';
-import { SelectOption } from '../../lib/types';
-import camelize from '../../utils/camelize';
+import { SelectOption } from '../../../lib/types';
+import camelize from '../../../utils/camelize';
 
 const customStyles = {
   control: (provided: object) => ({

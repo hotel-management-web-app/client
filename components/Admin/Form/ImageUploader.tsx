@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import { useFormContext } from 'react-hook-form';
-import NoImage from '../../public/images/no_image.jpg';
+import NoImage from '../../../public/images/no_image.jpg';
 
 interface ImageUploaderProps {
   id: string;

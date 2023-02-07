@@ -4,10 +4,10 @@ import Image from 'next/image';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FileUploader } from 'react-drag-drop-files';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
-import FormWrapper from '../../../components/Admin/FormWrapper';
-import Header from '../../../components/Admin/Header';
+import FormWrapper from '../../../components/Admin/Form/FormWrapper';
+import Header from '../../../components/Admin/Table/Header';
 import Seo from '../../../components/Seo';
-import Input from '../../../components/Admin/Input';
+import Input from '../../../components/Admin/Form/Input';
 import { SubmitButton } from '../../../components/Admin';
 import { getSettings } from '../../../lib/api/generalSettings';
 import {

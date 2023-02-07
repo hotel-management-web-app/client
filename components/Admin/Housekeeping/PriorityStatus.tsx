@@ -2,10 +2,10 @@ import React, { useState, Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { BsCheck, BsRecordCircleFill } from 'react-icons/bs';
 import { GoChevronDown } from 'react-icons/go';
-import { useUpdateRoomField } from '../../lib/operations/rooms';
-import { PriorityStatusOption } from '../../lib/types';
-import { convertToOriginalForm } from '../../utils/convertToOriginalForm';
-import { priorityStatuses } from '../../constants/constants';
+import { useUpdateRoomField } from '../../../lib/operations/rooms';
+import { PriorityStatusOption } from '../../../lib/types';
+import { convertToOriginalForm } from '../../../utils/convertToOriginalForm';
+import { priorityStatuses } from '../../../constants/constants';
 
 const priorityStatusOptions: PriorityStatusOption[] = [
   {

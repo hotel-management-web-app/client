@@ -7,8 +7,8 @@ import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
 interface StayDurationInputProps {
-  defaultArrivalDate?: string;
-  defaultDepartureDate?: string;
+  defaultArrivalDate?: Date;
+  defaultDepartureDate?: Date;
 }
 
 const StayDurationInput: React.FC<StayDurationInputProps> = ({

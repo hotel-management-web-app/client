@@ -17,7 +17,7 @@ import {
   useGetAboutInfo,
   useUpdateAboutInfo,
 } from '../../../lib/operations/about';
-import AboutDetails from '../../../components/Admin/AboutDetails';
+import AboutDetails from '../../../components/Admin/AboutDetails/AboutDetails';
 
 interface AboutSettingsPageProps {
   aboutInfo: AboutInfo;

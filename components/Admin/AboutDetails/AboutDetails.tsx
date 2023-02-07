@@ -1,9 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
 import AddAboutDetails from './AddAboutDetails';
-import { useDeleteAboutDetail } from '../../lib/operations/about';
+import { useDeleteAboutDetail } from '../../../lib/operations/about';
 import EditAboutDetails from './EditAboutDetails';
-import { AboutDetail } from '../../lib/types';
+import { AboutDetail } from '../../../lib/types';
 
 interface AboutDetailsProps {
   details?: AboutDetail[];

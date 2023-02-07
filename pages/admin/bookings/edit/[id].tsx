@@ -13,8 +13,8 @@ import {
   Input,
   SubmitButton,
 } from '../../../../components/Admin';
-import RoomTypeSelector from '../../../../components/Admin/RoomTypeSelector';
-import StayDurationInput from '../../../../components/Admin/StayDurationInput';
+import RoomTypeSelector from '../../../../components/Admin/Form/RoomTypeSelector';
+import StayDurationInput from '../../../../components/Admin/Form/StayDurationInput';
 import Seo from '../../../../components/Seo';
 import { getGuests } from '../../../../lib/api/guests';
 import { getRoomTypes } from '../../../../lib/api/roomTypes';

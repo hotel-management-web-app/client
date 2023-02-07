@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import camelize from '../../utils/camelize';
+import camelize from '../../../utils/camelize';
 
 interface InputProps {
   id?: string;

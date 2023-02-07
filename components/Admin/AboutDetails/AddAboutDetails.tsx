@@ -2,49 +2,49 @@ import React, { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { yupResolver } from '@hookform/resolvers/yup';
-import customStyles from '../../styles/modalStyles';
-import SubmitButton from './SubmitButton';
-import Textarea from './Textarea';
-import Input from './Input';
-import FormWrapper from './FormWrapper';
-import { useUpdateAboutDetail } from '../../lib/operations/about';
-import { AboutDetail } from '../../lib/types';
-import { aboutDetailSchema } from '../../lib/schemas';
-import ImageUploader from './ImageUploader';
+import { BsPlusLg } from 'react-icons/bs';
+import customStyles from '../../../styles/modalStyles';
+import SubmitButton from '../Form/SubmitButton';
+import Textarea from '../Form/Textarea';
+import Input from '../Form/Input';
+import FormWrapper from '../Form/FormWrapper';
+import { useAddAboutDetail } from '../../../lib/operations/about';
+import { AboutDetail } from '../../../lib/types';
+import { aboutDetailSchema } from '../../../lib/schemas';
+import ImageUploader from '../Form/ImageUploader';
 
-interface EditAboutDetailsProps {
-  aboutDetail: AboutDetail;
-}
-
-const EditAboutDetails: React.FC<EditAboutDetailsProps> = ({ aboutDetail }) => {
+const AddAboutDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const methods = useForm<AboutDetail>({
     resolver: yupResolver(aboutDetailSchema),
     mode: 'onChange',
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
-  const { mutate, isLoading, isError } = useUpdateAboutDetail(aboutDetail.id);
+  const { mutate, isLoading, isError } = useAddAboutDetail();
 
   const onSubmit: SubmitHandler<AboutDetail> = async (data) => {
     const { image, title, description } = data;
     const form = new FormData();
+
     form.append('data', JSON.stringify({ title, description }));
     if (image) form.append('image', image);
 
     mutate(form);
     if (!isError) {
       setIsModalOpen(false);
+      reset();
     }
   };
 
   return (
     <div>
       <button
-        className="text-white bg-green-500 px-5 py-1 rounded-lg"
+        className="text-white bg-black px-5 py-2 rounded-lg"
         onClick={() => setIsModalOpen(true)}
       >
-        Edit
+        <BsPlusLg className="inline mb-1 mr-3" />
+        Add about detail
       </button>
       <Modal
         isOpen={isModalOpen}
@@ -54,28 +54,17 @@ const EditAboutDetails: React.FC<EditAboutDetailsProps> = ({ aboutDetail }) => {
         <FormProvider {...methods}>
           <FormWrapper onSubmit={handleSubmit(onSubmit)} multipart>
             <h2 className="text-center text-2xl pb-8 -mt-5">
-              Edit about detail
+              Add about detail
             </h2>
             <div className="mb-5">
-              <ImageUploader
-                id="about-image"
-                label="Image"
-                width={200}
-                defaultImage={aboutDetail.image}
-                loader
-              />
+              <ImageUploader id="about-image" label="Image" width={200} />
             </div>
-            <Input defaultValue={aboutDetail.title} />
+            <Input />
             <div className="mt-5">
-              <Textarea
-                id="description"
-                title="Description"
-                rows={10}
-                defaultValue={aboutDetail.description}
-              />
+              <Textarea id="description" title="Description" rows={10} />
             </div>
             <div className="flex justify-center mt-5">
-              <SubmitButton name="Update" isLoading={isLoading} />
+              <SubmitButton name="Save" isLoading={isLoading} />
             </div>
           </FormWrapper>
         </FormProvider>
@@ -84,4 +73,4 @@ const EditAboutDetails: React.FC<EditAboutDetailsProps> = ({ aboutDetail }) => {
   );
 };
 
-export default EditAboutDetails;
+export default AddAboutDetails;

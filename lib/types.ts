@@ -46,8 +46,8 @@ export interface Guest {
 export interface Booking {
   id?: number;
   status: string;
-  arrivalDate: string;
-  departureDate: string;
+  arrivalDate: Date;
+  departureDate: Date;
   roomNumber: number;
   adults: number;
   children: number;
@@ -139,4 +139,45 @@ export interface LinkProps {
 export interface SublinkProps {
   name: string;
   route: string;
+}
+
+export interface DashboardData {
+  personCount: {
+    adults: number;
+    children: number;
+    [key: string]: any;
+  };
+  allRoomStatusCount: {
+    availableRooms: number;
+    reservedRooms: number;
+  };
+  arrivalsAndDeparturesToday: {
+    arrivalsToday: Booking[];
+    departuresToday: Booking[];
+  };
+  allHousekeepingStatusCount: {
+    clean: number;
+    cleaning: number;
+    dirty: number;
+    outOfService: number;
+  };
+  allBookingStatusCount: {
+    confirmed: number;
+    pending: number;
+    cancelled: number;
+    notConfirmed: number;
+  };
+  availableRoomsByRoomTypeCount: {
+    name: string;
+    count: number;
+  }[];
+}
+
+export interface ChartDataProps {
+  [key: string]: any;
+}
+
+export interface Chart {
+  name: string;
+  value: any;
 }

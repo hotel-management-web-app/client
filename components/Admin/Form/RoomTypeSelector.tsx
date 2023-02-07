@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Select, { SingleValue } from 'react-select';
-import { Room, RoomType } from '../../lib/types';
+import { Room, RoomType } from '../../../lib/types';
 
 const customStyles = {
   control: (provided: object) => ({
