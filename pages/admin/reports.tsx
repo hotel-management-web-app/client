@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { nanoid } from 'nanoid';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormWrapper from '../../components/Admin/Form/FormWrapper';
@@ -7,75 +8,75 @@ import Input from '../../components/Admin/Form/Input';
 import SubmitButton from '../../components/Admin/Form/SubmitButton';
 import Seo from '../../components/Seo';
 import { reportSchema } from '../../lib/schemas';
-import { Report } from '../../lib/types';
+import { BookingsInfoProps, ReportForm, ReportProps } from '../../lib/types';
 import { useGetReport } from '../../lib/operations/report';
 
-const reports = [
-  {
-    id: 1,
-    title: 'Total bookings received',
-    result: '1',
-  },
-  {
-    id: 2,
-    title: 'Total guests',
-    result: '3',
-  },
-  {
-    id: 3,
-    title: 'Total nights booked',
-    result: '9',
-  },
-  {
-    id: 4,
-    title: 'Total amount',
-    result: '1,171.50 $',
-  },
-  {
-    id: 5,
-    title: 'Total confirmed bookings',
-    result: '1',
-  },
-  {
-    id: 6,
-    title: 'Total confirmed guests',
-    result: '3',
-  },
-  {
-    id: 7,
-    title: 'Total nights booked',
-    result: '9',
-  },
-  {
-    id: 8,
-    title: 'Total amount',
-    result: '1,171.50 $',
-  },
-  {
-    id: 9,
-    title: 'Total cancelled bookings',
-    result: '0',
-  },
-  {
-    id: 10,
-    title: 'Total cancelled guests',
-    result: '0',
-  },
-  {
-    id: 11,
-    title: 'Total cancelled nights',
-    result: '0',
-  },
-  {
-    id: 12,
-    title: 'Total amount',
-    result: '0.00 $',
-  },
+const totalBookingsLabels = [
+  'Total bookings received',
+  'Total guests',
+  'Total nights booked',
+  'Total amount',
 ];
 
+const confirmedBookingsLabels = [
+  'Total confirmed bookings received',
+  'Total confirmed guests',
+  'Total confirmed nights',
+  'Total amount',
+];
+
+const cancelledBookingsLabels = [
+  'Total cancelled bookings received',
+  'Total cancelled guests',
+  'Total cancelled nights',
+  'Total amount',
+];
+
+const averageInfoLabels = ['Adults', 'Children'];
+
+const labels = [
+  totalBookingsLabels,
+  confirmedBookingsLabels,
+  cancelledBookingsLabels,
+  averageInfoLabels,
+];
+
+const getReportInfo = (
+  bookingsInfo: BookingsInfoProps,
+  bookingsInfoLabels: string[]
+) => {
+  const convertedBookingsInfo = Object.keys(bookingsInfo).map((key, index) => ({
+    label: bookingsInfoLabels[index],
+    value: bookingsInfo[key],
+  }));
+
+  const bookingsInfoTsx = convertedBookingsInfo.map((bookingInfo) => (
+    <div key={nanoid()}>
+      <p>{bookingInfo.label}</p>
+      <p className="text-gray-400 mt-1">
+        {bookingInfo.value} {bookingInfo.label.includes('amount') && '$'}
+      </p>
+    </div>
+  ));
+
+  return (
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-10 gap-y-10 [&:not(:last-child)]:border-b [&:not(:last-child)]:pb-5">
+      {bookingsInfoTsx}
+    </div>
+  );
+};
+
+const displayReportInfo = (report: ReportProps) => {
+  const reportInfo = Object.keys(report).map((key, index) =>
+    getReportInfo(report[key], labels[index])
+  );
+
+  return reportInfo;
+};
+
 const Reports = () => {
-  const [report, setReport] = useState(null);
-  const methods = useForm<Report>({
+  const [report, setReport] = useState<ReportProps | null>(null);
+  const methods = useForm<ReportForm>({
     resolver: yupResolver(reportSchema),
     mode: 'onChange',
   });
@@ -83,7 +84,7 @@ const Reports = () => {
 
   const { mutate, isLoading } = useGetReport();
 
-  const onSubmit: SubmitHandler<Report> = (data) => {
+  const onSubmit: SubmitHandler<ReportForm> = (data) => {
     const { startDate, endDate } = data;
     const formattedStartDate = new Date(startDate);
     const formattedEndDate = new Date(endDate);
@@ -94,8 +95,6 @@ const Reports = () => {
       }
     );
   };
-
-  console.log(report);
 
   return (
     <div>
@@ -120,14 +119,7 @@ const Reports = () => {
             />
             <SubmitButton name="Generate report" isLoading={isLoading} />
           </div>
-          <div className="grid lg:grid-cols-3 xl:grid-cols-4 mt-10 gap-y-10">
-            {reports.map((data) => (
-              <div key={data.id}>
-                <p>{data.title}</p>
-                <p className="text-gray-400 mt-1">{data.result}</p>
-              </div>
-            ))}
-          </div>
+          {report && displayReportInfo(report)}
         </FormWrapper>
       </FormProvider>
     </div>
