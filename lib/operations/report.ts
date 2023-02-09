@@ -1,9 +1,9 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 import { getReport } from '../api/report';
-import { Report } from '../types';
+import { ReportForm } from '../types';
 
 export const useGetReport = () =>
-  useMutation<AxiosResponse, AxiosError, Report>(async (data) =>
+  useMutation<AxiosResponse, AxiosError, ReportForm>(async (data) =>
     getReport(data)
   );

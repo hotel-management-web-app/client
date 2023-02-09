@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { nanoid } from 'nanoid';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -101,6 +102,16 @@ const Reports = () => {
     );
   };
 
+  const today = new Date();
+  const monthBack = new Date(
+    today.getFullYear(),
+    today.getMonth() - 1,
+    today.getDay()
+  );
+
+  const formattedTodayDate = moment(today).format('YYYY-MM-DD');
+  const formattedMonthBackDate = moment(monthBack).format('YYYY-MM-DD');
+
   return (
     <div>
       <Seo title="Reports" />
@@ -113,14 +124,14 @@ const Reports = () => {
               title="From"
               fieldName="startDate"
               type="date"
-              defaultValue="2023-02-01"
+              defaultValue={formattedMonthBackDate}
             />
             <Input
               id="endDate"
               title="To"
               fieldName="endDate"
               type="date"
-              defaultValue="2023-02-08"
+              defaultValue={formattedTodayDate}
             />
             <SubmitButton name="Generate report" isLoading={isLoading} />
           </div>

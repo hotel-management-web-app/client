@@ -1,4 +1,5 @@
 import axios from 'axios';
-import { Report } from '../types';
+import { ReportForm } from '../types';
 
-export const getReport = async (data: Report) => axios.post('/report', data);
+export const getReport = async (data: ReportForm) =>
+  axios.post('/report', data);
