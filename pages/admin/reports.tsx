@@ -1,10 +1,14 @@
-import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import FormWrapper from '../../components/Admin/Form/FormWrapper';
 import Header from '../../components/Admin/Table/Header';
 import Input from '../../components/Admin/Form/Input';
 import SubmitButton from '../../components/Admin/Form/SubmitButton';
 import Seo from '../../components/Seo';
+import { reportSchema } from '../../lib/schemas';
+import { Report } from '../../lib/types';
+import { useGetReport } from '../../lib/operations/report';
 
 const reports = [
   {
@@ -70,10 +74,29 @@ const reports = [
 ];
 
 const Reports = () => {
-  const methods = useForm();
+  const [report, setReport] = useState(null);
+  const methods = useForm<Report>({
+    resolver: yupResolver(reportSchema),
+    mode: 'onChange',
+  });
   const { handleSubmit } = methods;
 
-  const onSubmit = () => {};
+  const { mutate, isLoading } = useGetReport();
+
+  const onSubmit: SubmitHandler<Report> = (data) => {
+    const { startDate, endDate } = data;
+    const formattedStartDate = new Date(startDate);
+    const formattedEndDate = new Date(endDate);
+    mutate(
+      { startDate: formattedStartDate, endDate: formattedEndDate },
+      {
+        onSuccess: (res) => setReport(res.data),
+      }
+    );
+  };
+
+  console.log(report);
+
   return (
     <div>
       <Seo title="Reports" />
@@ -81,15 +104,27 @@ const Reports = () => {
       <FormProvider {...methods}>
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="flex items-end gap-10 flex-wrap">
-            <Input id="from" title="From" type="date" />
-            <Input id="to" title="To" type="date" />
-            <SubmitButton name="Generate raport" />
+            <Input
+              id="startDate"
+              title="From"
+              fieldName="startDate"
+              type="date"
+              defaultValue="2023-02-01"
+            />
+            <Input
+              id="endDate"
+              title="To"
+              fieldName="endDate"
+              type="date"
+              defaultValue="2023-02-08"
+            />
+            <SubmitButton name="Generate report" isLoading={isLoading} />
           </div>
           <div className="grid lg:grid-cols-3 xl:grid-cols-4 mt-10 gap-y-10">
-            {reports.map((report) => (
-              <div key={report.id}>
-                <p>{report.title}</p>
-                <p className="text-gray-400 mt-1">{report.result}</p>
+            {reports.map((data) => (
+              <div key={data.id}>
+                <p>{data.title}</p>
+                <p className="text-gray-400 mt-1">{data.result}</p>
               </div>
             ))}
           </div>

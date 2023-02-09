@@ -181,3 +181,8 @@ export interface Chart {
   name: string;
   value: any;
 }
+
+export interface Report {
+  startDate: Date;
+  endDate: Date;
+}
