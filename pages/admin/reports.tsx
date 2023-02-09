@@ -32,7 +32,12 @@ const cancelledBookingsLabels = [
   'Total amount',
 ];
 
-const averageInfoLabels = ['Adults', 'Children'];
+const averageInfoLabels = [
+  'Adults',
+  'Children',
+  'Nights per booking',
+  'Guests per booking',
+];
 
 const labels = [
   totalBookingsLabels,
