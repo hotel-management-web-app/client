@@ -47,6 +47,21 @@ const labels = [
   averageInfoLabels,
 ];
 
+const tableHeaders = [
+  'Booked',
+  'Guests',
+  'Nights',
+  'Amount',
+  'Booked',
+  'Guests',
+  'Nights',
+  'Amount',
+  'Booked',
+  'Guests',
+  'Nights',
+  'Amount',
+];
+
 const getReportInfo = (
   bookingsInfo: BookingsInfoProps,
   bookingsInfoLabels: string[]
@@ -126,7 +141,7 @@ const Reports = () => {
   const roomTypesInfo = report?.roomTypesInfo;
 
   return (
-    <div>
+    <div className="pb-20">
       <Seo title="Reports" />
       <Header title="Reports" />
       <FormProvider {...methods}>
@@ -152,71 +167,69 @@ const Reports = () => {
           {report && (
             <>
               {displayReportInfo(report)}
-              <table className="mt-10 border border-collapse">
-                <thead>
-                  <tr>
-                    <th rowSpan={2} className="border px-8 py-1">
-                      Rooms
-                    </th>
-                    <th colSpan={4} className="border px-3 py-1">
-                      Bookings Received
-                    </th>
-                    <th colSpan={4} className="border px-3 py-1">
-                      Confirmed Bookings
-                    </th>
-                    <th colSpan={4} className="border px-3 py-1">
-                      Cancelled Bookings
-                    </th>
-                  </tr>
-                  <tr>
-                    <th className="border px-8 py-1">Booked</th>
-                    <th className="border px-8 py-1">Guests</th>
-                    <th className="border px-8 py-1">Nights</th>
-                    <th className="border px-8 py-1">Amount</th>
-                    <th className="border px-8 py-1">Booked</th>
-                    <th className="border px-8 py-1">Guests</th>
-                    <th className="border px-8 py-1">Nights</th>
-                    <th className="border px-8 py-1">Amount</th>
-                    <th className="border px-8 py-1">Booked</th>
-                    <th className="border px-8 py-1">Guests</th>
-                    <th className="border px-8 py-1">Nights</th>
-                    <th className="border px-8 py-1">Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {roomTypesInfo?.map((roomTypeInfo) => {
-                    const {
-                      roomTypeName,
-                      allBookingsInfo,
-                      confirmedBookingsInfo,
-                      cancelledBookingsInfo,
-                    } = roomTypeInfo;
+              <div className="overflow-auto scrollbar scrollbar-h-2 scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thumb-rounded">
+                <table className="mt-10 border border-collapse">
+                  <thead>
+                    <tr>
+                      <th rowSpan={2} className="border text-sm px-2 py-1">
+                        Rooms
+                      </th>
+                      <th colSpan={4} className="border text-sm px-2 py-1">
+                        Bookings Received
+                      </th>
+                      <th colSpan={4} className="border text-sm px-2 py-1">
+                        Confirmed Bookings
+                      </th>
+                      <th colSpan={4} className="border text-sm px-2 py-1">
+                        Cancelled Bookings
+                      </th>
+                    </tr>
+                    <tr>
+                      {tableHeaders.map((header) => (
+                        <th className="border px-[31px] py-1 text-sm">
+                          {header}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {roomTypesInfo?.map((roomTypeInfo) => {
+                      const {
+                        roomTypeName,
+                        allBookingsInfo,
+                        confirmedBookingsInfo,
+                        cancelledBookingsInfo,
+                      } = roomTypeInfo;
 
-                    return (
-                      <tr>
-                        <td className="border py-1 text-center">
-                          {roomTypeName}
-                        </td>
-                        {Object.keys(allBookingsInfo).map((key) => (
-                          <td className="border py-1 text-center">
-                            {allBookingsInfo[key]}
+                      return (
+                        <tr>
+                          <td className="border text-sm px-5 py-2 text-center whitespace-nowrap">
+                            {roomTypeName}
                           </td>
-                        ))}
-                        {Object.keys(confirmedBookingsInfo).map((key) => (
-                          <td className="border py-1 text-center">
-                            {confirmedBookingsInfo[key]}
-                          </td>
-                        ))}
-                        {Object.keys(cancelledBookingsInfo).map((key) => (
-                          <td className="border py-1 text-center">
-                            {cancelledBookingsInfo[key]}
-                          </td>
-                        ))}
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          {Object.keys(allBookingsInfo).map((key) => (
+                            <td className="border text-sm py-2 text-center">
+                              {allBookingsInfo[key]}
+                              {key.includes('Amount') && '$'}
+                            </td>
+                          ))}
+                          {Object.keys(confirmedBookingsInfo).map((key) => (
+                            <td className="border text-sm py-2 text-center">
+                              {confirmedBookingsInfo[key]}
+                              {key.includes('Amount') && '$'}
+                            </td>
+                          ))}
+                          {Object.keys(cancelledBookingsInfo).map((key) => (
+                            <td className="border text-sm py-2 text-center">
+                              {cancelledBookingsInfo[key]}
+                              {key.includes('Amount') && '$'}
+                            </td>
+                          ))}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </>
           )}
         </FormWrapper>

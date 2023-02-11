@@ -36,6 +36,7 @@
     "react-tabs": "^5.1.0",
     "react-transition-group": "^4.4.5",
     "recharts": "^2.3.2",
+    "tailwind-scrollbar": "^2.1.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
