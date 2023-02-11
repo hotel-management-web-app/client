@@ -196,5 +196,11 @@ export interface ReportProps {
   averageInfo: BookingsInfoProps;
   cancelledBookingsInfo: BookingsInfoProps;
   confirmedBookingsInfo: BookingsInfoProps;
-  [key: string]: BookingsInfoProps;
+  roomTypesInfo: {
+    roomTypeName: string;
+    allBookingsInfo: { [key: string]: number };
+    confirmedBookingsInfo: { [key: string]: number };
+    cancelledBookingsInfo: { [key: string]: number };
+  }[];
+  [key: string]: BookingsInfoProps | any;
 }

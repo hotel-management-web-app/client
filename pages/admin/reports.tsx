@@ -52,7 +52,7 @@ const getReportInfo = (
   bookingsInfoLabels: string[]
 ) => {
   const convertedBookingsInfo = Object.keys(bookingsInfo).map((key, index) => ({
-    label: bookingsInfoLabels[index],
+    label: bookingsInfoLabels?.[index],
     value: bookingsInfo[key],
   }));
 
@@ -60,7 +60,7 @@ const getReportInfo = (
     <div key={nanoid()}>
       <p>{bookingInfo.label}</p>
       <p className="text-gray-400 mt-1">
-        {bookingInfo.value} {bookingInfo.label.includes('amount') && '$'}
+        {bookingInfo.value} {bookingInfo.label?.includes('amount') && '$'}
       </p>
     </div>
   ));
@@ -73,9 +73,19 @@ const getReportInfo = (
 };
 
 const displayReportInfo = (report: ReportProps) => {
-  const reportInfo = Object.keys(report).map((key, index) =>
-    getReportInfo(report[key], labels[index])
-  );
+  const {
+    allBookingsInfo,
+    confirmedBookingsInfo,
+    cancelledBookingsInfo,
+    averageInfo,
+  } = report;
+
+  const reportInfo = Object.keys({
+    allBookingsInfo,
+    confirmedBookingsInfo,
+    cancelledBookingsInfo,
+    averageInfo,
+  }).map((key, index) => getReportInfo(report[key], labels[index]));
 
   return reportInfo;
 };
@@ -109,8 +119,11 @@ const Reports = () => {
     today.getDay()
   );
 
-  const formattedTodayDate = moment(today).format('YYYY-MM-DD');
-  const formattedMonthBackDate = moment(monthBack).format('YYYY-MM-DD');
+  const dateFormat = 'YYYY-MM-DD';
+  const formattedTodayDate = moment(today).format(dateFormat);
+  const formattedMonthBackDate = moment(monthBack).format(dateFormat);
+
+  const roomTypesInfo = report?.roomTypesInfo;
 
   return (
     <div>
@@ -135,7 +148,77 @@ const Reports = () => {
             />
             <SubmitButton name="Generate report" isLoading={isLoading} />
           </div>
-          {report && displayReportInfo(report)}
+
+          {report && (
+            <>
+              {displayReportInfo(report)}
+              <table className="mt-10 border border-collapse">
+                <thead>
+                  <tr>
+                    <th rowSpan={2} className="border px-8 py-1">
+                      Rooms
+                    </th>
+                    <th colSpan={4} className="border px-3 py-1">
+                      Bookings Received
+                    </th>
+                    <th colSpan={4} className="border px-3 py-1">
+                      Confirmed Bookings
+                    </th>
+                    <th colSpan={4} className="border px-3 py-1">
+                      Cancelled Bookings
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border px-8 py-1">Booked</th>
+                    <th className="border px-8 py-1">Guests</th>
+                    <th className="border px-8 py-1">Nights</th>
+                    <th className="border px-8 py-1">Amount</th>
+                    <th className="border px-8 py-1">Booked</th>
+                    <th className="border px-8 py-1">Guests</th>
+                    <th className="border px-8 py-1">Nights</th>
+                    <th className="border px-8 py-1">Amount</th>
+                    <th className="border px-8 py-1">Booked</th>
+                    <th className="border px-8 py-1">Guests</th>
+                    <th className="border px-8 py-1">Nights</th>
+                    <th className="border px-8 py-1">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {roomTypesInfo?.map((roomTypeInfo) => {
+                    const {
+                      roomTypeName,
+                      allBookingsInfo,
+                      confirmedBookingsInfo,
+                      cancelledBookingsInfo,
+                    } = roomTypeInfo;
+
+                    return (
+                      <tr>
+                        <td className="border py-1 text-center">
+                          {roomTypeName}
+                        </td>
+                        {Object.keys(allBookingsInfo).map((key) => (
+                          <td className="border py-1 text-center">
+                            {allBookingsInfo[key]}
+                          </td>
+                        ))}
+                        {Object.keys(confirmedBookingsInfo).map((key) => (
+                          <td className="border py-1 text-center">
+                            {confirmedBookingsInfo[key]}
+                          </td>
+                        ))}
+                        {Object.keys(cancelledBookingsInfo).map((key) => (
+                          <td className="border py-1 text-center">
+                            {cancelledBookingsInfo[key]}
+                          </td>
+                        ))}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </>
+          )}
         </FormWrapper>
       </FormProvider>
     </div>
