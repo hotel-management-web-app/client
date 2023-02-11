@@ -181,3 +181,26 @@ export interface Chart {
   name: string;
   value: any;
 }
+
+export interface ReportForm {
+  startDate: Date;
+  endDate: Date;
+}
+
+export interface BookingsInfoProps {
+  [key: string]: number;
+}
+
+export interface ReportProps {
+  allBookingsInfo: BookingsInfoProps;
+  averageInfo: BookingsInfoProps;
+  cancelledBookingsInfo: BookingsInfoProps;
+  confirmedBookingsInfo: BookingsInfoProps;
+  roomTypesInfo: {
+    roomTypeName: string;
+    allBookingsInfo: { [key: string]: number };
+    confirmedBookingsInfo: { [key: string]: number };
+    cancelledBookingsInfo: { [key: string]: number };
+  }[];
+  [key: string]: BookingsInfoProps | any;
+}

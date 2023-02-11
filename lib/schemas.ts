@@ -88,3 +88,8 @@ export const loginSchema = yup.object({
   email: yup.string().email().required('Email is required!'),
   password: yup.string().required('Password is required!'),
 });
+
+export const reportSchema = yup.object({
+  startDate: yup.string().required('Start date is required!'),
+  endDate: yup.string().required('End date is required!'),
+});

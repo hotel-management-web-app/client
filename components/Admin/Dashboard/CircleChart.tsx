@@ -5,18 +5,21 @@ import { Chart, ChartDataProps } from '../../../lib/types';
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const getChartData = (data: ChartDataProps) => {
-  const chartData = Object.keys(data).map((key) => ({
-    name: (key.charAt(0).toUpperCase() + key.slice(1))
-      .replace(/([a-z])([A-Z])/g, '$1 $2')
-      .replace(/<[A-Z]/, ''),
-    value: data[key],
-  }));
+  if (data) {
+    const chartData = Object.keys(data).map((key) => ({
+      name: (key.charAt(0).toUpperCase() + key.slice(1))
+        .replace(/([a-z])([A-Z])/g, '$1 $2')
+        .replace(/<[A-Z]/, ''),
+      value: data[key],
+    }));
 
-  return chartData;
+    return chartData;
+  }
+  return null;
 };
 
 const getChartDataSum = (chartData: Chart[]) => {
-  const sum = chartData.reduce((acc, current) => {
+  const sum = chartData?.reduce((acc, current) => {
     let prev = acc;
     if (typeof prev === 'object') prev = prev.value;
 
@@ -40,7 +43,7 @@ const CircleChart: React.FC<CircleChartProps> = ({
   horizontal,
 }) => {
   const chartData = getChartData(data);
-  const dataSum = getChartDataSum(chartData);
+  const dataSum = getChartDataSum(chartData!);
 
   if (horizontal) {
     return (
@@ -50,14 +53,14 @@ const CircleChart: React.FC<CircleChartProps> = ({
           <div className="flex justify-center relative px-10 py-5">
             <PieChart width={250} height={250}>
               <Pie
-                data={chartData}
+                data={chartData!}
                 innerRadius={80}
                 outerRadius={120}
                 labelLine={false}
                 fill="#8884d8"
                 dataKey="value"
               >
-                {chartData.map((entry, index) => (
+                {chartData?.map((entry, index) => (
                   <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
@@ -67,7 +70,7 @@ const CircleChart: React.FC<CircleChartProps> = ({
             </p>
           </div>
           <div>
-            {chartData.map((item, index) => (
+            {chartData?.map((item, index) => (
               <div className="flex justify-between items-center w-64 mt-2 py-1 [&:not(:first-child)]:mt-5 [&:not(:last-child)]:border-b">
                 <div className="flex items-center gap-2">
                   <div
@@ -91,14 +94,14 @@ const CircleChart: React.FC<CircleChartProps> = ({
       <div className="flex justify-center relative py-2">
         <PieChart width={200} height={200}>
           <Pie
-            data={chartData}
+            data={chartData!}
             innerRadius={50}
             outerRadius={80}
             labelLine={false}
             fill="#8884d8"
             dataKey="value"
           >
-            {chartData.map((entry, index) => (
+            {chartData?.map((entry, index) => (
               <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
@@ -108,7 +111,7 @@ const CircleChart: React.FC<CircleChartProps> = ({
         </p>
       </div>
       <div>
-        {chartData.map((item, index) => (
+        {chartData?.map((item, index) => (
           <div className="flex justify-between items-center w-full mt-2 py-1 [&:not(:last-child)]:border-b">
             <div className="flex items-center gap-2">
               <div
