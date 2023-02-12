@@ -93,3 +93,12 @@ export const reportSchema = yup.object({
   startDate: yup.string().required('Start date is required!'),
   endDate: yup.string().required('End date is required!'),
 });
+
+export const contactSchema = yup.object({
+  firstName: yup.string().required('First name is required!'),
+  secondName: yup.string().required('Second name is required!'),
+  email: yup.string().email().required('Email is required!'),
+  phoneNumber: yup.string(),
+  subject: yup.string().required('Subject is required!'),
+  message: yup.string().required('Message is required!'),
+});

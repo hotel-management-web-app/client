@@ -27,11 +27,14 @@ const MyApp: React.FC<MyAppProps> = ({ Component, pageProps }) => {
     });
   }, [router]);
 
-  const isAdmin = () => router.pathname.includes('admin');
+  const isAdmin = useCallback(
+    () => router.pathname.includes('admin'),
+    [router.pathname]
+  );
 
   useEffect(() => {
-    checkAuthentication();
-  }, [checkAuthentication]);
+    if (isAdmin()) checkAuthentication();
+  }, [checkAuthentication, isAdmin]);
 
   if (isAdmin()) {
     return (
