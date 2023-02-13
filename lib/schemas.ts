@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const roomTypeSchema = yup.object({
-  name: yup.string().required('Name is required!'),
+  name: yup.string().min(3).max(48).required('Name is required!'),
   description: yup.string(),
   occupancy: yup
     .number()
@@ -32,8 +32,8 @@ const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 export const guestSchema = yup.object({
-  firstName: yup.string().required('First Name is required!'),
-  lastName: yup.string().required('Last Name is required!'),
+  firstName: yup.string().min(3).max(48).required('First Name is required!'),
+  lastName: yup.string().min(3).max(48).required('Last Name is required!'),
   email: yup
     .string()
     .email('Field should contain a valid e-mail')
@@ -92,4 +92,13 @@ export const loginSchema = yup.object({
 export const reportSchema = yup.object({
   startDate: yup.string().required('Start date is required!'),
   endDate: yup.string().required('End date is required!'),
+});
+
+export const contactSchema = yup.object({
+  firstName: yup.string().min(3).max(48).required('First name is required!'),
+  secondName: yup.string().required('Second name is required!'),
+  email: yup.string().email().required('Email is required!'),
+  phoneNumber: yup.string(),
+  subject: yup.string().required('Subject is required!'),
+  message: yup.string().required('Message is required!'),
 });

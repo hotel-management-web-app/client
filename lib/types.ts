@@ -204,3 +204,12 @@ export interface ReportProps {
   }[];
   [key: string]: BookingsInfoProps | any;
 }
+
+export interface ContactFormInputs {
+  firstName: string;
+  secondName: string;
+  email: string;
+  phoneNumber: string;
+  subject: string;
+  message: string;
+}
