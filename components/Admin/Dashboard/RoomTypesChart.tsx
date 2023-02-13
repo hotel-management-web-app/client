@@ -11,7 +11,7 @@ interface RoomTypesChartProps {
 }
 
 const RoomTypesChart: React.FC<RoomTypesChartProps> = ({ roomTypes }) => {
-  const roomTypesChartData = roomTypes.map((roomType) => ({
+  const roomTypesChartData = roomTypes?.map((roomType) => ({
     name: roomType.name,
     value: roomType.count,
   }));

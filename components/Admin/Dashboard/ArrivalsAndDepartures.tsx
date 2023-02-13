@@ -11,7 +11,9 @@ interface ArrivalsAndDeparturesProps {
 const ArrivalsAndDepartures: React.FC<ArrivalsAndDeparturesProps> = ({
   data,
 }) => {
-  const { arrivalsToday, departuresToday } = data;
+  const arrivalsToday = data?.arrivalsToday;
+  const departuresToday = data?.departuresToday;
+
   return (
     <div className="bg-white rounded-xl h-[354px] shadow-lg px-3 py-2 flex gap-5">
       <div className="w-[330px] overflow-auto">
