@@ -7,4 +7,5 @@ export const routes = {
       ? `/admin/bookings/create?startDate=${startDate}&roomTypeId=${roomTypeId}&roomId=${roomId}`
       : '/admin/bookings/create',
   editBooking: (id: number) => `/admin/bookings/edit/${id}`,
+  roomTypes: (id: number) => `/rooms/${id}`,
 };
