@@ -10,6 +10,7 @@ import HeroBg from '../public/images/hero-bg.png';
 import { RoomType } from '../lib/types';
 import { getRoomTypes } from '../lib/api/roomTypes';
 import { useGetRoomTypes } from '../lib/operations/roomTypes';
+import { routes } from '../utils/routes';
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
@@ -45,7 +46,7 @@ const Home: React.FC<HomeProps> = () => {
           <h2 className="text-[2.5rem] font-light mt-20">See Our Rooms</h2>
           <div className="flex justify-around gap-y-10 2xl:justify-between flex-wrap mt-20 mb-16">
             {roomTypes?.slice(0, 3).map(({ id, name, image }) => (
-              <Link key={id} href={`room-types/${id}`}>
+              <Link key={id} href={routes.roomTypes(id!)}>
                 <a className="relative">
                   <Image
                     src={image as string}
