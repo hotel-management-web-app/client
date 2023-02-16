@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import Seo from '../components/Seo';
 import Booking from '../components/Booking';
@@ -18,6 +19,8 @@ export const getServerSideProps = async () => {
 
 const RoomBooking = () => {
   const { data: roomTypes } = useGetRoomTypes();
+  const router = useRouter();
+  const { children, adults, arrive, departure } = router.query;
 
   return (
     <div className="container max-w-container mx-auto px-5 2xl:px-0">
@@ -25,56 +28,68 @@ const RoomBooking = () => {
       <div className="mt-10">
         <Booking />
       </div>
-      {roomTypes?.map((roomType) => (
-        <div className="border border-black mt-12 xl:w-[1090px] p-5 mb-20">
-          <div className="flex flex-col xl:flex-row gap-5">
-            <div className="w-full xl:w-[400px] xl:h-[370px] overflow-hidden">
-              <Image
-                src={roomType.image as string}
-                loader={() => roomType.image as string}
-                width="500px"
-                height="500px"
-                layout="responsive"
-              />
-            </div>
-            <div className="xl:w-[690px]">
-              <div className="border-b-2 w-full pb-7">
-                <p className="font-medium text-2xl">{roomType.name}</p>
-                <p className="font-light mt-2 h-[100px] overflow-hidden">
-                  {roomType.description}
-                </p>
-                <Link href={routes.roomTypes(roomType.id!)}>
-                  <a className="underline mt-5">Room Details</a>
-                </Link>
-              </div>
-              <div className="md:flex mt-8">
-                <div className="w-full font-light mt-10 md:mt-0">
-                  <div className="flex justify-between">
-                    <div>
-                      <p className="text-3xl font-medium">${roomType.price}</p>
-                      <p className="mt-16 w-[200px] lg:w-auto">
-                        Free Cancellation if made no later than 3 day(s) before
-                        arrival
-                      </p>
-                    </div>
-                    <div className="sm:text-right">
-                      <p>Per Night</p>
-                      <p className="text-gray-500">Including Taxes & Fees</p>
-                      <div className="flex flex-wrap justify-between gap-5 items-start mt-5">
-                        <Link href="/booking-form">
-                          <a className="bg-dark-gray text-white text-2xl py-3 px-6">
-                            Book Now
-                          </a>
-                        </Link>
+      {children && adults && arrive && departure ? (
+        <div>
+          {roomTypes?.map((roomType) => (
+            <div className="border border-black mt-12 xl:w-[1090px] p-5 mb-20">
+              <div className="flex flex-col xl:flex-row gap-5">
+                <div className="w-full xl:w-[400px] xl:h-[370px] overflow-hidden">
+                  <Image
+                    src={roomType.image as string}
+                    loader={() => roomType.image as string}
+                    width="500px"
+                    height="500px"
+                    layout="responsive"
+                  />
+                </div>
+                <div className="xl:w-[690px]">
+                  <div className="border-b-2 w-full pb-7">
+                    <p className="font-medium text-2xl">{roomType.name}</p>
+                    <p className="font-light mt-2 h-[100px] overflow-hidden">
+                      {roomType.description}
+                    </p>
+                    <Link href={routes.roomTypes(roomType.id!)}>
+                      <a className="underline mt-5">Room Details</a>
+                    </Link>
+                  </div>
+                  <div className="md:flex mt-8">
+                    <div className="w-full font-light mt-10 md:mt-0">
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="text-3xl font-medium">
+                            ${roomType.price}
+                          </p>
+                          <p className="mt-16 w-[200px] lg:w-auto">
+                            Free Cancellation if made no later than 3 day(s)
+                            before arrival
+                          </p>
+                        </div>
+                        <div className="sm:text-right">
+                          <p>Per Night</p>
+                          <p className="text-gray-500">
+                            Including Taxes & Fees
+                          </p>
+                          <div className="flex flex-wrap justify-between gap-5 items-start mt-5">
+                            <Link href="/booking-form">
+                              <a className="bg-dark-gray text-white text-2xl py-3 px-6">
+                                Book Now
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        <p className="text-center text-2xl mt-16 text-gray-500">
+          Fill out the fields to search for available rooms!
+        </p>
+      )}
     </div>
   );
 };

@@ -5,11 +5,19 @@ import moment from 'moment';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
-const DatePicker = () => {
-  const [startDateValue, setStartDateValue] = useState<moment.Moment | null>(
-    null
-  );
-  const [endDateValue, setEndDateValue] = useState<moment.Moment | null>(null);
+interface DatePickerProps {
+  startDateValue: moment.Moment | null;
+  endDateValue: moment.Moment | null;
+  setStartDateValue: React.Dispatch<React.SetStateAction<moment.Moment | null>>;
+  setEndDateValue: React.Dispatch<React.SetStateAction<moment.Moment | null>>;
+}
+
+const DatePicker: React.FC<DatePickerProps> = ({
+  startDateValue,
+  setStartDateValue,
+  endDateValue,
+  setEndDateValue,
+}) => {
   const [focusedInputValue, setFocusedInputValue] =
     useState<FocusedInputShape | null>(null);
   return (

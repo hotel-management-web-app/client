@@ -1,7 +1,10 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, FormEvent } from 'react';
+import moment from 'moment';
+import { useRouter } from 'next/router';
 import { Listbox, Transition } from '@headlessui/react';
 import { HiSelector } from 'react-icons/hi';
 import DatePicker from './DatePicker';
+import { routes } from '../utils/routes';
 
 const numberOfAdults = [
   { id: 1, number: 1 },
@@ -33,12 +36,27 @@ function classNames(...classes: string[]) {
 }
 
 const Booking = () => {
+  const router = useRouter();
   const [adultsNumber, setAdultsNumber] = useState(numberOfAdults[0]);
   const [childrenNumber, setChildrenNumber] = useState(numberOfChildren[0]);
+  const [startDate, setStartDate] = useState<moment.Moment | null>(null);
+  const [endDate, setEndDate] = useState<moment.Moment | null>(null);
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push(
+      routes.roomBooking(
+        adultsNumber.number,
+        childrenNumber.number,
+        startDate,
+        endDate
+      )
+    );
+  };
 
   return (
     <form
-      action="/room-booking"
+      onSubmit={(e) => onSubmit(e)}
       className="flex justify-center 2xl:justify-between flex-wrap items-end gap-8 max-w-container mx-auto text-xl"
     >
       <div>
@@ -50,7 +68,7 @@ const Booking = () => {
                 <Listbox.Button className="block border border-black text-black py-2 mt-4 w-64 bg-white">
                   <span className="flex items-center">
                     <span className="mx-auto block truncate">
-                      {adultsNumber.number}
+                      {adultsNumber?.number}
                     </span>
                   </span>
                   <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -106,7 +124,7 @@ const Booking = () => {
                 <Listbox.Button className="block border border-black text-black py-2 mt-4 w-64 bg-white">
                   <span className="flex items-center">
                     <span className="mx-auto block truncate">
-                      {childrenNumber.number}
+                      {childrenNumber?.number}
                     </span>
                   </span>
                   <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -153,7 +171,12 @@ const Booking = () => {
           )}
         </Listbox>
       </div>
-      <DatePicker />
+      <DatePicker
+        startDateValue={startDate}
+        endDateValue={endDate}
+        setStartDateValue={setStartDate}
+        setEndDateValue={setEndDate}
+      />
       <button className="bg-yellow-500 text-white h-[46px] px-5">
         Check availibitlity
       </button>

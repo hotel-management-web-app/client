@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const routes = {
   root: () => '/',
   profile: () => '/admin/profile',
@@ -8,4 +10,11 @@ export const routes = {
       : '/admin/bookings/create',
   editBooking: (id: number) => `/admin/bookings/edit/${id}`,
   roomTypes: (id: number) => `/rooms/${id}`,
+  roomBooking: (
+    adultsNumber: number,
+    childrenNumber: number,
+    startDate: moment.Moment | null,
+    endDate: moment.Moment | null
+  ) =>
+    `/room-booking?adults=${adultsNumber}&children=${childrenNumber}&arrive=${startDate}&departure=${endDate}`,
 };
