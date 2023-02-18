@@ -101,7 +101,15 @@ const RoomBooking = () => {
                             Including Taxes & Fees
                           </p>
                           <div className="flex flex-wrap justify-between gap-5 items-start mt-5">
-                            <Link href="/booking-form">
+                            <Link
+                              href={routes.bookingForm(
+                                adults as string,
+                                children as string,
+                                arrive as string,
+                                departure as string,
+                                roomType.id?.toString()!
+                              )}
+                            >
                               <a className="bg-dark-gray text-white text-2xl py-3 px-6">
                                 Book Now
                               </a>

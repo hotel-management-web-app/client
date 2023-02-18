@@ -17,4 +17,12 @@ export const routes = {
     endDate: moment.Moment | null
   ) =>
     `/room-booking?adults=${adultsNumber}&children=${childrenNumber}&arrive=${startDate}&departure=${endDate}`,
+  bookingForm: (
+    adultsNumber: string,
+    childrenNumber: string,
+    startDate: string,
+    endDate: string,
+    roomTypeId: string
+  ) =>
+    `/booking-form?adults=${adultsNumber}&children=${childrenNumber}&arrive=${startDate}&departure=${endDate}&room=${roomTypeId}`,
 };
