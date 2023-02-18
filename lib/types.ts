@@ -24,6 +24,7 @@ export interface Room {
   housekeepingStatus: string;
   priority: string;
   comments: string;
+  bookings: Booking[];
 }
 
 export interface SelectOption {
