@@ -104,13 +104,11 @@ export const contactSchema = yup.object({
 });
 
 export const bookingFormSchema = yup.object({
-  cardNumber: yup.string().required(),
-  cvv: yup.string().required(),
   email: yup.string().required(),
-  expiration: yup.string().required(),
   firstName: yup.string().required(),
   lastName: yup.string().required(),
   phoneNumber: yup.string().required(),
+  notes: yup.string(),
   privacyTerms: yup.bool().oneOf([true], 'Checkbox selection is required'),
   conditionsAndPolicies: yup
     .bool()

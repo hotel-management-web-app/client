@@ -2,6 +2,7 @@ import moment from 'moment';
 import Link from 'next/link';
 import React from 'react';
 import { Booking } from '../../../lib/types';
+import { countDaysBetweenDates } from '../../../utils/countDaysBetweenDates';
 import { routes } from '../../../utils/routes';
 
 interface BookingProps {
@@ -35,11 +36,7 @@ const BookingCell: React.FC<BookingProps> = ({ booking, cellWidth }) => {
 
   const { arrivalDate, departureDate } = booking;
 
-  const numberOfDays = Math.ceil(
-    (new Date(departureDate).getTime() - new Date(arrivalDate).getTime()) /
-      (60 * 60 * 24 * 1000) +
-      1
-  );
+  const numberOfDays = countDaysBetweenDates(arrivalDate, departureDate) + 1;
 
   if (numberOfDays > 0) {
     const style = {

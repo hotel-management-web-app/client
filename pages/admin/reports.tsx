@@ -163,7 +163,6 @@ const Reports = () => {
             />
             <SubmitButton name="Generate report" isLoading={isLoading} />
           </div>
-
           {report && (
             <>
               {displayReportInfo(report)}

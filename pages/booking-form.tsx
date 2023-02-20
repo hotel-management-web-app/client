@@ -11,6 +11,7 @@ import { BookingFormInputs } from '../lib/types';
 import { bookingFormSchema } from '../lib/schemas';
 import { getRoomType } from '../lib/api/roomTypes';
 import { useGetRoomType } from '../lib/operations/roomTypes';
+import { countDaysBetweenDates } from '../utils/countDaysBetweenDates';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { room } = query;
@@ -35,10 +36,9 @@ const BookingForm = () => {
 
   const { data: roomType } = useGetRoomType(Number(room));
 
-  const numberOfNights = Math.ceil(
-    (new Date(departure as string).getTime() -
-      new Date(arrive as string).getTime()) /
-      (60 * 60 * 24 * 1000)
+  const numberOfNights = countDaysBetweenDates(
+    new Date(arrive as string),
+    new Date(departure as string)
   );
 
   const price = roomType?.price;
@@ -60,7 +60,7 @@ const BookingForm = () => {
         <FormProvider {...methods}>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="border  border-black px-12 pt-8 pb-12 w-[756px] bg-[#F9F8F6]"
+            className="border border-black px-12 pt-8 pb-12 w-[756px] bg-[#F9F8F6]"
           >
             <h1 className="text-3xl text-center font-medium border-b-2 pb-7">
               Guest Information
@@ -87,21 +87,14 @@ const BookingForm = () => {
                 fieldName="phoneNumber"
               />
             </div>
-            <h2 className="text-xl font-medium border-b-2 pb-3 mt-10 mb-6">
-              Payment information
-            </h2>
-            <BookingFormInput
-              id="card-number"
-              title="Card Number"
-              fieldName="cardNumber"
-            />
-            <div className="grid md:grid-cols-2 gap-x-24 gap-y-10 mt-10">
+            <div className="mt-10">
               <BookingFormInput
-                id="expiration"
-                title="Expiration"
-                fieldName="expiration"
+                id="notes"
+                isTextarea
+                title="Additional Details and Preferences"
+                fieldName="notes"
+                rows="5"
               />
-              <BookingFormInput id="cvv" title="CVV" fieldName="cvv" />
             </div>
             <div className="mt-10 flex flex-col gap-5">
               <div className="flex items-center">

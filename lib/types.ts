@@ -216,13 +216,11 @@ export interface ContactFormInputs {
 }
 
 export interface BookingFormInputs {
-  cardNumber: string;
-  cvv: string;
   email: string;
-  expiration: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
+  notes: string;
   privacyTerms: boolean;
   conditionsAndPolicies: boolean;
 }
