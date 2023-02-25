@@ -18,9 +18,9 @@ const ArrivalsAndDepartures: React.FC<ArrivalsAndDeparturesProps> = ({
     <div className="bg-white rounded-xl h-[354px] shadow-lg px-3 py-2 flex gap-5">
       <div className="w-[330px] overflow-auto">
         <h2 className="font-medium text-lg">
-          Arrivals Today ({arrivalsToday.length})
+          Arrivals Today ({arrivalsToday?.length})
         </h2>
-        {arrivalsToday.map((arrival) => (
+        {arrivalsToday?.map((arrival) => (
           <div className="flex even:bg-gray-100 px-2 py-1 rounded">
             <div>
               <p>
@@ -32,7 +32,7 @@ const ArrivalsAndDepartures: React.FC<ArrivalsAndDeparturesProps> = ({
             </div>
           </div>
         ))}
-        {arrivalsToday.length === 0 && (
+        {arrivalsToday?.length === 0 && (
           <div className="text-center text-gray-500 mt-1">
             There are no arrivals today
           </div>
@@ -40,9 +40,9 @@ const ArrivalsAndDepartures: React.FC<ArrivalsAndDeparturesProps> = ({
       </div>
       <div className="w-[330px] overflow-auto">
         <h2 className="font-medium text-lg">
-          Departures Today ({departuresToday.length})
+          Departures Today ({departuresToday?.length})
         </h2>
-        {departuresToday.map((departure) => (
+        {departuresToday?.map((departure) => (
           <div className="flex even:bg-gray-100 px-2 py-1 rounded">
             <div>
               <p>
@@ -54,7 +54,7 @@ const ArrivalsAndDepartures: React.FC<ArrivalsAndDeparturesProps> = ({
             </div>
           </div>
         ))}
-        {departuresToday.length === 0 && (
+        {departuresToday?.length === 0 && (
           <div className="text-center text-gray-500 mt-1">
             There are no departures today
           </div>
