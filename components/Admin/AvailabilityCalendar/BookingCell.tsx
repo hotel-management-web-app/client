@@ -49,7 +49,7 @@ const BookingCell: React.FC<BookingProps> = ({ booking, cellWidth }) => {
         <Link href={routes.editBooking(booking.id!)}>
           <a
             title={getTitle()}
-            className="absolute bg-red-300 w-full top-0 transform -translate-y-1/2 h-[41px] py-2 px-3 whitespace-nowrap"
+            className="absolute bg-red-300 w-full top-0 transform -translate-y-1/2 h-[41px] py-2 px-3 whitespace-nowrap overflow-hidden hover:overflow-visible"
             style={style}
           >
             {getContent()}

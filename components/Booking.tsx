@@ -37,10 +37,17 @@ function classNames(...classes: string[]) {
 
 const Booking = () => {
   const router = useRouter();
+
+  const { arrive, departure } = router.query;
+
   const [adultsNumber, setAdultsNumber] = useState(numberOfAdults[0]);
   const [childrenNumber, setChildrenNumber] = useState(numberOfChildren[0]);
-  const [startDate, setStartDate] = useState<moment.Moment | null>(null);
-  const [endDate, setEndDate] = useState<moment.Moment | null>(null);
+  const [startDate, setStartDate] = useState<moment.Moment | null>(
+    arrive ? moment(arrive as string) : null
+  );
+  const [endDate, setEndDate] = useState<moment.Moment | null>(
+    departure ? moment(departure as string) : null
+  );
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

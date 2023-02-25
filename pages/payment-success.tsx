@@ -8,11 +8,8 @@ import { routes } from '../utils/routes';
 
 const PaymentSuccess = () => {
   const router = useRouter();
-
   const { session_id: sessionId } = router.query;
   const { mutate } = useCreateNewBooking();
-
-  console.log(sessionId);
 
   useEffect(() => {
     if (sessionId) {
@@ -20,9 +17,9 @@ const PaymentSuccess = () => {
     }
   }, [mutate, sessionId]);
 
-  // setTimeout(() => {
-  //   router.push(routes.root());
-  // }, 10000);
+  setTimeout(() => {
+    router.push(routes.root());
+  }, 10000);
 
   return (
     <div className="flex justify-center items-center flex-col text-center gap-10 mt-16">

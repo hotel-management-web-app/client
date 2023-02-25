@@ -53,22 +53,17 @@ const BookingForm = () => {
   const formattedDepartureDate = moment(departure).format(dateFormat);
 
   const onSubmit: SubmitHandler<BookingFormInputs> = (data) => {
-    mutate(
-      {
-        ...data,
-        roomTypeId: Number(room),
-        arrivalDate: arrive as string,
-        departureDate: departure as string,
-        adults: Number(adults),
-        children: Number(children),
-      },
-      {
-        onSuccess: (res) => {
-          console.log(res);
-        },
-      }
-    );
+    mutate({
+      ...data,
+      roomTypeId: Number(room),
+      arrivalDate: arrive as string,
+      departureDate: departure as string,
+      adults: Number(adults),
+      children: Number(children),
+    });
   };
+
+  // console.log(new Date('2/1/23') < new Date('2/2/23'));
 
   return (
     <div className="container max-w-container mx-auto px-6 2xl:px-0">
