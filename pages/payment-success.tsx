@@ -1,16 +1,28 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BsCheckCircle } from 'react-icons/bs';
 import Seo from '../components/Seo';
+import { useCreateNewBooking } from '../lib/operations/payment';
 import { routes } from '../utils/routes';
 
 const PaymentSuccess = () => {
   const router = useRouter();
 
-  setTimeout(() => {
-    router.push(routes.root());
-  }, 10000);
+  const { session_id: sessionId } = router.query;
+  const { mutate } = useCreateNewBooking();
+
+  console.log(sessionId);
+
+  useEffect(() => {
+    if (sessionId) {
+      mutate(sessionId as string);
+    }
+  }, [mutate, sessionId]);
+
+  // setTimeout(() => {
+  //   router.push(routes.root());
+  // }, 10000);
 
   return (
     <div className="flex justify-center items-center flex-col text-center gap-10 mt-16">

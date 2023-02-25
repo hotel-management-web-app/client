@@ -12,6 +12,7 @@ import { bookingFormSchema } from '../lib/schemas';
 import { getRoomType } from '../lib/api/roomTypes';
 import { useGetRoomType } from '../lib/operations/roomTypes';
 import { countDaysBetweenDates } from '../utils/countDaysBetweenDates';
+import { usePayForStay } from '../lib/operations/payment';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { room } = query;
@@ -32,6 +33,8 @@ const BookingForm = () => {
   });
   const { register, handleSubmit } = methods;
 
+  const { mutate } = usePayForStay();
+
   const { adults, children, arrive, departure, room } = router.query;
 
   const { data: roomType } = useGetRoomType(Number(room));
@@ -50,7 +53,21 @@ const BookingForm = () => {
   const formattedDepartureDate = moment(departure).format(dateFormat);
 
   const onSubmit: SubmitHandler<BookingFormInputs> = (data) => {
-    console.log(data);
+    mutate(
+      {
+        ...data,
+        roomTypeId: Number(room),
+        arrivalDate: arrive as string,
+        departureDate: departure as string,
+        adults: Number(adults),
+        children: Number(children),
+      },
+      {
+        onSuccess: (res) => {
+          console.log(res);
+        },
+      }
+    );
   };
 
   return (

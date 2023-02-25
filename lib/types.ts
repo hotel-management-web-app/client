@@ -224,3 +224,11 @@ export interface BookingFormInputs {
   privacyTerms: boolean;
   conditionsAndPolicies: boolean;
 }
+
+export interface PaymentData extends BookingFormInputs {
+  roomTypeId: number;
+  arrivalDate: string;
+  departureDate: string;
+  adults: number;
+  children: number;
+}
