@@ -102,3 +102,15 @@ export const contactSchema = yup.object({
   subject: yup.string().required('Subject is required!'),
   message: yup.string().required('Message is required!'),
 });
+
+export const bookingFormSchema = yup.object({
+  email: yup.string().required(),
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  phoneNumber: yup.string().required(),
+  notes: yup.string(),
+  privacyTerms: yup.bool().oneOf([true], 'Checkbox selection is required'),
+  conditionsAndPolicies: yup
+    .bool()
+    .oneOf([true], 'Checkbox selection is required'),
+});

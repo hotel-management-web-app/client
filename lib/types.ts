@@ -24,6 +24,7 @@ export interface Room {
   housekeepingStatus: string;
   priority: string;
   comments: string;
+  bookings: Booking[];
 }
 
 export interface SelectOption {
@@ -212,4 +213,22 @@ export interface ContactFormInputs {
   phoneNumber: string;
   subject: string;
   message: string;
+}
+
+export interface BookingFormInputs {
+  email: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  notes: string;
+  privacyTerms: boolean;
+  conditionsAndPolicies: boolean;
+}
+
+export interface PaymentData extends BookingFormInputs {
+  roomTypeId: number;
+  arrivalDate: string;
+  departureDate: string;
+  adults: number;
+  children: number;
 }

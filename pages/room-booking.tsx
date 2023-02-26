@@ -1,123 +1,136 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MdArrowDropDown } from 'react-icons/md';
-import { RiCupFill } from 'react-icons/ri';
-import { AiFillCreditCard } from 'react-icons/ai';
+import { useRouter } from 'next/router';
+import { dehydrate, QueryClient } from 'react-query';
 import Seo from '../components/Seo';
 import Booking from '../components/Booking';
-import RoomImg from '../public/images/room-details.png';
+import { getRoomTypes } from '../lib/api/roomTypes';
+import { useGetRoomTypes } from '../lib/operations/roomTypes';
+import { routes } from '../utils/routes';
+import { RoomType } from '../lib/types';
 
-const amenities = [
-  {
-    id: 1,
-    name: 'Separate Shower',
-  },
-  {
-    id: 2,
-    name: 'Air Conditioning',
-  },
-  {
-    id: 3,
-    name: 'Desk of Workplace',
-  },
-  {
-    id: 4,
-    name: 'Free Wi-Fi',
-  },
-  {
-    id: 5,
-    name: 'Bathub',
-  },
-];
+export const getServerSideProps = async () => {
+  const queryClient = new QueryClient();
 
-const RoomBooking = () => (
-  <div className="container max-w-container mx-auto px-5 2xl:px-0">
-    <Seo title="Room Booking" />
-    <div className="mt-10">
-      <Booking />
-    </div>
-    <div className="flex gap-20 xl:w-[1090px] mt-10 border border-black px-20 py-5">
-      <div>
-        <div className="flex">
-          <p>View Results By</p>
-          <MdArrowDropDown className="-mt-1" size="30" />
-        </div>
-        <p className="font-medium">Rooms</p>
+  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
+};
+
+const RoomBooking = () => {
+  const { data: roomTypes } = useGetRoomTypes();
+  const router = useRouter();
+  const { children, adults, arrive, departure } = router.query;
+
+  const filteredRoomTypes = roomTypes?.filter((roomType: RoomType) => {
+    const { occupancy } = roomType;
+    const personsCount = Number(adults) + Number(children);
+    if (personsCount > occupancy) return false;
+
+    // Room type will be available if at least one room is available
+    // Room will be available if arrive and departure dates don't intersect with any of the bookings
+
+    return roomType.rooms?.some((room) =>
+      room.bookings?.every((booking) => {
+        const { arrivalDate, departureDate } = booking;
+        const bookingStartDate = new Date(arrivalDate);
+        const bookingEndDate = new Date(departureDate);
+        const startDate = new Date(arrive as string);
+        const endDate = new Date(departure as string);
+
+        // if there is an intersection
+        if (
+          (startDate >= bookingStartDate && startDate <= bookingEndDate) ||
+          (endDate >= bookingStartDate && endDate <= bookingEndDate)
+        ) {
+          return false;
+        }
+
+        // if there is no intersection
+        return true;
+      })
+    );
+  });
+
+  return (
+    <div className="container max-w-container mx-auto px-5 2xl:px-0">
+      <Seo title="Room Booking" />
+      <div className="mt-10">
+        <Booking />
       </div>
-      <div>
-        <div className="flex">
-          <p>Sort By</p>
-          <MdArrowDropDown className="-mt-1" size="30" />
-        </div>
-        <p className="font-medium">Recommended</p>
-      </div>
-    </div>
-    <div className="border border-black mt-12 xl:w-[1090px] p-5 mb-20">
-      <div className="flex flex-col xl:flex-row gap-5">
-        <div className="w-full xl:w-[500px] xl:h-[166px] overflow-hidden">
-          <Image
-            src={RoomImg}
-            width="500px"
-            height="250px"
-            layout="responsive"
-          />
-        </div>
-        <div className="border-b-2 w-full pb-7">
-          <p className="font-medium text-2xl">Premier Room</p>
-          <p className="font-light mt-2">
-            Romantic style room, offers a private terrace with mountain view.
-            Spa access included
-          </p>
-          <div className="underline mt-5">Room Details</div>
-        </div>
-      </div>
-      <div className="md:flex mt-8">
-        <div className="md:w-[330px] xl:w-[500px] border-b-2 pb-7 md:border-b-0 md:border-r-2 px-5">
-          <p className="text-3xl">Amenities</p>
-          <ul className="font-light list-disc ml-5">
-            {amenities.map(({ id, name }) => (
-              <li key={id} className="mt-3">
-                {name}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="pl-6 w-full font-light mt-10 md:mt-0">
-          <div className="flex flex-wrap justify-between gap-4">
-            <div>
-              <p className="font-medium text-2xl">Flexible Rage</p>
-              <div className="flex gap-5 items-center font-medium mt-2">
-                <RiCupFill size="20" />
-                <p>Breakfast included</p>
-              </div>
-              <div className="flex gap-5 items-center font-medium mt-2">
-                <AiFillCreditCard size="20" />
-                <p>Guaranted with Credit Card</p>
+      {children && adults && arrive && departure ? (
+        <div>
+          {filteredRoomTypes?.map((roomType) => (
+            <div className="border border-black mt-12 xl:w-[1090px] p-5 mb-20">
+              <div className="flex flex-col xl:flex-row gap-5">
+                <div className="w-full xl:w-[400px] xl:h-[370px] overflow-hidden">
+                  <Image
+                    src={roomType.image as string}
+                    loader={() => roomType.image as string}
+                    width="500px"
+                    height="500px"
+                    layout="responsive"
+                  />
+                </div>
+                <div className="xl:w-[690px]">
+                  <div className="border-b-2 w-full pb-7">
+                    <p className="font-medium text-2xl">{roomType.name}</p>
+                    <p className="font-light mt-2 h-[100px] overflow-hidden">
+                      {roomType.description}
+                    </p>
+                    <Link href={routes.roomTypes(roomType.id!)}>
+                      <a className="underline mt-5">Room Details</a>
+                    </Link>
+                  </div>
+                  <div className="md:flex mt-8">
+                    <div className="w-full font-light mt-10 md:mt-0">
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="text-3xl font-medium">
+                            ${roomType.price}
+                          </p>
+                          <p className="mt-16 w-[200px] lg:w-auto">
+                            Free Cancellation if made no later than 3 day(s)
+                            before arrival
+                          </p>
+                        </div>
+                        <div className="sm:text-right">
+                          <p>Per Night</p>
+                          <p className="text-gray-500">
+                            Including Taxes & Fees
+                          </p>
+                          <div className="flex flex-wrap justify-between gap-5 items-start mt-5">
+                            <Link
+                              href={routes.bookingForm(
+                                adults as string,
+                                children as string,
+                                arrive as string,
+                                departure as string,
+                                roomType.id?.toString()!
+                              )}
+                            >
+                              <a className="bg-dark-gray text-white text-2xl py-3 px-6">
+                                Book Now
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="sm:text-right">
-              <p className="text-2xl font-medium">$840</p>
-              <p className="">Per Night</p>
-              <p className="text-gray-500">Including Taxes & Fees</p>
-            </div>
-          </div>
-          <div className="flex flex-wrap justify-between gap-5 items-start mt-5">
-            <p className="w-3/5">
-              Rate includes breakfast, spa access and WiFi. Touristic Tax not
-              included. Free cancellation up to 3 days before the day of
-              arrival, subject to full penalty.
-            </p>
-            <Link href="/booking-form">
-              <a className="bg-dark-gray text-white text-2xl py-3 px-6">
-                Book Now
-              </a>
-            </Link>
-          </div>
+          ))}
         </div>
-      </div>
+      ) : (
+        <p className="text-center text-2xl mt-16 text-gray-500">
+          Fill out the fields to search for available rooms!
+        </p>
+      )}
     </div>
-  </div>
-);
+  );
+};
 
 export default RoomBooking;

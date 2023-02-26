@@ -30,7 +30,7 @@ const RoomTypesChart: React.FC<RoomTypesChartProps> = ({ roomTypes }) => {
               fill="#8884d8"
               dataKey="value"
             >
-              {roomTypesChartData.map((entry, index) => (
+              {roomTypesChartData?.map((entry, index) => (
                 <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
@@ -40,7 +40,7 @@ const RoomTypesChart: React.FC<RoomTypesChartProps> = ({ roomTypes }) => {
           </p>
         </div>
         <div>
-          {roomTypesChartData.map((item, index) => (
+          {roomTypesChartData?.map((item, index) => (
             <div className="flex justify-between items-center w-64 mt-2 py-1 [&:not(:first-child)]:mt-5 [&:not(:last-child)]:border-b">
               <div className="flex items-center gap-2">
                 <div
