@@ -88,7 +88,7 @@ const RoomBooking = () => {
                       <div className="flex justify-between">
                         <div>
                           <p className="text-3xl font-medium">
-                            ${roomType.price}
+                            ${Number(roomType.price) / 100}
                           </p>
                           <p className="mt-16 w-[200px] lg:w-auto">
                             Free Cancellation if made no later than 3 day(s)

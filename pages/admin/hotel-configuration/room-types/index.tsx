@@ -63,7 +63,7 @@ const RoomTypes = () => {
                   <td>{id}</td>
                   <td>{name}</td>
                   <td>{occupancy}</td>
-                  <td>{price}</td>
+                  <td>{Number(price) / 100}$</td>
                   <td className="w-40 py-3">
                     <div>
                       <EditButton id={id!} />
