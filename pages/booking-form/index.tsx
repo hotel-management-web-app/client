@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Seo from '../components/Seo';
-import BookingFormInput from '../components/BookingFormInput';
-import { BookingFormInputs } from '../lib/types';
-import { bookingFormSchema } from '../lib/schemas';
-import { getRoomType } from '../lib/api/roomTypes';
-import { useGetRoomType } from '../lib/operations/roomTypes';
-import { countDaysBetweenDates } from '../utils/countDaysBetweenDates';
-import { usePayForStay } from '../lib/operations/payment';
+import Seo from '../../components/Seo';
+import BookingFormInput from '../../components/BookingFormInput';
+import { BookingFormInputs } from '../../lib/types';
+import { bookingFormSchema } from '../../lib/schemas';
+import { getRoomType } from '../../lib/api/roomTypes';
+import { useGetRoomType } from '../../lib/operations/roomTypes';
+import { countDaysBetweenDates } from '../../utils/countDaysBetweenDates';
+import { usePayForStay } from '../../lib/operations/payment';
+import { routes } from '../../utils/routes';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { room } = query;
@@ -36,6 +37,13 @@ const BookingForm = () => {
   const { mutate } = usePayForStay();
 
   const { adults, children, arrive, departure, room } = router.query;
+  const canContinue = adults && children && arrive && departure && room;
+
+  useEffect(() => {
+    if (!canContinue) {
+      router.push(routes.roomBooking());
+    }
+  }, [canContinue, router]);
 
   const { data: roomType } = useGetRoomType(Number(room));
 
@@ -62,8 +70,6 @@ const BookingForm = () => {
       children: Number(children),
     });
   };
-
-  // console.log(new Date('2/1/23') < new Date('2/2/23'));
 
   return (
     <div className="container max-w-container mx-auto px-6 2xl:px-0">

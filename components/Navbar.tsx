@@ -7,6 +7,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoMdClose } from 'react-icons/io';
 import SlideDown from 'react-slidedown';
 import { useGetSettings } from '../lib/operations/generalSettings';
+import { routes } from '../utils/routes';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -80,7 +81,7 @@ const Navbar = () => {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Link href="/room-booking">
+                <Link href={routes.roomBooking()}>
                   <a className="text-white border border-white text-lg font-medium px-5 py-1">
                     Book Now
                   </a>

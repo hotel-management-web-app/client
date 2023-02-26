@@ -11,12 +11,17 @@ export const routes = {
   editBooking: (id: number) => `/admin/bookings/edit/${id}`,
   roomTypes: (id: number) => `/rooms/${id}`,
   roomBooking: (
-    adultsNumber: number,
-    childrenNumber: number,
-    startDate: moment.Moment | null,
-    endDate: moment.Moment | null
+    adultsNumber?: number,
+    childrenNumber?: number,
+    startDate?: moment.Moment | null,
+    endDate?: moment.Moment | null
   ) =>
-    `/room-booking?adults=${adultsNumber}&children=${childrenNumber}&arrive=${startDate}&departure=${endDate}`,
+    (adultsNumber || adultsNumber === 0) &&
+    (childrenNumber || childrenNumber === 0) &&
+    startDate &&
+    endDate
+      ? `/room-booking?adults=${adultsNumber}&children=${childrenNumber}&arrive=${startDate}&departure=${endDate}`
+      : '/room-booking',
   bookingForm: (
     adultsNumber: string,
     childrenNumber: string,

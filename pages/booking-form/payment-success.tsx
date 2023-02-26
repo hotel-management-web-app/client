@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { BsCheckCircle } from 'react-icons/bs';
-import Seo from '../components/Seo';
-import { useCreateNewBooking } from '../lib/operations/payment';
-import { routes } from '../utils/routes';
+import Seo from '../../components/Seo';
+import { useCreateNewBooking } from '../../lib/operations/payment';
+import { routes } from '../../utils/routes';
 
 const PaymentSuccess = () => {
   const router = useRouter();
