@@ -75,7 +75,9 @@ const Bookings: React.FC<BookingsProps> = () => {
               {bookings?.map((booking) => {
                 const { roomNumber } = booking.room;
                 const { firstName, lastName } = booking.guest;
-                const { id, arrivalDate, departureDate, status } = booking;
+                const { id, arrivalDate, departureDate, status, totalPrice } =
+                  booking;
+
                 return (
                   <tr key={id} className="border-b">
                     <td>{roomNumber}</td>
@@ -86,6 +88,7 @@ const Bookings: React.FC<BookingsProps> = () => {
                     </td>
                     <td>{moment(arrivalDate).format(dateFormat)}</td>
                     <td>{moment(departureDate).format(dateFormat)}</td>
+                    <td>{totalPrice / 100}$</td>
                     <td>
                       <span
                         style={{

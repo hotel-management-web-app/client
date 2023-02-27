@@ -50,6 +50,7 @@ export interface Booking {
   arrivalDate: Date;
   departureDate: Date;
   roomNumber: number;
+  totalPrice: number;
   adults: number;
   children: number;
   guest: Guest;
