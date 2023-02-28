@@ -2,6 +2,7 @@ import React from 'react';
 import { DashboardData } from '../../../lib/types';
 import ArrivalsAndDepartures from './ArrivalsAndDepartures';
 import CircleChart from './CircleChart';
+import RevenueChart from './RevenueChart';
 import RoomTypesChart from './RoomTypesChart';
 
 interface DashboardProps {
@@ -16,6 +17,7 @@ const Dashboard: React.FC<DashboardProps> = ({ dashboardData }) => {
     allBookingStatusCount,
     allHousekeepingStatusCount,
     availableRoomsByRoomTypeCount,
+    revenueData,
   } = dashboardData || {};
 
   return (
@@ -30,6 +32,7 @@ const Dashboard: React.FC<DashboardProps> = ({ dashboardData }) => {
         data={allHousekeepingStatusCount}
         horizontal
       />
+      <RevenueChart revenueData={revenueData} />
     </div>
   );
 };

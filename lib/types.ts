@@ -173,6 +173,7 @@ export interface DashboardData {
     name: string;
     count: number;
   }[];
+  revenueData: RevenueData[];
 }
 
 export interface ChartDataProps {
@@ -205,6 +206,11 @@ export interface ReportProps {
     cancelledBookingsInfo: { [key: string]: number };
   }[];
   [key: string]: BookingsInfoProps | any;
+}
+
+export interface RevenueData {
+  month: string;
+  totalAmount: number;
 }
 
 export interface ContactFormInputs {
