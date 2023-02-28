@@ -1,7 +1,18 @@
 import React from 'react';
 import { Cell, Pie, PieChart } from 'recharts';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#757DF6'];
+const COLORS = [
+  '#0088FE',
+  '#00C49F',
+  '#FFBB28',
+  '#FF8042',
+  '#757DF6',
+  '#E11D48',
+  '#84CC16',
+  '#22D3EE',
+  '#D946EF',
+  '#EA580C',
+];
 
 interface RoomTypesChartProps {
   roomTypes: {
