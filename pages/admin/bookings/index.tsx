@@ -20,6 +20,7 @@ const headers = [
   'Guest',
   'Arrival date',
   'Departure date',
+  'Price',
   'Status',
   'Action',
 ];
