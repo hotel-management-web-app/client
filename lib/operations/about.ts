@@ -1,5 +1,6 @@
 import { AxiosResponse, AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import { getAboutInfo, updateAboutInfo } from '../api/about';
 import {
   addAboutDetail,
@@ -13,8 +14,13 @@ export const useGetAboutInfo = () =>
   useQuery<AboutInfo, AxiosError>(['aboutInfo'], getAboutInfo);
 
 export const useUpdateAboutInfo = () =>
-  useMutation<AxiosResponse, AxiosError, AboutInfo>(async (aboutInfo) =>
-    updateAboutInfo(aboutInfo)
+  useMutation<AxiosResponse, AxiosError, AboutInfo>(
+    async (aboutInfo) => updateAboutInfo(aboutInfo),
+    {
+      onSuccess: () => {
+        toast.success('About info updated successfully!');
+      },
+    }
   );
 
 export const useGetAboutDetails = () =>
@@ -25,7 +31,10 @@ export const useAddAboutDetail = () => {
   return useMutation<AxiosResponse, AxiosError, FormData>(
     async (aboutDetail) => addAboutDetail(aboutDetail),
     {
-      onSuccess: () => queryClient.invalidateQueries(['aboutDetails']),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['aboutDetails']);
+        toast.success('About detail added successfully!');
+      },
     }
   );
 };
@@ -35,7 +44,10 @@ export const useUpdateAboutDetail = (id: number) => {
   return useMutation<AxiosResponse, AxiosError, FormData>(
     async (aboutDetail) => updateAboutDetail(id, aboutDetail),
     {
-      onSuccess: () => queryClient.invalidateQueries(['aboutDetails']),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['aboutDetails']);
+        toast.success('About detail updated successfully!');
+      },
     }
   );
 };
@@ -43,6 +55,9 @@ export const useUpdateAboutDetail = (id: number) => {
 export const useDeleteAboutDetail = () => {
   const queryClient = useQueryClient();
   return useMutation<AxiosResponse, AxiosError, number>(deleteAboutDetail, {
-    onSuccess: () => queryClient.invalidateQueries(['aboutDetails']),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['aboutDetails']);
+      toast.success('About detail deleted successfully!');
+    },
   });
 };

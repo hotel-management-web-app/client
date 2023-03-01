@@ -1,6 +1,7 @@
 import { AxiosResponse, AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import {
   addBooking,
   updateBooking,
@@ -23,7 +24,10 @@ export const useAddBooking = () => {
   return useMutation<AxiosResponse, AxiosError, Booking>(
     async (booking) => addBooking(booking),
     {
-      onSuccess: () => router.push(backUrl),
+      onSuccess: () => {
+        router.push(backUrl);
+        toast.success('Booking added successfully!');
+      },
     }
   );
 };
@@ -33,7 +37,10 @@ export const useUpdateBooking = (id: number) => {
   return useMutation<AxiosResponse, AxiosError, Booking>(
     async (booking) => updateBooking(id, booking),
     {
-      onSuccess: () => router.push(backUrl),
+      onSuccess: () => {
+        router.push(backUrl);
+        toast.success('Booking updated successfully!');
+      },
     }
   );
 };
@@ -42,6 +49,9 @@ export const useDeleteBooking = () => {
   const queryClient = useQueryClient();
 
   return useMutation<AxiosResponse, AxiosError, number>(deleteBooking, {
-    onSuccess: () => queryClient.invalidateQueries(['bookings']),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['bookings']);
+      toast.success('Booking deleted successfully!');
+    },
   });
 };
