@@ -15,8 +15,8 @@ const ArrivalsAndDepartures: React.FC<ArrivalsAndDeparturesProps> = ({
   const departuresToday = data?.departuresToday;
 
   return (
-    <div className="bg-white rounded-xl h-[354px] shadow-lg px-3 py-2 flex gap-5">
-      <div className="w-[330px] overflow-auto">
+    <div className="bg-white rounded-xl w-full lg:w-auto h-[354px] shadow-lg px-3 py-2 flex gap-5 flex-wrap">
+      <div className="w-full lg:w-[359px] overflow-auto">
         <h2 className="font-medium text-lg">
           Arrivals Today ({arrivalsToday?.length})
         </h2>
@@ -38,7 +38,7 @@ const ArrivalsAndDepartures: React.FC<ArrivalsAndDeparturesProps> = ({
           </div>
         )}
       </div>
-      <div className="w-[330px] overflow-auto">
+      <div className="w-full lg:w-[359px] overflow-auto">
         <h2 className="font-medium text-lg">
           Departures Today ({departuresToday?.length})
         </h2>
