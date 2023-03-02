@@ -30,4 +30,5 @@ export const routes = {
     roomTypeId: string
   ) =>
     `/booking-form?adults=${adultsNumber}&children=${childrenNumber}&arrive=${startDate}&departure=${endDate}&room=${roomTypeId}`,
+  contactSuccess: '/contact/success',
 };

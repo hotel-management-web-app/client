@@ -1,6 +1,7 @@
 import { AxiosResponse, AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import {
   addRoomType,
   deleteRoomType,
@@ -23,7 +24,10 @@ export const useAddRoomType = () => {
   return useMutation<AxiosResponse, AxiosError, FormData>(
     async (roomType) => addRoomType(roomType),
     {
-      onSuccess: () => router.push(backUrl),
+      onSuccess: () => {
+        router.push(backUrl);
+        toast.success('Room Type added successfully!');
+      },
     }
   );
 };
@@ -33,7 +37,10 @@ export const useUpdateRoomType = (id: number) => {
   return useMutation<AxiosResponse, AxiosError, FormData>(
     async (roomType) => updateRoomType(id, roomType),
     {
-      onSuccess: () => router.push(backUrl),
+      onSuccess: () => {
+        router.push(backUrl);
+        toast.success('Room Type updated successfully!');
+      },
     }
   );
 };
@@ -41,6 +48,9 @@ export const useUpdateRoomType = (id: number) => {
 export const useDeleteRoomType = () => {
   const queryClient = useQueryClient();
   return useMutation<AxiosResponse, AxiosError, number>(deleteRoomType, {
-    onSuccess: () => queryClient.invalidateQueries(['roomTypes']),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['roomTypes']);
+      toast.success('Room Type deleted successfully!');
+    },
   });
 };
