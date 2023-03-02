@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
-import ContactForm from '../components/ContactForm';
-import Seo from '../components/Seo';
-import { getSettings } from '../lib/api/generalSettings';
-import { GeneralSettings } from '../lib/types';
+import ContactForm from '../../components/ContactForm';
+import Seo from '../../components/Seo';
+import { getSettings } from '../../lib/api/generalSettings';
+import { GeneralSettings } from '../../lib/types';
 
 interface ContactProps {
   settings: GeneralSettings;
