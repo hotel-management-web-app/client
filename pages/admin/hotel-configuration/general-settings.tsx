@@ -16,6 +16,7 @@ import {
 } from '../../../lib/operations/generalSettings';
 import { GeneralSettings } from '../../../lib/types';
 import { generalSettingsSchema } from '../../../lib/schemas';
+import ErrorMessage from '../../../components/ErrorMessage';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
 
@@ -40,7 +41,7 @@ const GeneralSettingsPage: React.FC<GeneralSettingsPageProps> = () => {
   const { handleSubmit, setValue } = methods;
   const [file, setFile] = useState<string | Blob | undefined>(settings?.logo);
 
-  const { mutate, isLoading } = useUpdateSettings();
+  const { mutate, isLoading, isError, error } = useUpdateSettings();
 
   const handleChange = (selectedFile: Blob) => {
     const imageUrl = URL.createObjectURL(selectedFile);
@@ -65,6 +66,7 @@ const GeneralSettingsPage: React.FC<GeneralSettingsPageProps> = () => {
       <Seo title="General settings" />
       <Header title="General settings" />
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)} multipart>
           <div className="flex justify-center my-5">
             <div className="flex flex-col gap-10 lg:w-2/3">

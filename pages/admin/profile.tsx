@@ -8,6 +8,7 @@ import {
   Input,
   SubmitButton,
 } from '../../components/Admin';
+import ErrorMessage from '../../components/ErrorMessage';
 import Seo from '../../components/Seo';
 import {
   useGetProfileInfo,
@@ -28,7 +29,7 @@ const Profile: React.FC<ProfileProps> = () => {
   const { handleSubmit } = methods;
 
   const { data: profileInfo } = useGetProfileInfo();
-  const { mutate, isLoading } = useUpdateProfileInfo();
+  const { mutate, isLoading, isError, error } = useUpdateProfileInfo();
 
   const onSubmit: SubmitHandler<ProfileInfo> = (data) => {
     mutate(data);
@@ -41,6 +42,7 @@ const Profile: React.FC<ProfileProps> = () => {
       <Seo title="Profile" />
       <Header title="Profile" />
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="w-4/5 sm:w-1/2 2xl:w-5/12 mx-auto my-5">
             <div className=" flex flex-col gap-5">

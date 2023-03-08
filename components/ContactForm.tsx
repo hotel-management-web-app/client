@@ -6,6 +6,7 @@ import { useSendMail } from '../lib/operations/contact';
 import { contactSchema } from '../lib/schemas';
 import { ContactFormInputs } from '../lib/types';
 import ContactInput from './ContactInput';
+import ErrorMessage from './ErrorMessage';
 
 const ContactForm = () => {
   const methods = useForm<ContactFormInputs>({
@@ -13,7 +14,7 @@ const ContactForm = () => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useSendMail();
+  const { mutate, isLoading, isError, error } = useSendMail();
 
   const onSubmit: SubmitHandler<ContactFormInputs> = (data) => mutate(data);
 
@@ -24,6 +25,7 @@ const ContactForm = () => {
         action="#"
         className="flex flex-col gap-5 mt-10"
       >
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <div className="grid grid-cols-2 gap-5">
           <ContactInput placeholder="First Name" fieldName="firstName" />
           <ContactInput placeholder="Second Name" fieldName="secondName" />

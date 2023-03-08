@@ -16,6 +16,7 @@ import { useAddGuest } from '../../../lib/operations/guests';
 import { guestSchema } from '../../../lib/schemas';
 import { guestStatuses } from '../../../constants/constants';
 import { convertToOriginalForm } from '../../../utils/convertToOriginalForm';
+import ErrorMessage from '../../../components/ErrorMessage';
 
 const AddGuest = () => {
   const methods = useForm<Guest>({
@@ -24,7 +25,7 @@ const AddGuest = () => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useAddGuest();
+  const { mutate, isLoading, isError, error } = useAddGuest();
 
   const onSubmit: SubmitHandler<Guest> = (data) => {
     const convertedGuestStatus = convertToOriginalForm(
@@ -43,6 +44,7 @@ const AddGuest = () => {
         <BackButton name="guests" url="/admin/guests" />
       </div>
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <StatusToggler
             id="status"

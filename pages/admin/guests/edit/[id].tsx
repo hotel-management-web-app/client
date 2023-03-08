@@ -19,6 +19,7 @@ import { getGuest } from '../../../../lib/api/guests';
 import { guestSchema } from '../../../../lib/schemas';
 import { convertToOriginalForm } from '../../../../utils/convertToOriginalForm';
 import { guestStatuses } from '../../../../constants/constants';
+import ErrorMessage from '../../../../components/ErrorMessage';
 
 interface EditGuestProps {
   guest: Guest;
@@ -39,7 +40,7 @@ const EditGuest: React.FC<EditGuestProps> = ({ guest }) => {
   });
   const { handleSubmit } = methods;
   const { id } = router.query;
-  const { mutate, isLoading } = useUpdateGuest(Number(id));
+  const { mutate, isLoading, isError, error } = useUpdateGuest(Number(id));
 
   const onSubmit: SubmitHandler<Guest> = (data) => {
     const convertedGuestStatus = convertToOriginalForm(
@@ -58,6 +59,7 @@ const EditGuest: React.FC<EditGuestProps> = ({ guest }) => {
         <BackButton name="guests" url="/admin/guests" />
       </div>
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <StatusToggler
             id="status"

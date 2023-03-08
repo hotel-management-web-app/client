@@ -11,6 +11,7 @@ import Seo from '../../components/Seo';
 import { reportSchema } from '../../lib/schemas';
 import { BookingsInfoProps, ReportForm, ReportProps } from '../../lib/types';
 import { useGetReport } from '../../lib/operations/report';
+import ErrorMessage from '../../components/ErrorMessage';
 
 const totalBookingsLabels = [
   'Total bookings received',
@@ -115,7 +116,7 @@ const Reports = () => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useGetReport();
+  const { mutate, isLoading, isError, error } = useGetReport();
 
   const onSubmit: SubmitHandler<ReportForm> = (data) => {
     const { startDate, endDate } = data;
@@ -147,6 +148,7 @@ const Reports = () => {
       <Seo title="Reports" />
       <Header title="Reports" />
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="flex items-end gap-10 flex-wrap">
             <Input

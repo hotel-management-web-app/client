@@ -18,6 +18,7 @@ import {
   useUpdateAboutInfo,
 } from '../../../lib/operations/about';
 import AboutDetails from '../../../components/Admin/AboutDetails/AboutDetails';
+import ErrorMessage from '../../../components/ErrorMessage';
 
 interface AboutSettingsPageProps {
   aboutInfo: AboutInfo;
@@ -39,7 +40,7 @@ const AboutSettingsPage: React.FC<AboutSettingsPageProps> = () => {
 
   const { data: aboutInfo } = useGetAboutInfo();
   const { data: aboutDetails } = useGetAboutDetails();
-  const { mutate, isLoading } = useUpdateAboutInfo();
+  const { mutate, isLoading, isError, error } = useUpdateAboutInfo();
 
   const onSubmit: SubmitHandler<AboutInfo> = (data) => {
     mutate(data);
@@ -50,6 +51,7 @@ const AboutSettingsPage: React.FC<AboutSettingsPageProps> = () => {
       <Seo title="About settings" />
       <Header title="About settings" />
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="mx-auto lg:w-2/3 2xl:w-1/2 my-5">
             <Input id="title" title="Title" defaultValue={aboutInfo?.title} />

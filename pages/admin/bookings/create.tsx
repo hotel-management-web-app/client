@@ -20,6 +20,7 @@ import { useAddBooking } from '../../../lib/operations/bookings';
 import { useGetRoomTypes } from '../../../lib/operations/roomTypes';
 import { useGetGuests } from '../../../lib/operations/guests';
 import { bookingSchema } from '../../../lib/schemas';
+import ErrorMessage from '../../../components/ErrorMessage';
 
 const statusOptions: { value: string; label: string }[] = [
   { value: 'CONFIRMED', label: 'Confirmed' },
@@ -56,7 +57,7 @@ const AddBooking: React.FC<AddBookingProps> = () => {
   const { startDate, roomTypeId, roomId } = router.query;
   const defaultArrivalDate = startDate as unknown as Date;
 
-  const { mutate, isLoading } = useAddBooking();
+  const { mutate, isLoading, isError, error } = useAddBooking();
 
   const onSubmit: SubmitHandler<Booking> = (data) => {
     mutate(data);
@@ -101,6 +102,7 @@ const AddBooking: React.FC<AddBookingProps> = () => {
           <BackButton name="bookings" url="/admin/bookings" />
         </div>
         <FormProvider {...methods}>
+          {isError && <ErrorMessage errorMessage={error.message} />}
           <FormWrapper onSubmit={handleSubmit(onSubmit)}>
             <h2 className="text-2xl mt-5 mb-3">Details</h2>
             <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-x-20 2xl:gap-x-40 gap-y-10">

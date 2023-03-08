@@ -25,6 +25,7 @@ import { getRoom } from '../../../../../lib/api/rooms';
 import { roomSchema } from '../../../../../lib/schemas';
 import { convertToOriginalForm } from '../../../../../utils/convertToOriginalForm';
 import { roomStatuses } from '../../../../../constants/constants';
+import ErrorMessage from '../../../../../components/ErrorMessage';
 
 interface AddRoomProps {
   roomTypes: RoomType[];
@@ -48,7 +49,7 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useUpdateRoom(Number(id));
+  const { mutate, isLoading, isError, error } = useUpdateRoom(Number(id));
 
   const onSubmit: SubmitHandler<Room> = (data) => {
     const convertedRoomStatus = convertToOriginalForm(
@@ -61,7 +62,7 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
 
   const roomTypesOptions: SelectOption[] = roomTypes.map(
     ({ id: roomTypeId, name }) => ({
-      value: roomTypeId,
+      value: roomTypeId!,
       label: name,
     })
   );
@@ -74,6 +75,7 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
         <BackButton name="rooms" url="/admin/hotel-configuration/rooms/" />
       </div>
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="mx-auto w-11/12 lg:w-3/4 py-5">
             <div className="flex flex-col gap-5">

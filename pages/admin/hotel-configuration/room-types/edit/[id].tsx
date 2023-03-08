@@ -23,6 +23,7 @@ import {
 } from '../../../../../lib/operations/roomTypes';
 import { RoomType, ServerSideParams } from '../../../../../lib/types';
 import { roomTypeSchema } from '../../../../../lib/schemas';
+import ErrorMessage from '../../../../../components/ErrorMessage';
 
 interface EditRoomTypeProps {
   roomTypeData: RoomType;
@@ -48,7 +49,7 @@ const EditRoomType: React.FC<EditRoomTypeProps> = () => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useUpdateRoomType(Number(id));
+  const { mutate, isLoading, isError, error } = useUpdateRoomType(Number(id));
 
   const onSubmit: SubmitHandler<RoomType> = (data) => {
     const {
@@ -94,6 +95,7 @@ const EditRoomType: React.FC<EditRoomTypeProps> = () => {
         />
       </div>
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col 2xl:flex-row flex-wrap gap-20 mt-5">
             <div className="w-96 xl:w-[500px] flex flex-col gap-5">
