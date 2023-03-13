@@ -2,6 +2,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { dehydrate, QueryClient } from 'react-query';
 import Seo from '../../components/Seo';
+import Error from '../../components/Error';
 import { getDashboardData } from '../../lib/api/dashboard';
 import { useGetDashboardData } from '../../lib/operations/dashboard';
 
@@ -18,13 +19,15 @@ export const getServerSideProps = async () => {
 };
 
 const DashboardPage = () => {
-  const { data: dashboardData } = useGetDashboardData();
+  const { data: dashboardData, isError, error } = useGetDashboardData();
+
+  if (isError) return <Error message={error.message} />;
 
   return (
     <div>
       <Seo title="Dashboard" />
       <h1 className="text-2xl">Dashboard</h1>
-      <Dashboard dashboardData={dashboardData} />
+      <Dashboard dashboardData={dashboardData!} />
     </div>
   );
 };

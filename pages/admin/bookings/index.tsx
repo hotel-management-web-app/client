@@ -7,6 +7,7 @@ import DeleteButton from '../../../components/Admin/Table/DeleteButton';
 import EditButton from '../../../components/Admin/Table/EditButton';
 import Header from '../../../components/Admin/Table/Header';
 import Seo from '../../../components/Seo';
+import Error from '../../../components/Error';
 import { bookingStatuses } from '../../../constants/constants';
 import { getBookings } from '../../../lib/api/bookings';
 import {
@@ -40,12 +41,15 @@ export const getServerSideProps = async () => {
 };
 
 const Bookings: React.FC<BookingsProps> = () => {
-  const { data: bookings } = useGetBookings();
+  const { data: bookings, isError, error } = useGetBookings();
   const { mutate } = useDeleteBooking();
 
   const deleteBooking = async (id: number) => {
     await mutate(id);
   };
+
+  if (isError) return <Error message={error.message} />;
+
   return (
     <div>
       <Seo title="Bookings" />

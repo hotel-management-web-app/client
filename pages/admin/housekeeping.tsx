@@ -5,6 +5,7 @@ import HousekeepingComments from '../../components/Admin/Housekeeping/Housekeepi
 import HousekeepingStatus from '../../components/Admin/Housekeeping/HousekeepingStatus';
 import PriorityStatus from '../../components/Admin/Housekeeping/PriorityStatus';
 import Seo from '../../components/Seo';
+import Error from '../../components/Error';
 import { getRooms } from '../../lib/api/rooms';
 import { useGetRooms } from '../../lib/operations/rooms';
 import {
@@ -33,7 +34,10 @@ export const getServerSideProps = async () => {
 };
 
 const HousekeepingPage = () => {
-  const { data: rooms } = useGetRooms();
+  const { data: rooms, isError, error } = useGetRooms();
+
+  if (isError) return <Error message={error.message} />;
+
   return (
     <div>
       <Seo title="Housekeeping" />

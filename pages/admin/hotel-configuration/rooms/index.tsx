@@ -4,6 +4,7 @@ import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Table/Header';
 import AddButton from '../../../../components/Admin/Table/AddButton';
 import EditButton from '../../../../components/Admin/Table/EditButton';
+import Error from '../../../../components/Error';
 import { Entries } from '../../../../components/Admin';
 import DeleteButton from '../../../../components/Admin/Table/DeleteButton';
 import { useDeleteRoom, useGetRooms } from '../../../../lib/operations/rooms';
@@ -28,12 +29,14 @@ export const getServerSideProps = async () => {
 };
 
 const Rooms = () => {
-  const { data: rooms } = useGetRooms();
+  const { data: rooms, isError, error } = useGetRooms();
   const { mutate } = useDeleteRoom();
 
   const deleteRoom = async (id: number) => {
     await mutate(id);
   };
+
+  if (isError) return <Error message={error.message} />;
 
   return (
     <div>

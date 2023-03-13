@@ -16,6 +16,8 @@ import {
 import RoomTypeSelector from '../../../../components/Admin/Form/RoomTypeSelector';
 import StayDurationInput from '../../../../components/Admin/Form/StayDurationInput';
 import Seo from '../../../../components/Seo';
+import ErrorMessage from '../../../../components/ErrorMessage';
+import Error from '../../../../components/Error';
 import { getGuests } from '../../../../lib/api/guests';
 import { getRoomTypes } from '../../../../lib/api/roomTypes';
 import {
@@ -33,7 +35,6 @@ import {
   ServerSideParams,
 } from '../../../../lib/types';
 import { getBooking } from '../../../../lib/api/bookings';
-import ErrorMessage from '../../../../components/ErrorMessage';
 
 const statusOptions: { value: string; label: string }[] = [
   { value: 'CONFIRMED', label: 'Confirmed' },
@@ -61,9 +62,21 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 const EditBooking: React.FC<EditBookingProps> = () => {
   const router = useRouter();
   const { id: bookingId } = router.query;
-  const { data: roomTypes } = useGetRoomTypes();
-  const { data: guests } = useGetGuests();
-  const { data: booking } = useGetBooking(Number(bookingId));
+  const {
+    data: roomTypes,
+    isError: isRoomTypesError,
+    error: roomTypesError,
+  } = useGetRoomTypes();
+  const {
+    data: guests,
+    isError: isGuestsError,
+    error: guestsError,
+  } = useGetGuests();
+  const {
+    data: booking,
+    isError: isBookingError,
+    error: bookingError,
+  } = useGetBooking(Number(bookingId));
 
   const [rooms, setRooms] = useState<Room[]>(
     booking?.room.roomType.rooms || []
@@ -100,6 +113,10 @@ const EditBooking: React.FC<EditBookingProps> = () => {
     value: id!,
     label: `${firstName} ${lastName}`,
   }));
+
+  if (isRoomTypesError) return <Error message={roomTypesError.message} />;
+  if (isGuestsError) return <Error message={guestsError.message} />;
+  if (isBookingError) return <Error message={bookingError.message} />;
 
   return (
     <div>

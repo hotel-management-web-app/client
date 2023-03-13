@@ -2,13 +2,22 @@ import { AxiosResponse, AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
-import { addGuest, deleteGuest, getGuests, updateGuest } from '../api/guests';
+import {
+  addGuest,
+  deleteGuest,
+  getGuest,
+  getGuests,
+  updateGuest,
+} from '../api/guests';
 import { Guest } from '../types';
 
 const backUrl = '/admin/guests';
 
 export const useGetGuests = () =>
   useQuery<Guest[], AxiosError>(['guests'], getGuests);
+
+export const useGetGuest = (id: number) =>
+  useQuery<Guest, AxiosError>(['guests'], () => getGuest(id));
 
 export const useAddGuest = () => {
   const router = useRouter();

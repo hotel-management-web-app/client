@@ -7,6 +7,7 @@ import DeleteButton from '../../../components/Admin/Table/DeleteButton';
 import EditButton from '../../../components/Admin/Table/EditButton';
 import Header from '../../../components/Admin/Table/Header';
 import Seo from '../../../components/Seo';
+import Error from '../../../components/Error';
 import { getGuests } from '../../../lib/api/guests';
 import { useDeleteGuest, useGetGuests } from '../../../lib/operations/guests';
 import { guestStatuses } from '../../../constants/constants';
@@ -30,12 +31,14 @@ export const getServerSideProps = async () => {
 };
 
 const Guests = () => {
-  const { data: guests } = useGetGuests();
+  const { data: guests, isError, error } = useGetGuests();
   const { mutate } = useDeleteGuest();
 
   const deleteGuest = async (id: number) => {
     await mutate(id);
   };
+
+  if (isError) return <Error message={error.message} />;
 
   return (
     <div>

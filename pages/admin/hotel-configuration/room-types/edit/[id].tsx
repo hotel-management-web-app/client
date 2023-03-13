@@ -24,6 +24,7 @@ import {
 import { RoomType, ServerSideParams } from '../../../../../lib/types';
 import { roomTypeSchema } from '../../../../../lib/schemas';
 import ErrorMessage from '../../../../../components/ErrorMessage';
+import Error from '../../../../../components/Error';
 
 interface EditRoomTypeProps {
   roomTypeData: RoomType;
@@ -41,7 +42,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 const EditRoomType: React.FC<EditRoomTypeProps> = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data: roomTypeData } = useGetRoomType(Number(id));
+  const {
+    data: roomTypeData,
+    isError: isRoomTypesError,
+    error: roomTypesError,
+  } = useGetRoomType(Number(id));
 
   const methods = useForm<RoomType>({
     resolver: yupResolver(roomTypeSchema),
@@ -83,6 +88,8 @@ const EditRoomType: React.FC<EditRoomTypeProps> = () => {
 
     mutate(form);
   };
+
+  if (isRoomTypesError) return <Error message={roomTypesError.message} />;
 
   return (
     <div>

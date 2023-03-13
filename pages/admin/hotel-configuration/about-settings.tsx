@@ -2,6 +2,7 @@ import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Seo from '../../../components/Seo';
+import Error from '../../../components/Error';
 import {
   FormWrapper,
   Header,
@@ -38,13 +39,24 @@ const AboutSettingsPage: React.FC<AboutSettingsPageProps> = () => {
   const methods = useForm<AboutInfo>();
   const { handleSubmit } = methods;
 
-  const { data: aboutInfo } = useGetAboutInfo();
-  const { data: aboutDetails } = useGetAboutDetails();
+  const {
+    data: aboutInfo,
+    isError: isAboutInfoError,
+    error: aboutInfoError,
+  } = useGetAboutInfo();
+  const {
+    data: aboutDetails,
+    isError: isAboutDetailsError,
+    error: aboutDetailsError,
+  } = useGetAboutDetails();
   const { mutate, isLoading, isError, error } = useUpdateAboutInfo();
 
   const onSubmit: SubmitHandler<AboutInfo> = (data) => {
     mutate(data);
   };
+
+  if (isAboutInfoError) return <Error message={aboutInfoError.message} />;
+  if (isAboutDetailsError) return <Error message={aboutDetailsError.message} />;
 
   return (
     <div>
