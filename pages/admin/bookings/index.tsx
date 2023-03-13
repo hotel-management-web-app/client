@@ -15,6 +15,7 @@ import {
   useGetBookings,
 } from '../../../lib/operations/bookings';
 import { Booking } from '../../../lib/types';
+import ErrorMessage from '../../../components/ErrorMessage';
 
 const headers = [
   'Room number',
@@ -41,14 +42,22 @@ export const getServerSideProps = async () => {
 };
 
 const Bookings: React.FC<BookingsProps> = () => {
-  const { data: bookings, isError, error } = useGetBookings();
-  const { mutate } = useDeleteBooking();
+  const {
+    data: bookings,
+    isError: isBookingsError,
+    error: bookingsError,
+  } = useGetBookings();
+  const {
+    mutate,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useDeleteBooking();
 
   const deleteBooking = async (id: number) => {
     await mutate(id);
   };
 
-  if (isError) return <Error message={error.message} />;
+  if (isBookingsError) return <Error message={bookingsError.message} />;
 
   return (
     <div>
@@ -57,6 +66,7 @@ const Bookings: React.FC<BookingsProps> = () => {
         <Header title="Bookings" />
         <AddButton name="booking" />
       </div>
+      {isDeleteError && <ErrorMessage errorMessage={deleteError.message} />}
       <div className="bg-white px-5 py-7 mt-8 rounded-lg">
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />

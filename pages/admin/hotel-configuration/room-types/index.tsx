@@ -12,6 +12,7 @@ import {
   useDeleteRoomType,
   useGetRoomTypes,
 } from '../../../../lib/operations/roomTypes';
+import ErrorMessage from '../../../../components/ErrorMessage';
 
 const headers: string[] = ['ID', 'Name', 'Occupancy', 'Price', 'Action'];
 
@@ -24,15 +25,23 @@ export const getServerSideProps = async () => {
 };
 
 const RoomTypes = () => {
-  const { data: roomTypes, isError, error } = useGetRoomTypes();
+  const {
+    data: roomTypes,
+    isError: isRoomTypesError,
+    error: roomTypesError,
+  } = useGetRoomTypes();
 
-  const { mutate } = useDeleteRoomType();
+  const {
+    mutate,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useDeleteRoomType();
 
   const deleteRoomTypeHandler = async (id: number) => {
     await mutate(id);
   };
 
-  if (isError) return <Error message={error.message} />;
+  if (isRoomTypesError) return <Error message={roomTypesError.message} />;
 
   return (
     <div>
@@ -41,6 +50,7 @@ const RoomTypes = () => {
         <Header title="Room types" />
         <AddButton name="room type" />
       </div>
+      {isDeleteError && <ErrorMessage errorMessage={deleteError.message} />}
       <div className="bg-white px-5 py-7 mt-8 rounded-lg">
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />
