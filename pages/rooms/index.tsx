@@ -2,6 +2,7 @@ import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 import Image from 'next/image';
 import Link from 'next/link';
+import Error from '../../components/Error';
 import Seo from '../../components/Seo';
 import RoomsImg from '../../public/images/rooms.png';
 import { RoomType } from '../../lib/types';
@@ -21,7 +22,9 @@ interface RoomsProps {
 }
 
 const Rooms: React.FC<RoomsProps> = () => {
-  const { data: roomTypes } = useGetRoomTypes();
+  const { data: roomTypes, isError, error } = useGetRoomTypes();
+
+  if (isError) return <Error message={error.message} />;
 
   return (
     <div>

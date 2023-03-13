@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 import ContactForm from '../../components/ContactForm';
+import Error from '../../components/Error';
 import Seo from '../../components/Seo';
 import { getSettings } from '../../lib/api/generalSettings';
 import { useGetSettings } from '../../lib/operations/generalSettings';
@@ -20,7 +21,9 @@ export const getServerSideProps = async () => {
 };
 
 const Contact: React.FC<ContactProps> = () => {
-  const { data: settings } = useGetSettings();
+  const { data: settings, isError, error } = useGetSettings();
+
+  if (isError) return <Error message={(error as any).message as string} />;
 
   return (
     <div className="container max-w-[800px] mx-auto font-light mb-40 px-5">
