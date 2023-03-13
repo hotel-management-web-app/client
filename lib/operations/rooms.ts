@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import {
   addRoom,
   deleteRoom,
+  getRoom,
   getRooms,
   updateRoom,
   updateRoomField,
@@ -15,6 +16,9 @@ const backUrl = '/admin/hotel-configuration/rooms';
 
 export const useGetRooms = () =>
   useQuery<Room[], AxiosError>(['rooms'], getRooms);
+
+export const useGetRoom = (id: number) =>
+  useQuery<Room, AxiosError>(['rooms'], () => getRoom(id));
 
 export const useAddRoom = () => {
   const router = useRouter();

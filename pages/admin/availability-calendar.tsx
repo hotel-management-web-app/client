@@ -2,6 +2,7 @@ import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 import { Header } from '../../components/Admin';
 import Seo from '../../components/Seo';
+import Error from '../../components/Error';
 import { getRoomTypes } from '../../lib/api/roomTypes';
 import { useGetRoomTypes } from '../../lib/operations/roomTypes';
 import { getBookings } from '../../lib/api/bookings';
@@ -18,8 +19,19 @@ export const getServerSideProps = async () => {
 };
 
 const AvailabilityCalendarPage = () => {
-  const { data: roomTypes } = useGetRoomTypes();
-  const { data: bookings } = useGetBookings();
+  const {
+    data: roomTypes,
+    isError: isRoomTypesError,
+    error: roomTypesError,
+  } = useGetRoomTypes();
+  const {
+    data: bookings,
+    isError: isBookingsError,
+    error: bookingsError,
+  } = useGetBookings();
+
+  if (isRoomTypesError) return <Error message={roomTypesError.message} />;
+  if (isBookingsError) return <Error message={bookingsError.message} />;
 
   return (
     <div>

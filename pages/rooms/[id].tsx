@@ -4,6 +4,7 @@ import { dehydrate, QueryClient } from 'react-query';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import Error from '../../components/Error';
 import Seo from '../../components/Seo';
 import RoomImages from '../../components/RoomImages';
 import { RoomType } from '../../lib/types';
@@ -26,7 +27,9 @@ interface RoomProps {
 const Room: React.FC<RoomProps> = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data: roomType } = useGetRoomType(Number(id));
+  const { data: roomType, isError, error } = useGetRoomType(Number(id));
+
+  if (isError) return <Error message={error.message} />;
 
   return (
     <div>

@@ -17,6 +17,7 @@ import { getRoomTypes } from '../../../../lib/api/roomTypes';
 import { roomSchema } from '../../../../lib/schemas';
 import { convertToOriginalForm } from '../../../../utils/convertToOriginalForm';
 import { roomStatuses } from '../../../../constants/constants';
+import ErrorMessage from '../../../../components/ErrorMessage';
 
 interface AddRoomProps {
   roomTypes: RoomType[];
@@ -35,7 +36,7 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useAddRoom();
+  const { mutate, isLoading, isError, error } = useAddRoom();
 
   const onSubmit: SubmitHandler<Room> = (data) => {
     const convertedRoomStatus = convertToOriginalForm(
@@ -47,7 +48,7 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
   };
 
   const roomTypesOptions: SelectOption[] = roomTypes.map(({ id, name }) => ({
-    value: id,
+    value: id!,
     label: name,
   }));
 
@@ -59,6 +60,7 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
         <BackButton name="rooms" url="/admin/hotel-configuration/rooms/" />
       </div>
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="mx-auto w-11/12 lg:w-3/4 py-5">
             <div className="flex flex-col gap-5">

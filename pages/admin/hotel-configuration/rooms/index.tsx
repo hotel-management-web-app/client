@@ -4,11 +4,13 @@ import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Table/Header';
 import AddButton from '../../../../components/Admin/Table/AddButton';
 import EditButton from '../../../../components/Admin/Table/EditButton';
+import Error from '../../../../components/Error';
 import { Entries } from '../../../../components/Admin';
 import DeleteButton from '../../../../components/Admin/Table/DeleteButton';
 import { useDeleteRoom, useGetRooms } from '../../../../lib/operations/rooms';
 import { getRooms } from '../../../../lib/api/rooms';
 import { roomStatuses } from '../../../../constants/constants';
+import ErrorMessage from '../../../../components/ErrorMessage';
 
 const headers: string[] = [
   'Id',
@@ -28,12 +30,22 @@ export const getServerSideProps = async () => {
 };
 
 const Rooms = () => {
-  const { data: rooms } = useGetRooms();
-  const { mutate } = useDeleteRoom();
+  const {
+    data: rooms,
+    isError: isRoomsError,
+    error: roomsError,
+  } = useGetRooms();
+  const {
+    mutate,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useDeleteRoom();
 
   const deleteRoom = async (id: number) => {
     await mutate(id);
   };
+
+  if (isRoomsError) return <Error message={roomsError.message} />;
 
   return (
     <div>
@@ -42,6 +54,7 @@ const Rooms = () => {
         <Header title="Rooms" />
         <AddButton name="room" />
       </div>
+      {isDeleteError && <ErrorMessage errorMessage={deleteError.message} />}
       <div className="bg-white px-5 py-7 mt-8 rounded-lg">
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />

@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,6 +5,7 @@ import { dehydrate, QueryClient } from 'react-query';
 import Seo from '../components/Seo';
 import Booking from '../components/Booking';
 import Newsletter from '../components/Newsletter';
+import Error from '../components/Error';
 import HeroBg from '../public/images/hero-bg.png';
 import { RoomType } from '../lib/types';
 import { getRoomTypes } from '../lib/api/roomTypes';
@@ -25,7 +25,9 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = () => {
-  const { data: roomTypes } = useGetRoomTypes();
+  const { data: roomTypes, isError, error } = useGetRoomTypes();
+
+  if (isError) return <Error message={error.message} />;
 
   return (
     <div>

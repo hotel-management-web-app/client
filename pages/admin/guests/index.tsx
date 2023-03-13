@@ -7,9 +7,11 @@ import DeleteButton from '../../../components/Admin/Table/DeleteButton';
 import EditButton from '../../../components/Admin/Table/EditButton';
 import Header from '../../../components/Admin/Table/Header';
 import Seo from '../../../components/Seo';
+import Error from '../../../components/Error';
 import { getGuests } from '../../../lib/api/guests';
 import { useDeleteGuest, useGetGuests } from '../../../lib/operations/guests';
 import { guestStatuses } from '../../../constants/constants';
+import ErrorMessage from '../../../components/ErrorMessage';
 
 const headers: string[] = [
   'Id',
@@ -30,12 +32,22 @@ export const getServerSideProps = async () => {
 };
 
 const Guests = () => {
-  const { data: guests } = useGetGuests();
-  const { mutate } = useDeleteGuest();
+  const {
+    data: guests,
+    isError: isGuestsError,
+    error: guestsError,
+  } = useGetGuests();
+  const {
+    mutate,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useDeleteGuest();
 
   const deleteGuest = async (id: number) => {
     await mutate(id);
   };
+
+  if (isGuestsError) return <Error message={guestsError.message} />;
 
   return (
     <div>
@@ -44,6 +56,7 @@ const Guests = () => {
         <Header title="Guests" />
         <AddButton name="guest" />
       </div>
+      {isDeleteError && <ErrorMessage errorMessage={deleteError.message} />}
       <div className="bg-white px-5 py-7 mt-8 rounded-lg">
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />

@@ -6,11 +6,13 @@ import AddButton from '../../../../components/Admin/Table/AddButton';
 import Entries from '../../../../components/Admin/Table/Entries';
 import EditButton from '../../../../components/Admin/Table/EditButton';
 import DeleteButton from '../../../../components/Admin/Table/DeleteButton';
+import Error from '../../../../components/Error';
 import { getRoomTypes } from '../../../../lib/api/roomTypes';
 import {
   useDeleteRoomType,
   useGetRoomTypes,
 } from '../../../../lib/operations/roomTypes';
+import ErrorMessage from '../../../../components/ErrorMessage';
 
 const headers: string[] = ['ID', 'Name', 'Occupancy', 'Price', 'Action'];
 
@@ -23,13 +25,23 @@ export const getServerSideProps = async () => {
 };
 
 const RoomTypes = () => {
-  const { data } = useGetRoomTypes();
+  const {
+    data: roomTypes,
+    isError: isRoomTypesError,
+    error: roomTypesError,
+  } = useGetRoomTypes();
 
-  const { mutate } = useDeleteRoomType();
+  const {
+    mutate,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useDeleteRoomType();
 
   const deleteRoomTypeHandler = async (id: number) => {
     await mutate(id);
   };
+
+  if (isRoomTypesError) return <Error message={roomTypesError.message} />;
 
   return (
     <div>
@@ -38,6 +50,7 @@ const RoomTypes = () => {
         <Header title="Room types" />
         <AddButton name="room type" />
       </div>
+      {isDeleteError && <ErrorMessage errorMessage={deleteError.message} />}
       <div className="bg-white px-5 py-7 mt-8 rounded-lg">
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />
@@ -58,7 +71,7 @@ const RoomTypes = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map(({ id, name, occupancy, price }) => (
+              {roomTypes?.map(({ id, name, occupancy, price }) => (
                 <tr key={id} className="border-b">
                   <td>{id}</td>
                   <td>{name}</td>
@@ -76,7 +89,7 @@ const RoomTypes = () => {
               ))}
             </tbody>
           </table>
-          {data?.length === 0 && (
+          {roomTypes?.length === 0 && (
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>

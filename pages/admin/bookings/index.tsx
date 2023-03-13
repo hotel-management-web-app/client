@@ -7,6 +7,7 @@ import DeleteButton from '../../../components/Admin/Table/DeleteButton';
 import EditButton from '../../../components/Admin/Table/EditButton';
 import Header from '../../../components/Admin/Table/Header';
 import Seo from '../../../components/Seo';
+import Error from '../../../components/Error';
 import { bookingStatuses } from '../../../constants/constants';
 import { getBookings } from '../../../lib/api/bookings';
 import {
@@ -14,6 +15,7 @@ import {
   useGetBookings,
 } from '../../../lib/operations/bookings';
 import { Booking } from '../../../lib/types';
+import ErrorMessage from '../../../components/ErrorMessage';
 
 const headers = [
   'Room number',
@@ -40,12 +42,23 @@ export const getServerSideProps = async () => {
 };
 
 const Bookings: React.FC<BookingsProps> = () => {
-  const { data: bookings } = useGetBookings();
-  const { mutate } = useDeleteBooking();
+  const {
+    data: bookings,
+    isError: isBookingsError,
+    error: bookingsError,
+  } = useGetBookings();
+  const {
+    mutate,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useDeleteBooking();
 
   const deleteBooking = async (id: number) => {
     await mutate(id);
   };
+
+  if (isBookingsError) return <Error message={bookingsError.message} />;
+
   return (
     <div>
       <Seo title="Bookings" />
@@ -53,6 +66,7 @@ const Bookings: React.FC<BookingsProps> = () => {
         <Header title="Bookings" />
         <AddButton name="booking" />
       </div>
+      {isDeleteError && <ErrorMessage errorMessage={deleteError.message} />}
       <div className="bg-white px-5 py-7 mt-8 rounded-lg">
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />

@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { dehydrate, QueryClient } from 'react-query';
 import {
   BackButton,
   Header,
@@ -13,33 +14,33 @@ import {
   StatusToggler,
 } from '../../../../../components/Admin';
 import Seo from '../../../../../components/Seo';
-import { useUpdateRoom } from '../../../../../lib/operations/rooms';
-import {
-  Room,
-  RoomType,
-  SelectOption,
-  ServerSideParams,
-} from '../../../../../lib/types';
+import { useGetRoom, useUpdateRoom } from '../../../../../lib/operations/rooms';
+import { Room, RoomType, SelectOption } from '../../../../../lib/types';
 import { getRoomTypes } from '../../../../../lib/api/roomTypes';
 import { getRoom } from '../../../../../lib/api/rooms';
 import { roomSchema } from '../../../../../lib/schemas';
 import { convertToOriginalForm } from '../../../../../utils/convertToOriginalForm';
 import { roomStatuses } from '../../../../../constants/constants';
+import ErrorMessage from '../../../../../components/ErrorMessage';
+import Error from '../../../../../components/Error';
+import { useGetRoomTypes } from '../../../../../lib/operations/roomTypes';
 
 interface AddRoomProps {
   roomTypes: RoomType[];
   room: Room;
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const roomTypes = await getRoomTypes();
-  const { id } = params as ServerSideParams;
-  const room = await getRoom(Number(id));
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id } = context.query;
+  const queryClient = new QueryClient();
 
-  return { props: { roomTypes, room } };
+  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+  await queryClient.prefetchQuery(['rooms'], () => getRoom(Number(id)));
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
+const EditRoom: React.FC<AddRoomProps> = () => {
   const router = useRouter();
   const { id } = router.query;
   const methods = useForm<Room>({
@@ -48,7 +49,22 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useUpdateRoom(Number(id));
+  const {
+    data: roomTypes,
+    isError: isRoomTypesError,
+    error: roomTypesError,
+  } = useGetRoomTypes();
+  const {
+    data: room,
+    isError: isRoomError,
+    error: roomError,
+  } = useGetRoom(Number(id));
+  const {
+    mutate,
+    isLoading,
+    isError: isMutationError,
+    error: mutationError,
+  } = useUpdateRoom(Number(id));
 
   const onSubmit: SubmitHandler<Room> = (data) => {
     const convertedRoomStatus = convertToOriginalForm(
@@ -59,12 +75,15 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
     mutate(updatedRoom);
   };
 
-  const roomTypesOptions: SelectOption[] = roomTypes.map(
+  const roomTypesOptions: SelectOption[] | undefined = roomTypes?.map(
     ({ id: roomTypeId, name }) => ({
-      value: roomTypeId,
+      value: roomTypeId!,
       label: name,
     })
   );
+
+  if (isRoomTypesError) return <Error message={roomTypesError.message} />;
+  if (isRoomError) return <Error message={roomError.message} />;
 
   return (
     <div>
@@ -74,6 +93,9 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
         <BackButton name="rooms" url="/admin/hotel-configuration/rooms/" />
       </div>
       <FormProvider {...methods}>
+        {isMutationError && (
+          <ErrorMessage errorMessage={mutationError.message} />
+        )}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="mx-auto w-11/12 lg:w-3/4 py-5">
             <div className="flex flex-col gap-5">
@@ -82,15 +104,15 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
                 label="Room status"
                 checkedValue="Reserved"
                 uncheckedValue="Vacant"
-                defaultStatus={room.roomStatus === 'Reserved'}
+                defaultStatus={room?.roomStatus === 'Reserved'}
               />
               <SelectInput
                 id="room-type"
                 title="Room type"
                 keyName="roomTypeId"
                 options={roomTypesOptions}
-                defaultOption={roomTypesOptions.find(
-                  (roomTypeOption) => roomTypeOption.value === room.roomTypeId
+                defaultOption={roomTypesOptions?.find(
+                  (roomTypeOption) => roomTypeOption.value === room?.roomTypeId
                 )}
               />
               <Input
@@ -98,14 +120,14 @@ const EditRoom: React.FC<AddRoomProps> = ({ roomTypes, room }) => {
                 title="Floor number"
                 type="number"
                 min="0"
-                defaultValue={room.floorNumber}
+                defaultValue={room?.floorNumber}
               />
               <Input
                 id="room-number"
                 title="Room number"
                 type="number"
                 min="0"
-                defaultValue={room.roomNumber}
+                defaultValue={room?.roomNumber}
               />
             </div>
           </div>

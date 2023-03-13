@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import Seo from '../components/Seo';
 import Booking from '../components/Booking';
+import Error from '../components/Error';
 import { getRoomTypes } from '../lib/api/roomTypes';
 import { useGetRoomTypes } from '../lib/operations/roomTypes';
 import { routes } from '../utils/routes';
@@ -19,7 +20,7 @@ export const getServerSideProps = async () => {
 };
 
 const RoomBooking = () => {
-  const { data: roomTypes } = useGetRoomTypes();
+  const { data: roomTypes, isError, error } = useGetRoomTypes();
   const router = useRouter();
   const { children, adults, arrive, departure } = router.query;
 
@@ -52,6 +53,8 @@ const RoomBooking = () => {
       })
     );
   });
+
+  if (isError) return <Error message={error.message} />;
 
   return (
     <div className="container max-w-container mx-auto px-5 2xl:px-0">

@@ -16,6 +16,8 @@ import {
 import RoomTypeSelector from '../../../../components/Admin/Form/RoomTypeSelector';
 import StayDurationInput from '../../../../components/Admin/Form/StayDurationInput';
 import Seo from '../../../../components/Seo';
+import ErrorMessage from '../../../../components/ErrorMessage';
+import Error from '../../../../components/Error';
 import { getGuests } from '../../../../lib/api/guests';
 import { getRoomTypes } from '../../../../lib/api/roomTypes';
 import {
@@ -60,9 +62,21 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 const EditBooking: React.FC<EditBookingProps> = () => {
   const router = useRouter();
   const { id: bookingId } = router.query;
-  const { data: roomTypes } = useGetRoomTypes();
-  const { data: guests } = useGetGuests();
-  const { data: booking } = useGetBooking(Number(bookingId));
+  const {
+    data: roomTypes,
+    isError: isRoomTypesError,
+    error: roomTypesError,
+  } = useGetRoomTypes();
+  const {
+    data: guests,
+    isError: isGuestsError,
+    error: guestsError,
+  } = useGetGuests();
+  const {
+    data: booking,
+    isError: isBookingError,
+    error: bookingError,
+  } = useGetBooking(Number(bookingId));
 
   const [rooms, setRooms] = useState<Room[]>(
     booking?.room.roomType.rooms || []
@@ -75,7 +89,9 @@ const EditBooking: React.FC<EditBookingProps> = () => {
 
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useUpdateBooking(Number(bookingId));
+  const { mutate, isLoading, isError, error } = useUpdateBooking(
+    Number(bookingId)
+  );
 
   const onSubmit: SubmitHandler<Booking> = (data) => {
     mutate(data);
@@ -98,6 +114,10 @@ const EditBooking: React.FC<EditBookingProps> = () => {
     label: `${firstName} ${lastName}`,
   }));
 
+  if (isRoomTypesError) return <Error message={roomTypesError.message} />;
+  if (isGuestsError) return <Error message={guestsError.message} />;
+  if (isBookingError) return <Error message={bookingError.message} />;
+
   return (
     <div>
       <div>
@@ -107,6 +127,7 @@ const EditBooking: React.FC<EditBookingProps> = () => {
           <BackButton name="bookings" url="/admin/bookings" />
         </div>
         <FormProvider {...methods}>
+          {isError && <ErrorMessage errorMessage={error.message} />}
           <FormWrapper onSubmit={handleSubmit(onSubmit)}>
             <h2 className="text-2xl mt-5 mb-3">Details</h2>
             <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-x-20 2xl:gap-x-40 gap-y-10">
