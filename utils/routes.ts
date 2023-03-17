@@ -30,5 +30,8 @@ export const routes = {
     roomTypeId: string
   ) =>
     `/booking-form?adults=${adultsNumber}&children=${childrenNumber}&arrive=${startDate}&departure=${endDate}&room=${roomTypeId}`,
-  contactSuccess: '/contact/success',
+  rooms: (id?: number) => (id ? `/rooms/${id}` : '/rooms'),
+  about: () => '/about',
+  contact: () => '/contact',
+  contactSuccess: () => '/contact/success',
 };

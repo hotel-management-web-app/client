@@ -10,6 +10,7 @@ import RoomImages from '../../components/RoomImages';
 import { RoomType } from '../../lib/types';
 import { getRoomType } from '../../lib/api/roomTypes';
 import { useGetRoomType } from '../../lib/operations/roomTypes';
+import { routes } from '../../utils/routes';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
@@ -67,7 +68,7 @@ const Room: React.FC<RoomProps> = () => {
           </div>
         </div>
         <div className="flex justify-center mt-24">
-          <Link href="/rooms">
+          <Link href={routes.roomBooking()}>
             <a className="bg-dark-gray text-white text-2xl py-6 px-16">
               Make a reservation
             </a>

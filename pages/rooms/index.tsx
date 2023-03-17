@@ -8,6 +8,7 @@ import RoomsImg from '../../public/images/rooms.png';
 import { RoomType } from '../../lib/types';
 import { getRoomTypes } from '../../lib/api/roomTypes';
 import { useGetRoomTypes } from '../../lib/operations/roomTypes';
+import { routes } from '../../utils/routes';
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
@@ -40,12 +41,12 @@ const Rooms: React.FC<RoomsProps> = () => {
           {roomTypes?.map(({ id, name, description, image }) => (
             <div
               key={id}
-              className="w-[350px] shadow-[0px_10px_30px_-10px_rgba(0,0,0,0.8)]"
+              className="w-[400px] shadow-[0px_10px_30px_-10px_rgba(0,0,0,0.8)]"
             >
               <Image
                 loader={() => image as string}
                 src={image as string}
-                width="350"
+                width="400"
                 height="300"
                 alt="room"
               />
@@ -54,10 +55,10 @@ const Rooms: React.FC<RoomsProps> = () => {
                 <p className="my-4 font-light h-[120px] overflow-clip">
                   {description}
                 </p>
-                <Link href={`/rooms/${id}`}>
+                <Link href={routes.rooms(id)}>
                   <a className="underline">More Details</a>
                 </Link>
-                <Link href="/room-booking">
+                <Link href={routes.roomBooking()}>
                   <a className="bg-dark-gray text-white text-lg p-2 float-right mt-7 mb-8 ">
                     Book Now
                   </a>
