@@ -40,12 +40,12 @@ const Rooms: React.FC<RoomsProps> = () => {
           {roomTypes?.map(({ id, name, description, image }) => (
             <div
               key={id}
-              className="w-[350px] shadow-[0px_10px_30px_-10px_rgba(0,0,0,0.8)]"
+              className="w-[400px] shadow-[0px_10px_30px_-10px_rgba(0,0,0,0.8)]"
             >
               <Image
                 loader={() => image as string}
                 src={image as string}
-                width="350"
+                width="400"
                 height="300"
                 alt="room"
               />
