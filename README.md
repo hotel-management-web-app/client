@@ -3,17 +3,17 @@ This is a hotel management system designed to help hotel owners manage their pro
 
 For guests, the system provides a user-friendly interface to browse offers and make reservations. Additionally, guests can contact the hotel through a dedicated contact page.
 
-![home_page](vscode-local:/c%3A/Users/Admin/Downloads/home_page.png)
+![home_page](https://user-images.githubusercontent.com/63516552/226116057-db7e941d-6366-4df6-8bf1-7abfcf0ea817.png)
 
 On the admin side, the system provides a comprehensive set of tools to manage room types, rooms, bookings, and guests. Hotel owners can also adjust general hotel settings, housekeeping status, and about settings.
 
-![bookings](vscode-local:/c%3A/Users/Admin/Downloads/bookings.png)
+![bookings](https://user-images.githubusercontent.com/63516552/226116076-b326caea-ccaa-49df-b6d1-7e68fa7685e9.png)
 
 In addition to these management tools, the system also includes a dashboard that provides a high-level overview of key metrics and performance indicators
 
-![dashboard](vscode-local:/c%3A/Users/Admin/Downloads/admin_panel_dashboard.png)
+![admin_panel_dashboard](https://user-images.githubusercontent.com/63516552/226116568-8611f4ae-881c-4c96-9c59-85f81c553bcb.png)
 
-This project is made using Next.js on frontend on Node.js on backend.
+This project is made using Next.js to create frontend and Node.js to build backend.
 
 ## Project setup
 To install dependencies run:
