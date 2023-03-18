@@ -8,7 +8,7 @@ import { TbReport } from 'react-icons/tb';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CSSTransition } from 'react-transition-group';
-import Deadpool from '../public/images/deadpool.png';
+import Deadpool from '../public/images/admin.jpg';
 import NavbarSubitems from './NavbarSubitems';
 import { useLogout } from '../lib/operations/auth';
 import { LinkProps } from '../lib/types';
@@ -143,12 +143,17 @@ const AdminNavbar = () => {
                 </div>
                 <div className="mt-5 flex-1 text-white h-0 overflow-y-auto">
                   <div className="flex gap-5 font-medium px-5">
-                    <Image src={Deadpool} width="60" height="60" />
+                    <Image
+                      src={Deadpool}
+                      width="60"
+                      height="60"
+                      className="rounded-full"
+                    />
                     <div>
-                      <p>Deadpool</p>
+                      <p>Admin</p>
                       <div className="flex items-center gap-3 mt-2">
                         <div className="bg-green-500 w-2 h-2 rounded" />
-                        <p className="text-sm">Admin</p>
+                        <p className="text-sm">Online</p>
                       </div>
                     </div>
                   </div>
@@ -185,12 +190,17 @@ const AdminNavbar = () => {
         <div className="flex flex-col flex-grow bg-[#171820] overflow-y-auto text-white">
           <div className="mt-12 flex-1 flex flex-col">
             <div className="flex gap-5 font-medium px-5">
-              <Image src={Deadpool} width="60" height="60" />
+              <Image
+                src={Deadpool}
+                width="60"
+                height="60"
+                className="rounded-full"
+              />
               <div>
-                <p>Deadpool</p>
+                <p>Admin</p>
                 <div className="flex items-center gap-3 mt-2">
                   <div className="bg-green-500 w-2 h-2 rounded" />
-                  <p className="text-sm">Admin</p>
+                  <p className="text-sm">Online</p>
                 </div>
               </div>
             </div>
