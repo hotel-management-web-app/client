@@ -59,6 +59,11 @@ export interface Booking {
   roomId: number;
 }
 
+export interface BookingQuery {
+  bookings: Booking[];
+  pageCount: number;
+}
+
 export interface Housekeeping {
   id: number;
   roomNumber: number;
