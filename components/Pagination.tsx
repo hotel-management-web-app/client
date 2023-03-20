@@ -14,13 +14,20 @@ const Pagination: React.FC<PaginationProps> = ({ page, pageCount }) => {
     router.push({ query: { page: e.selected + 1 } });
   };
 
+  if (pageCount === 1) return null;
+
   return (
-    <div className="mt-5">
+    <div className="mt-7">
       <ReactPaginate
         pageCount={pageCount}
         initialPage={page - 1}
         onPageChange={handlePageClick}
-        containerClassName="flex gap-10 justify-center"
+        containerClassName="flex justify-center"
+        previousLinkClassName="border px-3 py-2 md:px-4 md:py-2 rounded-l-md text-sm md:text-base"
+        pageLinkClassName="border px-3 py-2 md:px-4 md:py-2 text-sm md:text-base"
+        breakLinkClassName="border px-3 py-2 md:px-4 md:py-2 text-sm md:text-base"
+        nextLinkClassName="border px-3 py-2 md:px-4 md:py-2 rounded-r-md text-sm md:text-base"
+        activeLinkClassName="bg-gray-200 text-sm md:text-base"
         marginPagesDisplayed={3}
         renderOnZeroPageCount={() => null}
       />

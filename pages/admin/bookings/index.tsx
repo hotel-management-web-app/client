@@ -47,8 +47,6 @@ const Bookings: React.FC = () => {
   const router = useRouter();
   const { page, limit } = router.query;
 
-  console.log(page);
-
   const {
     data: bookingsData,
     isError: isBookingsError,
@@ -56,7 +54,8 @@ const Bookings: React.FC = () => {
     refetch,
   } = useGetBookings(Number(page), Number(limit));
 
-  const { bookings, pageCount } = bookingsData!;
+  const bookings = bookingsData?.bookings;
+  const pageCount = bookingsData?.pageCount;
 
   useEffect(() => {
     refetch();
@@ -146,7 +145,7 @@ const Bookings: React.FC = () => {
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>
-        <Pagination page={Number(page)} pageCount={pageCount} />
+        <Pagination page={Number(page)} pageCount={pageCount!} />
       </div>
     </div>
   );

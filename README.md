@@ -1,4 +1,5 @@
 ## Introduction
+
 This is a hotel management system designed to help hotel owners manage their properties and customers make reservations. The application can be customized to suit a variety of properties by adding floors and rooms.
 
 For guests, the system provides a user-friendly interface to browse offers and make reservations. Additionally, guests can contact the hotel through a dedicated contact page.
@@ -16,7 +17,9 @@ In addition to these management tools, the system also includes a dashboard that
 This project is made using Next.js to create frontend and Node.js to build backend.
 
 ## Project setup
+
 To install dependencies run:
+
 ```bash
 npm install
 # or
@@ -24,6 +27,7 @@ yarn
 ```
 
 To start a development server run:
+
 ```bash
 npm run dev
 # or
