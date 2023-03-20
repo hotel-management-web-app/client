@@ -34,7 +34,8 @@ const dateFormat = 'DD-MM-YYYY';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
 
-  const { page, limit } = context.query;
+  const page = context.query.page || 1;
+  const limit = context.query.limit || 10;
 
   await queryClient.prefetchQuery(['bookings'], () =>
     getBookings(Number(page), Number(limit))
@@ -45,7 +46,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const Bookings: React.FC = () => {
   const router = useRouter();
-  const { page, limit } = router.query;
+
+  const page = router.query.page || 1;
+  const limit = router.query.limit || 10;
 
   const {
     data: bookingsData,
