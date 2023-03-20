@@ -17,7 +17,7 @@ import {
   useGetBookings,
 } from '../../../lib/operations/bookings';
 import ErrorMessage from '../../../components/ErrorMessage';
-import Pagination from '../../../components/Pagination';
+import Pagination from '../../../components/Admin/Table/Pagination';
 
 const headers = [
   'Room number',
@@ -59,7 +59,7 @@ const Bookings: React.FC = () => {
 
   useEffect(() => {
     refetch();
-  }, [page, limit, refetch]);
+  }, [page, limit]);
 
   const {
     mutate,
