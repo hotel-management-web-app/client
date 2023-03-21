@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import moment from 'moment';
 import { Entries } from '../../../components/Admin';
@@ -12,6 +14,7 @@ import { getGuests } from '../../../lib/api/guests';
 import { useDeleteGuest, useGetGuests } from '../../../lib/operations/guests';
 import { guestStatuses } from '../../../constants/constants';
 import ErrorMessage from '../../../components/ErrorMessage';
+import Pagination from '../../../components/Admin/Table/Pagination';
 
 const headers: string[] = [
   'Id',
@@ -23,20 +26,39 @@ const headers: string[] = [
   'Action',
 ];
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['guests'], getGuests);
+  const page = context.query.page || 1;
+  const limit = context.query.limit || 10;
+
+  await queryClient.prefetchQuery(['guests'], () =>
+    getGuests(Number(page), Number(limit))
+  );
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const Guests = () => {
+  const router = useRouter();
+
+  const page = router.query.page || 1;
+  const limit = router.query.limit || 10;
+
   const {
-    data: guests,
+    data: guestsData,
     isError: isGuestsError,
     error: guestsError,
-  } = useGetGuests();
+    refetch,
+  } = useGetGuests(Number(page), Number(limit));
+
+  const guests = guestsData?.guests;
+  const pageCount = guestsData?.pageCount;
+
+  useEffect(() => {
+    refetch();
+  }, [page, limit]);
+
   const {
     mutate,
     isError: isDeleteError,
@@ -113,6 +135,7 @@ const Guests = () => {
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>
+        <Pagination page={Number(page)} pageCount={pageCount!} />
       </div>
     </div>
   );

@@ -44,6 +44,11 @@ export interface Guest {
   notes: string;
 }
 
+export interface GuestQuery {
+  guests: Guest[];
+  pageCount: number;
+}
+
 export interface Booking {
   id?: number;
   status: string;

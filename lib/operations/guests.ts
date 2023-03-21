@@ -9,12 +9,12 @@ import {
   getGuests,
   updateGuest,
 } from '../api/guests';
-import { Guest } from '../types';
+import { Guest, GuestQuery } from '../types';
 
 const backUrl = '/admin/guests';
 
-export const useGetGuests = () =>
-  useQuery<Guest[], AxiosError>(['guests'], getGuests);
+export const useGetGuests = (page?: number, limit?: number) =>
+  useQuery<GuestQuery, AxiosError>(['guests'], () => getGuests(page, limit));
 
 export const useGetGuest = (id: number) =>
   useQuery<Guest, AxiosError>(['guests'], () => getGuest(id));

@@ -3,7 +3,7 @@ import { Booking } from '../types';
 
 const baseUrl = '/bookings';
 
-export const getBookings = async (page: number = 1, limit: number = 5) =>
+export const getBookings = async (page?: number, limit?: number) =>
   axios.get(`${baseUrl}?limit=${limit}&page=${page}`).then((res) => res.data);
 
 export const getBooking = async (id: number) =>

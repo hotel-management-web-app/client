@@ -38,14 +38,14 @@ export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
-  await queryClient.prefetchQuery(['guests'], getGuests);
+  await queryClient.prefetchQuery(['guests'], () => getGuests());
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const AddBooking: React.FC<AddBookingProps> = () => {
   const { data: roomTypes } = useGetRoomTypes();
-  const { data: guests } = useGetGuests();
+  const { data: guestsData } = useGetGuests();
   const [rooms, setRooms] = useState<Room[]>([]);
   const methods = useForm<Booking>({
     resolver: yupResolver(bookingSchema),
@@ -75,10 +75,12 @@ const AddBooking: React.FC<AddBookingProps> = () => {
       label: roomNumber,
     }));
 
-  const guestsOptions = guests?.map(({ id, firstName, lastName }) => ({
-    value: id!,
-    label: `${firstName} ${lastName}`,
-  }));
+  const guestsOptions = guestsData?.guests?.map(
+    ({ id, firstName, lastName }) => ({
+      value: id!,
+      label: `${firstName} ${lastName}`,
+    })
+  );
 
   const defaultRoomTypeOption = roomTypesOptions?.find(
     (option) => option.value.id === Number(roomTypeId)

@@ -13,7 +13,7 @@ import { Booking, BookingQuery } from '../types';
 
 const backUrl = '/admin/bookings';
 
-export const useGetBookings = (page: number = 1, limit: number = 5) =>
+export const useGetBookings = (page?: number, limit?: number) =>
   useQuery<BookingQuery, AxiosError>(['bookings'], () =>
     getBookings(page, limit)
   );
