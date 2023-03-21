@@ -14,6 +14,11 @@ export interface RoomType {
   details: string[];
 }
 
+export interface RoomTypeQuery {
+  roomTypes: RoomType[];
+  pageCount: number;
+}
+
 export interface Room {
   id: number;
   roomType: RoomType;
@@ -25,6 +30,11 @@ export interface Room {
   priority: string;
   comments: string;
   bookings: Booking[];
+}
+
+export interface RoomQuery {
+  rooms: Room[];
+  pageCount: number;
 }
 
 export interface SelectOption {
@@ -44,6 +54,11 @@ export interface Guest {
   notes: string;
 }
 
+export interface GuestQuery {
+  guests: Guest[];
+  pageCount: number;
+}
+
 export interface Booking {
   id?: number;
   status: string;
@@ -57,6 +72,11 @@ export interface Booking {
   guestId: number;
   room: Room;
   roomId: number;
+}
+
+export interface BookingQuery {
+  bookings: Booking[];
+  pageCount: number;
 }
 
 export interface Housekeeping {

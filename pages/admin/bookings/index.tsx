@@ -1,5 +1,7 @@
+import React, { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import moment from 'moment';
-import React from 'react';
+import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import { Entries } from '../../../components/Admin';
 import AddButton from '../../../components/Admin/Table/AddButton';
@@ -14,8 +16,8 @@ import {
   useDeleteBooking,
   useGetBookings,
 } from '../../../lib/operations/bookings';
-import { Booking } from '../../../lib/types';
 import ErrorMessage from '../../../components/ErrorMessage';
+import Pagination from '../../../components/Admin/Table/Pagination';
 
 const headers = [
   'Room number',
@@ -29,24 +31,39 @@ const headers = [
 
 const dateFormat = 'DD-MM-YYYY';
 
-export interface BookingsProps {
-  bookings: Booking[];
-}
-
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['bookings'], getBookings);
+  const page = context.query.page || 1;
+  const limit = context.query.limit || 10;
+
+  await queryClient.prefetchQuery(['bookings'], () =>
+    getBookings(Number(page), Number(limit))
+  );
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const Bookings: React.FC<BookingsProps> = () => {
+const Bookings: React.FC = () => {
+  const router = useRouter();
+
+  const page = router.query.page || 1;
+  const limit = router.query.limit || 10;
+
   const {
-    data: bookings,
+    data: bookingsData,
     isError: isBookingsError,
     error: bookingsError,
-  } = useGetBookings();
+    refetch,
+  } = useGetBookings(Number(page), Number(limit));
+
+  const bookings = bookingsData?.bookings;
+  const pageCount = bookingsData?.pageCount;
+
+  useEffect(() => {
+    refetch();
+  }, [page, limit]);
+
   const {
     mutate,
     isError: isDeleteError,
@@ -131,6 +148,7 @@ const Bookings: React.FC<BookingsProps> = () => {
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>
+        <Pagination page={Number(page)} pageCount={pageCount!} />
       </div>
     </div>
   );

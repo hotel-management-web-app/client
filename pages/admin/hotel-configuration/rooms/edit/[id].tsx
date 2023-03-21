@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+  await queryClient.prefetchQuery(['roomTypes'], () => getRoomTypes());
   await queryClient.prefetchQuery(['rooms'], () => getRoom(Number(id)));
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
@@ -50,10 +50,13 @@ const EditRoom: React.FC<AddRoomProps> = () => {
   const { handleSubmit } = methods;
 
   const {
-    data: roomTypes,
+    data: roomTypesData,
     isError: isRoomTypesError,
     error: roomTypesError,
   } = useGetRoomTypes();
+
+  const roomTypes = roomTypesData?.roomTypes;
+
   const {
     data: room,
     isError: isRoomError,

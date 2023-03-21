@@ -1,4 +1,6 @@
 import React from 'react';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Table/Header';
@@ -11,6 +13,7 @@ import { useDeleteRoom, useGetRooms } from '../../../../lib/operations/rooms';
 import { getRooms } from '../../../../lib/api/rooms';
 import { roomStatuses } from '../../../../constants/constants';
 import ErrorMessage from '../../../../components/ErrorMessage';
+import Pagination from '../../../../components/Admin/Table/Pagination';
 
 const headers: string[] = [
   'Id',
@@ -21,20 +24,34 @@ const headers: string[] = [
   'Action',
 ];
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['rooms'], getRooms);
+  const page = context.query.page || 1;
+  const limit = context.query.limit || 10;
+
+  await queryClient.prefetchQuery(['rooms'], () =>
+    getRooms(Number(page), Number(limit))
+  );
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const Rooms = () => {
+  const router = useRouter();
+
+  const page = router.query.page || 1;
+  const limit = router.query.limit || 10;
+
   const {
-    data: rooms,
+    data: roomsData,
     isError: isRoomsError,
     error: roomsError,
-  } = useGetRooms();
+  } = useGetRooms(Number(page), Number(limit));
+
+  const rooms = roomsData?.rooms;
+  const pageCount = roomsData?.pageCount;
+
   const {
     mutate,
     isError: isDeleteError,
@@ -98,6 +115,7 @@ const Rooms = () => {
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>
+        <Pagination page={Number(page)} pageCount={pageCount!} />
       </div>
     </div>
   );

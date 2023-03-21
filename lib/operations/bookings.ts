@@ -9,12 +9,14 @@ import {
   getBookings,
   getBooking,
 } from '../api/bookings';
-import { Booking } from '../types';
+import { Booking, BookingQuery } from '../types';
 
 const backUrl = '/admin/bookings';
 
-export const useGetBookings = () =>
-  useQuery<Booking[], AxiosError>(['bookings'], getBookings);
+export const useGetBookings = (page?: number, limit?: number) =>
+  useQuery<BookingQuery, AxiosError>(['bookings'], () =>
+    getBookings(page, limit)
+  );
 
 export const useGetBooking = (id: number) =>
   useQuery<Booking, AxiosError>(['bookings'], () => getBooking(id));

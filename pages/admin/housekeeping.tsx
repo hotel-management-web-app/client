@@ -28,13 +28,15 @@ const headers = [
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['rooms'], getRooms);
+  await queryClient.prefetchQuery(['rooms'], () => getRooms());
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const HousekeepingPage = () => {
-  const { data: rooms, isError, error } = useGetRooms();
+  const { data: roomsData, isError, error } = useGetRooms();
+
+  const rooms = roomsData?.rooms;
 
   if (isError) return <Error message={error.message} />;
 

@@ -14,10 +14,15 @@ import { routes } from '../utils/routes';
 import { getAboutInfo } from '../lib/api/about';
 import { useGetAboutInfo } from '../lib/operations/about';
 
+const roomTypesPage = 1;
+const roomTypesLimit = 3;
+
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+  await queryClient.prefetchQuery(['roomTypes'], () =>
+    getRoomTypes(roomTypesPage, roomTypesLimit)
+  );
   await queryClient.prefetchQuery(['aboutInfo'], getAboutInfo);
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
@@ -29,10 +34,12 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = () => {
   const {
-    data: roomTypes,
+    data: roomTypesData,
     isError: isRoomTypesError,
     error: roomTypesError,
-  } = useGetRoomTypes();
+  } = useGetRoomTypes(roomTypesPage, roomTypesLimit);
+
+  const roomTypes = roomTypesData?.roomTypes;
 
   const {
     data: aboutInfo,
@@ -76,7 +83,7 @@ const Home: React.FC<HomeProps> = () => {
               See Our Rooms
             </h2>
             <div className="flex justify-around gap-y-10 2xl:justify-between flex-wrap mt-20 mb-16">
-              {roomTypes?.slice(0, 3).map(({ id, name, image }) => (
+              {roomTypes?.map(({ id, name, image }) => (
                 <Link key={id} href={routes.roomTypes(id!)}>
                   <a className="relative">
                     <Image

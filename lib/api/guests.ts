@@ -3,7 +3,8 @@ import { Guest } from '../types';
 
 const baseUrl = '/guests';
 
-export const getGuests = async () => axios.get(baseUrl).then((res) => res.data);
+export const getGuests = async (page?: number, limit?: number) =>
+  axios.get(`${baseUrl}?limit=${limit}&page=${page}`).then((res) => res.data);
 
 export const getGuest = async (id: number) =>
   axios.get(`${baseUrl}/${id}`).then((res) => res.data);

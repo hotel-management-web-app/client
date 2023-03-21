@@ -13,7 +13,7 @@ import { routes } from '../../utils/routes';
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+  await queryClient.prefetchQuery(['roomTypes'], () => getRoomTypes());
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
@@ -23,7 +23,9 @@ interface RoomsProps {
 }
 
 const Rooms: React.FC<RoomsProps> = () => {
-  const { data: roomTypes, isError, error } = useGetRoomTypes();
+  const { data: roomTypesData, isError, error } = useGetRoomTypes();
+
+  const roomTypes = roomTypesData?.roomTypes;
 
   if (isError) return <Error message={error.message} />;
 

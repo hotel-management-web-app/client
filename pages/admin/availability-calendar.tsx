@@ -12,20 +12,20 @@ import AvailabilityCalendar from '../../components/Admin/AvailabilityCalendar';
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
-  await queryClient.prefetchQuery(['bookings'], getBookings);
+  await queryClient.prefetchQuery(['roomTypes'], () => getRoomTypes());
+  await queryClient.prefetchQuery(['bookings'], () => getBookings());
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const AvailabilityCalendarPage = () => {
   const {
-    data: roomTypes,
+    data: roomTypesData,
     isError: isRoomTypesError,
     error: roomTypesError,
   } = useGetRoomTypes();
   const {
-    data: bookings,
+    data: bookingsData,
     isError: isBookingsError,
     error: bookingsError,
   } = useGetBookings();
@@ -40,7 +40,10 @@ const AvailabilityCalendarPage = () => {
         <Header title="Availability Calendar" />
       </div>
       <div className="mt-5">
-        <AvailabilityCalendar roomTypes={roomTypes} bookingsProp={bookings} />
+        <AvailabilityCalendar
+          roomTypes={roomTypesData?.roomTypes}
+          bookingsProp={bookingsData?.bookings}
+        />
       </div>
     </div>
   );

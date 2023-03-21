@@ -10,12 +10,12 @@ import {
   updateRoom,
   updateRoomField,
 } from '../api/rooms';
-import { Room, StatusesProps } from '../types';
+import { Room, RoomQuery, StatusesProps } from '../types';
 
 const backUrl = '/admin/hotel-configuration/rooms';
 
-export const useGetRooms = () =>
-  useQuery<Room[], AxiosError>(['rooms'], getRooms);
+export const useGetRooms = (page?: number, limit?: number) =>
+  useQuery<RoomQuery, AxiosError>(['rooms'], () => getRooms(page, limit));
 
 export const useGetRoom = (id: number) =>
   useQuery<Room, AxiosError>(['rooms'], () => getRoom(id));
