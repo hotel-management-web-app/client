@@ -52,8 +52,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as ServerSideParams;
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
-  await queryClient.prefetchQuery(['guests'], getGuests);
+  await queryClient.prefetchQuery(['roomTypes'], () => getRoomTypes());
+  await queryClient.prefetchQuery(['guests'], () => getGuests());
   await queryClient.prefetchQuery(['bookings'], () => getBooking(Number(id)));
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
@@ -63,12 +63,12 @@ const EditBooking: React.FC<EditBookingProps> = () => {
   const router = useRouter();
   const { id: bookingId } = router.query;
   const {
-    data: roomTypes,
+    data: roomTypesData,
     isError: isRoomTypesError,
     error: roomTypesError,
   } = useGetRoomTypes();
   const {
-    data: guests,
+    data: guestsData,
     isError: isGuestsError,
     error: guestsError,
   } = useGetGuests();
@@ -97,7 +97,7 @@ const EditBooking: React.FC<EditBookingProps> = () => {
     mutate(data);
   };
 
-  const roomTypesOptions = roomTypes?.map((roomType) => ({
+  const roomTypesOptions = roomTypesData?.roomTypes?.map((roomType) => ({
     value: roomType,
     label: roomType.name,
   }));
@@ -109,10 +109,12 @@ const EditBooking: React.FC<EditBookingProps> = () => {
       label: roomNumber,
     }));
 
-  const guestsOptions = guests?.map(({ id, firstName, lastName }) => ({
-    value: id!,
-    label: `${firstName} ${lastName}`,
-  }));
+  const guestsOptions = guestsData?.guests?.map(
+    ({ id, firstName, lastName }) => ({
+      value: id!,
+      label: `${firstName} ${lastName}`,
+    })
+  );
 
   if (isRoomTypesError) return <Error message={roomTypesError.message} />;
   if (isGuestsError) return <Error message={guestsError.message} />;

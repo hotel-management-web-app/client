@@ -9,12 +9,14 @@ import {
   getRoomTypes,
   updateRoomType,
 } from '../api/roomTypes';
-import { RoomType } from '../types';
+import { RoomType, RoomTypeQuery } from '../types';
 
 const backUrl = '/admin/hotel-configuration/room-types';
 
-export const useGetRoomTypes = () =>
-  useQuery<RoomType[], AxiosError>(['roomTypes'], getRoomTypes);
+export const useGetRoomTypes = (page?: number, limit?: number) =>
+  useQuery<RoomTypeQuery, AxiosError>(['roomTypes'], () =>
+    getRoomTypes(page, limit)
+  );
 
 export const useGetRoomType = (id: number) =>
   useQuery<RoomType, AxiosError>(['roomTypes'], () => getRoomType(id));

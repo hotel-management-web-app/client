@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { RoomType } from '../types';
 
 const baseUrl = '/room-types';
 
-export const getRoomTypes = (): Promise<RoomType[]> =>
-  axios.get(baseUrl).then((res) => res.data);
+export const getRoomTypes = (page?: number, limit?: number) =>
+  axios.get(`${baseUrl}?limit=${limit}&page=${page}`).then((res) => res.data);
 
 export const getRoomType = async (id: number) =>
   axios.get(`${baseUrl}/${id}`).then((res) => res.data);

@@ -14,6 +14,11 @@ export interface RoomType {
   details: string[];
 }
 
+export interface RoomTypeQuery {
+  roomTypes: RoomType[];
+  pageCount: number;
+}
+
 export interface Room {
   id: number;
   roomType: RoomType;

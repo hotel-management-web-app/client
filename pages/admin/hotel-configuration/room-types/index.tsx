@@ -1,4 +1,6 @@
 import React from 'react';
+import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 import { dehydrate, QueryClient } from 'react-query';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Table/Header';
@@ -13,23 +15,37 @@ import {
   useGetRoomTypes,
 } from '../../../../lib/operations/roomTypes';
 import ErrorMessage from '../../../../components/ErrorMessage';
+import Pagination from '../../../../components/Admin/Table/Pagination';
 
 const headers: string[] = ['ID', 'Name', 'Occupancy', 'Price', 'Action'];
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+  const page = context.query.page || 1;
+  const limit = context.query.limit || 10;
+
+  await queryClient.prefetchQuery(['roomTypes'], () =>
+    getRoomTypes(Number(page), Number(limit))
+  );
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const RoomTypes = () => {
+  const router = useRouter();
+
+  const page = router.query.page || 1;
+  const limit = router.query.limit || 10;
+
   const {
-    data: roomTypes,
+    data: roomTypesData,
     isError: isRoomTypesError,
     error: roomTypesError,
-  } = useGetRoomTypes();
+  } = useGetRoomTypes(Number(page), Number(limit));
+
+  const roomTypes = roomTypesData?.roomTypes;
+  const pageCount = roomTypesData?.pageCount;
 
   const {
     mutate,
@@ -93,6 +109,7 @@ const RoomTypes = () => {
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>
+        <Pagination page={Number(page)} pageCount={pageCount!} />
       </div>
     </div>
   );

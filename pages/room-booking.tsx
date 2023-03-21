@@ -14,15 +14,17 @@ import { RoomType } from '../lib/types';
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+  await queryClient.prefetchQuery(['roomTypes'], () => getRoomTypes());
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const RoomBooking = () => {
-  const { data: roomTypes, isError, error } = useGetRoomTypes();
   const router = useRouter();
   const { children, adults, arrive, departure } = router.query;
+
+  const { data: roomTypesData, isError, error } = useGetRoomTypes();
+  const roomTypes = roomTypesData?.roomTypes;
 
   const filteredRoomTypes = roomTypes?.filter((roomType: RoomType) => {
     const { occupancy } = roomType;
