@@ -32,6 +32,11 @@ export interface Room {
   bookings: Booking[];
 }
 
+export interface RoomQuery {
+  rooms: Room[];
+  pageCount: number;
+}
+
 export interface SelectOption {
   label: string | number;
   value: string | number;
