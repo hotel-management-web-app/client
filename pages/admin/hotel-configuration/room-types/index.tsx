@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { dehydrate, QueryClient } from 'react-query';
@@ -16,6 +16,7 @@ import {
 } from '../../../../lib/operations/roomTypes';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import Pagination from '../../../../components/Admin/Table/Pagination';
+import Search from '../../../../components/Admin/Table/Search';
 
 const headers: string[] = ['ID', 'Name', 'Occupancy', 'Price', 'Action'];
 
@@ -35,6 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const RoomTypes = () => {
   const router = useRouter();
 
+  const { search } = router.query;
   const page = router.query.page || 1;
   const limit = router.query.limit || 10;
 
@@ -42,10 +44,15 @@ const RoomTypes = () => {
     data: roomTypesData,
     isError: isRoomTypesError,
     error: roomTypesError,
-  } = useGetRoomTypes(Number(page), Number(limit));
+    refetch,
+  } = useGetRoomTypes(Number(page), Number(limit), search as string);
 
   const roomTypes = roomTypesData?.roomTypes;
   const pageCount = roomTypesData?.pageCount;
+
+  useEffect(() => {
+    refetch();
+  }, [page, limit, search]);
 
   const {
     mutate,
@@ -71,8 +78,7 @@ const RoomTypes = () => {
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />
           <div className="flex items-center gap-3">
-            <p>Search</p>
-            <input className="border rounded py-1" />
+            <Search />
           </div>
         </div>
         <div className="overflow-auto">
