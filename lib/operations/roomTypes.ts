@@ -13,9 +13,13 @@ import { RoomType, RoomTypeQuery } from '../types';
 
 const backUrl = '/admin/hotel-configuration/room-types';
 
-export const useGetRoomTypes = (page?: number, limit?: number) =>
+export const useGetRoomTypes = (
+  page?: number,
+  limit?: number,
+  search?: string
+) =>
   useQuery<RoomTypeQuery, AxiosError>(['roomTypes'], () =>
-    getRoomTypes(page, limit)
+    getRoomTypes(page, limit, search)
   );
 
 export const useGetRoomType = (id: number) =>

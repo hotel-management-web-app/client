@@ -10,14 +10,20 @@ On the admin side, the system provides a comprehensive set of tools to manage ro
 
 ![bookings](https://user-images.githubusercontent.com/63516552/226116076-b326caea-ccaa-49df-b6d1-7e68fa7685e9.png)
 
-In addition to these management tools, the system also includes a dashboard that provides a high-level overview of key metrics and performance indicators
+In addition to these management tools, the system also includes a dashboard that provides a high-level overview of key metrics and performance indicators.
 
 ![admin_panel_dashboard](https://user-images.githubusercontent.com/63516552/226116568-8611f4ae-881c-4c96-9c59-85f81c553bcb.png)
 
 This project is made using Next.js to create frontend and Node.js to build backend.
 
+## Demo
+Link to demo: [https://best-hotel-app.vercel.app/](https://best-hotel-app.vercel.app/)
+
+Link to Admin Panel: [https://best-hotel-app.vercel.app/login](https://best-hotel-app.vercel.app/login)
+
 ## Project setup
 
+### Client
 To install dependencies run:
 
 ```bash
@@ -33,5 +39,24 @@ npm run dev
 # or
 yarn dev
 ```
-
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Server
+
+In order to run a server, go to [server repository](https://github.com/hotel-management-web-app/server) and clone this repository.
+
+Next run:
+```bash
+npm install
+# or
+yarn
+```
+
+To start a server run:
+```bash
+npm run start
+# or
+yarn start
+```
+
+Server should run on port: [5000](http://localhost:5000).

@@ -13,8 +13,10 @@ import { Guest, GuestQuery } from '../types';
 
 const backUrl = '/admin/guests';
 
-export const useGetGuests = (page?: number, limit?: number) =>
-  useQuery<GuestQuery, AxiosError>(['guests'], () => getGuests(page, limit));
+export const useGetGuests = (page?: number, limit?: number, search?: string) =>
+  useQuery<GuestQuery, AxiosError>(['guests'], () =>
+    getGuests(page, limit, search)
+  );
 
 export const useGetGuest = (id: number) =>
   useQuery<Guest, AxiosError>(['guests'], () => getGuest(id));

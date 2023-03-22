@@ -14,8 +14,10 @@ import { Room, RoomQuery, StatusesProps } from '../types';
 
 const backUrl = '/admin/hotel-configuration/rooms';
 
-export const useGetRooms = (page?: number, limit?: number) =>
-  useQuery<RoomQuery, AxiosError>(['rooms'], () => getRooms(page, limit));
+export const useGetRooms = (page?: number, limit?: number, search?: string) =>
+  useQuery<RoomQuery, AxiosError>(['rooms'], () =>
+    getRooms(page, limit, search)
+  );
 
 export const useGetRoom = (id: number) =>
   useQuery<Room, AxiosError>(['rooms'], () => getRoom(id));

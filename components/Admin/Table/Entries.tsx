@@ -28,13 +28,14 @@ const entries = [
 
 const Entries = () => {
   const router = useRouter();
-  const { limit } = router.query;
+  const { limit, search } = router.query;
+
   const defaultEntry =
     entries.find((entry) => entry.value === Number(limit)) || entries[1];
   const [selectedEntry, setSelectedEntry] = useState(defaultEntry);
 
   useEffect(() => {
-    router.push({ query: { limit: selectedEntry.value } });
+    router.push({ query: { limit: selectedEntry.value, search } });
   }, [selectedEntry]);
 
   return (
