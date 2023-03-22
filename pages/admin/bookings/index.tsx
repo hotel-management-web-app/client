@@ -18,6 +18,7 @@ import {
 } from '../../../lib/operations/bookings';
 import ErrorMessage from '../../../components/ErrorMessage';
 import Pagination from '../../../components/Admin/Table/Pagination';
+import Search from '../../../components/Admin/Table/Search';
 
 const headers = [
   'Room number',
@@ -47,6 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const Bookings: React.FC = () => {
   const router = useRouter();
 
+  const { search } = router.query;
   const page = router.query.page || 1;
   const limit = router.query.limit || 10;
 
@@ -55,14 +57,14 @@ const Bookings: React.FC = () => {
     isError: isBookingsError,
     error: bookingsError,
     refetch,
-  } = useGetBookings(Number(page), Number(limit));
+  } = useGetBookings(Number(page), Number(limit), search as string);
 
   const bookings = bookingsData?.bookings;
   const pageCount = bookingsData?.pageCount;
 
   useEffect(() => {
     refetch();
-  }, [page, limit]);
+  }, [page, limit, search]);
 
   const {
     mutate,
@@ -88,8 +90,7 @@ const Bookings: React.FC = () => {
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />
           <div className="flex items-center gap-3">
-            <p>Search</p>
-            <input className="border rounded py-1" />
+            <Search />
           </div>
         </div>
         <div className="overflow-auto">

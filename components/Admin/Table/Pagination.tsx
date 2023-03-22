@@ -9,10 +9,10 @@ interface PaginationProps {
 
 const Pagination: React.FC<PaginationProps> = ({ page, pageCount }) => {
   const router = useRouter();
-  const { limit } = router.query;
+  const { limit, search } = router.query;
 
   const handlePageClick = (e: { selected: number }) => {
-    router.push({ query: { page: e.selected + 1, limit } });
+    router.push({ query: { page: e.selected + 1, limit, search } });
   };
 
   if (pageCount === 1) return null;
