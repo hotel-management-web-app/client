@@ -11,6 +11,7 @@ import Seo from '../../components/Seo';
 import { reportSchema } from '../../lib/schemas';
 import { BookingsInfoProps, ReportForm, ReportProps } from '../../lib/types';
 import { useGetReport } from '../../lib/operations/report';
+import ErrorMessage from '../../components/ErrorMessage';
 
 const totalBookingsLabels = [
   'Total bookings received',
@@ -75,7 +76,9 @@ const getReportInfo = (
     <div key={nanoid()}>
       <p>{bookingInfo.label}</p>
       <p className="text-gray-400 mt-1">
-        {bookingInfo.value} {bookingInfo.label?.includes('amount') && '$'}
+        {bookingInfo.label?.includes('amount')
+          ? `${bookingInfo.value / 100} $`
+          : bookingInfo.value}
       </p>
     </div>
   ));
@@ -113,7 +116,7 @@ const Reports = () => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useGetReport();
+  const { mutate, isLoading, isError, error } = useGetReport();
 
   const onSubmit: SubmitHandler<ReportForm> = (data) => {
     const { startDate, endDate } = data;
@@ -145,6 +148,7 @@ const Reports = () => {
       <Seo title="Reports" />
       <Header title="Reports" />
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="flex items-end gap-10 flex-wrap">
             <Input
@@ -207,20 +211,23 @@ const Reports = () => {
                           </td>
                           {Object.keys(allBookingsInfo).map((key) => (
                             <td className="border text-sm py-2 text-center">
-                              {allBookingsInfo[key]}
-                              {key.includes('Amount') && '$'}
+                              {key.includes('Amount')
+                                ? `${allBookingsInfo[key] / 100}$`
+                                : allBookingsInfo[key]}
                             </td>
                           ))}
                           {Object.keys(confirmedBookingsInfo).map((key) => (
                             <td className="border text-sm py-2 text-center">
-                              {confirmedBookingsInfo[key]}
-                              {key.includes('Amount') && '$'}
+                              {key.includes('Amount')
+                                ? `${confirmedBookingsInfo[key] / 100}$`
+                                : confirmedBookingsInfo[key]}
                             </td>
                           ))}
                           {Object.keys(cancelledBookingsInfo).map((key) => (
                             <td className="border text-sm py-2 text-center">
-                              {cancelledBookingsInfo[key]}
-                              {key.includes('Amount') && '$'}
+                              {key.includes('Amount')
+                                ? `${cancelledBookingsInfo[key] / 100}$`
+                                : cancelledBookingsInfo[key]}
                             </td>
                           ))}
                         </tr>

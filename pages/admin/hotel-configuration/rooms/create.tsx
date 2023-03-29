@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { dehydrate, QueryClient } from 'react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Seo from '../../../../components/Seo';
 import {
@@ -11,31 +12,40 @@ import {
   SelectInput,
   StatusToggler,
 } from '../../../../components/Admin';
+import Error from '../../../../components/Error';
 import { useAddRoom } from '../../../../lib/operations/rooms';
-import { Room, RoomType, SelectOption } from '../../../../lib/types';
+import { Room, SelectOption } from '../../../../lib/types';
 import { getRoomTypes } from '../../../../lib/api/roomTypes';
 import { roomSchema } from '../../../../lib/schemas';
 import { convertToOriginalForm } from '../../../../utils/convertToOriginalForm';
 import { roomStatuses } from '../../../../constants/constants';
-
-interface AddRoomProps {
-  roomTypes: RoomType[];
-}
+import ErrorMessage from '../../../../components/ErrorMessage';
+import { useGetRoomTypes } from '../../../../lib/operations/roomTypes';
 
 export const getServerSideProps = async () => {
-  const roomTypes = await getRoomTypes();
+  const queryClient = new QueryClient();
 
-  return { props: { roomTypes } };
+  await queryClient.prefetchQuery(['roomTypes'], () => getRoomTypes());
+
+  return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
+const AddRoom: React.FC = () => {
   const methods = useForm<Room>({
     resolver: yupResolver(roomSchema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useAddRoom();
+  const {
+    data: roomTypesData,
+    isError: isRoomTypesError,
+    error: roomTypesError,
+  } = useGetRoomTypes();
+
+  const roomTypes = roomTypesData?.roomTypes;
+
+  const { mutate, isLoading, isError, error } = useAddRoom();
 
   const onSubmit: SubmitHandler<Room> = (data) => {
     const convertedRoomStatus = convertToOriginalForm(
@@ -46,10 +56,14 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
     mutate(room);
   };
 
-  const roomTypesOptions: SelectOption[] = roomTypes.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  }));
+  const roomTypesOptions: SelectOption[] | undefined = roomTypes?.map(
+    ({ id, name }) => ({
+      value: id!,
+      label: name,
+    })
+  );
+
+  if (isRoomTypesError) return <Error message={roomTypesError.message} />;
 
   return (
     <div>
@@ -59,6 +73,7 @@ const AddRoom: React.FC<AddRoomProps> = ({ roomTypes }) => {
         <BackButton name="rooms" url="/admin/hotel-configuration/rooms/" />
       </div>
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="mx-auto w-11/12 lg:w-3/4 py-5">
             <div className="flex flex-col gap-5">

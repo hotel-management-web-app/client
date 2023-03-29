@@ -5,6 +5,7 @@ import HousekeepingComments from '../../components/Admin/Housekeeping/Housekeepi
 import HousekeepingStatus from '../../components/Admin/Housekeeping/HousekeepingStatus';
 import PriorityStatus from '../../components/Admin/Housekeeping/PriorityStatus';
 import Seo from '../../components/Seo';
+import Error from '../../components/Error';
 import { getRooms } from '../../lib/api/rooms';
 import { useGetRooms } from '../../lib/operations/rooms';
 import {
@@ -27,13 +28,18 @@ const headers = [
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['rooms'], getRooms);
+  await queryClient.prefetchQuery(['rooms'], () => getRooms());
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const HousekeepingPage = () => {
-  const { data: rooms } = useGetRooms();
+  const { data: roomsData, isError, error } = useGetRooms();
+
+  const rooms = roomsData?.rooms;
+
+  if (isError) return <Error message={error.message} />;
+
   return (
     <div>
       <Seo title="Housekeeping" />

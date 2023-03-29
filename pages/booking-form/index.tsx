@@ -14,6 +14,7 @@ import { useGetRoomType } from '../../lib/operations/roomTypes';
 import { countDaysBetweenDates } from '../../utils/countDaysBetweenDates';
 import { usePayForStay } from '../../lib/operations/payment';
 import { routes } from '../../utils/routes';
+import ErrorMessage from '../../components/ErrorMessage';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { room } = query;
@@ -34,7 +35,7 @@ const BookingForm = () => {
   });
   const { register, handleSubmit } = methods;
 
-  const { mutate } = usePayForStay();
+  const { mutate, isError, error } = usePayForStay();
 
   const { adults, children, arrive, departure, room } = router.query;
   const canContinue = adults && children && arrive && departure && room;
@@ -80,6 +81,7 @@ const BookingForm = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="border border-black px-12 pt-8 pb-12 w-[756px] bg-[#F9F8F6]"
           >
+            {isError && <ErrorMessage errorMessage={error.message} />}
             <h1 className="text-3xl text-center font-medium border-b-2 pb-7">
               Guest Information
             </h1>

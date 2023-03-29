@@ -14,6 +14,11 @@ export interface RoomType {
   details: string[];
 }
 
+export interface RoomTypeQuery {
+  roomTypes: RoomType[];
+  pageCount: number;
+}
+
 export interface Room {
   id: number;
   roomType: RoomType;
@@ -25,6 +30,11 @@ export interface Room {
   priority: string;
   comments: string;
   bookings: Booking[];
+}
+
+export interface RoomQuery {
+  rooms: Room[];
+  pageCount: number;
 }
 
 export interface SelectOption {
@@ -44,18 +54,29 @@ export interface Guest {
   notes: string;
 }
 
+export interface GuestQuery {
+  guests: Guest[];
+  pageCount: number;
+}
+
 export interface Booking {
   id?: number;
   status: string;
   arrivalDate: Date;
   departureDate: Date;
   roomNumber: number;
+  totalPrice: number;
   adults: number;
   children: number;
   guest: Guest;
   guestId: number;
   room: Room;
   roomId: number;
+}
+
+export interface BookingQuery {
+  bookings: Booking[];
+  pageCount: number;
 }
 
 export interface Housekeeping {
@@ -172,6 +193,7 @@ export interface DashboardData {
     name: string;
     count: number;
   }[];
+  revenueData: RevenueData[];
 }
 
 export interface ChartDataProps {
@@ -204,6 +226,11 @@ export interface ReportProps {
     cancelledBookingsInfo: { [key: string]: number };
   }[];
   [key: string]: BookingsInfoProps | any;
+}
+
+export interface RevenueData {
+  month: string;
+  totalAmount: number;
 }
 
 export interface ContactFormInputs {

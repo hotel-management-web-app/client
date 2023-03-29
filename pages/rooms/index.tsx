@@ -2,16 +2,18 @@ import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 import Image from 'next/image';
 import Link from 'next/link';
+import Error from '../../components/Error';
 import Seo from '../../components/Seo';
 import RoomsImg from '../../public/images/rooms.png';
 import { RoomType } from '../../lib/types';
 import { getRoomTypes } from '../../lib/api/roomTypes';
 import { useGetRoomTypes } from '../../lib/operations/roomTypes';
+import { routes } from '../../utils/routes';
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+  await queryClient.prefetchQuery(['roomTypes'], () => getRoomTypes());
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
@@ -21,7 +23,11 @@ interface RoomsProps {
 }
 
 const Rooms: React.FC<RoomsProps> = () => {
-  const { data: roomTypes } = useGetRoomTypes();
+  const { data: roomTypesData, isError, error } = useGetRoomTypes();
+
+  const roomTypes = roomTypesData?.roomTypes;
+
+  if (isError) return <Error message={error.message} />;
 
   return (
     <div>
@@ -37,12 +43,12 @@ const Rooms: React.FC<RoomsProps> = () => {
           {roomTypes?.map(({ id, name, description, image }) => (
             <div
               key={id}
-              className="w-[350px] shadow-[0px_10px_30px_-10px_rgba(0,0,0,0.8)]"
+              className="w-[400px] shadow-[0px_10px_30px_-10px_rgba(0,0,0,0.8)]"
             >
               <Image
                 loader={() => image as string}
                 src={image as string}
-                width="350"
+                width="400"
                 height="300"
                 alt="room"
               />
@@ -51,10 +57,10 @@ const Rooms: React.FC<RoomsProps> = () => {
                 <p className="my-4 font-light h-[120px] overflow-clip">
                   {description}
                 </p>
-                <Link href={`/rooms/${id}`}>
+                <Link href={routes.rooms(id)}>
                   <a className="underline">More Details</a>
                 </Link>
-                <Link href="/room-booking">
+                <Link href={routes.roomBooking()}>
                   <a className="bg-dark-gray text-white text-lg p-2 float-right mt-7 mb-8 ">
                     Book Now
                   </a>

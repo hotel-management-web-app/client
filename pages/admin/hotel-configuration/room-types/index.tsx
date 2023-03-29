@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 import { dehydrate, QueryClient } from 'react-query';
 import Seo from '../../../../components/Seo';
 import Header from '../../../../components/Admin/Table/Header';
@@ -6,30 +8,63 @@ import AddButton from '../../../../components/Admin/Table/AddButton';
 import Entries from '../../../../components/Admin/Table/Entries';
 import EditButton from '../../../../components/Admin/Table/EditButton';
 import DeleteButton from '../../../../components/Admin/Table/DeleteButton';
+import Error from '../../../../components/Error';
 import { getRoomTypes } from '../../../../lib/api/roomTypes';
 import {
   useDeleteRoomType,
   useGetRoomTypes,
 } from '../../../../lib/operations/roomTypes';
+import ErrorMessage from '../../../../components/ErrorMessage';
+import Pagination from '../../../../components/Admin/Table/Pagination';
+import Search from '../../../../components/Admin/Table/Search';
 
 const headers: string[] = ['ID', 'Name', 'Occupancy', 'Price', 'Action'];
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
+  const page = context.query.page || 1;
+  const limit = context.query.limit || 10;
+
+  await queryClient.prefetchQuery(['roomTypes'], () =>
+    getRoomTypes(Number(page), Number(limit))
+  );
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const RoomTypes = () => {
-  const { data } = useGetRoomTypes();
+  const router = useRouter();
 
-  const { mutate } = useDeleteRoomType();
+  const { search } = router.query;
+  const page = router.query.page || 1;
+  const limit = router.query.limit || 10;
+
+  const {
+    data: roomTypesData,
+    isError: isRoomTypesError,
+    error: roomTypesError,
+    refetch,
+  } = useGetRoomTypes(Number(page), Number(limit), search as string);
+
+  const roomTypes = roomTypesData?.roomTypes;
+  const pageCount = roomTypesData?.pageCount;
+
+  useEffect(() => {
+    refetch();
+  }, [page, limit, search]);
+
+  const {
+    mutate,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useDeleteRoomType();
 
   const deleteRoomTypeHandler = async (id: number) => {
     await mutate(id);
   };
+
+  if (isRoomTypesError) return <Error message={roomTypesError.message} />;
 
   return (
     <div>
@@ -38,12 +73,12 @@ const RoomTypes = () => {
         <Header title="Room types" />
         <AddButton name="room type" />
       </div>
+      {isDeleteError && <ErrorMessage errorMessage={deleteError.message} />}
       <div className="bg-white px-5 py-7 mt-8 rounded-lg">
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />
           <div className="flex items-center gap-3">
-            <p>Search</p>
-            <input className="border rounded py-1" />
+            <Search />
           </div>
         </div>
         <div className="overflow-auto">
@@ -58,12 +93,12 @@ const RoomTypes = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map(({ id, name, occupancy, price }) => (
+              {roomTypes?.map(({ id, name, occupancy, price }) => (
                 <tr key={id} className="border-b">
                   <td>{id}</td>
                   <td>{name}</td>
                   <td>{occupancy}</td>
-                  <td>{price}</td>
+                  <td>{Number(price) / 100}$</td>
                   <td className="w-40 py-3">
                     <div>
                       <EditButton id={id!} />
@@ -76,10 +111,11 @@ const RoomTypes = () => {
               ))}
             </tbody>
           </table>
-          {data?.length === 0 && (
+          {roomTypes?.length === 0 && (
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>
+        <Pagination page={Number(page)} pageCount={pageCount!} />
       </div>
     </div>
   );

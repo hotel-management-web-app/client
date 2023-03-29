@@ -4,11 +4,13 @@ import { dehydrate, QueryClient } from 'react-query';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import Error from '../../components/Error';
 import Seo from '../../components/Seo';
 import RoomImages from '../../components/RoomImages';
 import { RoomType } from '../../lib/types';
 import { getRoomType } from '../../lib/api/roomTypes';
 import { useGetRoomType } from '../../lib/operations/roomTypes';
+import { routes } from '../../utils/routes';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
@@ -26,7 +28,9 @@ interface RoomProps {
 const Room: React.FC<RoomProps> = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data: roomType } = useGetRoomType(Number(id));
+  const { data: roomType, isError, error } = useGetRoomType(Number(id));
+
+  if (isError) return <Error message={error.message} />;
 
   return (
     <div>
@@ -64,7 +68,7 @@ const Room: React.FC<RoomProps> = () => {
           </div>
         </div>
         <div className="flex justify-center mt-24">
-          <Link href="/rooms">
+          <Link href={routes.roomBooking()}>
             <a className="bg-dark-gray text-white text-2xl py-6 px-16">
               Make a reservation
             </a>

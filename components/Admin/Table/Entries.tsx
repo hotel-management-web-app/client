@@ -1,6 +1,7 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { BsChevronExpand, BsCheck } from 'react-icons/bs';
+import { useRouter } from 'next/router';
 
 const entries = [
   {
@@ -26,7 +27,17 @@ const entries = [
 ];
 
 const Entries = () => {
-  const [selectedEntry, setSelectedEntry] = useState(entries[0]);
+  const router = useRouter();
+  const { limit, search } = router.query;
+
+  const defaultEntry =
+    entries.find((entry) => entry.value === Number(limit)) || entries[1];
+  const [selectedEntry, setSelectedEntry] = useState(defaultEntry);
+
+  useEffect(() => {
+    router.push({ query: { limit: selectedEntry.value, search } });
+  }, [selectedEntry]);
+
   return (
     <div className="flex items-center gap-3">
       <p>Show</p>

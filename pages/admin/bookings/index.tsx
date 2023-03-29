@@ -1,5 +1,7 @@
+import React, { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import moment from 'moment';
-import React from 'react';
+import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import { Entries } from '../../../components/Admin';
 import AddButton from '../../../components/Admin/Table/AddButton';
@@ -7,44 +9,75 @@ import DeleteButton from '../../../components/Admin/Table/DeleteButton';
 import EditButton from '../../../components/Admin/Table/EditButton';
 import Header from '../../../components/Admin/Table/Header';
 import Seo from '../../../components/Seo';
+import Error from '../../../components/Error';
 import { bookingStatuses } from '../../../constants/constants';
 import { getBookings } from '../../../lib/api/bookings';
 import {
   useDeleteBooking,
   useGetBookings,
 } from '../../../lib/operations/bookings';
-import { Booking } from '../../../lib/types';
+import ErrorMessage from '../../../components/ErrorMessage';
+import Pagination from '../../../components/Admin/Table/Pagination';
+import Search from '../../../components/Admin/Table/Search';
 
 const headers = [
   'Room number',
   'Guest',
   'Arrival date',
   'Departure date',
+  'Price',
   'Status',
   'Action',
 ];
 
 const dateFormat = 'DD-MM-YYYY';
 
-export interface BookingsProps {
-  bookings: Booking[];
-}
-
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['bookings'], getBookings);
+  const page = context.query.page || 1;
+  const limit = context.query.limit || 10;
+
+  await queryClient.prefetchQuery(['bookings'], () =>
+    getBookings(Number(page), Number(limit))
+  );
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const Bookings: React.FC<BookingsProps> = () => {
-  const { data: bookings } = useGetBookings();
-  const { mutate } = useDeleteBooking();
+const Bookings: React.FC = () => {
+  const router = useRouter();
+
+  const { search } = router.query;
+  const page = router.query.page || 1;
+  const limit = router.query.limit || 10;
+
+  const {
+    data: bookingsData,
+    isError: isBookingsError,
+    error: bookingsError,
+    refetch,
+  } = useGetBookings(Number(page), Number(limit), search as string);
+
+  const bookings = bookingsData?.bookings;
+  const pageCount = bookingsData?.pageCount;
+
+  useEffect(() => {
+    refetch();
+  }, [page, limit, search]);
+
+  const {
+    mutate,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useDeleteBooking();
 
   const deleteBooking = async (id: number) => {
     await mutate(id);
   };
+
+  if (isBookingsError) return <Error message={bookingsError.message} />;
+
   return (
     <div>
       <Seo title="Bookings" />
@@ -52,12 +85,12 @@ const Bookings: React.FC<BookingsProps> = () => {
         <Header title="Bookings" />
         <AddButton name="booking" />
       </div>
+      {isDeleteError && <ErrorMessage errorMessage={deleteError.message} />}
       <div className="bg-white px-5 py-7 mt-8 rounded-lg">
         <div className="flex justify-between flex-wrap gap-5">
           <Entries />
           <div className="flex items-center gap-3">
-            <p>Search</p>
-            <input className="border rounded py-1" />
+            <Search />
           </div>
         </div>
         <div className="overflow-auto">
@@ -75,7 +108,9 @@ const Bookings: React.FC<BookingsProps> = () => {
               {bookings?.map((booking) => {
                 const { roomNumber } = booking.room;
                 const { firstName, lastName } = booking.guest;
-                const { id, arrivalDate, departureDate, status } = booking;
+                const { id, arrivalDate, departureDate, status, totalPrice } =
+                  booking;
+
                 return (
                   <tr key={id} className="border-b">
                     <td>{roomNumber}</td>
@@ -86,6 +121,7 @@ const Bookings: React.FC<BookingsProps> = () => {
                     </td>
                     <td>{moment(arrivalDate).format(dateFormat)}</td>
                     <td>{moment(departureDate).format(dateFormat)}</td>
+                    <td>{totalPrice / 100}$</td>
                     <td>
                       <span
                         style={{
@@ -113,6 +149,7 @@ const Bookings: React.FC<BookingsProps> = () => {
             <p className="text-center mt-5">No data available in table</p>
           )}
         </div>
+        <Pagination page={Number(page)} pageCount={pageCount!} />
       </div>
     </div>
   );

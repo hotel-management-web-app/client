@@ -20,6 +20,7 @@ import { useAddBooking } from '../../../lib/operations/bookings';
 import { useGetRoomTypes } from '../../../lib/operations/roomTypes';
 import { useGetGuests } from '../../../lib/operations/guests';
 import { bookingSchema } from '../../../lib/schemas';
+import ErrorMessage from '../../../components/ErrorMessage';
 
 const statusOptions: { value: string; label: string }[] = [
   { value: 'CONFIRMED', label: 'Confirmed' },
@@ -36,15 +37,15 @@ interface AddBookingProps {
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['roomTypes'], getRoomTypes);
-  await queryClient.prefetchQuery(['guests'], getGuests);
+  await queryClient.prefetchQuery(['roomTypes'], () => getRoomTypes());
+  await queryClient.prefetchQuery(['guests'], () => getGuests());
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
 const AddBooking: React.FC<AddBookingProps> = () => {
-  const { data: roomTypes } = useGetRoomTypes();
-  const { data: guests } = useGetGuests();
+  const { data: roomTypesData } = useGetRoomTypes();
+  const { data: guestsData } = useGetGuests();
   const [rooms, setRooms] = useState<Room[]>([]);
   const methods = useForm<Booking>({
     resolver: yupResolver(bookingSchema),
@@ -56,13 +57,13 @@ const AddBooking: React.FC<AddBookingProps> = () => {
   const { startDate, roomTypeId, roomId } = router.query;
   const defaultArrivalDate = startDate as unknown as Date;
 
-  const { mutate, isLoading } = useAddBooking();
+  const { mutate, isLoading, isError, error } = useAddBooking();
 
   const onSubmit: SubmitHandler<Booking> = (data) => {
     mutate(data);
   };
 
-  const roomTypesOptions = roomTypes?.map((roomType) => ({
+  const roomTypesOptions = roomTypesData?.roomTypes?.map((roomType) => ({
     value: roomType,
     label: roomType.name,
   }));
@@ -74,10 +75,12 @@ const AddBooking: React.FC<AddBookingProps> = () => {
       label: roomNumber,
     }));
 
-  const guestsOptions = guests?.map(({ id, firstName, lastName }) => ({
-    value: id!,
-    label: `${firstName} ${lastName}`,
-  }));
+  const guestsOptions = guestsData?.guests?.map(
+    ({ id, firstName, lastName }) => ({
+      value: id!,
+      label: `${firstName} ${lastName}`,
+    })
+  );
 
   const defaultRoomTypeOption = roomTypesOptions?.find(
     (option) => option.value.id === Number(roomTypeId)
@@ -101,6 +104,7 @@ const AddBooking: React.FC<AddBookingProps> = () => {
           <BackButton name="bookings" url="/admin/bookings" />
         </div>
         <FormProvider {...methods}>
+          {isError && <ErrorMessage errorMessage={error.message} />}
           <FormWrapper onSubmit={handleSubmit(onSubmit)}>
             <h2 className="text-2xl mt-5 mb-3">Details</h2>
             <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-x-20 2xl:gap-x-40 gap-y-10">

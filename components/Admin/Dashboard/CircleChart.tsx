@@ -49,9 +49,9 @@ const CircleChart: React.FC<CircleChartProps> = ({
     return (
       <div className="bg-white pl-4 pr-20 py-3 rounded-xl shadow-lg">
         <h2 className="font-medium text-lg">{title}</h2>
-        <div className="flex items-center gap-10 mt-3">
+        <div className="flex items-center gap-10 mt-3 flex-wrap">
           <div className="flex justify-center relative px-10 py-5">
-            <PieChart width={250} height={250}>
+            <PieChart width={272} height={250}>
               <Pie
                 data={chartData!}
                 innerRadius={80}
@@ -69,9 +69,9 @@ const CircleChart: React.FC<CircleChartProps> = ({
               {Number(dataSum)}
             </p>
           </div>
-          <div>
+          <div className="flex flex-col items-center w-full lg:w-auto">
             {chartData?.map((item, index) => (
-              <div className="flex justify-between items-center w-64 mt-2 py-1 [&:not(:first-child)]:mt-5 [&:not(:last-child)]:border-b">
+              <div className="flex justify-between items-center w-full lg:w-[272px] mt-2 py-1 [&:not(:first-child)]:mt-5 [&:not(:last-child)]:border-b">
                 <div className="flex items-center gap-2">
                   <div
                     className="w-3 h-3 rounded-full"
@@ -89,7 +89,7 @@ const CircleChart: React.FC<CircleChartProps> = ({
   }
 
   return (
-    <div className="w-80 bg-white px-4 py-3 rounded-xl shadow-lg">
+    <div className="w-full xl:w-[340px] max-w-[760px] bg-white px-4 py-3 rounded-xl shadow-lg">
       <h2 className="font-medium text-lg">{title}</h2>
       <div className="flex justify-center relative py-2">
         <PieChart width={200} height={200}>

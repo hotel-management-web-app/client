@@ -8,6 +8,7 @@ import FormWrapper from '../../../components/Admin/Form/FormWrapper';
 import Header from '../../../components/Admin/Table/Header';
 import Seo from '../../../components/Seo';
 import Input from '../../../components/Admin/Form/Input';
+import Error from '../../../components/Error';
 import { SubmitButton } from '../../../components/Admin';
 import { getSettings } from '../../../lib/api/generalSettings';
 import {
@@ -16,6 +17,7 @@ import {
 } from '../../../lib/operations/generalSettings';
 import { GeneralSettings } from '../../../lib/types';
 import { generalSettingsSchema } from '../../../lib/schemas';
+import ErrorMessage from '../../../components/ErrorMessage';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
 
@@ -32,7 +34,11 @@ export const getServerSideProps = async () => {
 };
 
 const GeneralSettingsPage: React.FC<GeneralSettingsPageProps> = () => {
-  const { data: settings } = useGetSettings();
+  const {
+    data: settings,
+    isError: isSettingsError,
+    error: settingsError,
+  } = useGetSettings();
   const methods = useForm<GeneralSettings>({
     resolver: yupResolver(generalSettingsSchema),
     mode: 'onChange',
@@ -40,7 +46,12 @@ const GeneralSettingsPage: React.FC<GeneralSettingsPageProps> = () => {
   const { handleSubmit, setValue } = methods;
   const [file, setFile] = useState<string | Blob | undefined>(settings?.logo);
 
-  const { mutate, isLoading } = useUpdateSettings();
+  const {
+    mutate,
+    isLoading,
+    isError: isMutationError,
+    error: mutationError,
+  } = useUpdateSettings();
 
   const handleChange = (selectedFile: Blob) => {
     const imageUrl = URL.createObjectURL(selectedFile);
@@ -60,11 +71,18 @@ const GeneralSettingsPage: React.FC<GeneralSettingsPageProps> = () => {
     mutate(form);
   };
 
+  if (isSettingsError) {
+    return <Error message={(settingsError as any).message as string} />;
+  }
+
   return (
     <div>
       <Seo title="General settings" />
       <Header title="General settings" />
       <FormProvider {...methods}>
+        {isMutationError && (
+          <ErrorMessage errorMessage={mutationError.message} />
+        )}
         <FormWrapper onSubmit={handleSubmit(onSubmit)} multipart>
           <div className="flex justify-center my-5">
             <div className="flex flex-col gap-10 lg:w-2/3">

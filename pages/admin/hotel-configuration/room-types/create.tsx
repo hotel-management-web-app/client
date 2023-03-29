@@ -16,6 +16,7 @@ import {
 import { useAddRoomType } from '../../../../lib/operations/roomTypes';
 import { RoomType } from '../../../../lib/types';
 import { roomTypeSchema } from '../../../../lib/schemas';
+import ErrorMessage from '../../../../components/ErrorMessage';
 
 const AddRoomType = () => {
   const methods = useForm<RoomType>({
@@ -24,7 +25,7 @@ const AddRoomType = () => {
   });
   const { handleSubmit } = methods;
 
-  const { mutate, isLoading } = useAddRoomType();
+  const { mutate, isLoading, isError, error } = useAddRoomType();
 
   const onSubmit: SubmitHandler<RoomType> = (data) => {
     const {
@@ -70,6 +71,7 @@ const AddRoomType = () => {
         />
       </div>
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)} multipart>
           <div className="flex flex-col 2xl:flex-row flex-wrap gap-20 mt-5">
             <div className="w-96 xl:w-[500px] flex flex-col gap-5">

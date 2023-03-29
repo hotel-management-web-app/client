@@ -2,6 +2,7 @@ import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Seo from '../../../components/Seo';
+import Error from '../../../components/Error';
 import {
   FormWrapper,
   Header,
@@ -18,6 +19,7 @@ import {
   useUpdateAboutInfo,
 } from '../../../lib/operations/about';
 import AboutDetails from '../../../components/Admin/AboutDetails/AboutDetails';
+import ErrorMessage from '../../../components/ErrorMessage';
 
 interface AboutSettingsPageProps {
   aboutInfo: AboutInfo;
@@ -37,19 +39,31 @@ const AboutSettingsPage: React.FC<AboutSettingsPageProps> = () => {
   const methods = useForm<AboutInfo>();
   const { handleSubmit } = methods;
 
-  const { data: aboutInfo } = useGetAboutInfo();
-  const { data: aboutDetails } = useGetAboutDetails();
-  const { mutate, isLoading } = useUpdateAboutInfo();
+  const {
+    data: aboutInfo,
+    isError: isAboutInfoError,
+    error: aboutInfoError,
+  } = useGetAboutInfo();
+  const {
+    data: aboutDetails,
+    isError: isAboutDetailsError,
+    error: aboutDetailsError,
+  } = useGetAboutDetails();
+  const { mutate, isLoading, isError, error } = useUpdateAboutInfo();
 
   const onSubmit: SubmitHandler<AboutInfo> = (data) => {
     mutate(data);
   };
+
+  if (isAboutInfoError) return <Error message={aboutInfoError.message} />;
+  if (isAboutDetailsError) return <Error message={aboutDetailsError.message} />;
 
   return (
     <div>
       <Seo title="About settings" />
       <Header title="About settings" />
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="mx-auto lg:w-2/3 2xl:w-1/2 my-5">
             <Input id="title" title="Title" defaultValue={aboutInfo?.title} />
