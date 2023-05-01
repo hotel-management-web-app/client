@@ -24,6 +24,7 @@ const ContactForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         action="#"
         className="flex flex-col gap-5 mt-10"
+        data-testid="contact-form"
       >
         {isError && <ErrorMessage errorMessage={error.message} />}
         <div className="grid grid-cols-2 gap-5">

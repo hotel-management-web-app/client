@@ -1,13 +1,14 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Footer from '../../components/Footer';
+import Error from '../../components/Error';
 
-describe('Footer', () => {
+describe('ErrorMessage', () => {
   it('Should render properly', () => {
-    render(<Footer />);
+    const errorText = 'Error has occured!';
+    render(<Error message={errorText} />);
 
-    const pElement = screen.getByText(/©2022 all rights reserved/i);
+    const pElement = screen.getByText(errorText);
 
     expect(pElement).toBeInTheDocument();
   });

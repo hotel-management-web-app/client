@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { nanoid } from 'nanoid';
 import { SlideDown } from 'react-slidedown';
 import 'react-slidedown/lib/slidedown.css';
 import { BsRecordCircle } from 'react-icons/bs';
@@ -42,7 +41,10 @@ const NavbarSubitems: React.FC<NavbarSubitemsProps> = ({
         {isOpen && (
           <div className="bg-gray-800">
             {sublinks.map((sublink) => (
-              <Link key={nanoid()} href={`/admin/${route}/${sublink.route}`}>
+              <Link
+                key={sublink.name}
+                href={`/admin/${route}/${sublink.route}`}
+              >
                 <a className="hover:bg-gray-700 group flex items-center px-2 py-2 font-medium rounded-md">
                   <BsRecordCircle size="20" className="mx-4" />
                   {sublink.name}
