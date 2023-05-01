@@ -18,6 +18,7 @@ const RoomDate: React.FC<RoomDateProps> = ({
   children,
 }) => (
   <td
+    data-testid="room-date"
     className="border z-0 group cursor-pointer"
     key={day.getTime()}
     style={{ width: `${cellWidth}px`, minWidth: `${cellWidth}px` }}
