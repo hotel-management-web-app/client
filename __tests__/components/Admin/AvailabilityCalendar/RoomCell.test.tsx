@@ -4,7 +4,7 @@ import { Room } from '../../../../lib/types';
 import '@testing-library/jest-dom';
 import RoomCell from '../../../../components/Admin/AvailabilityCalendar/RoomCell';
 
-describe('Dashboard', () => {
+describe('Room Cell', () => {
   it('Should render properly', () => {
     render(<RoomCell dates={[]} bookings={[]} cellWidth={100} room={room} />);
 

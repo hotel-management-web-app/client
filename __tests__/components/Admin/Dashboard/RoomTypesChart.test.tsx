@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import RoomTypesChart from '../../../../components/Admin/Dashboard/RoomTypesChart';
 
-describe('Circle Chart', () => {
+describe('Room Type Chart', () => {
   it('Should render properly', () => {
     render(<RoomTypesChart roomTypes={availableRoomsByRoomTypeCount} />);
 

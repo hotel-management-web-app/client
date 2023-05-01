@@ -6,7 +6,7 @@ import AvailabilityCalendar from '../../../../components/Admin/AvailabilityCalen
 
 const queryClient = new QueryClient();
 
-describe('Dashboard', () => {
+describe('Availability Calendar', () => {
   it('Should render properly', () => {
     render(
       <QueryClientProvider client={queryClient}>

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SubmitButton from '../../../../components/Admin/Form/SubmitButton';
 
-describe('BackButton', () => {
+describe('Submit Button', () => {
   it('Should render properly', () => {
     const name = 'Click Me!';
     render(<SubmitButton name={name} />);

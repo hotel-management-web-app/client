@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { Booking } from '../../../../lib/types';
 import BookingCell from '../../../../components/Admin/AvailabilityCalendar/BookingCell';
 
-describe('Dashboard', () => {
+describe('Booking Cell', () => {
   it('Should render properly', () => {
     render(<BookingCell booking={booking} cellWidth={0} />);
 

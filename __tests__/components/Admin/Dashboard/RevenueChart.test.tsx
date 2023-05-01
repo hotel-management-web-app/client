@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import RevenueChart from '../../../../components/Admin/Dashboard/RevenueChart';
 
-describe('Circle Chart', () => {
+describe('Revenue Chart', () => {
   it('Should render properly', () => {
     const title = 'Revenues';
     render(<RevenueChart revenueData={revenueData} />);

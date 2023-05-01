@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ArrivalsAndDepartures from '../../../../components/Admin/Dashboard/ArrivalsAndDepartures';
 
-describe('ArrivalsAndDepartures', () => {
+describe('Arrivals AndD epartures', () => {
   it('Should render properly', () => {
     render(<ArrivalsAndDepartures data={arrivalsAndDeparturesToday} />);
 

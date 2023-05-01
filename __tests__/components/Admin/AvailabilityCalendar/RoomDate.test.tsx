@@ -4,7 +4,7 @@ import { Room } from '../../../../lib/types';
 import '@testing-library/jest-dom';
 import RoomDate from '../../../../components/Admin/AvailabilityCalendar/RoomDate';
 
-describe('Dashboard', () => {
+describe('Room Date', () => {
   it('Should render properly', () => {
     // eslint-disable-next-line react/no-children-prop
     render(<RoomDate day={day} cellWidth={100} room={room} children={[]} />);
