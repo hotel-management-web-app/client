@@ -63,7 +63,8 @@ const HousekeepingStatusPage: React.FC<HousekeepingStatusProps> = ({
     <Listbox value={selectedStatus} onChange={changeHandler}>
       <div className="relative mt-1">
         <Listbox.Button
-          id="room-type"
+          id="housekeeping-status"
+          data-testid="housekeeping-status"
           style={{
             backgroundColor: selectedStatus?.backgroundColor,
             color: selectedStatus?.textColor,
