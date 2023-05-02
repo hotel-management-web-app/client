@@ -6,11 +6,6 @@ import Error from '../../components/Error';
 import Seo from '../../components/Seo';
 import { getSettings } from '../../lib/api/generalSettings';
 import { useGetSettings } from '../../lib/operations/generalSettings';
-import { GeneralSettings } from '../../lib/types';
-
-interface ContactProps {
-  settings: GeneralSettings;
-}
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
@@ -20,7 +15,7 @@ export const getServerSideProps = async () => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const Contact: React.FC<ContactProps> = () => {
+const Contact = () => {
   const { data: settings, isError, error } = useGetSettings();
 
   if (isError) return <Error message={(error as any).message as string} />;
