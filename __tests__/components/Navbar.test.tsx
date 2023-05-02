@@ -1,17 +1,15 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import MockWrapper from '../../__mocks__/MockWrapper';
 import Navbar from '../../components/Navbar';
-
-const queryClient = new QueryClient();
 
 describe('Navbar', () => {
   it('Should render properly', () => {
     render(
-      <QueryClientProvider client={queryClient}>
+      <MockWrapper>
         <Navbar />
-      </QueryClientProvider>
+      </MockWrapper>
     );
 
     const buttonElement = screen.getByText(/Book Now/i);

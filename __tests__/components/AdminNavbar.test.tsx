@@ -1,17 +1,15 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import MockWrapper from '../../__mocks__/MockWrapper';
 import AdminNavbar from '../../components/AdminNavbar';
-
-const queryClient = new QueryClient();
 
 describe('AdminNavbar', () => {
   it('Should render properly', () => {
     render(
-      <QueryClientProvider client={queryClient}>
+      <MockWrapper>
         <AdminNavbar />
-      </QueryClientProvider>
+      </MockWrapper>
     );
 
     const aElement = screen.getByText(/Profile/i);

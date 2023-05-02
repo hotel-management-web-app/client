@@ -1,18 +1,16 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import '@testing-library/jest-dom';
+import MockWrapper from '../../../../__mocks__/MockWrapper';
 import HousekeepingComments from '../../../../components/Admin/Housekeeping/HousekeepingComments';
-
-const queryClient = new QueryClient();
 
 describe('HousekeepingComments', () => {
   it('Should render properly', () => {
     const comment = 'Comment';
     render(
-      <QueryClientProvider client={queryClient}>
+      <MockWrapper>
         <HousekeepingComments id={1} value={comment} />
-      </QueryClientProvider>
+      </MockWrapper>
     );
 
     const commentText = screen.getByText(comment);

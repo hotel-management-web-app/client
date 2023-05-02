@@ -1,21 +1,19 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import MockWrapper from '../../__mocks__/MockWrapper';
 import Layout from '../../components/Layout';
-
-const queryClient = new QueryClient();
 
 describe('Layout', () => {
   it('Should render properly', () => {
     render(
-      <QueryClientProvider client={queryClient}>
+      <MockWrapper>
         <Layout>
           <div>
             <p>Children</p>
           </div>
         </Layout>
-      </QueryClientProvider>
+      </MockWrapper>
     );
 
     const pElement = screen.getByText(/Children/i);

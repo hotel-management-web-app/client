@@ -1,17 +1,15 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import MockWrapper from '../../__mocks__/MockWrapper';
 import ContactForm from '../../components/ContactForm';
-
-const queryClient = new QueryClient();
 
 describe('ContactForm', () => {
   it('Should render properly', () => {
     render(
-      <QueryClientProvider client={queryClient}>
+      <MockWrapper>
         <ContactForm />
-      </QueryClientProvider>
+      </MockWrapper>
     );
 
     const pElement = screen.getByTestId('contact-form');

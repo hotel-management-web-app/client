@@ -1,18 +1,16 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import '@testing-library/jest-dom';
+import MockWrapper from '../../../../__mocks__/MockWrapper';
 import PriorityStatusOptions from '../../../../components/Admin/Housekeeping/PriorityStatus';
-
-const queryClient = new QueryClient();
 
 describe('PriorityStatusOptions', () => {
   it('Should render properly', () => {
     const status = 'High';
     render(
-      <QueryClientProvider client={queryClient}>
+      <MockWrapper>
         <PriorityStatusOptions id={1} status={status} />
-      </QueryClientProvider>
+      </MockWrapper>
     );
 
     const statusText = screen.getByTestId('priority-status');

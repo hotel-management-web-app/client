@@ -1,21 +1,19 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import '@testing-library/jest-dom';
+import MockWrapper from '../../__mocks__/MockWrapper';
 import AdminLayout from '../../components/AdminLayout';
-
-const queryClient = new QueryClient();
 
 describe('AdminLayout', () => {
   it('Should render properly', () => {
     render(
-      <QueryClientProvider client={queryClient}>
+      <MockWrapper>
         <AdminLayout>
           <div>
             <p>Admin children</p>
           </div>
         </AdminLayout>
-      </QueryClientProvider>
+      </MockWrapper>
     );
 
     const pElement = screen.getByText(/Admin children/i);

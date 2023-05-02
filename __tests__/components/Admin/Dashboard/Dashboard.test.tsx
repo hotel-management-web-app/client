@@ -1,17 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import '@testing-library/jest-dom';
+import MockWrapper from '../../../../__mocks__/MockWrapper';
 import Dashboard from '../../../../components/Admin/Dashboard';
-
-const queryClient = new QueryClient();
 
 describe('Dashboard', () => {
   it('Should render properly', () => {
     render(
-      <QueryClientProvider client={queryClient}>
+      <MockWrapper>
         <Dashboard dashboardData={dashboardData} />
-      </QueryClientProvider>
+      </MockWrapper>
     );
 
     const commentText = screen.getByTestId('dashboard');
