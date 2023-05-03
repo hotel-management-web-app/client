@@ -23,10 +23,6 @@ import { guestSchema } from '../../../../lib/schemas';
 import { convertToOriginalForm } from '../../../../utils/convertToOriginalForm';
 import { guestStatuses } from '../../../../constants/constants';
 
-interface EditGuestProps {
-  guest: Guest;
-}
-
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as ServerSideParams;
   const queryClient = new QueryClient();
@@ -36,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const EditGuest: React.FC<EditGuestProps> = () => {
+const EditGuest = () => {
   const router = useRouter();
   const methods = useForm<Guest>({
     resolver: yupResolver(guestSchema),

@@ -27,13 +27,7 @@ import {
 import { useGetGuests } from '../../../../lib/operations/guests';
 import { useGetRoomTypes } from '../../../../lib/operations/roomTypes';
 import { bookingSchema } from '../../../../lib/schemas';
-import {
-  RoomType,
-  Guest,
-  Room,
-  Booking,
-  ServerSideParams,
-} from '../../../../lib/types';
+import { Room, Booking, ServerSideParams } from '../../../../lib/types';
 import { getBooking } from '../../../../lib/api/bookings';
 
 const statusOptions: { value: string; label: string }[] = [
@@ -42,11 +36,6 @@ const statusOptions: { value: string; label: string }[] = [
   { value: 'CANCELLED', label: 'Cancelled' },
   { value: 'NOT_CONFIRMED', label: 'Not confirmed' },
 ];
-
-interface EditBookingProps {
-  roomTypes: RoomType[];
-  guests: Guest[];
-}
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as ServerSideParams;
@@ -59,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const EditBooking: React.FC<EditBookingProps> = () => {
+const EditBooking = () => {
   const router = useRouter();
   const { id: bookingId } = router.query;
   const {

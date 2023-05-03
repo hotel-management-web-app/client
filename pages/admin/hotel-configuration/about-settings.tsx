@@ -11,7 +11,7 @@ import {
   Textarea,
 } from '../../../components/Admin';
 import { getAboutInfo } from '../../../lib/api/about';
-import { AboutDetail, AboutInfo } from '../../../lib/types';
+import { AboutInfo } from '../../../lib/types';
 import { getAboutDetails } from '../../../lib/api/aboutDetails';
 import {
   useGetAboutDetails,
@@ -20,11 +20,6 @@ import {
 } from '../../../lib/operations/about';
 import AboutDetails from '../../../components/Admin/AboutDetails/AboutDetails';
 import ErrorMessage from '../../../components/ErrorMessage';
-
-interface AboutSettingsPageProps {
-  aboutInfo: AboutInfo;
-  aboutDetails: AboutDetail[];
-}
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
@@ -35,7 +30,7 @@ export const getServerSideProps = async () => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const AboutSettingsPage: React.FC<AboutSettingsPageProps> = () => {
+const AboutSettingsPage = () => {
   const methods = useForm<AboutInfo>();
   const { handleSubmit } = methods;
 

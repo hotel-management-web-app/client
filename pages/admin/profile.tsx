@@ -20,10 +20,6 @@ import {
 import { profileSchema } from '../../lib/schemas';
 import { ProfileInfo } from '../../lib/types';
 
-interface ProfileProps {
-  profileInfo: ProfileInfo;
-}
-
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
@@ -32,7 +28,7 @@ export const getServerSideProps = async () => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const Profile: React.FC<ProfileProps> = () => {
+const Profile = () => {
   const methods = useForm<ProfileInfo>({
     resolver: yupResolver(profileSchema),
     mode: 'onChange',

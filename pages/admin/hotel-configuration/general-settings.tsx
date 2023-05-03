@@ -21,10 +21,6 @@ import ErrorMessage from '../../../components/ErrorMessage';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
 
-interface GeneralSettingsPageProps {
-  settings: GeneralSettings;
-}
-
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
@@ -33,7 +29,7 @@ export const getServerSideProps = async () => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const GeneralSettingsPage: React.FC<GeneralSettingsPageProps> = () => {
+const GeneralSettingsPage = () => {
   const {
     data: settings,
     isError: isSettingsError,

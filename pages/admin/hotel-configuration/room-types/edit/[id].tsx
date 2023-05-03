@@ -26,10 +26,6 @@ import { roomTypeSchema } from '../../../../../lib/schemas';
 import ErrorMessage from '../../../../../components/ErrorMessage';
 import Error from '../../../../../components/Error';
 
-interface EditRoomTypeProps {
-  roomTypeData: RoomType;
-}
-
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as ServerSideParams;
   const queryClient = new QueryClient();
@@ -39,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const EditRoomType: React.FC<EditRoomTypeProps> = () => {
+const EditRoomType = () => {
   const router = useRouter();
   const { id } = router.query;
   const {

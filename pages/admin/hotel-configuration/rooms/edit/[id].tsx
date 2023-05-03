@@ -15,7 +15,7 @@ import {
 } from '../../../../../components/Admin';
 import Seo from '../../../../../components/Seo';
 import { useGetRoom, useUpdateRoom } from '../../../../../lib/operations/rooms';
-import { Room, RoomType, SelectOption } from '../../../../../lib/types';
+import { Room, SelectOption } from '../../../../../lib/types';
 import { getRoomTypes } from '../../../../../lib/api/roomTypes';
 import { getRoom } from '../../../../../lib/api/rooms';
 import { roomSchema } from '../../../../../lib/schemas';
@@ -24,11 +24,6 @@ import { roomStatuses } from '../../../../../constants/constants';
 import ErrorMessage from '../../../../../components/ErrorMessage';
 import Error from '../../../../../components/Error';
 import { useGetRoomTypes } from '../../../../../lib/operations/roomTypes';
-
-interface AddRoomProps {
-  roomTypes: RoomType[];
-  room: Room;
-}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
@@ -40,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const EditRoom: React.FC<AddRoomProps> = () => {
+const EditRoom = () => {
   const router = useRouter();
   const { id } = router.query;
   const methods = useForm<Room>({
