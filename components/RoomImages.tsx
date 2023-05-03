@@ -20,13 +20,16 @@ const RoomImages: React.FC<RoomImagesProps> = ({ images }) => {
     setIsViewerOpen(false);
   };
   return (
-    <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-20 mt-32">
+    <div
+      data-testid="room-images"
+      className="grid md:grid-cols-2 2xl:grid-cols-3 gap-20 mt-32"
+    >
       {images.map((image, index) => (
         <Image
           key={image}
           src={image}
           loader={() => image}
-          alt="room"
+          alt={`image-${index}`}
           width="450px"
           height="420px"
           onClick={() => openImageViewer(index)}

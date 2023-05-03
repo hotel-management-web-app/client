@@ -59,7 +59,10 @@ const RoomBooking = () => {
   if (isError) return <Error message={error.message} />;
 
   return (
-    <div className="container max-w-container mx-auto px-5 2xl:px-0">
+    <div
+      className="container max-w-container mx-auto px-5 2xl:px-0"
+      data-testid="room-booking"
+    >
       <Seo title="Room Booking" />
       <div className="mt-10">
         <Booking />

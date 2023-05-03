@@ -71,7 +71,10 @@ const CircleChart: React.FC<CircleChartProps> = ({
           </div>
           <div className="flex flex-col items-center w-full lg:w-auto">
             {chartData?.map((item, index) => (
-              <div className="flex justify-between items-center w-full lg:w-[272px] mt-2 py-1 [&:not(:first-child)]:mt-5 [&:not(:last-child)]:border-b">
+              <div
+                key={item.name}
+                className="flex justify-between items-center w-full lg:w-[272px] mt-2 py-1 [&:not(:first-child)]:mt-5 [&:not(:last-child)]:border-b"
+              >
                 <div className="flex items-center gap-2">
                   <div
                     className="w-3 h-3 rounded-full"
@@ -112,7 +115,10 @@ const CircleChart: React.FC<CircleChartProps> = ({
       </div>
       <div>
         {chartData?.map((item, index) => (
-          <div className="flex justify-between items-center w-full mt-2 py-1 [&:not(:last-child)]:border-b">
+          <div
+            key={item.name}
+            className="flex justify-between items-center w-full mt-2 py-1 [&:not(:last-child)]:border-b"
+          >
             <div className="flex items-center gap-2">
               <div
                 className="w-3 h-3 rounded-full"

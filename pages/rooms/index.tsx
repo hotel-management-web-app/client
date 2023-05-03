@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Error from '../../components/Error';
 import Seo from '../../components/Seo';
 import RoomsImg from '../../public/images/rooms.png';
-import { RoomType } from '../../lib/types';
 import { getRoomTypes } from '../../lib/api/roomTypes';
 import { useGetRoomTypes } from '../../lib/operations/roomTypes';
 import { routes } from '../../utils/routes';
@@ -18,11 +17,7 @@ export const getServerSideProps = async () => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-interface RoomsProps {
-  roomTypes: RoomType[];
-}
-
-const Rooms: React.FC<RoomsProps> = () => {
+const Rooms = () => {
   const { data: roomTypesData, isError, error } = useGetRoomTypes();
 
   const roomTypes = roomTypesData?.roomTypes;

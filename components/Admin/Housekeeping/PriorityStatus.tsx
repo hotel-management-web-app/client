@@ -52,7 +52,8 @@ const PriorityStatus: React.FC<PriorityStatusProps> = ({ id, status }) => {
     <Listbox value={selectedPriority} onChange={changeHandler}>
       <div className="relative mt-1">
         <Listbox.Button
-          id="room-type"
+          id="priority-status"
+          data-testid="priority-status"
           className="relative cursor-default rounded-lg py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 border w-40"
         >
           <span className="flex items-center gap-3 truncate">

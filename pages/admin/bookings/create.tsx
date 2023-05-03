@@ -14,7 +14,7 @@ import SubmitButton from '../../../components/Admin/Form/SubmitButton';
 import RoomTypeSelector from '../../../components/Admin/Form/RoomTypeSelector';
 import StayDurationInput from '../../../components/Admin/Form/StayDurationInput';
 import { getRoomTypes } from '../../../lib/api/roomTypes';
-import { Booking, Guest, Room, RoomType } from '../../../lib/types';
+import { Booking, Room } from '../../../lib/types';
 import { getGuests } from '../../../lib/api/guests';
 import { useAddBooking } from '../../../lib/operations/bookings';
 import { useGetRoomTypes } from '../../../lib/operations/roomTypes';
@@ -29,11 +29,6 @@ const statusOptions: { value: string; label: string }[] = [
   { value: 'NOT_CONFIRMED', label: 'Not confirmed' },
 ];
 
-interface AddBookingProps {
-  roomTypes: RoomType[];
-  guests: Guest[];
-}
-
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient();
 
@@ -43,7 +38,7 @@ export const getServerSideProps = async () => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-const AddBooking: React.FC<AddBookingProps> = () => {
+const AddBooking = () => {
   const { data: roomTypesData } = useGetRoomTypes();
   const { data: guestsData } = useGetGuests();
   const [rooms, setRooms] = useState<Room[]>([]);

@@ -25,7 +25,7 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({ defaultImages }) => {
   };
 
   return (
-    <div className="mt-10">
+    <div className="mt-10" data-testid="images-uploader">
       <ImageUploading
         multiple
         value={images as ImageListType}

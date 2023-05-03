@@ -158,23 +158,23 @@ const AdminNavbar = () => {
                     </div>
                   </div>
                   <nav className="space-y-3 mt-5">
-                    {links.map((link) => {
-                      if (link.sublinks) {
+                    {links.map(({ name, icon, route, sublinks }) => {
+                      if (sublinks) {
                         return (
                           <NavbarSubitems
-                            key={link.name}
-                            icon={link.icon}
-                            name={link.name}
-                            route={link.route}
-                            sublinks={link.sublinks}
+                            key={name}
+                            icon={icon}
+                            name={name}
+                            route={route}
+                            sublinks={sublinks}
                           />
                         );
                       }
                       return (
-                        <Link key={link.name} href={link.route}>
+                        <Link key={name} href={route}>
                           <a className="hover:bg-gray-700 group flex items-center px-5 py-2 text-base font-medium rounded-md">
-                            {link.icon}
-                            {link.name}
+                            {icon}
+                            {name}
                           </a>
                         </Link>
                       );

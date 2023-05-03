@@ -185,7 +185,7 @@ const Booking = () => {
         setEndDateValue={setEndDate}
       />
       <button className="bg-yellow-500 text-white h-[46px] px-5">
-        Check availibitlity
+        Check availability
       </button>
     </form>
   );

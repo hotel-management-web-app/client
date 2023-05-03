@@ -43,7 +43,7 @@ const Navbar = () => {
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
                   {isLoading ? (
-                    <>Loading logo...</>
+                    <p>Loading logo...</p>
                   ) : (
                     <Link href="/">
                       <a className="text-white text-2xl font-bold flex items-center gap-2">

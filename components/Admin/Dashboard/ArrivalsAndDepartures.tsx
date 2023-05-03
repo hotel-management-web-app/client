@@ -15,7 +15,10 @@ const ArrivalsAndDepartures: React.FC<ArrivalsAndDeparturesProps> = ({
   const departuresToday = data?.departuresToday;
 
   return (
-    <div className="bg-white rounded-xl w-full lg:w-auto h-[354px] shadow-lg px-3 py-2 flex gap-5 flex-wrap">
+    <div
+      data-testid="arrivals-departures"
+      className="bg-white rounded-xl w-full lg:w-auto h-[354px] shadow-lg px-3 py-2 flex gap-5 flex-wrap"
+    >
       <div className="w-full lg:w-[359px] overflow-auto">
         <h2 className="font-medium text-lg">
           Arrivals Today ({arrivalsToday?.length})

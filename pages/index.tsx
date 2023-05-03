@@ -7,7 +7,6 @@ import Booking from '../components/Booking';
 import Newsletter from '../components/Newsletter';
 import Error from '../components/Error';
 import HeroBg from '../public/images/hero-bg.png';
-import { RoomType } from '../lib/types';
 import { getRoomTypes } from '../lib/api/roomTypes';
 import { useGetRoomTypes } from '../lib/operations/roomTypes';
 import { routes } from '../utils/routes';
@@ -28,11 +27,7 @@ export const getServerSideProps = async () => {
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
 
-interface HomeProps {
-  roomTypes: RoomType[];
-}
-
-const Home: React.FC<HomeProps> = () => {
+const Home = () => {
   const {
     data: roomTypesData,
     isError: isRoomTypesError,
