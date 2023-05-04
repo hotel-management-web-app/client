@@ -13,6 +13,5 @@ export { default as Input } from './Form/Input';
 export { default as PriorityStatus } from './Housekeeping/PriorityStatus';
 export { default as SelectInput } from './Form/SelectInput';
 export { default as SubmitButton } from './Form/SubmitButton';
-export { default as Table } from './Table/Table';
 export { default as Textarea } from './Form/Textarea';
 export { default as StatusToggler } from './Form/StatusToggler';
