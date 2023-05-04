@@ -59,9 +59,14 @@ const AddAboutDetails = () => {
             <div className="mb-5">
               <ImageUploader id="about-image" label="Image" width={200} />
             </div>
-            <Input />
+            <Input data-testid="add-about-detail-title" />
             <div className="mt-5">
-              <Textarea id="description" title="Description" rows={10} />
+              <Textarea
+                id="description"
+                title="Description"
+                rows={10}
+                data-testid="add-about-detail-description"
+              />
             </div>
             <div className="flex justify-center mt-5">
               <SubmitButton name="Save" isLoading={isLoading} />
