@@ -28,13 +28,26 @@ const ContactForm = () => {
       >
         {isError && <ErrorMessage errorMessage={error.message} />}
         <div className="grid grid-cols-2 gap-5">
-          <ContactInput placeholder="First Name" fieldName="firstName" />
-          <ContactInput placeholder="Second Name" fieldName="secondName" />
-          <ContactInput placeholder="Email" fieldName="email" />
-          <ContactInput placeholder="Phone" fieldName="phoneNumber" />
+          <ContactInput
+            id="first-name"
+            placeholder="First Name"
+            fieldName="firstName"
+          />
+          <ContactInput
+            id="second-name"
+            placeholder="Second Name"
+            fieldName="secondName"
+          />
+          <ContactInput id="email" placeholder="Email" fieldName="email" />
+          <ContactInput
+            id="phone-number"
+            placeholder="Phone"
+            fieldName="phoneNumber"
+          />
         </div>
-        <ContactInput placeholder="Subject" fieldName="subject" />
+        <ContactInput id="subject" placeholder="Subject" fieldName="subject" />
         <ContactInput
+          id="message"
           placeholder="Message"
           textarea
           rows={8}
