@@ -17,14 +17,16 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["components/*"]
-    }
+    },
+    "types": ["cypress", "node"]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "jest.setup.js",
-    "jest.config.mjs"
+    "jest.config.mjs",
+    "cypress.config.cjs"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "cypress/*"]
 }
