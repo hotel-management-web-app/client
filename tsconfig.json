@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["components/*"]
-    }
+    },
+    "types": ["cypress", "node"]
   },
   "include": [
     "next-env.d.ts",
