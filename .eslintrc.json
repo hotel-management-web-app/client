@@ -4,7 +4,12 @@
     "es2021": true,
     "jest": true
   },
-  "extends": ["plugin:react/recommended", "airbnb", "airbnb/hooks"],
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:cypress/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -60,7 +65,8 @@
           "**/*{.,_}{test,spec}.{ts,tsx}", // tests where the extension or filename suffix denotes that it is a test
           "**/jest.config.ts", // jest config
           "**/jest.setup.ts", // jest setup
-          "**/setupTests.ts"
+          "**/setupTests.ts",
+          "**/cypress.config.ts"
         ],
         "optionalDependencies": false
       }
