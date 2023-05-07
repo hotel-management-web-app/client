@@ -34,7 +34,11 @@ const BookingForm = () => {
     resolver: yupResolver(bookingFormSchema),
     mode: 'onBlur',
   });
-  const { register, handleSubmit } = methods;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
   const { mutate, isLoading, isError, error } = usePayForStay();
 
@@ -134,6 +138,11 @@ const BookingForm = () => {
                     Privacy Terms
                   </a>
                 </label>
+                {errors.privacyTerms && (
+                  <p className="text-red-500 text-sm absolute mt-10">
+                    {errors.privacyTerms.message as string}
+                  </p>
+                )}
               </div>
               <div className="flex items-center">
                 <input
@@ -151,6 +160,11 @@ const BookingForm = () => {
                     Booking Conditions and Policies
                   </a>
                 </label>
+                {errors.conditionsAndPolicies && (
+                  <p className="text-red-500 text-sm absolute mt-10">
+                    {errors.conditionsAndPolicies.message as string}
+                  </p>
+                )}
               </div>
             </div>
             <div className="flex justify-center">
