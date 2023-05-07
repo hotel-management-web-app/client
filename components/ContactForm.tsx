@@ -11,6 +11,7 @@ import ErrorMessage from './ErrorMessage';
 const ContactForm = () => {
   const methods = useForm<ContactFormInputs>({
     resolver: yupResolver(contactSchema),
+    mode: 'onBlur',
   });
   const { handleSubmit } = methods;
 

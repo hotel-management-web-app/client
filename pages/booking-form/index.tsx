@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
+import { TailSpin } from 'react-loader-spinner';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Seo from '../../components/Seo';
@@ -31,11 +32,11 @@ const BookingForm = () => {
   const router = useRouter();
   const methods = useForm<BookingFormInputs>({
     resolver: yupResolver(bookingFormSchema),
-    mode: 'onChange',
+    mode: 'onBlur',
   });
   const { register, handleSubmit } = methods;
 
-  const { mutate, isError, error } = usePayForStay();
+  const { mutate, isLoading, isError, error } = usePayForStay();
 
   const { adults, children, arrive, departure, room } = router.query;
   const canContinue = adults && children && arrive && departure && room;
@@ -53,9 +54,9 @@ const BookingForm = () => {
     new Date(departure as string)
   );
 
-  const price = roomType?.price;
+  const price: number = Number(Number(roomType?.price) / 100);
 
-  const totalPrice = (numberOfNights * Number(price)).toFixed(2);
+  const totalPrice = (numberOfNights * price).toFixed(2);
 
   const dateFormat = 'DD/MM/YYYY';
   const formattedArrivalDate = moment(arrive).format(dateFormat);
@@ -153,7 +154,25 @@ const BookingForm = () => {
               </div>
             </div>
             <div className="flex justify-center">
-              <button className="bg-dark-gray text-white py-2 px-5 text-2xl mt-12 w-full md:w-auto">
+              <button
+                className="bg-dark-gray text-white py-2 px-12 text-2xl mt-12 w-full md:w-auto relative"
+                disabled={isLoading}
+              >
+                {isLoading && (
+                  <TailSpin
+                    height="30"
+                    width="30"
+                    color="#ccc"
+                    ariaLabel="tail-spin-loading"
+                    radius="1"
+                    wrapperStyle={{
+                      display: 'inline',
+                      position: 'absolute',
+                      left: '11px',
+                    }}
+                    visible
+                  />
+                )}
                 Make Reservation
               </button>
             </div>
@@ -190,7 +209,7 @@ const BookingForm = () => {
               <p className="text-2xl">Deluxe Room</p>
               <p className="mt-4">{numberOfNights} Nights</p>
             </div>
-            <p className="text-2xl font-medium">$ {roomType?.price}</p>
+            <p className="text-2xl font-medium">${price.toFixed(2)}</p>
           </div>
           <div className="mt-7 flex justify-between">
             <p className="text-3xl font-medium">Total:</p>
