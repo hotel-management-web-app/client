@@ -96,7 +96,7 @@ export const reportSchema = yup.object({
 
 export const contactSchema = yup.object({
   firstName: yup.string().min(3).max(48).required('First name is required!'),
-  secondName: yup.string().required('Second name is required!'),
+  secondName: yup.string().min(3).max(48).required('Second name is required!'),
   email: yup.string().email().required('Email is required!'),
   phoneNumber: yup.string(),
   subject: yup.string().required('Subject is required!'),
@@ -104,13 +104,13 @@ export const contactSchema = yup.object({
 });
 
 export const bookingFormSchema = yup.object({
-  email: yup.string().required(),
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  phoneNumber: yup.string().required(),
+  firstName: yup.string().min(3).max(48).required('First name is required!'),
+  lastName: yup.string().min(3).max(48).required('Second name is required!'),
+  email: yup.string().required('Email is required!'),
+  phoneNumber: yup.string().length(9).required('Phone number is required!'),
   notes: yup.string(),
-  privacyTerms: yup.bool().oneOf([true], 'Checkbox selection is required'),
+  privacyTerms: yup.bool().oneOf([true], 'Privacy terms are required!'),
   conditionsAndPolicies: yup
     .bool()
-    .oneOf([true], 'Checkbox selection is required'),
+    .oneOf([true], 'Conditions and Policies are required!'),
 });
