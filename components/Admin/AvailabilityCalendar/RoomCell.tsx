@@ -18,7 +18,7 @@ const RoomCell: React.FC<RoomProps> = ({
   room,
 }) => {
   const daysTd = dates.map((day) => {
-    const bookingsToday = bookings.filter((singleBook) => {
+    const bookingsToday = bookings?.filter((singleBook) => {
       const fromDate = new Date(singleBook.arrivalDate);
       return !!(
         fromDate.toDateString() === day.toDateString() &&
@@ -26,7 +26,7 @@ const RoomCell: React.FC<RoomProps> = ({
       );
     });
 
-    const bookingsTodayJsx = bookingsToday.map((singleBook) => (
+    const bookingsTodayJsx = bookingsToday?.map((singleBook) => (
       <BookingCell
         booking={singleBook}
         key={singleBook.id}
