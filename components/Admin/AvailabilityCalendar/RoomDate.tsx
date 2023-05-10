@@ -23,7 +23,7 @@ const RoomDate: React.FC<RoomDateProps> = ({
     key={day.getTime()}
     style={{ width: `${cellWidth}px`, minWidth: `${cellWidth}px` }}
   >
-    {children.length > 0 ? (
+    {children?.length > 0 ? (
       children
     ) : (
       <Link href={routes.addBooking(day, room.roomTypeId, room.id)}>

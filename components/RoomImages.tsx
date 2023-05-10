@@ -24,7 +24,7 @@ const RoomImages: React.FC<RoomImagesProps> = ({ images }) => {
       data-testid="room-images"
       className="grid md:grid-cols-2 2xl:grid-cols-3 gap-20 mt-32"
     >
-      {images.map((image, index) => (
+      {images?.map((image, index) => (
         <Image
           key={image}
           src={image}
