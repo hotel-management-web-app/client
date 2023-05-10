@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: hotel_app
+    build: .
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '3000:3000'
