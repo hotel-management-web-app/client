@@ -1,8 +1,8 @@
 import { AxiosResponse, AxiosError } from 'axios';
 import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
-import { login, logout } from '../api/auth';
-import { LoginForm } from '../types';
+import { useMutation, useQuery } from 'react-query';
+import { getUsers, login, logout } from '../api/auth';
+import { LoginForm, UserQuery } from '../types';
 
 export const useLogin = () => {
   const router = useRouter();
@@ -20,3 +20,8 @@ export const useLogout = () => {
     onSuccess: () => router.push('/login'),
   });
 };
+
+export const useGetUsers = (page?: number, limit?: number, search?: string) =>
+  useQuery<UserQuery, AxiosError>(['users'], () =>
+    getUsers(page, limit, search)
+  );

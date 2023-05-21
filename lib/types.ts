@@ -259,3 +259,18 @@ export interface PaymentData extends BookingFormInputs {
   adults: number;
   children: number;
 }
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  lastLogin: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface UserQuery {
+  users: User[];
+  pageCount: number;
+}

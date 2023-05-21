@@ -5,6 +5,7 @@ import { FaUsers, FaBroom, FaBars, FaUserAlt } from 'react-icons/fa';
 import { BsFillGearFill } from 'react-icons/bs';
 import { IoCalendar } from 'react-icons/io5';
 import { TbReport } from 'react-icons/tb';
+import { RiAdminFill } from 'react-icons/ri';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CSSTransition } from 'react-transition-group';
@@ -69,6 +70,11 @@ const links: LinkProps[] = [
     name: 'Reports',
     route: 'reports',
     icon: <TbReport size={iconSize} className="mr-4" />,
+  },
+  {
+    name: 'Users',
+    route: 'users',
+    icon: <RiAdminFill size={iconSize} className="mr-4" />,
   },
 ];
 
