@@ -12,8 +12,7 @@ interface BookingProps {
 
 const BookingCell: React.FC<BookingProps> = ({ booking, cellWidth }) => {
   const bgColor = () => {
-    const h =
-      (new Date(booking.arrivalDate).getTime() * 21 * booking.id!) % 255;
+    const h = (new Date(booking.arrivalDate).getTime() * 21) % 255;
     return `hsla(${h}, 29%, 60%, 0.9)`;
   };
 

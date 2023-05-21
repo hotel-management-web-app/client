@@ -21,6 +21,7 @@ import Pagination from '../../../components/Admin/Table/Pagination';
 import Search from '../../../components/Admin/Table/Search';
 
 const headers = [
+  'Id',
   'Room number',
   'Guest',
   'Arrival date',
@@ -113,6 +114,7 @@ const Bookings: React.FC = () => {
 
                 return (
                   <tr key={id} className="border-b">
+                    <td>{id}</td>
                     <td>{roomNumber}</td>
                     <td>
                       {firstName}
