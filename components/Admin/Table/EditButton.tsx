@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 interface EditButtonProps {
-  id: number;
+  id: number | string;
 }
 
 const EditButton: React.FC<EditButtonProps> = ({ id }) => {

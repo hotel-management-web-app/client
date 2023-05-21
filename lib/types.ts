@@ -60,7 +60,7 @@ export interface GuestQuery {
 }
 
 export interface Booking {
-  id?: number;
+  id?: string;
   status: string;
   arrivalDate: Date;
   departureDate: Date;

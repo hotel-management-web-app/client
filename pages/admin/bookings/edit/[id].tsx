@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   await queryClient.prefetchQuery(['roomTypes'], () => getRoomTypes());
   await queryClient.prefetchQuery(['guests'], () => getGuests());
-  await queryClient.prefetchQuery(['bookings'], () => getBooking(Number(id)));
+  await queryClient.prefetchQuery(['bookings'], () => getBooking(id));
 
   return { props: { dehydratedState: dehydrate(queryClient) } };
 };
@@ -65,7 +65,7 @@ const EditBooking = () => {
     data: booking,
     isError: isBookingError,
     error: bookingError,
-  } = useGetBooking(Number(bookingId));
+  } = useGetBooking(bookingId as string);
 
   const [rooms, setRooms] = useState<Room[]>(
     booking?.room.roomType.rooms || []
@@ -79,7 +79,7 @@ const EditBooking = () => {
   const { handleSubmit } = methods;
 
   const { mutate, isLoading, isError, error } = useUpdateBooking(
-    Number(bookingId)
+    bookingId as string
   );
 
   const onSubmit: SubmitHandler<Booking> = (data) => {

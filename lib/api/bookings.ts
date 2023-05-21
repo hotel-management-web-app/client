@@ -12,14 +12,14 @@ export const getBookings = async (
     .get(`${baseUrl}?limit=${limit}&page=${page}&search=${search}`)
     .then((res) => res.data);
 
-export const getBooking = async (id: number) =>
+export const getBooking = async (id: string) =>
   axios.get(`${baseUrl}/${id}`).then((res) => res.data);
 
 export const addBooking = async (booking: Booking) =>
   axios.post(baseUrl, booking);
 
-export const updateBooking = async (id: number, booking: Booking) =>
+export const updateBooking = async (id: string, booking: Booking) =>
   axios.put(`${baseUrl}/${id}`, booking);
 
-export const deleteBooking = async (id: number) =>
+export const deleteBooking = async (id: string) =>
   axios.delete(`${baseUrl}/${id}`);

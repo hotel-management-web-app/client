@@ -72,7 +72,7 @@ const Bookings: React.FC = () => {
     error: deleteError,
   } = useDeleteBooking();
 
-  const deleteBooking = async (id: number) => {
+  const deleteBooking = async (id: string) => {
     await mutate(id);
   };
 

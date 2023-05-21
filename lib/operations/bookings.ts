@@ -22,7 +22,7 @@ export const useGetBookings = (
     getBookings(page, limit, search)
   );
 
-export const useGetBooking = (id: number) =>
+export const useGetBooking = (id: string) =>
   useQuery<Booking, AxiosError>(['bookings'], () => getBooking(id));
 
 export const useAddBooking = () => {
@@ -38,7 +38,7 @@ export const useAddBooking = () => {
   );
 };
 
-export const useUpdateBooking = (id: number) => {
+export const useUpdateBooking = (id: string) => {
   const router = useRouter();
   return useMutation<AxiosResponse, AxiosError, Booking>(
     async (booking) => updateBooking(id, booking),
@@ -54,7 +54,7 @@ export const useUpdateBooking = (id: number) => {
 export const useDeleteBooking = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<AxiosResponse, AxiosError, number>(deleteBooking, {
+  return useMutation<AxiosResponse, AxiosError, string>(deleteBooking, {
     onSuccess: () => {
       queryClient.invalidateQueries(['bookings']);
       toast.success('Booking deleted successfully!');
