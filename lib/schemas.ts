@@ -106,7 +106,7 @@ export const contactSchema = yup.object({
 export const bookingFormSchema = yup.object({
   firstName: yup.string().min(3).max(48).required('First name is required!'),
   lastName: yup.string().min(3).max(48).required('Second name is required!'),
-  email: yup.string().required('Email is required!'),
+  email: yup.string().email().required('Email is required!'),
   phoneNumber: yup.string().length(9).required('Phone number is required!'),
   notes: yup.string(),
   privacyTerms: yup.bool().oneOf([true], 'Privacy terms are required!'),
@@ -114,3 +114,15 @@ export const bookingFormSchema = yup.object({
     .bool()
     .oneOf([true], 'Conditions and Policies are required!'),
 });
+
+export const registerSchema = yup.object({
+  name: yup.string().min(3).max(48).required('User name is required!'),
+  email: yup.string().email().required('Email is required!'),
+  phoneNumber: yup.string().length(9).required('Email is required!'),
+  password: yup.string().min(8).max(48).required('Password is required!'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Passwords must match!'),
+});
+
+export const userSchema = profileSchema;
