@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import moment from 'moment';
 import { getUsers } from '../../../lib/api/auth';
-import { useGetUsers } from '../../../lib/operations/auth';
+import { useDeleteUser, useGetUsers } from '../../../lib/operations/auth';
 import { Entries } from '../../../components/Admin';
 import AddButton from '../../../components/Admin/Table/AddButton';
 import DeleteButton from '../../../components/Admin/Table/DeleteButton';
@@ -12,7 +12,6 @@ import EditButton from '../../../components/Admin/Table/EditButton';
 import Header from '../../../components/Admin/Table/Header';
 import Seo from '../../../components/Seo';
 import Error from '../../../components/Error';
-import { useDeleteGuest } from '../../../lib/operations/guests';
 import ErrorMessage from '../../../components/ErrorMessage';
 import Pagination from '../../../components/Admin/Table/Pagination';
 import Search from '../../../components/Admin/Table/Search';
@@ -64,9 +63,9 @@ const Users = () => {
     mutate,
     isError: isDeleteError,
     error: deleteError,
-  } = useDeleteGuest();
+  } = useDeleteUser();
 
-  const deleteGuest = async (id: number) => {
+  const deleteUser = async (id: number) => {
     await mutate(id);
   };
 
@@ -109,7 +108,7 @@ const Users = () => {
                   <td className="w-40 py-3">
                     <div>
                       <EditButton id={id!} />
-                      <DeleteButton deleteHandler={() => deleteGuest(id!)} />
+                      <DeleteButton deleteHandler={() => deleteUser(id!)} />
                     </div>
                   </td>
                 </tr>

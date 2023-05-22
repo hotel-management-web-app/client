@@ -32,4 +32,4 @@ export const updateUser = async (id: number, user: User) =>
   axios.put(`${baseUrl}/users/${id}`, user);
 
 export const deleteUser = async (id: number) =>
-  axios.delete(`${baseUrl}/users${id}`);
+  axios.delete(`${baseUrl}/users/${id}`);
