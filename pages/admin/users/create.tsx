@@ -10,13 +10,13 @@ import {
   SubmitButton,
 } from '../../../components/Admin';
 import ErrorMessage from '../../../components/ErrorMessage';
-import { userSchema } from '../../../lib/schemas';
+import { registerSchema } from '../../../lib/schemas';
 import { User } from '../../../lib/types';
 import { useRegister } from '../../../lib/operations/auth';
 
 const AddUser = () => {
   const methods = useForm<User>({
-    resolver: yupResolver(userSchema),
+    resolver: yupResolver(registerSchema),
     mode: 'onChange',
   });
   const { handleSubmit } = methods;

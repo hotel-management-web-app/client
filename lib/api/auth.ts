@@ -24,3 +24,12 @@ export const getUsers = async (
   axios
     .get(`${baseUrl}/users?limit=${limit}&page=${page}&search=${search}`)
     .then((res) => res.data);
+
+export const getUser = async (id: number) =>
+  axios.get(`${baseUrl}/users/${id}`).then((res) => res.data);
+
+export const updateUser = async (id: number, user: User) =>
+  axios.put(`${baseUrl}/users/${id}`, user);
+
+export const deleteUser = async (id: number) =>
+  axios.delete(`${baseUrl}/users${id}`);
