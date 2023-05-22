@@ -28,12 +28,16 @@ const Login = () => {
         <FormProvider {...methods}>
           <FormWrapper onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-5">
-              <Input id="email" title="Email" value="admin@example.com" />
+              <Input
+                id="email"
+                title="Email"
+                defaultValue="admin@example.com"
+              />
               <Input
                 id="password"
                 title="Password"
                 type="password"
-                value="password"
+                defaultValue="password"
               />
               <a href="#" className="text-xs text-purple-600 hover:underline">
                 Forget Password?

@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { LoginForm } from '../types';
+import { LoginForm, User } from '../types';
 
 const baseUrl = '/auth';
 
-export const register = async (data: LoginForm) =>
+export const register = async (data: User) =>
   axios.post(`${baseUrl}/register`, data).then((res) => res.data);
 
 export const login = async (data: LoginForm) =>

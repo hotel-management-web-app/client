@@ -1,8 +1,18 @@
 import { AxiosResponse, AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from 'react-query';
-import { getUsers, login, logout } from '../api/auth';
-import { LoginForm, UserQuery } from '../types';
+import { getUsers, login, logout, register } from '../api/auth';
+import { LoginForm, User, UserQuery } from '../types';
+
+export const useRegister = () => {
+  const router = useRouter();
+  return useMutation<AxiosResponse, AxiosError, User>(
+    async (data) => register(data),
+    {
+      onSuccess: () => router.push('/admin/users'),
+    }
+  );
+};
 
 export const useLogin = () => {
   const router = useRouter();

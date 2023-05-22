@@ -9,8 +9,10 @@ import {
   Input,
   SubmitButton,
 } from '../../../components/Admin';
+import ErrorMessage from '../../../components/ErrorMessage';
 import { userSchema } from '../../../lib/schemas';
 import { User } from '../../../lib/types';
+import { useRegister } from '../../../lib/operations/auth';
 
 const AddUser = () => {
   const methods = useForm<User>({
@@ -19,8 +21,10 @@ const AddUser = () => {
   });
   const { handleSubmit } = methods;
 
+  const { mutate, isLoading, isError, error } = useRegister();
+
   const onSubmit: SubmitHandler<User> = (data) => {
-    console.log(data);
+    mutate(data);
   };
 
   return (
@@ -31,6 +35,7 @@ const AddUser = () => {
         <BackButton name="users" url="/admin/users" />
       </div>
       <FormProvider {...methods}>
+        {isError && <ErrorMessage errorMessage={error.message} />}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-5 px-96 py-5">
             <Input id="name" title="Name" />
@@ -47,7 +52,7 @@ const AddUser = () => {
               fieldName="confirmPassword"
             />
             <div className="w-40 mt-5 mx-auto">
-              <SubmitButton name="Add user" isLoading={false} />
+              <SubmitButton name="Add user" isLoading={isLoading} />
             </div>
           </div>
         </FormWrapper>
