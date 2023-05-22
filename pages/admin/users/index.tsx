@@ -77,7 +77,7 @@ const Users = () => {
       <Seo title="Users" />
       <div className="flex justify-between">
         <Header title="Users" />
-        <AddButton name="guest" />
+        <AddButton name="user" />
       </div>
       {isDeleteError && <ErrorMessage errorMessage={deleteError.message} />}
       <div className="bg-white px-5 py-7 mt-8 rounded-lg">
