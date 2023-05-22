@@ -71,7 +71,7 @@ export const useDeleteUser = () => {
   return useMutation<AxiosResponse, AxiosError, number>(deleteUser, {
     onSuccess: () => {
       queryClient.invalidateQueries(['users']);
-      toast.success('Guest deleted successfully!');
+      toast.success('User deleted successfully!');
     },
   });
 };

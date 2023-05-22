@@ -66,7 +66,14 @@ const Users = () => {
   } = useDeleteUser();
 
   const deleteUser = async (id: number) => {
-    await mutate(id);
+    if (
+      // eslint-disable-next-line no-alert
+      window.confirm(
+        'Are you sure you want to delete this user? This action will be irreversible'
+      )
+    ) {
+      await mutate(id);
+    }
   };
 
   if (isUsersError) return <Error message={usersError.message} />;

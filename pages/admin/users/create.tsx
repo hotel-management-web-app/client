@@ -45,11 +45,12 @@ const AddUser = () => {
               title="Phone number"
               fieldName="phoneNumber"
             />
-            <Input id="password" title="Password" />
+            <Input id="password" title="Password" type="password" />
             <Input
               id="confirm-password"
               title="Confirm Password"
               fieldName="confirmPassword"
+              type="password"
             />
             <div className="w-40 mt-5 mx-auto">
               <SubmitButton name="Add user" isLoading={isLoading} />
