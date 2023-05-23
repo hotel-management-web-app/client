@@ -22,15 +22,16 @@ export const useRegister = () => {
 
 export const useLogin = () => {
   const router = useRouter();
-  return useMutation<AxiosResponse & { role: string }, AxiosError, LoginForm>(
-    async (data) => login(data),
-    {
-      onSuccess: (res) => {
-        router.push('/admin/dashboard');
-        localStorage.setItem('role', res.role);
-      },
-    }
-  );
+  return useMutation<
+    AxiosResponse & { role: string },
+    AxiosError & { response: { data: { message: string } } },
+    LoginForm
+  >(async (data) => login(data), {
+    onSuccess: (res) => {
+      router.push('/admin/dashboard');
+      localStorage.setItem('role', res.role);
+    },
+  });
 };
 
 export const useLogout = () => {
