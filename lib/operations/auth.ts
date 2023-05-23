@@ -22,10 +22,13 @@ export const useRegister = () => {
 
 export const useLogin = () => {
   const router = useRouter();
-  return useMutation<AxiosResponse, AxiosError, LoginForm>(
+  return useMutation<AxiosResponse & { role: string }, AxiosError, LoginForm>(
     async (data) => login(data),
     {
-      onSuccess: () => router.push('/admin/dashboard'),
+      onSuccess: (res) => {
+        router.push('/admin/dashboard');
+        localStorage.setItem('role', res.role);
+      },
     }
   );
 };
@@ -33,6 +36,9 @@ export const useLogin = () => {
 export const useLogout = () => {
   const router = useRouter();
   return useMutation(logout, {
-    onSuccess: () => router.push('/login'),
+    onSuccess: () => {
+      router.push('/login');
+      localStorage.removeItem('role');
+    },
   });
 };

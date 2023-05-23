@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillDashboard, AiOutlineBars } from 'react-icons/ai';
 import { IoMdExit } from 'react-icons/io';
 import { FaUsers, FaBroom, FaBars, FaUserAlt } from 'react-icons/fa';
@@ -71,17 +71,17 @@ const links: LinkProps[] = [
     route: 'reports',
     icon: <TbReport size={iconSize} className="mr-4" />,
   },
-  {
-    name: 'Users',
-    route: 'users',
-    icon: <RiAdminFill size={iconSize} className="mr-4" />,
-  },
 ];
 
 const AdminNavbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [role, setRole] = useState<string | null>(null);
 
   const { mutate } = useLogout();
+
+  useEffect(() => {
+    setRole(localStorage.getItem('role'));
+  }, []);
 
   return (
     <div>
@@ -177,7 +177,7 @@ const AdminNavbar = () => {
                         );
                       }
                       return (
-                        <Link key={name} href={route}>
+                        <Link key={name} href={routes.admin(route)}>
                           <a className="hover:bg-gray-700 group flex items-center px-5 py-2 text-base font-medium rounded-md">
                             {icon}
                             {name}
@@ -185,6 +185,14 @@ const AdminNavbar = () => {
                         </Link>
                       );
                     })}
+                    {role === 'SUPERADMIN' && (
+                      <Link key="Users" href="users">
+                        <a className="hover:bg-gray-700 group flex items-center px-5 py-2 text-base font-medium rounded-md">
+                          <RiAdminFill size={iconSize} className="mr-4" />
+                          Users
+                        </a>
+                      </Link>
+                    )}
                   </nav>
                 </div>
               </div>
@@ -233,6 +241,14 @@ const AdminNavbar = () => {
                   </Link>
                 );
               })}
+              {role === 'SUPERADMIN' && (
+                <Link key="Users" href={routes.admin('users')}>
+                  <a className="hover:bg-gray-700 group flex items-center px-5 py-2 font-medium rounded-md">
+                    <RiAdminFill size={iconSize} className="mr-4" />
+                    Users
+                  </a>
+                </Link>
+              )}
             </nav>
           </div>
         </div>
