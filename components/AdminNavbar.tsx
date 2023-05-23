@@ -14,6 +14,7 @@ import NavbarSubitems from './NavbarSubitems';
 import { useLogout } from '../lib/operations/auth';
 import { LinkProps } from '../lib/types';
 import { routes } from '../utils/routes';
+import { useGetProfileInfo } from '../lib/operations/profile';
 
 const iconSize = 25;
 
@@ -77,6 +78,7 @@ const AdminNavbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [role, setRole] = useState<string | null>(null);
 
+  const { data: user } = useGetProfileInfo();
   const { mutate } = useLogout();
 
   useEffect(() => {
@@ -156,7 +158,7 @@ const AdminNavbar = () => {
                       className="rounded-full"
                     />
                     <div>
-                      <p>Admin</p>
+                      <p>{user?.name}</p>
                       <div className="flex items-center gap-3 mt-2">
                         <div className="bg-green-500 w-2 h-2 rounded" />
                         <p className="text-sm">Online</p>
@@ -211,7 +213,7 @@ const AdminNavbar = () => {
                 className="rounded-full"
               />
               <div>
-                <p>Admin</p>
+                <p>{user?.name}</p>
                 <div className="flex items-center gap-3 mt-2">
                   <div className="bg-green-500 w-2 h-2 rounded" />
                   <p className="text-sm">Online</p>
