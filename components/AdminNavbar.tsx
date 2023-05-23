@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillDashboard, AiOutlineBars } from 'react-icons/ai';
 import { IoMdExit } from 'react-icons/io';
 import { FaUsers, FaBroom, FaBars, FaUserAlt } from 'react-icons/fa';
@@ -14,6 +14,7 @@ import NavbarSubitems from './NavbarSubitems';
 import { useLogout } from '../lib/operations/auth';
 import { LinkProps } from '../lib/types';
 import { routes } from '../utils/routes';
+import { useGetProfileInfo } from '../lib/operations/profile';
 
 const iconSize = 25;
 
@@ -71,17 +72,18 @@ const links: LinkProps[] = [
     route: 'reports',
     icon: <TbReport size={iconSize} className="mr-4" />,
   },
-  {
-    name: 'Users',
-    route: 'users',
-    icon: <RiAdminFill size={iconSize} className="mr-4" />,
-  },
 ];
 
 const AdminNavbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [role, setRole] = useState<string | null>(null);
 
+  const { data: user } = useGetProfileInfo();
   const { mutate } = useLogout();
+
+  useEffect(() => {
+    setRole(localStorage.getItem('role'));
+  }, []);
 
   return (
     <div>
@@ -156,7 +158,7 @@ const AdminNavbar = () => {
                       className="rounded-full"
                     />
                     <div>
-                      <p>Admin</p>
+                      <p>{user?.name}</p>
                       <div className="flex items-center gap-3 mt-2">
                         <div className="bg-green-500 w-2 h-2 rounded" />
                         <p className="text-sm">Online</p>
@@ -177,7 +179,7 @@ const AdminNavbar = () => {
                         );
                       }
                       return (
-                        <Link key={name} href={route}>
+                        <Link key={name} href={routes.admin(route)}>
                           <a className="hover:bg-gray-700 group flex items-center px-5 py-2 text-base font-medium rounded-md">
                             {icon}
                             {name}
@@ -185,6 +187,14 @@ const AdminNavbar = () => {
                         </Link>
                       );
                     })}
+                    {role === 'SUPERADMIN' && (
+                      <Link key="Users" href="users">
+                        <a className="hover:bg-gray-700 group flex items-center px-5 py-2 text-base font-medium rounded-md">
+                          <RiAdminFill size={iconSize} className="mr-4" />
+                          Users
+                        </a>
+                      </Link>
+                    )}
                   </nav>
                 </div>
               </div>
@@ -203,7 +213,7 @@ const AdminNavbar = () => {
                 className="rounded-full"
               />
               <div>
-                <p>Admin</p>
+                <p>{user?.name}</p>
                 <div className="flex items-center gap-3 mt-2">
                   <div className="bg-green-500 w-2 h-2 rounded" />
                   <p className="text-sm">Online</p>
@@ -233,6 +243,14 @@ const AdminNavbar = () => {
                   </Link>
                 );
               })}
+              {role === 'SUPERADMIN' && (
+                <Link key="Users" href={routes.admin('users')}>
+                  <a className="hover:bg-gray-700 group flex items-center px-5 py-2 font-medium rounded-md">
+                    <RiAdminFill size={iconSize} className="mr-4" />
+                    Users
+                  </a>
+                </Link>
+              )}
             </nav>
           </div>
         </div>

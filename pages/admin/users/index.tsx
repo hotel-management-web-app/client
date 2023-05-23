@@ -3,8 +3,8 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
 import moment from 'moment';
-import { getUsers } from '../../../lib/api/auth';
-import { useDeleteUser, useGetUsers } from '../../../lib/operations/auth';
+import { getUsers } from '../../../lib/api/user';
+import { useDeleteUser, useGetUsers } from '../../../lib/operations/user';
 import { Entries } from '../../../components/Admin';
 import AddButton from '../../../components/Admin/Table/AddButton';
 import DeleteButton from '../../../components/Admin/Table/DeleteButton';
@@ -22,6 +22,7 @@ const headers: string[] = [
   'Email',
   'Last login',
   'Phone Number',
+  'Role',
   'Action',
 ];
 
@@ -52,6 +53,7 @@ const Users = () => {
     refetch,
   } = useGetUsers(Number(page), Number(limit), search as string);
 
+  const userId = usersData?.userId;
   const users = usersData?.users;
   const pageCount = usersData?.pageCount;
 
@@ -83,7 +85,7 @@ const Users = () => {
       <Seo title="Users" />
       <div className="flex justify-between">
         <Header title="Users" />
-        <AddButton name="guest" />
+        <AddButton name="user" />
       </div>
       {isDeleteError && <ErrorMessage errorMessage={deleteError.message} />}
       <div className="bg-white px-5 py-7 mt-8 rounded-lg">
@@ -105,21 +107,26 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {users?.map(({ id, name, email, phoneNumber, lastLogin }) => (
-                <tr key={id} className="border-b">
-                  <td>{id}</td>
-                  <td>{name}</td>
-                  <td>{email}</td>
-                  <td>{moment(lastLogin).format('DD-MM-YYYY')}</td>
-                  <td>{phoneNumber}</td>
-                  <td className="w-40 py-3">
-                    <div>
-                      <EditButton id={id!} />
-                      <DeleteButton deleteHandler={() => deleteUser(id!)} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {users?.map(
+                ({ id, name, email, phoneNumber, lastLogin, role }) => (
+                  <tr key={id} className="border-b">
+                    <td className="py-3">{id}</td>
+                    <td>{name}</td>
+                    <td>{email}</td>
+                    <td>{moment(lastLogin).format('DD-MM-YYYY')}</td>
+                    <td>{phoneNumber}</td>
+                    <td>{role}</td>
+                    {id !== userId && (
+                      <td className="w-40 py-3">
+                        <div>
+                          <EditButton id={id!} />
+                          <DeleteButton deleteHandler={() => deleteUser(id!)} />
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
           {users?.length === 0 && (

@@ -133,6 +133,7 @@ export interface ProfileInfo {
   name: string;
   email: string;
   phoneNumber: string;
+  role: string;
   lastLogin: Date;
   createdAt: Date;
 }
@@ -265,12 +266,14 @@ export interface User {
   name: string;
   email: string;
   phoneNumber: string;
+  role: string;
   lastLogin: Date;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface UserQuery {
+  userId: number;
   users: User[];
   pageCount: number;
 }

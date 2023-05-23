@@ -14,8 +14,8 @@ import {
 } from '../../../../components/Admin';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import { userSchema } from '../../../../lib/schemas';
-import { useGetUser, useUpdateUser } from '../../../../lib/operations/auth';
-import { getUser } from '../../../../lib/api/auth';
+import { useGetUser, useUpdateUser } from '../../../../lib/operations/user';
+import { getUser } from '../../../../lib/api/user';
 import { ServerSideParams, User } from '../../../../lib/types';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
