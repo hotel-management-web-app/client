@@ -78,10 +78,7 @@ export const profileSchema = yup.object({
     .string()
     .email('Email is not valid!')
     .required('Email is required!'),
-  phoneNumber: yup
-    .string()
-    .matches(phoneRegExp, 'Phone number is not valid!')
-    .required('Phone number is required!'),
+  phoneNumber: yup.string().required('Phone number is required!').nullable(),
 });
 
 export const loginSchema = yup.object({
@@ -118,7 +115,7 @@ export const bookingFormSchema = yup.object({
 export const registerSchema = yup.object({
   name: yup.string().min(3).max(48).required('User name is required!'),
   email: yup.string().email().required('Email is required!'),
-  phoneNumber: yup.string().length(9).required('Email is required!'),
+  phoneNumber: yup.string().required('Email is required!').nullable(),
   password: yup.string().min(8).max(48).required('Password is required!'),
   confirmPassword: yup
     .string()

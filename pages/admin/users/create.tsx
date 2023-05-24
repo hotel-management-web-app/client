@@ -13,13 +13,17 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import { registerSchema } from '../../../lib/schemas';
 import { User } from '../../../lib/types';
 import { useRegister } from '../../../lib/operations/auth';
+import PhoneNumberInput from '../../../components/Admin/Form/PhoneNumberInput';
 
 const AddUser = () => {
   const methods = useForm<User>({
     resolver: yupResolver(registerSchema),
-    mode: 'onChange',
   });
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = methods;
 
   const { mutate, isLoading, isError, error } = useRegister();
 
@@ -40,11 +44,14 @@ const AddUser = () => {
           <div className="flex flex-col gap-5 px-96 py-5">
             <Input id="name" title="Name" />
             <Input id="email" title="Email" />
-            <Input
-              id="phone-number"
-              title="Phone number"
-              fieldName="phoneNumber"
-            />
+            <div className="relative">
+              <PhoneNumberInput control={control} />
+              {errors.phoneNumber && (
+                <p className="text-red-500 text-sm absolute">
+                  {errors.phoneNumber.message as string}
+                </p>
+              )}
+            </div>
             <Input id="password" title="Password" type="password" />
             <Input
               id="confirm-password"
