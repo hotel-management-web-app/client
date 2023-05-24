@@ -17,13 +17,18 @@ import { guestSchema } from '../../../lib/schemas';
 import { guestStatuses } from '../../../constants/constants';
 import { convertToOriginalForm } from '../../../utils/convertToOriginalForm';
 import ErrorMessage from '../../../components/ErrorMessage';
+import PhoneNumberInput from '../../../components/Admin/Form/PhoneNumberInput';
 
 const AddGuest = () => {
   const methods = useForm<Guest>({
     resolver: yupResolver(guestSchema),
     mode: 'onChange',
   });
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = methods;
 
   const { mutate, isLoading, isError, error } = useAddGuest();
 
@@ -56,7 +61,14 @@ const AddGuest = () => {
             <Input id="first-name" title="First name" />
             <Input id="last-name" title="Last name" />
             <Input id="email-address" title="Email address" fieldName="email" />
-            <Input id="phone-number" title="Phone number" />
+            <div className="relative">
+              <PhoneNumberInput control={control} />
+              {errors.phoneNumber && (
+                <p className="text-red-500 text-sm absolute">
+                  {errors.phoneNumber.message as string}
+                </p>
+              )}
+            </div>
             <Textarea id="notes" title="Notes" rows="5" />
           </div>
           <div className="mt-5 flex justify-center">

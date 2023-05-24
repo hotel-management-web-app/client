@@ -38,7 +38,7 @@ export const guestSchema = yup.object({
     .string()
     .email('Field should contain a valid e-mail')
     .required('Email address is required!'),
-  phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid!'),
+  phoneNumber: yup.string().required('Phone number is required!').nullable(),
   notes: yup.string(),
 });
 

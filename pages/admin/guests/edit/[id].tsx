@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { dehydrate, QueryClient } from 'react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { formatPhoneNumberIntl } from 'react-phone-number-input';
 import {
   StatusToggler,
   BackButton,
@@ -22,6 +23,7 @@ import { getGuest } from '../../../../lib/api/guests';
 import { guestSchema } from '../../../../lib/schemas';
 import { convertToOriginalForm } from '../../../../utils/convertToOriginalForm';
 import { guestStatuses } from '../../../../constants/constants';
+import PhoneNumberInput from '../../../../components/Admin/Form/PhoneNumberInput';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as ServerSideParams;
@@ -38,11 +40,16 @@ const EditGuest = () => {
     resolver: yupResolver(guestSchema),
     mode: 'onChange',
   });
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = methods;
 
   const { id } = router.query;
   const {
     data: guest,
+    isSuccess: isGuestSuccess,
     isError: isGuestError,
     error: guestError,
   } = useGetGuest(Number(id));
@@ -93,11 +100,21 @@ const EditGuest = () => {
               fieldName="email"
               defaultValue={guest?.email}
             />
-            <Input
-              id="phone-number"
-              title="Phone number"
-              defaultValue={guest?.phoneNumber}
-            />
+            {isGuestSuccess && (
+              <div className="relative">
+                <PhoneNumberInput
+                  control={control}
+                  defaultValue={formatPhoneNumberIntl(
+                    guest.phoneNumber as string
+                  )}
+                />
+                {errors.phoneNumber && (
+                  <p className="text-red-500 text-sm absolute">
+                    {errors.phoneNumber.message as string}
+                  </p>
+                )}
+              </div>
+            )}
             <Textarea
               id="notes"
               title="Notes"
