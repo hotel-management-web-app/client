@@ -98,7 +98,7 @@ export const contactSchema = yup.object({
   firstName: yup.string().min(3).max(48).required('First name is required!'),
   secondName: yup.string().min(3).max(48).required('Second name is required!'),
   email: yup.string().email().required('Email is required!'),
-  phoneNumber: yup.string(),
+  phoneNumber: yup.string().nullable(),
   subject: yup.string().required('Subject is required!'),
   message: yup.string().required('Message is required!'),
 });

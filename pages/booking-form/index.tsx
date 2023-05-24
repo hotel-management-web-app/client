@@ -16,7 +16,6 @@ import { countDaysBetweenDates } from '../../utils/countDaysBetweenDates';
 import { usePayForStay } from '../../lib/operations/payment';
 import { routes } from '../../utils/routes';
 import ErrorMessage from '../../components/ErrorMessage';
-import 'react-phone-number-input/style.css';
 import PhoneNumberInput from '../../components/PhoneNumberInput';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
@@ -109,14 +108,9 @@ const BookingForm = () => {
                 title="Email address"
                 fieldName="email"
               />
-              {/* <BookingFormInput
-                id="phone-number"
-                title="Phone number"
-                fieldName="phoneNumber"
-              /> */}
               <div className="relative">
                 <PhoneNumberInput control={control} />
-                {errors.conditionsAndPolicies && (
+                {errors.phoneNumber && (
                   <p className="text-red-500 text-sm absolute">
                     {errors?.phoneNumber?.message as string}
                   </p>
