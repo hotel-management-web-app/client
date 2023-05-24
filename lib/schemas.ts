@@ -28,9 +28,6 @@ export const roomSchema = yup.object({
   roomNumber: yup.number().typeError('Room number must be a number').required(),
 });
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
 export const guestSchema = yup.object({
   firstName: yup.string().min(3).max(48).required('First Name is required!'),
   lastName: yup.string().min(3).max(48).required('Last Name is required!'),
@@ -61,10 +58,7 @@ export const generalSettingsSchema = yup.object({
     .string()
     .email('Email is not valid!')
     .required('Email is required!'),
-  phoneNumber: yup
-    .string()
-    .matches(phoneRegExp, 'Phone number is not valid!')
-    .required('Phone number is required!'),
+  phoneNumber: yup.string().required('Phone number is required!').nullable(),
 });
 
 export const aboutDetailSchema = yup.object({
