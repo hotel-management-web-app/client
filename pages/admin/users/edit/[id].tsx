@@ -78,7 +78,6 @@ const EditUser = () => {
                 )}
               </div>
             )}
-
             <div className="w-48 mt-5 mx-auto">
               <SubmitButton name="Update user" isLoading={isLoading} />
             </div>
