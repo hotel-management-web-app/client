@@ -28,9 +28,6 @@ export const roomSchema = yup.object({
   roomNumber: yup.number().typeError('Room number must be a number').required(),
 });
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
 export const guestSchema = yup.object({
   firstName: yup.string().min(3).max(48).required('First Name is required!'),
   lastName: yup.string().min(3).max(48).required('Last Name is required!'),
@@ -38,7 +35,7 @@ export const guestSchema = yup.object({
     .string()
     .email('Field should contain a valid e-mail')
     .required('Email address is required!'),
-  phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid!'),
+  phoneNumber: yup.string().required('Phone number is required!').nullable(),
   notes: yup.string(),
 });
 
@@ -61,10 +58,7 @@ export const generalSettingsSchema = yup.object({
     .string()
     .email('Email is not valid!')
     .required('Email is required!'),
-  phoneNumber: yup
-    .string()
-    .matches(phoneRegExp, 'Phone number is not valid!')
-    .required('Phone number is required!'),
+  phoneNumber: yup.string().required('Phone number is required!').nullable(),
 });
 
 export const aboutDetailSchema = yup.object({
@@ -78,10 +72,7 @@ export const profileSchema = yup.object({
     .string()
     .email('Email is not valid!')
     .required('Email is required!'),
-  phoneNumber: yup
-    .string()
-    .matches(phoneRegExp, 'Phone number is not valid!')
-    .required('Phone number is required!'),
+  phoneNumber: yup.string().required('Phone number is required!').nullable(),
 });
 
 export const loginSchema = yup.object({
@@ -98,7 +89,7 @@ export const contactSchema = yup.object({
   firstName: yup.string().min(3).max(48).required('First name is required!'),
   secondName: yup.string().min(3).max(48).required('Second name is required!'),
   email: yup.string().email().required('Email is required!'),
-  phoneNumber: yup.string(),
+  phoneNumber: yup.string().nullable(),
   subject: yup.string().required('Subject is required!'),
   message: yup.string().required('Message is required!'),
 });
@@ -107,7 +98,7 @@ export const bookingFormSchema = yup.object({
   firstName: yup.string().min(3).max(48).required('First name is required!'),
   lastName: yup.string().min(3).max(48).required('Second name is required!'),
   email: yup.string().email().required('Email is required!'),
-  phoneNumber: yup.string().length(9).required('Phone number is required!'),
+  phoneNumber: yup.string().required('Phone number is required!').nullable(),
   notes: yup.string(),
   privacyTerms: yup.bool().oneOf([true], 'Privacy terms are required!'),
   conditionsAndPolicies: yup
@@ -118,7 +109,7 @@ export const bookingFormSchema = yup.object({
 export const registerSchema = yup.object({
   name: yup.string().min(3).max(48).required('User name is required!'),
   email: yup.string().email().required('Email is required!'),
-  phoneNumber: yup.string().length(9).required('Email is required!'),
+  phoneNumber: yup.string().required('Email is required!').nullable(),
   password: yup.string().min(8).max(48).required('Password is required!'),
   confirmPassword: yup
     .string()

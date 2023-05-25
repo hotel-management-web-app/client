@@ -7,13 +7,18 @@ import { contactSchema } from '../lib/schemas';
 import { ContactFormInputs } from '../lib/types';
 import ContactInput from './ContactInput';
 import ErrorMessage from './ErrorMessage';
+import ContactPhoneNumberInput from './ContactPhoneNumberInput';
 
 const ContactForm = () => {
   const methods = useForm<ContactFormInputs>({
     resolver: yupResolver(contactSchema),
     mode: 'onBlur',
   });
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = methods;
 
   const { mutate, isLoading, isError, error } = useSendMail();
 
@@ -40,11 +45,17 @@ const ContactForm = () => {
             fieldName="secondName"
           />
           <ContactInput id="email" placeholder="Email" fieldName="email" />
-          <ContactInput
-            id="phone-number"
-            placeholder="Phone"
-            fieldName="phoneNumber"
-          />
+          <div className="relative">
+            <ContactPhoneNumberInput
+              className="bg-[#EEE] pl-3 h-[48px]"
+              control={control}
+            />
+            {errors.phoneNumber && (
+              <p className="text-red-500 text-sm absolute">
+                {errors?.phoneNumber?.message as string}
+              </p>
+            )}
+          </div>
         </div>
         <ContactInput id="subject" placeholder="Subject" fieldName="subject" />
         <ContactInput

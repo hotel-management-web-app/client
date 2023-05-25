@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { QueryClient, dehydrate } from 'react-query';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { formatPhoneNumberIntl } from 'react-phone-number-input';
 import Seo from '../../../../components/Seo';
 import {
   BackButton,
@@ -17,6 +18,7 @@ import { userSchema } from '../../../../lib/schemas';
 import { useGetUser, useUpdateUser } from '../../../../lib/operations/user';
 import { getUser } from '../../../../lib/api/user';
 import { ServerSideParams, User } from '../../../../lib/types';
+import PhoneNumberInput from '../../../../components/Admin/Form/PhoneNumberInput';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as ServerSideParams;
@@ -33,10 +35,14 @@ const EditUser = () => {
     resolver: yupResolver(userSchema),
     mode: 'onChange',
   });
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = methods;
 
   const { id } = router.query;
-  const { data: user } = useGetUser(Number(id));
+  const { data: user, isSuccess } = useGetUser(Number(id));
 
   const { mutate, isLoading, isError, error } = useUpdateUser(Number(id));
 
@@ -57,12 +63,21 @@ const EditUser = () => {
           <div className="flex flex-col gap-5 px-96 py-5">
             <Input id="name" title="Name" defaultValue={user?.name} />
             <Input id="email" title="Email" defaultValue={user?.email} />
-            <Input
-              id="phone-number"
-              title="Phone number"
-              fieldName="phoneNumber"
-              defaultValue={user?.phoneNumber}
-            />
+            {isSuccess && (
+              <div className="relative">
+                <PhoneNumberInput
+                  control={control}
+                  defaultValue={formatPhoneNumberIntl(
+                    user.phoneNumber as string
+                  )}
+                />
+                {errors.phoneNumber && (
+                  <p className="text-red-500 text-sm absolute">
+                    {errors.phoneNumber.message as string}
+                  </p>
+                )}
+              </div>
+            )}
             <div className="w-48 mt-5 mx-auto">
               <SubmitButton name="Update user" isLoading={isLoading} />
             </div>

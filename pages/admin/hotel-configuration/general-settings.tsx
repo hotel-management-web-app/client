@@ -3,6 +3,7 @@ import { dehydrate, QueryClient } from 'react-query';
 import Image from 'next/image';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FileUploader } from 'react-drag-drop-files';
+import { formatPhoneNumberIntl } from 'react-phone-number-input';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import FormWrapper from '../../../components/Admin/Form/FormWrapper';
 import Header from '../../../components/Admin/Table/Header';
@@ -18,6 +19,7 @@ import {
 import { GeneralSettings } from '../../../lib/types';
 import { generalSettingsSchema } from '../../../lib/schemas';
 import ErrorMessage from '../../../components/ErrorMessage';
+import PhoneNumberInput from '../../../components/Admin/Form/PhoneNumberInput';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
 
@@ -39,7 +41,12 @@ const GeneralSettingsPage = () => {
     resolver: yupResolver(generalSettingsSchema),
     mode: 'onChange',
   });
-  const { handleSubmit, setValue } = methods;
+  const {
+    handleSubmit,
+    setValue,
+    control,
+    formState: { errors },
+  } = methods;
   const [file, setFile] = useState<string | Blob | undefined>(settings?.logo);
 
   const {
@@ -105,20 +112,26 @@ const GeneralSettingsPage = () => {
                 />
               </div>
               <Input
-                id="hotel-name"
+                id="country"
                 title="Country"
                 defaultValue={settings?.country}
               />
-              <Input
-                id="hotel-name"
-                title="Email"
-                defaultValue={settings?.email}
-              />
-              <Input
-                id="hotel-name"
-                title="Phone number"
-                defaultValue={settings?.phoneNumber}
-              />
+              <Input id="email" title="Email" defaultValue={settings?.email} />
+              {settings && (
+                <div className="relative">
+                  <PhoneNumberInput
+                    control={control}
+                    defaultValue={formatPhoneNumberIntl(
+                      settings.phoneNumber as string
+                    )}
+                  />
+                  {errors.phoneNumber && (
+                    <p className="text-red-500 text-sm absolute">
+                      {errors.phoneNumber.message as string}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
           <div className="flex justify-center mt-10">

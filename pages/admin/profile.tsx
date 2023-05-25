@@ -1,8 +1,10 @@
+import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import moment from 'moment';
-import React from 'react';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { dehydrate, QueryClient } from 'react-query';
+import { formatPhoneNumberIntl } from 'react-phone-number-input';
+import PhoneNumberInput from '../../components/Admin/Form/PhoneNumberInput';
 import {
   FormWrapper,
   Header,
@@ -33,10 +35,15 @@ const Profile = () => {
     resolver: yupResolver(profileSchema),
     mode: 'onChange',
   });
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = methods;
 
   const {
     data: profileInfo,
+    isSuccess: isProfileInfoSuccess,
     isError: isProfileInfoError,
     error: profileInfoError,
   } = useGetProfileInfo();
@@ -83,10 +90,21 @@ const Profile = () => {
               </div>
               <Input title="Name" defaultValue={profileInfo?.name} />
               <Input title="Email" defaultValue={profileInfo?.email} />
-              <Input
-                title="Phone number"
-                defaultValue={profileInfo?.phoneNumber}
-              />
+              {isProfileInfoSuccess && (
+                <div className="relative">
+                  <PhoneNumberInput
+                    control={control}
+                    defaultValue={formatPhoneNumberIntl(
+                      profileInfo.phoneNumber as string
+                    )}
+                  />
+                  {errors.phoneNumber && (
+                    <p className="text-red-500 text-sm absolute">
+                      {errors.phoneNumber.message as string}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
           <div className="flex justify-center mt-8">
