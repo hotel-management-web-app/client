@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { dehydrate, QueryClient } from 'react-query';
 import Seo from '../components/Seo';
 import Booking from '../components/Booking';
-import Newsletter from '../components/Newsletter';
 import Error from '../components/Error';
 import HeroBg from '../public/images/hero-bg.png';
 import { getRoomTypes } from '../lib/api/roomTypes';
@@ -102,7 +101,7 @@ const Home = () => {
         </section>
         <section
           id="contact"
-          className="text-center container max-w-container mx-auto px-8 2xl:px-0"
+          className="text-center container max-w-container mx-auto px-8 2xl:px-0 pb-48"
         >
           <h2 className="text-[2.5rem] font-light mt-40">Contact Us</h2>
           <p className="font-light my-10 text-lg w-1/2 mx-auto leading-[30px]">
@@ -116,7 +115,6 @@ const Home = () => {
           </Link>
         </section>
       </div>
-      <Newsletter />
     </div>
   );
 };
