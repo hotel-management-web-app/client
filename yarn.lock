@@ -5903,10 +5903,10 @@ react-drag-drop-files@^2.3.7:
     prop-types "^15.7.2"
     styled-components "^5.3.0"
 
-react-hook-form@^7.37.0:
-  version "7.42.1"
-  resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.42.1.tgz"
-  integrity sha512-2UIGqwMZksd5HS55crTT1ATLTr0rAI4jS7yVuqTaoRVDhY2Qc4IyjskCmpnmdYqUNOYFy04vW253tb2JRVh+IQ==
+react-hook-form@^7.44.2:
+  version "7.44.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.44.2.tgz#220186d3e380b3d6b15083b094a6ca77d3797a8b"
+  integrity sha512-IyihmIbCwzDI/iqlecTRa7+4BCnzNx40upSlGvIU7qwENhTf6APatm4bmL9ANtWKPYlD67SIlxfls7GwCUe+Lg==
 
 react-icons@^4.4.0:
   version "4.7.1"
