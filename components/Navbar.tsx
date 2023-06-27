@@ -83,7 +83,7 @@ const Navbar = () => {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <Link href={routes.roomBooking()}>
-                  <a className="text-white border border-white text-lg font-medium px-5 py-1">
+                  <a className="text-white border border-white md:text-lg font-medium px-2 py-1 sm:px-5 text-sm">
                     Book Now
                   </a>
                 </Link>
